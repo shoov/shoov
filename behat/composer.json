@@ -1,0 +1,10 @@
+{
+  "name": "Behat tests for Boom",
+  "description": "Functional testing for Boom installation profile.",
+  "require": {
+    "drupal/drupal-extension": "~3.0"
+  },
+  "config": {
+    "bin-dir": "bin/"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "development": {
+    "backend": "http://localhost/boom/www",
+    "debugUiRouter": true
+  },
+  "production": {
+    "backend": "https://example.com",
+    "debugUiRouter": false
+  }
+}
