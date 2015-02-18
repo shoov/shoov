@@ -19,22 +19,3 @@ function boom_restful_ctools_plugin_directory($module, $plugin) {
   }
 }
 
-
-/**
- * Implements hook_file_insert().
- *
- * Create a screenshot node from an uploaded file.
- */
-function boom_restful_file_insert($file) {
-  $values = array(
-    'type' => 'screenshot',
-    'uid' => $file->uid,
-    'title' => $file->filename,
-  );
-
-  $node = entity_create('node', $values);
-  $wrapper = entity_metadata_wrapper('node', $node);
-
-  $wrapper->field_image->set(array('fid' => $file->fid, 'display' => TRUE));
-  $wrapper->save();
-}
