@@ -33,7 +33,7 @@ class BoomScreenshotsUploadResource extends RestfulFilesUpload {
     $values = array(
       'type' => 'screenshot',
       'uid' => $this->getAccount()->uid,
-      'title' => $request['baseline_name'],
+      'title' => $request['label'],
     );
 
     $node = entity_create('node', $values);

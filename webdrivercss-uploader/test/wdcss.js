@@ -3,6 +3,7 @@ var WebdriverCSS = require('webdrivercss');
 var R = require('ramda');
 var request = require('request');
 var fs = require('fs');
+var path = require('path');
 
 var testsFail = 0;
 
@@ -31,6 +32,10 @@ var uploadFailedImage = function(obj) {
   });
 
   var form = req.form();
+
+  var label = path.basename(obj.baselinePath, '.baseline.png').replace('.', ' ');
+  form.append('label', label);
+
   form.append('baseline', fs.createReadStream(obj.baselinePath));
   form.append('regression', fs.createReadStream(obj.regressionPath));
   form.append('diff', fs.createReadStream(obj.diffPath));
