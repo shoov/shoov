@@ -13,8 +13,6 @@ abstract class BoomEntityBaseNode extends \RestfulEntityBaseNode {
   public function publicFieldsInfo() {
     $public_fields = parent::publicFieldsInfo();
 
-    unset($public_fields['self']);
-
     $public_fields['created'] = array(
       'property' => 'created',
     );
