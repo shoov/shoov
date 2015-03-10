@@ -26,6 +26,7 @@ var uploadFailedImage = function(obj) {
     }
     else {
       var data = JSON.parse(body);
+      // console.log(data);
       console.log('-- Regression images uploaded to ' + data.data[0].self);
       ++testsFail;
     }
@@ -108,11 +109,14 @@ describe('UI regression tests', function() {
   });
 
   after(function(done) {
-    client.end(done, function() {
-      // Indicate some tests failed, after client is closed.
-      if (testsFail) {
+    if (testsFail) {
+      client.end(done,function() {
         throw new Error(testsFail + ' test(s) failed.');
-      }
-    });
+      });
+    }
+    else {
+      client.end(done);
+    }
+
   });
 });

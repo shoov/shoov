@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Gizra/boom.svg)](https://travis-ci.org/Gizra/boom)
+[![Build Status](https://travis-ci.org/amitaibu/boom.svg)](https://travis-ci.org/amitaibu/boom)
 
 # Drupal 7 - Install Profile Boom
 

@@ -14,6 +14,7 @@ angular
     'ngCookies',
     'ngSanitize',
     'config',
+    'cm.angularHttpPlus',
     'leaflet-directive',
     'LocalStorageModule',
     'ui.router',
@@ -56,6 +57,16 @@ angular
         url: '/login',
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
+      })
+      .state('screenshots', {
+        url: '/screenshots/:testId',
+        templateUrl: 'views/dashboard/screenshots/screenshots.html',
+        controller: 'ScreenshotsCtrl',
+        resolve: {
+          screenshots: function(Screenshots, $stateParams) {
+            return Screenshots.get('company', $stateParams.testId);
+          }
+        }
       })
       .state('dashboard', {
         abstract: true,

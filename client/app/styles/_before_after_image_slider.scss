@@ -1,0 +1,13 @@
+.before-after-slider {
+  position: relative;
+  margin: 60px;
+
+  & > * {
+    position: absolute;
+  }
+
+  .second-wrapper {
+    overflow: hidden;
+    border-right: 2px solid black;
+  }
+}

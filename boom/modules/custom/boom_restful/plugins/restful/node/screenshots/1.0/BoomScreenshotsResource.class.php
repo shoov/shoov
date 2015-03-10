@@ -18,7 +18,7 @@ class BoomScreenshotsResource extends \BoomEntityBaseNode {
       'property' => 'field_baseline_image',
       // This will add 3 image variants in the output.
       'image_styles' => array('thumbnail', 'medium', 'large'),
-      'process_callbacks  ' => array(
+      'process_callbacks' => array(
         array($this, 'imageProcess'),
       ),
     );
@@ -27,7 +27,7 @@ class BoomScreenshotsResource extends \BoomEntityBaseNode {
       'property' => 'field_regression_image',
       // This will add 3 image variants in the output.
       'image_styles' => array('thumbnail', 'medium', 'large'),
-      'process_callbacks  ' => array(
+      'process_callbacks' => array(
         array($this, 'imageProcess'),
       ),
     );
@@ -36,9 +36,17 @@ class BoomScreenshotsResource extends \BoomEntityBaseNode {
       'property' => 'field_diff_image',
       // This will add 3 image variants in the output.
       'image_styles' => array('thumbnail', 'medium', 'large'),
-      'process_callbacks  ' => array(
+      'process_callbacks' => array(
         array($this, 'imageProcess'),
       ),
+    );
+
+    $public_fields['git_commit'] = array(
+      'property' => 'field_git_commit',
+    );
+
+    $public_fields['git_branch'] = array(
+      'property' => 'field_git_branch',
     );
 
     return $public_fields;
