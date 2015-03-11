@@ -1,9 +1,15 @@
 <div class="row">
   <div class="col-md-4 screenshots-list">
     <h2>Screenshots list</h2>
+
+    <button ng-disabled="!selection.length" ng-click="zip()">Download</button>
+
     <ul>
       <li ng-repeat="screenshot in screenshots">
-        {{ screenshot.label }}
+
+        <input type="checkbox" name="selectedScreenshots[]" ng-model="screenshot.selected">
+          {{ screenshot.label }}
+
         <div ng-style="{'height' : screenshot.regression.height}">
           <before-after-image-slider first="{{ screenshot.baseline.self }}" second="{{ screenshot.regression.self }}" width="{{ screenshot.regression.width }}" height="{{ screenshot.regression.height }}"></before-after-image-slider>
         </div>

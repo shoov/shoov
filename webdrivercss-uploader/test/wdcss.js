@@ -42,7 +42,7 @@ var uploadFailedImage = function(obj) {
   form.append('diff', fs.createReadStream(obj.diffPath));
 
   form.append('baseline_name', obj.baselinePath);
-  form.append('git_commit', '1234abcd');
+  form.append('git_commit', 'newtime');
   form.append('git_branch', 'master');
 };
 

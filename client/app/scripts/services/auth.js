@@ -57,4 +57,8 @@ angular.module('clientApp')
     this.authFailed = function() {
       this.logout();
     };
+
+    this.getAccessToken = function() {
+      return localStorageService.get('access_token');
+    }
   });

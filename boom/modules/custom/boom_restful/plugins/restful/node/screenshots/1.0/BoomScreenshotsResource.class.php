@@ -14,6 +14,10 @@ class BoomScreenshotsResource extends \BoomEntityBaseNode {
   public function publicFieldsInfo() {
     $public_fields = parent::publicFieldsInfo();
 
+    $public_fields['baseline_name'] = array(
+      'property' => 'field_baseline_name',
+    );
+
     $public_fields['baseline'] = array(
       'property' => 'field_baseline_image',
       // This will add 3 image variants in the output.
