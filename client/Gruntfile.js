@@ -421,7 +421,7 @@ module.exports = function (grunt) {
     buildcontrol: {
       dist: {
         options: {
-          remote: 'https://github.com/Gizra/boom.git',
+          remote: 'git@github.com:Gizra/boom.git',
           branch: 'gh-pages',
           commit: true,
           push: true
