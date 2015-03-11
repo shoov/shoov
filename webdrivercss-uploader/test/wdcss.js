@@ -25,10 +25,12 @@ git.branch(function (str) {
  * @param obj
  */
 var uploadFailedImage = function(obj) {
+  ++testsFail;
+
   var options = {
     url: process.env.BOOM_BACKEND_URL + '/api/screenshots-upload',
     headers: {
-      'access_token': process.env.BOOM_ACCESS_TOKEN
+      'access-token': process.env.BOOM_ACCESS_TOKEN
     }
   };
 
@@ -38,9 +40,7 @@ var uploadFailedImage = function(obj) {
     }
     else {
       var data = JSON.parse(body);
-      console.log(data);
       console.log('-- Regression images uploaded to ' + data.data[0].self);
-      ++testsFail;
     }
   });
 

@@ -21,6 +21,8 @@ class BoomScreenshotsUploadResource extends RestfulFilesUpload {
     $node = $this->createScreenshotNode($return);
 
     $handler = restful_get_restful_handler('screenshots');
+    // @todo: Move to restful.
+    $handler->setAccount($this->getAccount());
     return $handler->get($node->nid);
   }
 
