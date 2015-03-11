@@ -4,8 +4,20 @@ var R = require('ramda');
 var request = require('request');
 var fs = require('fs');
 var path = require('path');
+var git = require('git-rev');
 
 var testsFail = 0;
+
+var gitCommit;
+var gitBranch;
+
+git.long(function (str) {
+  gitCommit = str;
+});
+
+git.branch(function (str) {
+   gitBranch = str;
+});
 
 /**
  * Upload the image.
@@ -14,7 +26,7 @@ var testsFail = 0;
  */
 var uploadFailedImage = function(obj) {
   var options = {
-    url: 'http://localhost/boom/www/api/screenshots-upload',
+    url: process.env.BOOM_BACKEND_URL + '/api/screenshots-upload',
     headers: {
       'access_token': process.env.BOOM_ACCESS_TOKEN
     }
@@ -42,8 +54,8 @@ var uploadFailedImage = function(obj) {
   form.append('diff', fs.createReadStream(obj.diffPath));
 
   form.append('baseline_name', obj.baselinePath);
-  form.append('git_commit', 'newtime');
-  form.append('git_branch', 'master');
+  form.append('git_commit', gitCommit);
+  form.append('git_branch', gitBranch);
 };
 
 var isNotWithinMisMatchTolerance = R.filter(R.where({isWithinMisMatchTolerance: false}));
@@ -111,6 +123,8 @@ describe('UI regression tests', function() {
   after(function(done) {
     if (testsFail) {
       client.end(done,function() {
+        process.env.BOOM_CLIENT_URL
+        console.log('http://localhost:9000/#/screenshots/' + gitCommit);
         throw new Error(testsFail + ' test(s) failed.');
       });
     }
