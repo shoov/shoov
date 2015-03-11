@@ -1,7 +1,8 @@
 # Installation
 
+Install mocha (one time installation) ``npm install -g mocha``
+
 ```
-npm install -g mocha
 npm install
 ```
 
