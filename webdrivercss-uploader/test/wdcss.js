@@ -38,7 +38,7 @@ var uploadFailedImage = function(obj) {
     }
     else {
       var data = JSON.parse(body);
-      // console.log(data);
+      console.log(data);
       console.log('-- Regression images uploaded to ' + data.data[0].self);
       ++testsFail;
     }
@@ -123,8 +123,7 @@ describe('UI regression tests', function() {
   after(function(done) {
     if (testsFail) {
       client.end(done,function() {
-        process.env.BOOM_CLIENT_URL
-        console.log('http://localhost:9000/#/screenshots/' + gitCommit);
+        console.log(process.env.BOOM_CLIENT_URL + '/#/screenshots/' + gitCommit);
         throw new Error(testsFail + ' test(s) failed.');
       });
     }
