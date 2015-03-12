@@ -90,13 +90,14 @@ describe('UI regression tests', function() {
       });
     }
     else if (process.env.BROWSERSTACK_USERNAME) {
-      var caps;
+
       caps = {
         'browser' : 'Chrome',
-        'browser_version' : '41.0',
-        'os' : 'Linux',
-        'project' : 'Boom',
-        'resolution': '1024x768'
+        'browser_version' : '39.0',
+        'os' : 'OS X',
+        'os_version' : 'Yosemite',
+        'resolution' : '1024x768',
+        'project': 'Boom'
       };
 
       caps['browserstack.user'] = process.env.BROWSERSTACK_USERNAME;
