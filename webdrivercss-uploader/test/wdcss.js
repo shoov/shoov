@@ -77,7 +77,8 @@ describe('UI regression tests', function() {
     'browser_version' : '39.0',
     'os' : 'OS X',
     'os_version' : 'Yosemite',
-    'project' : 'haskala'
+    'project' : 'Boom',
+    'resolution': '1024x768'
   };
 
   before(function(done){
@@ -121,15 +122,22 @@ describe('UI regression tests', function() {
   });
 
   after(function(done) {
-    if (testsFail) {
-      client.end(done,function() {
-        console.log(process.env.BOOM_CLIENT_URL + '/#/screenshots/' + gitCommit);
-        throw new Error(testsFail + ' test(s) failed.');
-      });
-    }
-    else {
-      client.end(done);
-    }
 
+    // @todo: Replace this ugly hack with a proper promise, that will be invoked
+    // when all requests have finished.
+    setTimeout(function() {
+
+        if (testsFail) {
+          client.end(done,function() {
+            console.log(process.env.BOOM_CLIENT_URL + '/#/screenshots/' + gitCommit);
+            throw new Error(testsFail + ' test(s) failed.');
+          });
+        }
+        else {
+          client.end(done);
+        }
+      }
+
+      , 5000);
   });
 });
