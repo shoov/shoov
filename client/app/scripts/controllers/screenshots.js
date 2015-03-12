@@ -11,6 +11,7 @@ angular.module('clientApp')
   .controller('ScreenshotsCtrl', function ($scope, screenshots, Auth, filterFilter, Zip, $state, $stateParams, $log) {
 
     // Initialize values.
+    $scope.showDiff = false;
     $scope.screenshots = screenshots.data;
 
     angular.forEach($scope.screenshots, function(value, key) {

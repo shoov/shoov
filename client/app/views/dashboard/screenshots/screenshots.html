@@ -4,6 +4,8 @@
 
     <button ng-disabled="!selection.length" ng-click="zip()">Download</button>
 
+    <input type="checkbox" ng-model="showDiff">Show diff
+
     <ul>
       <li ng-repeat="screenshot in screenshots">
 
@@ -11,7 +13,10 @@
           {{ screenshot.label }}
 
         <div ng-style="{'height' : screenshot.regression.height}">
-          <before-after-image-slider first="{{ screenshot.baseline.self }}" second="{{ screenshot.regression.self }}" width="{{ screenshot.regression.width }}" height="{{ screenshot.regression.height }}"></before-after-image-slider>
+
+          <img ng-show="showDiff" ng-src="{{ screenshot.diff.self }}" />
+
+          <before-after-image-slider ng-hide="showDiff" first="{{ screenshot.baseline.self }}" second="{{ screenshot.regression.self }}" width="{{ screenshot.regression.width }}" height="{{ screenshot.regression.height }}"></before-after-image-slider>
         </div>
       </li>
     </ul>
