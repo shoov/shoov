@@ -70,20 +70,35 @@ describe('UI regression tests', function() {
 
   this.timeout(99999999);
   var client = {};
-
   var caps;
-  caps = {
-    'browser' : 'Chrome',
-    'browser_version' : '39.0',
-    'os' : 'OS X',
-    'os_version' : 'Yosemite',
-    'project' : 'Boom',
-    'resolution': '1024x768'
-  };
 
   before(function(done){
 
-    if (process.env.BROWSERSTACK_USERNAME) {
+    if (process.env.SAUCE_USERNAME) {
+
+      caps = {browserName: 'chrome'};
+      caps['platform'] = 'Linux';
+      caps['version'] = '41.0';
+      caps['screenResolution'] = '1024x768';
+
+      client = WebdriverIO.remote({
+        desiredCapabilities: caps,
+        host: 'ondemand.saucelabs.com',
+        port: 80,
+        user: process.env.SAUCE_USERNAME,
+        key: process.env.SAUCE_ACCESS_KEY
+      });
+    }
+    else if (process.env.BROWSERSTACK_USERNAME) {
+      var caps;
+      caps = {
+        'browser' : 'Chrome',
+        'browser_version' : '41.0',
+        'os' : 'Linux',
+        'project' : 'Boom',
+        'resolution': '1024x768'
+      };
+
       caps['browserstack.user'] = process.env.BROWSERSTACK_USERNAME;
       caps['browserstack.key'] = process.env.BROWSERSTACK_KEY;
       caps['browserstack.debug'] = 'true';
