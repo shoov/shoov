@@ -99,6 +99,35 @@ function boom_screenshot_field_default_field_bases() {
     'type' => 'image',
   );
 
+  // Exported field_base: 'field_directory_prefix'
+  $field_bases['field_directory_prefix'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_directory_prefix',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'text',
+    'settings' => array(
+      'max_length' => 255,
+    ),
+    'translatable' => 0,
+    'type' => 'text',
+  );
+
   // Exported field_base: 'field_git_branch'
   $field_bases['field_git_branch'] = array(
     'active' => 1,

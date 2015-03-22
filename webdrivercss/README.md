@@ -1,16 +1,14 @@
-# Installation
+## WebDriverCSS
 
-Install mocha (one time installation) ``npm install -g mocha``
+Install mocha globally
 
-```
-npm install
-```
+``npm install -g mocha``
 
-## BrowserStack integration
-
-Use the BrowserStack credentials by exoprting your variables:
+Follow [installation](https://github.com/webdriverio/webdrivercss#install) notes for all the dependencies
 
 ```bash
-export BROWSERSTACK_USERNAME=<YOUR USER NAME>
-export BROWSERSTACK_KEY=<YOUR SECRET KEY>
+npm install
+# Set BrowserStack keys
+export BROWSERSTACK_USERNAME=<my user>
+export BROWSERSTACK_KEY=<your user>
 ```

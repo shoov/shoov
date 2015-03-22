@@ -194,6 +194,46 @@ function boom_screenshot_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-screenshot-field_directory_prefix'
+  $field_instances['node-screenshot-field_directory_prefix'] = array(
+    'bundle' => 'screenshot',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 10,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_directory_prefix',
+    'label' => 'Directory Prefix',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 9,
+    ),
+  );
+
   // Exported field_instance: 'node-screenshot-field_git_branch'
   $field_instances['node-screenshot-field_git_branch'] = array(
     'bundle' => 'screenshot',
@@ -373,6 +413,7 @@ function boom_screenshot_field_default_field_instances() {
   t('Baseline name');
   t('Body');
   t('Diff Image');
+  t('Directory Prefix');
   t('Git Branch');
   t('Git Commit');
   t('Is baseline');

@@ -55,14 +55,17 @@ class BoomScreenshotsUploadResource extends RestfulFilesUpload {
 
     $wrapper->field_baseline_name->set($request['baseline_name']);
 
-    if (!empty($request['git_commit'])) {
-      $wrapper->field_git_commit->set($request['git_commit']);
-    }
+    $vcs_field_names = array(
+      'directory_prefix',
+      'git_commit',
+      'git_branch',
+    );
 
-    if (!empty($request['git_branch'])) {
-      $wrapper->field_git_branch->set($request['git_branch']);
+    foreach ($vcs_field_names as $vcs_field_name) {
+      if (isset($request[$vcs_field_name])) {
+        $wrapper->{'field_' . $vcs_field_name}->set($request[$vcs_field_name]);
+      }
     }
-
 
     $wrapper->save();
     return $wrapper->value();

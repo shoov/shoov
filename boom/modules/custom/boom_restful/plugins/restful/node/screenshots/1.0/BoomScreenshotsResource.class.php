@@ -53,6 +53,10 @@ class BoomScreenshotsResource extends \BoomEntityBaseNode {
       'property' => 'field_git_branch',
     );
 
+    $public_fields['directory_prefix'] = array(
+      'property' => 'field_directory_prefix',
+    );
+
     return $public_fields;
   }
 }
