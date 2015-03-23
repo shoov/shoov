@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Boom Repository feature.
+ */
+
+include_once 'boom_repository.features.inc';
