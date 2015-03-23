@@ -48,4 +48,6 @@ dependencies[] = views_bulk_operations
 ; Boom
 dependencies[] = boom_company
 dependencies[] = boom_screenshot
+dependencies[] = boom_repository
 dependencies[] = boom_restful
+

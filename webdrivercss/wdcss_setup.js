@@ -4,7 +4,7 @@ var Promise = require('bluebird');
 
 var assert = require('assert');
 var exec   = require('child_process').exec;
-var fs = Promise.promisifyAll(require("fs"))
+var fs = Promise.promisifyAll(require('fs'));
 var git = require('git-rev');
 var path = require('path');
 var R = require('ramda');
