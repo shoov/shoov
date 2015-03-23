@@ -30,6 +30,7 @@ dependencies[] = flag
 dependencies[] = geolocation
 dependencies[] = geolocation_html5
 dependencies[] = libraries
+dependencies[] = logs_http
 dependencies[] = message
 dependencies[] = migrate
 dependencies[] = migrate_extras

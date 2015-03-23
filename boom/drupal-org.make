@@ -53,6 +53,9 @@ projects[jquery_update][version] = "2.4"
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
 
+projects[logs_http][subdir] = "contrib"
+projects[logs_http][version] = "1.1"
+
 projects[mailsystem][version] = 2.34
 projects[mailsystem][subdir] = "contrib"
 
