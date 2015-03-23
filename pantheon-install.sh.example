@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# 1. Make sure you have the alias setup (use `drush sa` too see the aliases).
+# 2. Make sure you have a settings.php file in the Pantheon repo, as it is needed
+#    for drush si to work.
+
+PROFILE=boom
+
+MAKE_DIR=/var/www/shoov
+PANTHEON_DIR=/var/www/pantheon-shoov
+
+rm -rf $PANTHEON_DIR/profiles/$PROFILE
+cp -R $MAKE_DIR/$PROFILE $PANTHEON_DIR/profiles/$PROFILE
+
+cd $PANTHEON_DIR
+git pull
+git add .
+git commit -am "Site update"
+git push
+
+cd -
+
+drush @pantheon.shoov.dev sql-drop -y --strict=0
+drush @pantheon.shoov.dev si -y $PROFILE --account-pass=admin
+
+drush @pantheon.shoov.dev uli
