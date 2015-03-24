@@ -14,9 +14,16 @@
 
         <div ng-style="{'height' : screenshot.regression.height}">
 
-          <img ng-show="showDiff" ng-src="{{ screenshot.diff.self }}" />
+          <img ng-show="showDiff" ng-src="{{ screenshot.diff.self }}?access_token={{ accessToken }}" />
 
-          <before-after-image-slider ng-hide="showDiff" first="{{ screenshot.baseline.self }}" second="{{ screenshot.regression.self }}" width="{{ screenshot.regression.width }}" height="{{ screenshot.regression.height }}"></before-after-image-slider>
+          <before-after-image-slider ng-hide="showDiff" first="{{ screenshot.baseline.self }}?access_token={{ accessToken }}" second="{{ screenshot.regression.self }}?access_token={{ accessToken }}" width="{{ screenshot.regression.width }}" height="{{ screenshot.regression.height }}"></before-after-image-slider>
+        </div>
+
+        <div>
+          <a href ng-click="delete(screenshot.id)">
+            <i class="glyphicon glyphicon-remove"> </i> Delete
+          </a>
+
         </div>
       </li>
     </ul>
