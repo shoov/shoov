@@ -58,6 +58,19 @@ angular.module('clientApp')
       return deferred.promise;
     };
 
+    /**
+     * Delete a screenshot.
+     *
+     * @param id
+     *   The screenshot ID.
+     */
+    this.delete = function(id) {
+      return $http({
+        method: 'DELETE',
+        url: Config.backend + '/api/screenshots/' + id,
+      });
+    };
+
 
     /**
      * Return events array from the server.

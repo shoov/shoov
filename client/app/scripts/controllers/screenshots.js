@@ -8,7 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('ScreenshotsCtrl', function ($scope, screenshots, Auth, filterFilter, Zip, $state, $stateParams, $log) {
+  .controller('ScreenshotsCtrl', function ($scope, screenshots, Auth, filterFilter, Zip, Screenshots, $state, $stateParams, $log) {
 
     // Initialize values.
     $scope.showDiff = false;
@@ -33,6 +33,25 @@ angular.module('clientApp')
         return key;
       });
     }, true);
+
+    /**
+     * Delete a screenshot.
+     *
+     * @param id
+     *   The screenshot ID.
+     */
+    $scope.delete = function(id) {
+      Screenshots.delete(id);
+
+      // We don't wait for the delete too actually happen on the server side,
+      // but immediately hide the image.
+      // @todo: Use RamdaJs
+      angular.forEach($scope.screenshots, function(value, key) {
+        if (value.id == id) {
+          $scope.screenshots.splice(key, 1);
+        }
+      });
+    };
 
     $scope.zip = function() {
 
