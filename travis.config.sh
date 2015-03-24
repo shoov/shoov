@@ -10,9 +10,9 @@
 
 
 # The profile used to install the platform.
-PROFILE_NAME="boom"
+PROFILE_NAME="shoov"
 # The human name of the install profile
-PROFILE_TITLE="Boom"
+PROFILE_TITLE="Shoov"
 
 
 # Modify the URL below to match your local domain the site will be accessible on.

@@ -1,9 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Boom Company feature.
- */
-
-include_once 'boom_company.features.inc';
-
-

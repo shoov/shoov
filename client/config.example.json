@@ -1,6 +1,6 @@
 {
   "development": {
-    "backend": "http://localhost/boom/www",
+    "backend": "http://localhost/shoov/www",
     "debugUiRouter": true
   },
   "production": {

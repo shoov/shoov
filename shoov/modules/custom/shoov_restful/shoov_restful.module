@@ -1,0 +1,41 @@
+<?php
+/**
+ * @file
+ * Code for the RESTful integration.
+ */
+
+if (!drupal_is_cli()) {
+  header('Access-Control-Allow-Origin: *');
+  header('Access-Control-Allow-Credentials: true');
+  header('Access-Control-Allow-Headers: Authorization, access-token');
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function shoov_restful_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'restful') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implements hook_restful_file_download_access().
+ *
+ * Get the user account from the RESTful authentication.
+ */
+function shoov_restful_file_download_access($file_item, $entity_type, $entity) {
+  $auth_plugins = array_keys(restful_get_authentication_plugins());
+
+  $auth_manager = new RestfulAuthenticationManager();
+
+  // Register all authentication plugins.
+  foreach ($auth_plugins as $auth_plugin_name) {
+    $auth_handler = restful_get_authentication_handler($auth_plugin_name);
+    $auth_manager->addAuthenticationProvider($auth_handler);
+    $auth_manager->setIsOptional(TRUE);
+  }
+
+  $request = restful_parse_request();
+  $auth_manager->getAccount($request);
+}

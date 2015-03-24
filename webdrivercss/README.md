@@ -15,4 +15,4 @@ export BROWSERSTACK_KEY=<your user>
 
 Get your token via ``https://dev-shoov.pantheon.io/api/login-token`` and then export it using
 
-``export SHUV_ACCESS_TOKEN=<YOUR-TOKEN>``
+``export SHOOV_ACCESS_TOKEN=<YOUR-TOKEN>``

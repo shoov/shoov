@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Shoov Repository feature.
+ */
+
+include_once 'shoov_repository.features.inc';

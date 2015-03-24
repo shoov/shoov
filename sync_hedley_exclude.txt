@@ -21,8 +21,8 @@ behat/aliases.drushrc.php
 phantomcss/node_modules
 phantomcss/failures
 
-# Drupal - we make sure to hardcode the copy to "boom".
-boom/modules/contrib
-boom/modules/development
-boom/themes/contrib
-boom/libraries
+# Drupal - we make sure to hardcode the copy to "shoov".
+shoov/modules/contrib
+shoov/modules/development
+shoov/themes/contrib
+shoov/libraries

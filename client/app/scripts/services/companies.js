@@ -14,7 +14,7 @@ angular.module('clientApp')
     var cache = {};
 
     // Update event broadcast name.
-    var broadcastUpdateEventName = 'BoomCompaniesChange';
+    var broadcastUpdateEventName = 'ShoovCompaniesChange';
 
     /**
      * Return the promise with the events list, from cache or the server.

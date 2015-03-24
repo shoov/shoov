@@ -14,7 +14,7 @@ angular.module('clientApp')
     var cache = {};
 
     // Update event broadcast name.
-    var broadcastUpdateEventName = 'BoomScreenshotsChange';
+    var broadcastUpdateEventName = 'ShoovScreenshotsChange';
 
 
     /**

@@ -46,11 +46,11 @@ Thumbs.db
 
 # Drupal profile #
 ##################
-boom/modules/contrib
-boom/modules/development
-boom/1
-boom/themes/contrib
-boom/libraries
+shoov/modules/contrib
+shoov/modules/development
+shoov/1
+shoov/themes/contrib
+shoov/libraries
 
 # Temporary "build" files
 www

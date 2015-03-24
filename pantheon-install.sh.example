@@ -4,7 +4,7 @@
 # 2. Make sure you have a settings.php file in the Pantheon repo, as it is needed
 #    for drush si to work.
 
-PROFILE=boom
+PROFILE=shoov
 
 MAKE_DIR=/var/www/shoov
 PANTHEON_DIR=/var/www/pantheon-shoov

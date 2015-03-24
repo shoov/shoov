@@ -42,7 +42,7 @@ angular.module('clientApp')
 
       $q.all(deferreds).then(function () {
         var blob = zip.generate({type:"blob"});
-        saveAs(blob, 'boom.zip');
+        saveAs(blob, 'shoov.zip');
       });
     };
 

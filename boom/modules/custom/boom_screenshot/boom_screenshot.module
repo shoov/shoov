@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Boom Screenshot feature.
- */
-
-include_once 'boom_screenshot.features.inc';

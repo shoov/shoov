@@ -1,0 +1,9 @@
+<?php
+/**
+ * @file
+ * Code for the Shoov Company feature.
+ */
+
+include_once 'shoov_company.features.inc';
+
+

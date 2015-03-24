@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Shoov Screenshot feature.
+ */
+
+include_once 'shoov_screenshot.features.inc';

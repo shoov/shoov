@@ -46,15 +46,15 @@ var gitPrefix = new Promise(function(resolve, reject) {
  * @param obj
  */
 var uploadFailedImage = function(obj) {
-  if (!process.env.SHUV_ACCESS_TOKEN) {
-    throw new Error('The shuv access token is not defined.');
+  if (!process.env.SHOOV_ACCESS_TOKEN) {
+    throw new Error('The shoov access token is not defined.');
   }
 
-  var backendUrl = process.env.SHUV_BACKEND_URL || 'https://dev-shoov.pantheon.io';
+  var backendUrl = process.env.SHOOV_BACKEND_URL || 'https://dev-shoov.pantheon.io';
   var options = {
     url: backendUrl + '/api/screenshots-upload',
     headers: {
-      'access-token': process.env.SHUV_ACCESS_TOKEN
+      'access-token': process.env.SHOOV_ACCESS_TOKEN
     }
   };
 
@@ -65,7 +65,7 @@ var uploadFailedImage = function(obj) {
         throw new Error(err);
       })
       .on('data', function(data) {
-        if (process.env.SHUV_DEBUG) {
+        if (process.env.SHOOV_DEBUG) {
           // Show response.
           data = JSON.parse(data);
           console.log(data.data);
@@ -123,7 +123,7 @@ var wdcssSetup = {
       .all(uploads)
       .then(function() {
         if (uploads.length) {
-          var clientUrl = process.env.SHUV_CLIENT_URL || 'http://shoov.gizra.com/';
+          var clientUrl = process.env.SHOOV_CLIENT_URL || 'http://shoov.gizra.com/';
           console.log('See regressions in ' + clientUrl + '/#/screenshots/' + gitCommit);
         }
 
