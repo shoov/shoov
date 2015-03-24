@@ -132,6 +132,9 @@ var wdcssSetup = {
   },
 
   processResults: function(err, res) {
+    if (err) {
+      console.error(err);
+    }
     checkImages(res);
   },
 
