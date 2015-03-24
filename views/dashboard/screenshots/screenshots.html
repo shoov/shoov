@@ -1,30 +1,45 @@
 <div class="row">
-  <div class="col-md-4 screenshots-list">
-    <h2>Screenshots list</h2>
+  <div class="col-md-12 screenshots-list">
 
-    <button ng-disabled="!selection.length" ng-click="zip()">Download</button>
+    <div class="info">
+      <h2>Image Regression for Branch <em>{{ gitBranch }}</em> commit <em>{{ gitCommit }}</em></h2>
+    </div>
 
-    <input type="checkbox" ng-model="showDiff">Show diff
+    <div class="row">
+
+    <div>
+        <div class="col-md-6">
+          <button class="btn btn-primary" ng-disabled="!selection.length" ng-click="zip()">Download</button>
+        </div>
+
+        <div class="col-md-6 show-diff">
+          Show diff <input bs-switch type="checkbox" ng-model="showDiff">
+        </div>
+      </div>
+    </div>
+
 
     <ul>
-      <li ng-repeat="screenshot in screenshots">
+      <li ng-repeat="screenshot in screenshots" class="screenshot-item">
 
-        <input type="checkbox" name="selectedScreenshots[]" ng-model="screenshot.selected">
-          {{ screenshot.label }}
+        <div class="name">
+          <checkbox large name="selectedScreenshots[]" ng-model="screenshot.selected"></checkbox> {{ screenshot.label }}
+
+          <span class="delete">
+            <a href ng-click="delete(screenshot.id)">
+              (<i class="glyphicon glyphicon-remove"> </i> Delete)
+            </a>
+          </span>
+
+        </div>
 
         <div ng-style="{'height' : screenshot.regression.height}">
 
-          <img ng-show="showDiff" ng-src="{{ screenshot.diff.self }}?access_token={{ accessToken }}" />
+          <img class="diff-image" ng-show="showDiff" ng-src="{{ screenshot.diff.self }}?access_token={{ accessToken }}" />
 
           <before-after-image-slider ng-hide="showDiff" first="{{ screenshot.baseline.self }}?access_token={{ accessToken }}" second="{{ screenshot.regression.self }}?access_token={{ accessToken }}" width="{{ screenshot.regression.width }}" height="{{ screenshot.regression.height }}"></before-after-image-slider>
         </div>
 
-        <div>
-          <a href ng-click="delete(screenshot.id)">
-            <i class="glyphicon glyphicon-remove"> </i> Delete
-          </a>
-
-        </div>
       </li>
     </ul>
   </div>
