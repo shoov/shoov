@@ -14,7 +14,7 @@ cp -R $MAKE_DIR/$PROFILE $PANTHEON_DIR/profiles/$PROFILE
 
 cd $PANTHEON_DIR
 git pull
-git add .
+git add --all
 git commit -am "Site update"
 git push
 
@@ -23,4 +23,5 @@ cd -
 drush @pantheon.shoov.dev sql-drop -y --strict=0
 drush @pantheon.shoov.dev si -y $PROFILE --account-pass=admin
 
-drush @pantheon.shoov.dev uli
+# drush @pantheon.shoov.dev updb -y --strict=0
+drush @pantheon.shoov.dev uli --strict=0

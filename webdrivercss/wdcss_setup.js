@@ -46,61 +46,58 @@ var gitPrefix = new Promise(function(resolve, reject) {
  * @param obj
  */
 var uploadFailedImage = function(obj) {
-
-  if (process.env.SHUV_BACKEND_URL) {
-
-    if (!process.env.SHUV_ACCESS_TOKEN) {
-      throw new Error('The shuv access token is not defined.');
-    }
-
-    var options = {
-      url: process.env.SHUV_BACKEND_URL + '/api/screenshots-upload',
-      headers: {
-        'access-token': process.env.SHUV_ACCESS_TOKEN
-      }
-    };
-
-    gitPrefix.then(function(dirPrefix) {
-      var req = request.post(options);
-      req
-        .on('error', function (err) {
-          throw new Error(err);
-        })
-        .on('data', function(data) {
-          if (process.env.SHUV_DEBUG) {
-            // Show response.
-            data = JSON.parse(data);
-            console.log(data.data);
-          }
-        })
-        .on('response', function(response) {
-          if (response.statusCode >= 500) {
-            throw new Error('Backend error');
-          }
-          else if (response.statusCode !== 200) {
-            throw new Error('Access token is incorrect');
-          }
-        });
-
-
-      var form = req.form();
-
-      var label = path.basename(obj.baselinePath, '.baseline.png').replace('.', ' ');
-      form.append('label', label);
-
-      form.append('baseline', fs.createReadStream(obj.baselinePath));
-      form.append('regression', fs.createReadStream(obj.regressionPath));
-      form.append('diff', fs.createReadStream(obj.diffPath));
-
-      form.append('baseline_name', obj.baselinePath);
-      form.append('git_commit', gitCommit);
-      form.append('git_branch', gitBranch);
-
-      form.append('directory_prefix', dirPrefix);
-
-      uploads.push(req);
-    });
+  if (!process.env.SHUV_ACCESS_TOKEN) {
+    throw new Error('The shuv access token is not defined.');
   }
+
+  var backendUrl = process.env.SHUV_BACKEND_URL || 'https://dev-shoov.pantheon.io';
+  var options = {
+    url: backendUrl + '/api/screenshots-upload',
+    headers: {
+      'access-token': process.env.SHUV_ACCESS_TOKEN
+    }
+  };
+
+  gitPrefix.then(function(dirPrefix) {
+    var req = request.post(options);
+    req
+      .on('error', function (err) {
+        throw new Error(err);
+      })
+      .on('data', function(data) {
+        if (process.env.SHUV_DEBUG) {
+          // Show response.
+          data = JSON.parse(data);
+          console.log(data.data);
+        }
+      })
+      .on('response', function(response) {
+        if (response.statusCode >= 500) {
+          throw new Error('Backend error');
+        }
+        else if (response.statusCode !== 200) {
+          throw new Error('Access token is incorrect');
+        }
+      });
+
+
+    var form = req.form();
+
+    var label = path.basename(obj.baselinePath, '.baseline.png').replace('.', ' ');
+    form.append('label', label);
+
+    form.append('baseline', fs.createReadStream(obj.baselinePath));
+    form.append('regression', fs.createReadStream(obj.regressionPath));
+    form.append('diff', fs.createReadStream(obj.diffPath));
+
+    form.append('baseline_name', obj.baselinePath);
+    form.append('git_commit', gitCommit);
+    form.append('git_branch', gitBranch);
+
+    form.append('directory_prefix', dirPrefix);
+
+    uploads.push(req);
+  });
 
   throw new Error('Found regression in test');
 };
@@ -115,8 +112,7 @@ var wdcssSetup = {
    * Init the client.
    */
   before: function(done, capsSetup) {
-    client = this.getClient(capsSetup);
-    client.init(done);
+    client = this.getClient(done, capsSetup);
     WebdriverCSS.init(client);
 
     return client;
@@ -126,8 +122,9 @@ var wdcssSetup = {
     Promise
       .all(uploads)
       .then(function() {
-        if (uploads.length && process.env.SHUV_CLIENT_URL) {
-          console.log('See regressions in ' + process.env.SHUV_CLIENT_URL + '/#/screenshots/' + gitCommit);
+        if (uploads.length) {
+          var clientUrl = process.env.SHUV_CLIENT_URL || 'http://shoov.gizra.com/';
+          console.log('See regressions in ' + clientUrl + '/#/screenshots/' + gitCommit);
         }
 
         client.end(done);
@@ -145,8 +142,11 @@ var wdcssSetup = {
   /**
    * Get client.
    */
-  getClient : function (capsSetup) {
+  getClient : function (done, capsSetup) {
     var caps = {};
+
+    // Determines if the view port handling should be done by the client.
+    var setViewPort = false;
 
     if (process.env.SAUCE_USERNAME) {
       caps['browserName'] = 'chrome';
@@ -182,6 +182,16 @@ var wdcssSetup = {
     }
     else {
       client = WebdriverIO.remote({ desiredCapabilities: {browserName: 'phantomjs'} });
+      setViewPort = true;
+    }
+
+    // Init the client.
+    client.init(done);
+    if (setViewPort) {
+      client.setViewportSize({
+        width: 1024,
+        height: 768
+      });
     }
 
     return client;

@@ -21,7 +21,7 @@ describe('Homepage tests', function() {
 
   it('should show the homepage',function(done) {
     client
-      .url(url)
+      .url(url + '/#/login')
       .webdrivercss(testName, {
         name: 'homepage'
       }, wdcssSetup.processResults)

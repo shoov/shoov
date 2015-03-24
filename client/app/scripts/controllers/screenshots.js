@@ -13,6 +13,7 @@ angular.module('clientApp')
     // Initialize values.
     $scope.showDiff = false;
     $scope.screenshots = screenshots.data;
+    $scope.accessToken = Auth.getAccessToken();
 
     angular.forEach($scope.screenshots, function(value, key) {
       $scope.screenshots[key].selected = false;
