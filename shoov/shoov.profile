@@ -59,6 +59,9 @@ function shoov_setup_variables() {
     // Private files directory.
     'file_private_path' => 'sites/default/files/private',
     'file_default_scheme' => 'private',
+
+    // Set access token expiration to future date.
+    'restful_token_auth_expiration_period' => 'P10Y',
   );
 
   foreach ($variables as $key => $value) {
