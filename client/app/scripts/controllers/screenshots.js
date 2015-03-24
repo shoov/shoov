@@ -17,6 +17,7 @@ angular.module('clientApp')
 
     console.log(screenshots.data[0]);
 
+    $scope.repoName = screenshots.data[0].repository.label;
     $scope.gitBranch = screenshots.data[0].git_branch;
     $scope.gitCommit = screenshots.data[0].git_commit.substring(0, 6);
 

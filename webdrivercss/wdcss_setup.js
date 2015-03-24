@@ -37,8 +37,27 @@ var gitPrefix = new Promise(function(resolve, reject) {
   exec('git rev-parse --show-prefix', function(err, stdout) {
     if(err) {
       reject(err);
-    } else {
+    }
+    else {
       resolve(stdout.replace('\n', ''));
+    }
+  });
+});
+
+var getRepoName = new Promise(function(resolve, reject) {
+  exec('git config --get remote.origin.url', function(err, stdout) {
+    if(err) {
+      reject(err);
+    }
+    else {
+      // @todo: Be more careful with the assumptions about the URL
+      var output = stdout
+        .replace('\n', '')
+        .replace('git@github.com:', '')
+        .replace('https://github.com/', '')
+        .replace('.git', '');
+
+      resolve(output);
     }
   });
 });
@@ -86,46 +105,55 @@ var uploadFailedImage = function(obj) {
     }
   };
 
-  gitPrefix.then(function(dirPrefix) {
-    var req = request.post(options);
-    req
-      .on('error', function (err) {
-        throw new Error(err);
-      })
-      .on('data', function(data) {
-        if (getConfig('debug')) {
-          // Show response.
-          data = JSON.parse(data);
-          console.log(data.data);
-        }
-      })
-      .on('response', function(response) {
-        if (response.statusCode >= 500) {
-          throw new Error('Backend error');
-        }
-        else if (response.statusCode !== 200) {
-          throw new Error('Access token is incorrect or no longer valid, visit your account page');
-        }
-      });
+  var gitData = [gitPrefix, getRepoName];
+
+  Promise
+    .all(gitData)
+    .then(function(data) {
+
+      var dirPrefix = data[0];
+      var repoName = data[1];
+
+      var req = request.post(options);
+      req
+        .on('error', function (err) {
+          throw new Error(err);
+        })
+        .on('data', function(data) {
+          if (getConfig('debug')) {
+            // Show response.
+            data = JSON.parse(data);
+            console.log(data.data);
+          }
+        })
+        .on('response', function(response) {
+          if (response.statusCode >= 500) {
+            throw new Error('Backend error');
+          }
+          else if (response.statusCode !== 200) {
+            throw new Error('Access token is incorrect or no longer valid, visit your account page');
+          }
+        });
 
 
-    var form = req.form();
+      var form = req.form();
 
-    var label = path.basename(obj.baselinePath, '.baseline.png').replace('.', ' ');
-    form.append('label', label);
+      var label = path.basename(obj.baselinePath, '.baseline.png').replace('.', ' ');
+      form.append('label', label);
 
-    form.append('baseline', fs.createReadStream(obj.baselinePath));
-    form.append('regression', fs.createReadStream(obj.regressionPath));
-    form.append('diff', fs.createReadStream(obj.diffPath));
+      form.append('baseline', fs.createReadStream(obj.baselinePath));
+      form.append('regression', fs.createReadStream(obj.regressionPath));
+      form.append('diff', fs.createReadStream(obj.diffPath));
 
-    form.append('baseline_name', obj.baselinePath);
-    form.append('git_commit', gitCommit);
-    form.append('git_branch', gitBranch);
+      form.append('baseline_name', obj.baselinePath);
+      form.append('git_commit', gitCommit);
+      form.append('git_branch', gitBranch);
 
-    form.append('directory_prefix', dirPrefix);
+      form.append('directory_prefix', dirPrefix);
+      form.append('repository', repoName);
 
-    uploads.push(req);
-  });
+      uploads.push(req);
+   });
 
   throw new Error('Found regression in test');
 };

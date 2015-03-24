@@ -67,6 +67,34 @@ class ShoovScreenshotsUploadResource extends RestfulFilesUpload {
       }
     }
 
+    if (empty($request['repository'])) {
+      throw new \RestfulBadRequestException('"repository" is a required value');
+    }
+
+    // Find the repository node.
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'repository')
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->propertyCondition('title', trim($request['repository']))
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($result['node'])) {
+      throw new \RestfulBadRequestException('"repository" name is wrong or you may not have access to it.');
+    }
+
+    $id = key($result['node']);
+    $repo_node = node_load($id);
+
+    if (!node_access('view', $repo_node, $this->getAccount())) {
+      throw new \RestfulBadRequestException('"repository" name is wrong or you may not have access to it.');
+    }
+
+    // Set the repo node.
+    $wrapper->og_repo->set($repo_node);
+
     $wrapper->save();
     return $wrapper->value();
   }

@@ -57,6 +57,16 @@ class ShoovScreenshotsResource extends \ShoovEntityBaseNode {
       'property' => 'field_directory_prefix',
     );
 
+    $public_fields['repository'] = array(
+      'property' => 'og_repo',
+      'resource' => array(
+        'repository' => array(
+          'name' => 'repositories',
+          'full_view' => TRUE,
+        ),
+      ),
+    );
+
     return $public_fields;
   }
 }

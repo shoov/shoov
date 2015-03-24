@@ -3,21 +3,17 @@
 }
 
 .info {
-
+  font-size: 18px;
+  padding-top: 10px;
   padding-bottom: 10px;
   border: 1px solid black;
   background: lightyellow;
   margin-bottom: 20px;
-  text-align: center;
-
-  h2 {
-    font-size: 25px;
-  }
 }
 
 .screenshots-list {
 
-  ul {
+  ul.screenshots {
 
     display: inline;
 
