@@ -7,6 +7,7 @@ var exec   = require('child_process').exec;
 var fs = Promise.promisifyAll(require('fs'));
 var git = require('git-rev');
 var nconf = require('nconf');
+var open = require('open');
 var path = require('path');
 var R = require('ramda');
 var request = require('request-promise');
@@ -45,19 +46,25 @@ var gitPrefix = new Promise(function(resolve, reject) {
 /**
  * Get config from file or environment.
  *
- * JSON file is in ~/.shoov
+ * JSON file is in ~/.shoov.json
+ *
  * @param str
+ *   The config name.
+ * @param defaultValue
+ *   The default value.
+ *
  * @returns {*}
  */
-var getConfig = function(str) {
+var getConfig = function(str, defaultValue) {
   // Set config hierarchy.
-  var configFile = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.shoov';
+  var configFile = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.shoov.json';
   nconf
     .env()
     .file(configFile);
 
   var upperCase = 'SHOOV_' + str.toUpperCase();
-  return nconf.get(str) || nconf.get(upperCase);
+  var confValue = nconf.get(str) || nconf.get(upperCase);
+  return confValue || defaultValue;
 };
 
 /**
@@ -71,7 +78,7 @@ var uploadFailedImage = function(obj) {
     throw new Error('The Shoov access token is not defined, visit your account page.');
   }
 
-  var backendUrl = getConfig('backend_url') || 'https://dev-shoov.pantheon.io';
+  var backendUrl = getConfig('backend_url', 'https://dev-shoov.pantheon.io');
   var options = {
     url: backendUrl + '/api/screenshots-upload',
     headers: {
@@ -145,8 +152,13 @@ var wdcssSetup = {
       .all(uploads)
       .then(function() {
         if (uploads.length) {
-          var clientUrl = getConfig('client_url') || 'http://shoov.gizra.com/';
-          console.log('See regressions in ' + clientUrl + '/#/screenshots/' + gitCommit);
+          var clientUrl = getConfig('client_url', 'http://shoov.gizra.com');
+          var regressionUrl = clientUrl + '/#/screenshots/' + gitCommit;
+          console.log('See regressions in: ' + regressionUrl);
+
+          if (getConfig('open_link')) {
+            open(regressionUrl)
+          }
         }
 
         client.end(done);
