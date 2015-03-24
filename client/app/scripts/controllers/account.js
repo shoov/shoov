@@ -8,6 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('AccountCtrl', function ($scope, account) {
+  .controller('AccountCtrl', function ($scope, account, Auth) {
     $scope.account = account;
+    $scope.account.accessToken = Auth.getAccessToken();
   });

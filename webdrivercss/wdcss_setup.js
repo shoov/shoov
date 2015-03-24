@@ -6,11 +6,13 @@ var assert = require('assert');
 var exec   = require('child_process').exec;
 var fs = Promise.promisifyAll(require('fs'));
 var git = require('git-rev');
+var nconf = require('nconf');
 var path = require('path');
 var R = require('ramda');
 var request = require('request-promise');
 var WebdriverCSS = require('webdrivercss');
 var WebdriverIO = require('webdriverio');
+
 
 var uploads = [];
 
@@ -41,20 +43,39 @@ var gitPrefix = new Promise(function(resolve, reject) {
 });
 
 /**
+ * Get config from file or environment.
+ *
+ * JSON file is in ~/.shoov
+ * @param str
+ * @returns {*}
+ */
+var getConfig = function(str) {
+  // Set config hierarchy.
+  var configFile = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'] + '/.shoov';
+  nconf
+    .env()
+    .file(configFile);
+
+  var upperCase = 'SHOOV_' + str.toUpperCase();
+  return nconf.get(str) || nconf.get(upperCase);
+};
+
+/**
  * Upload the image.
  *
  * @param obj
  */
 var uploadFailedImage = function(obj) {
-  if (!process.env.SHOOV_ACCESS_TOKEN) {
-    throw new Error('The shoov access token is not defined.');
+  var accessToken = getConfig('access_token');
+  if (!accessToken) {
+    throw new Error('The Shoov access token is not defined, visit your account page.');
   }
 
-  var backendUrl = process.env.SHOOV_BACKEND_URL || 'https://dev-shoov.pantheon.io';
+  var backendUrl = getConfig('backend_url') || 'https://dev-shoov.pantheon.io';
   var options = {
     url: backendUrl + '/api/screenshots-upload',
     headers: {
-      'access-token': process.env.SHOOV_ACCESS_TOKEN
+      'access-token': accessToken
     }
   };
 
@@ -65,7 +86,7 @@ var uploadFailedImage = function(obj) {
         throw new Error(err);
       })
       .on('data', function(data) {
-        if (process.env.SHOOV_DEBUG) {
+        if (getConfig('debug')) {
           // Show response.
           data = JSON.parse(data);
           console.log(data.data);
@@ -76,7 +97,7 @@ var uploadFailedImage = function(obj) {
           throw new Error('Backend error');
         }
         else if (response.statusCode !== 200) {
-          throw new Error('Access token is incorrect');
+          throw new Error('Access token is incorrect or no longer valid, visit your account page');
         }
       });
 
@@ -106,6 +127,7 @@ var isNotWithinMisMatchTolerance = R.filter(R.where({isWithinMisMatchTolerance: 
 var uploadImages = R.mapObj(R.forEach(uploadFailedImage));
 var checkImages = R.compose(uploadImages, R.mapObj(isNotWithinMisMatchTolerance));
 
+
 var wdcssSetup = {
 
   /**
@@ -123,7 +145,7 @@ var wdcssSetup = {
       .all(uploads)
       .then(function() {
         if (uploads.length) {
-          var clientUrl = process.env.SHOOV_CLIENT_URL || 'http://shoov.gizra.com/';
+          var clientUrl = getConfig('client_url') || 'http://shoov.gizra.com/';
           console.log('See regressions in ' + clientUrl + '/#/screenshots/' + gitCommit);
         }
 
