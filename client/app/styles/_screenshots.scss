@@ -1,0 +1,58 @@
+.show-diff {
+  text-align: right;
+}
+
+.info {
+
+  padding-bottom: 10px;
+  border: 1px solid black;
+  background: lightyellow;
+  margin-bottom: 20px;
+  text-align: center;
+
+  h2 {
+    font-size: 25px;
+  }
+}
+
+.screenshots-list {
+
+  ul {
+
+    display: inline;
+
+    li.screenshot-item {
+
+      list-style-type: none;
+
+      .name {
+        margin-bottom: 20px;
+        font-size: 60px;
+        font-weight: lighter;
+
+        input {
+          vertical-align: middle;
+        }
+
+        .delete {
+          font-size: 18px;
+
+          :hover {
+            text-decoration: underline;
+          }
+
+          i {
+            vertical-align: text-top;
+          }
+        }
+      }
+
+      img {
+        outline: 2px solid black;
+      }
+    }
+  }
+
+
+}
+

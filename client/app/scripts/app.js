@@ -15,8 +15,10 @@ angular
     'ngSanitize',
     'config',
     'cm.angularHttpPlus',
+    'frapontillo.bootstrap-switch',
     'leaflet-directive',
     'LocalStorageModule',
+    'ui.checkbox',
     'ui.router',
     'angular-loading-bar'
   ])
@@ -58,16 +60,6 @@ angular
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
       })
-      .state('screenshots', {
-        url: '/screenshots/:testId',
-        templateUrl: 'views/dashboard/screenshots/screenshots.html',
-        controller: 'ScreenshotsCtrl',
-        resolve: {
-          screenshots: function(Screenshots, $stateParams) {
-            return Screenshots.get('company', $stateParams.testId);
-          }
-        }
-      })
       .state('dashboard', {
         abstract: true,
         url: '',
@@ -80,6 +72,16 @@ angular
           },
           selectedCompany: function($stateParams) {
             return $stateParams.companyId;
+          }
+        }
+      })
+      .state('dashboard.screenshots', {
+        url: '/screenshots/:testId',
+        templateUrl: 'views/dashboard/screenshots/screenshots.html',
+        controller: 'ScreenshotsCtrl',
+        resolve: {
+          screenshots: function(Screenshots, $stateParams) {
+            return Screenshots.get('company', $stateParams.testId);
           }
         }
       })
