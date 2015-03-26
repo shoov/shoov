@@ -84,6 +84,14 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
     return $this->getOrCreateToken();
   }
 
+  /**
+   * Create a new user
+   *
+   * @param $data
+   * @param $request
+   * @return \stdClass
+   * @throws \Exception
+   */
   protected function createUser($data, $request) {
     //set up the user fields
     $fields = array(
@@ -102,6 +110,14 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
     return $account;
   }
 
+  /**
+   * Get user's primary email.
+   *
+   * @param $request
+   *
+   * @return string
+   *   The user's email.
+   */
   protected function getEmail($request) {
     $result = drupal_http_request('https://api.github.com/user/emails', $request);
     foreach (drupal_json_decode($result->data) as $row) {
