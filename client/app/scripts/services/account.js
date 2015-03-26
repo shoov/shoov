@@ -35,8 +35,8 @@ angular.module('clientApp')
         method: 'GET',
         url: url
       }).success(function(response) {
-        setCache(response[0]);
-        deferred.resolve(response[0]);
+        setCache(response.data[0]);
+        deferred.resolve(response.data[0]);
       });
 
       return deferred.promise;
