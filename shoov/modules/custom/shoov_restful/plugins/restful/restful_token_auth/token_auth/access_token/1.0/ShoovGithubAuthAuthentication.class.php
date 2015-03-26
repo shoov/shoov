@@ -68,7 +68,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
 
     if (empty($result['user'])) {
       // Create a new user.
-      $account = $this->createUser($data);
+      $account = $this->createUser($data, $request);
     }
     else {
       $id = key($result['user']);
@@ -84,12 +84,12 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
     return $this->getOrCreateToken();
   }
 
-  protected function createUser($data) {
+  protected function createUser($data, $request) {
     //set up the user fields
     $fields = array(
       'name' => $data['login'],
       // @todo: Get email from GitHub.
-      'mail' => $data['email'],
+      'mail' => $this->getEmail($request),
       'pass' => user_password(8),
       'status' => TRUE,
       'roles' => array(
@@ -100,5 +100,17 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
     //the first parameter is left blank so a new user is created
     $account = user_save('', $fields);
     return $account;
+  }
+
+  protected function getEmail($request) {
+    $result = drupal_http_request('https://api.github.com/user/emails', $request);
+    foreach (drupal_json_decode($result->data) as $row) {
+      if (empty($row['primary'])) {
+        // Not the primary email.
+        continue;
+      }
+
+      return $row['email'];
+    }
   }
 }
