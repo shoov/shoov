@@ -11,6 +11,44 @@ if (!drupal_is_cli()) {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function shoov_restful_menu() {
+  $items['auth/github'] = array(
+    'title' => 'Github auth',
+    'page callback' => 'shoov_restful_auth_github',
+    'access arguments' => array('access content'),
+  );
+
+  return $items;
+}
+
+/**
+ * Authenticate an existing user or create a new one.
+ */
+function shoov_restful_auth_github() {
+  $request = array(
+    'method' => 'POST',
+    'data' => http_build_query(array(
+      'client_id' => variable_get('shoov_github_client_id'),
+      'client_secret' => variable_get('shoov_github_client_secret'),
+      'code' => $_GET['code'],
+    )),
+  );
+
+  $result = drupal_http_request('https://github.com/login/oauth/access_token', $request);
+  watchdog('github', var_export($result, true));
+
+  // Determine if the user exists.
+
+  // User is blocked.
+
+
+
+  // Let RESTful deal with the answer.
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  */
 function shoov_restful_ctools_plugin_directory($module, $plugin) {

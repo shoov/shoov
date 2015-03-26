@@ -61,4 +61,12 @@ angular.module('clientApp')
     this.getAccessToken = function() {
       return localStorageService.get('access_token');
     }
+
+    this.authByGithubCode = function(code) {
+      // Service 'Auth' can't depend on '$http', hence injecting it manually
+      return $injector.get('$http')({
+        method: 'GET',
+        url: Config.backend + '/auth/github'
+      });
+    }
   });
