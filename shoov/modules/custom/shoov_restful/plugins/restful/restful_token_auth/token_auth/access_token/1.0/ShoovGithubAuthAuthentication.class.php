@@ -19,6 +19,14 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
     );
   }
 
+  /**
+   * Get a user from GitHub.
+   *
+   * @return array
+   *   Array from RESTful token authentication resource.
+   *
+   * @throws \RestfulUnauthorizedException
+   */
   protected function getUser() {
     $request = $this->getRequest();
     if (empty($request['code'])) {
@@ -85,7 +93,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
   }
 
   /**
-   * Create a new user
+   * Create a new user.
    *
    * @param $data
    * @param $request
