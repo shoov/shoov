@@ -34,7 +34,7 @@
                 <input ng-disabled="!loginButtonEnabled" type="submit" class="btn btn-primary btn-lg btn-block text-center" id="submit" value="Log in" />
 
 
-                <a ng-show="githubClientId" ng-href="https://github.com/login/oauth/authorize?client_id={{ githubClientId }}">Sign in with GitHub</a>
+                <a ng-show="githubClientId" ng-href="https://github.com/login/oauth/authorize?client_id={{ githubClientId }}&scope=user:email">Sign in with GitHub</a>
               </div>
 
               <div class="divider divider-xl"></div>
