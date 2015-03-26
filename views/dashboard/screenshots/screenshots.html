@@ -1,9 +1,11 @@
 <div class="row">
   <div class="col-md-12 screenshots-list">
 
-    <div class="info">
-      <h2>Image Regression for Branch <em>{{ gitBranch }}</em> commit <em>{{ gitCommit }}</em></h2>
-    </div>
+    <ul class="info">
+      <li>Repository: <a ng-href="https://github.com/{{ repoName }}">{{ repoName }}</a></li>
+      <li>Branch: <a ng-href="https://github.com/{{ repoName }}/tree/{{ gitCommit }}">{{ gitBranch }}</a></li>
+      <li>Commit: <a ng-href="https://github.com/{{ repoName }}/commit/{{ gitCommit }}">{{ gitCommit }}</a></li>
+    </ul>
 
     <div class="row">
 
@@ -19,7 +21,7 @@
     </div>
 
 
-    <ul>
+    <ul class="screenshots">
       <li ng-repeat="screenshot in screenshots" class="screenshot-item">
 
         <div class="name">
