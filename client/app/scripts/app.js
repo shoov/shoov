@@ -60,7 +60,7 @@ angular
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
       })
-      .state('dashboard.github', {
+      .state('github', {
         url: '/auth/github',
         templateUrl: 'views/login.html',
         controller: 'GithubAuthCtrl'

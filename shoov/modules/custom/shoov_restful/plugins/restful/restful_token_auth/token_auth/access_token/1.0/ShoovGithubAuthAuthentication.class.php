@@ -14,7 +14,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
     return array(
       '' => array(
         // Get or create a new token.
-        \RestfulInterface::GET => 'getUser',
+        \RestfulInterface::POST => 'getUser',
       ),
     );
   }
@@ -38,7 +38,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
 
     // Result format is:
     // 'access_token=someTokenValue&scope=&token_type=bearer';
-    
+
     $access_token = $result->data;
 
     $access_token = explode('&', $result->data);

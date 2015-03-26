@@ -8,13 +8,20 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('GithubAuthCtrl', function ($scope, Auth, $state, $window, $location, $log, $stateParams) {
-    // $log.log($location.search('code'));
-    // $log.log($location.search());
+  .controller('GithubAuthCtrl', function ($scope, Auth, $window) {
     // @todo: Find a better way to get the code, which is returned by GitHub with
     // the query string before the hash (#) sign.
-    $log.log($window.location);
-
     var code = $window.location.search.replace('?code=', '');
+
+    Auth.authByGithubCode(code)
+      .then(function(data) {
+        // Login was ok.
+        $state.go('homepage');
+      })
+      .catch(function(data) {
+        // @todo: Add error message.
+        console.log(data);
+      });
+
 
   });
