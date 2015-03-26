@@ -1,10 +1,12 @@
 {
   "development": {
     "backend": "http://localhost/shoov/www",
-    "debugUiRouter": true
+    "debugUiRouter": true,
+    "githubClientId": false
   },
   "production": {
     "backend": "https://example.com",
-    "debugUiRouter": false
+    "debugUiRouter": false,
+    "githubClientId": false
   }
 }
