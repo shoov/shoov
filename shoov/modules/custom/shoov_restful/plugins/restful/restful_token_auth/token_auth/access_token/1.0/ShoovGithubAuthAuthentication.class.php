@@ -14,7 +14,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
     return array(
       '' => array(
         // Get or create a new token.
-        \RestfulInterface::GET => 'getOrCreateToken',
+        \RestfulInterface::GET => 'getUser',
       ),
     );
   }
@@ -30,11 +30,30 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
       'data' => http_build_query(array(
         'client_id' => variable_get('shoov_github_client_id'),
         'client_secret' => variable_get('shoov_github_client_secret'),
-        'code' => $_GET['code'],
+        'code' => $request['code'],
       )),
     );
 
     $result = drupal_http_request('https://github.com/login/oauth/access_token', $request);
+
+    $access_token = $result->data;
+
+    $access_token = explode('&', $result->data);
+    $access_token = explode('=', $access_token[0]);
+    $access_token = $access_token[1];
+
+    $request = array(
+      // 'data' => $access_token,
+      'headers' => array(
+        'Authorization' => 'token ' . $access_token,
+      ),
+    );
+
+    $result = drupal_http_request('https://api.github.com/user', $request);
+
+    $data = drupal_json_decode($result->data);
+
+    $name = $data['login'];
 
     // Get the username from Github and compare with ours.
     $query = new EntityFieldQuery();
@@ -46,6 +65,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
 
     if (empty($result['user'])) {
       // Create a new user.
+      $account = $this->createUser($data);
     }
     else {
       $id = key($result['user']);
@@ -59,5 +79,23 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
 
     $this->setAccount($account);
     return $this->getOrCreateToken();
+  }
+
+  protected function createUser($data) {
+    //set up the user fields
+    $fields = array(
+      'name' => $data['login'],
+      // @todo: Get email from GitHub.
+      'mail' => $data['email'],
+      'pass' => user_password(8),
+      'status' => TRUE,
+      'roles' => array(
+        DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+      ),
+    );
+
+    //the first parameter is left blank so a new user is created
+    $account = user_save('', $fields);
+    return $account;
   }
 }
