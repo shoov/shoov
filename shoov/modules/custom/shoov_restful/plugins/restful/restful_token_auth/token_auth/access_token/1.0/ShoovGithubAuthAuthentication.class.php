@@ -36,6 +36,9 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
 
     $result = drupal_http_request('https://github.com/login/oauth/access_token', $request);
 
+    // Result format is:
+    // 'access_token=someTokenValue&scope=&token_type=bearer';
+    
     $access_token = $result->data;
 
     $access_token = explode('&', $result->data);
