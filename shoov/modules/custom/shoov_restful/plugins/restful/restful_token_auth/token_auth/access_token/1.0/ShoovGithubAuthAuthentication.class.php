@@ -172,8 +172,8 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
 
 
       $params = array(
-        'code' => $result->code,
-        'error' => $this->getDataFromHttpResult($result),
+        '@code' => $result->code,
+        '@error' => $result->data,
       );
 
       watchdog('test4', format_string('Got error code @code from GitHub, with the following error message: @error', $params));
