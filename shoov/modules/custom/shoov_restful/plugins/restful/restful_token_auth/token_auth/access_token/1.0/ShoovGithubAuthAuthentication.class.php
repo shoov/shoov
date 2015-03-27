@@ -86,17 +86,18 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
   /**
    * Create a new user.
    *
-   * @param $data
-   * @param $request
+   * @param array $data
+   *   Array with the user's data from GitHub
+   * @param array $options
+   *   Options array as passed to drupal_http_request().
+   *
    * @return \stdClass
-   * @throws \Exception
+   *   The newly saved user object.
    */
-  protected function createUser($data, $request) {
-    //set up the user fields
+  protected function createUser($data, $options) {
     $fields = array(
       'name' => $data['login'],
-      // @todo: Get email from GitHub.
-      'mail' => $this->getEmail($request),
+      'mail' => $this->getEmail($options),
       'pass' => user_password(8),
       'status' => TRUE,
       'roles' => array(
@@ -104,7 +105,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
       ),
     );
 
-    //the first parameter is left blank so a new user is created
+    // The first parameter is left blank so a new user is created.
     $account = user_save('', $fields);
     return $account;
   }
@@ -113,6 +114,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
    * Get user's primary email.
    *
    * @param array $options
+   *   Options array as passed to drupal_http_request().
    *
    * @return string
    *   The user's email.
@@ -121,7 +123,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
     $result = $this->httpRequestGithub('https://api.github.com/user/emails', $options);
     foreach (drupal_json_decode($result->data) as $row) {
       if (empty($row['primary'])) {
-        // Not the primary email.
+        // Not a primary email.
         continue;
       }
 
