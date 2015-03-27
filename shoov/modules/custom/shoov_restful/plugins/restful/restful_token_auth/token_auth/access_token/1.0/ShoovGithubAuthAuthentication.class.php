@@ -13,7 +13,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
   public static function controllersInfo() {
     return array(
       '' => array(
-        // Get or create a new token.
+        // Get or create a new user.
         \RestfulInterface::POST => 'getUser',
       ),
     );
@@ -33,37 +33,36 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
       throw new \RestfulUnauthorizedException('code property is missing.');
     }
 
-    $request = array(
+    $options = array(
       'method' => 'POST',
       'data' => http_build_query(array(
         'client_id' => variable_get('shoov_github_client_id'),
-        'client_secret' => variable_get('shoov_github_client_secret'),
+        'client_secret' => variable_get('shoov_github_client_secret') . '9',
         'code' => $request['code'],
       )),
     );
 
-    $result = drupal_http_request('https://github.com/login/oauth/access_token', $request);
+    $result = $this->httpRequestGithub('https://github.com/login/oauth/access_token', $options);
 
-    // Result format is:
-    // 'access_token=someTokenValue&scope=&token_type=bearer';
+    if ($result->code !== 200) {
+      throw new \RestfulServerConfigurationException('Incorrect code sent or client ID and client secret are incorrectly configured. GitHub returned ');
+    }
 
-    $access_token = $result->data;
+    $access_token = $this->getDataFromHttpResult($result);
 
-    $access_token = explode('&', $result->data);
-    $access_token = explode('=', $access_token[0]);
-    $access_token = $access_token[1];
-
-    $request = array(
-      // 'data' => $access_token,
+    $options = array(
       'headers' => array(
         'Authorization' => 'token ' . $access_token,
       ),
     );
 
-    $result = drupal_http_request('https://api.github.com/user', $request);
+    $result = $this->httpRequestGithub('https://api.github.com/user', $options);
+
+    if ($result->code !== 200) {
+      throw new \RestfulServerConfigurationException('GitHub did not provide the user information.');
+    }
 
     $data = drupal_json_decode($result->data);
-
     $name = $data['login'];
 
     // Get the username from Github and compare with ours.
@@ -121,13 +120,13 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
   /**
    * Get user's primary email.
    *
-   * @param $request
+   * @param array $options
    *
    * @return string
    *   The user's email.
    */
-  protected function getEmail($request) {
-    $result = drupal_http_request('https://api.github.com/user/emails', $request);
+  protected function getEmail($options) {
+    $result = $this->httpRequestGithub('https://api.github.com/user/emails', $options);
     foreach (drupal_json_decode($result->data) as $row) {
       if (empty($row['primary'])) {
         // Not the primary email.
@@ -136,5 +135,70 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
 
       return $row['email'];
     }
+  }
+
+  /**
+   * Performs an HTTP request to GitHub and check for errors.
+   *
+   * @param string $url
+   *   A string containing a fully qualified URI.
+   * @param array $options
+   *   Options array as passed to drupal_http_request().
+   *
+   * @return object
+   *   The result object.
+   *
+   * @see drupal_http_request().
+   */
+  protected function httpRequestGithub($url, $options) {
+    $result = drupal_http_request('https://github.com/login/oauth/access_token', $options);
+    $this->checkGitHubHttpError($result);
+    return $result;
+  }
+
+
+  /**
+   * Check if an error was returned by Github, and if so throw an exception.
+   *
+   * GitHub might return a 200 code, but the data is in fact an error.
+   *
+   * @param $result
+   *   The result object from the drupal_http_request() call.
+   *
+   * @throws \RestfulServerConfigurationException
+   */
+  protected function checkGitHubHttpError($result) {
+    if ($result->code !== 200 || strpos($result->data, 'error=') === 0) {
+
+
+      $params = array(
+        'code' => $result->code,
+        'error' => $this->getDataFromHttpResult($result),
+      );
+
+      watchdog('test4', format_string('Got error code @code from GitHub, with the following error message: @error', $params));
+      throw new \RestfulServerConfigurationException(format_string('Got error code @code from GitHub, with the following error message: @error', $params));
+    }
+  }
+
+  /**
+   * Get the valid result or error from the result of the HTTP request.
+   *
+   * Result format is for example:
+   * 1) 'access_token=someTokenValue&scope=&token_type=bearer';
+   * 2) 'error=incorrect_client_credentials&error_description=The+client_id+and%2For+client_secret+passed+are+incorrect.&error_uri=https
+   *
+   * @param $result
+   *   The result object from the drupal_http_request() call.
+   *
+   * @return string
+   *   The result.
+   */
+  protected function getDataFromHttpResult($result) {
+    $return = $result->data;
+
+    $return = explode('&', $result->data);
+    $return = explode('=', $return[0]);
+    return $return[1];
   }
 }
