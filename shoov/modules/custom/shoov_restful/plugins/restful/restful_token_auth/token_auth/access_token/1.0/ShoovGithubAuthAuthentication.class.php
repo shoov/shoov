@@ -174,11 +174,10 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
   }
 
   /**
-   * Get the valid result or error from the result of the HTTP request.
+   * Get the valid result from the response of the HTTP request.
    *
    * Result format is for example:
-   * 1) 'access_token=someTokenValue&scope=&token_type=bearer';
-   * 2) 'error=incorrect_client_credentials&error_description=The+client_id+and%2For+client_secret+passed+are+incorrect.&error_uri=https
+   * 'access_token=someTokenValue&scope=&token_type=bearer';
    *
    * @param $result
    *   The result object from the drupal_http_request() call.
