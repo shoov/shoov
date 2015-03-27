@@ -67,7 +67,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
 
     if (empty($result['user'])) {
       // Create a new user.
-      $account = $this->createUser($data, $request);
+      $account = $this->createUser($data, $options);
     }
     else {
       $id = key($result['user']);
@@ -97,7 +97,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
   protected function createUser($data, $options) {
     $fields = array(
       'name' => $data['login'],
-      'mail' => $this->getEmail($options),
+      'mail' => $this->getEmailFromGithub($options),
       'pass' => user_password(8),
       'status' => TRUE,
       'roles' => array(
@@ -119,7 +119,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
    * @return string
    *   The user's email.
    */
-  protected function getEmail($options) {
+  protected function getEmailFromGithub($options) {
     $result = $this->httpRequestGithub('https://api.github.com/user/emails', $options);
     foreach (drupal_json_decode($result->data) as $row) {
       if (empty($row['primary'])) {
@@ -146,7 +146,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
    */
   protected function httpRequestGithub($url, $options) {
     $result = drupal_http_request($url, $options);
-    $this->checkGitHubHttpError($result);
+    $this->checkGitHubHttpError($url, $result);
     return $result;
   }
 
@@ -156,22 +156,23 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
    *
    * GitHub might return a 200 code, but the data is in fact an error.
    *
+   * @param string $url
+   *   The URL sent to GitHub
    * @param $result
    *   The result object from the drupal_http_request() call.
    *
    * @throws \RestfulServerConfigurationException
    */
-  protected function checkGitHubHttpError($result) {
+  protected function checkGitHubHttpError($url, $result) {
     if (intval($result->code) !== 200 || strpos($result->data, 'error=') === 0) {
 
       $params = array(
+        '@url' => $url,
         '@code' => $result->code,
         '@error' => $result->data,
       );
 
-      watchdog('test', format_string('Got error code @code from GitHub, with the following error message: @error', $params));
-      watchdog('tes1', var_export($result, true));
-      throw new \RestfulServerConfigurationException(format_string('Got error code @code from GitHub, with the following error message: @error', $params));
+      throw new \RestfulServerConfigurationException(format_string('Calling @url resulted with a @code HTTP code, with the following error message: @error', $params));
     }
   }
 
