@@ -44,10 +44,6 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
 
     $result = $this->httpRequestGithub('https://github.com/login/oauth/access_token', $options);
 
-    if ($result->code !== 200) {
-      throw new \RestfulServerConfigurationException('Incorrect code sent or client ID and client secret are incorrectly configured. GitHub returned ');
-    }
-
     $access_token = $this->getDataFromHttpResult($result);
 
     $options = array(
@@ -57,10 +53,6 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
     );
 
     $result = $this->httpRequestGithub('https://api.github.com/user', $options);
-
-    if ($result->code !== 200) {
-      throw new \RestfulServerConfigurationException('GitHub did not provide the user information.');
-    }
 
     $data = drupal_json_decode($result->data);
     $name = $data['login'];
