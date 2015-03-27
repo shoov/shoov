@@ -143,7 +143,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
    * @see drupal_http_request().
    */
   protected function httpRequestGithub($url, $options) {
-    $result = drupal_http_request('https://github.com/login/oauth/access_token', $options);
+    $result = drupal_http_request($url, $options);
     $this->checkGitHubHttpError($result);
     return $result;
   }
@@ -160,15 +160,15 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
    * @throws \RestfulServerConfigurationException
    */
   protected function checkGitHubHttpError($result) {
-    if ($result->code !== 200 || strpos($result->data, 'error=') === 0) {
-
+    if (intval($result->code) !== 200 || strpos($result->data, 'error=') === 0) {
 
       $params = array(
         '@code' => $result->code,
         '@error' => $result->data,
       );
 
-      watchdog('test4', format_string('Got error code @code from GitHub, with the following error message: @error', $params));
+      watchdog('test', format_string('Got error code @code from GitHub, with the following error message: @error', $params));
+      watchdog('tes1', var_export($result, true));
       throw new \RestfulServerConfigurationException(format_string('Got error code @code from GitHub, with the following error message: @error', $params));
     }
   }
