@@ -37,7 +37,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
       'method' => 'POST',
       'data' => http_build_query(array(
         'client_id' => variable_get('shoov_github_client_id'),
-        'client_secret' => variable_get('shoov_github_client_secret') . '9',
+        'client_secret' => variable_get('shoov_github_client_secret'),
         'code' => $request['code'],
       )),
     );
