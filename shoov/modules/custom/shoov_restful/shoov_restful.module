@@ -20,7 +20,7 @@ function shoov_restful_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Implements hook_restful_file_download_access().
+ * Implements hook_file_download_access().
  *
  * Get the user account from the RESTful authentication.
  */
