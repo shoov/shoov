@@ -80,6 +80,16 @@ angular
           }
         }
       })
+      .state('dashboard.builds', {
+        url: '/builds',
+        templateUrl: 'views/dashboard/builds/builds.html',
+        controller: 'BuildsCtrl',
+        resolve: {
+          builds: function(Builds, $stateParams) {
+            return Builds.get();
+          }
+        }
+      })
       .state('dashboard.screenshots', {
         url: '/screenshots/:testId',
         templateUrl: 'views/dashboard/screenshots/screenshots.html',
