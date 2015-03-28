@@ -7,7 +7,6 @@ dependencies[] = image
 dependencies[] = list
 dependencies[] = og_ui
 dependencies[] = options
-dependencies[] = shoov_company
 dependencies[] = strongarm
 dependencies[] = text
 features[ctools][] = strongarm:strongarm:1

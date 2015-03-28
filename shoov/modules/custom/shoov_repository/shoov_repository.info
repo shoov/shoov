@@ -1,7 +1,6 @@
 name = Shoov Repository
 core = 7.x
 package = Shoov
-dependencies[] = shoov_company
 dependencies[] = ctools
 dependencies[] = features
 dependencies[] = og_ui

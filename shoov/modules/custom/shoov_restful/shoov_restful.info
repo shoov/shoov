@@ -4,6 +4,4 @@ package = Shoov
 dependencies[] = restful
 dependencies[] = entity_validator
 
-dependencies[] = shoov_company
-
 files[] = plugins/restful/node/ShoovEntityBaseNode.php
