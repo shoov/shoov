@@ -25,37 +25,12 @@ angular.module('clientApp')
      *
      * @returns {*}
      */
-    this.get = function(companyId, testId) {
-      var cacheId = companyId + ':' + testId;
-      if (cache && cache[cacheId]) {
-        return $q.when(cache[cacheId].data);
+    this.get = function(buildId) {
+      if (cache && cache[buildId]) {
+        return $q.when(cache[buildId].data);
       }
 
-      return getDataFromBackend(companyId, testId);
-    };
-
-    /**
-     * Return a promise authors list.
-     *
-     * @param int companyId
-     *   The company ID.
-     *
-     * @returns {*}
-     */
-    this.getAuthors = function(companyId) {
-      var deferred = $q.defer();
-      var authors = {};
-      this.get(companyId).then(function(events) {
-        angular.forEach(events, function(event) {
-          authors[event.user.id] = {
-            id: parseInt(event.user.id),
-            name: event.user.label,
-            count: authors[event.user.id] ? ++authors[event.user.id].count : 1
-          };
-        });
-        deferred.resolve(authors);
-      });
-      return deferred.promise;
+      return getDataFromBackend(buildId);
     };
 
     /**
@@ -73,20 +48,19 @@ angular.module('clientApp')
 
 
     /**
-     * Return events array from the server.
+     * Return screenshots array from the server.
      *
-     * @param int companyId
-     *   The company ID.
+     * @param int buildId
+     *   The build ID.
      *
      * @returns {$q.promise}
      */
-    function getDataFromBackend(companyId, testId) {
-      var cacheId = companyId + ':' + testId;
+    function getDataFromBackend(buildId) {
       var deferred = $q.defer();
       var url = Config.backend + '/api/screenshots';
+
       var params = {
-        sort: '-updated',
-        'filter[git_commit]': testId
+        'filter[build]': buildId
       };
 
       $http({
@@ -94,8 +68,8 @@ angular.module('clientApp')
         url: url,
         params: params
       }).success(function(response) {
-        setCache(cacheId, response);
-        deferred.resolve(response);
+        setCache(buildId, response.data);
+        deferred.resolve(response.data);
       });
 
       return deferred.promise;

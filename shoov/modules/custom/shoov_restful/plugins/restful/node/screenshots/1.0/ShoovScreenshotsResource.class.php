@@ -45,6 +45,16 @@ class ShoovScreenshotsResource extends \ShoovEntityBaseNode {
       ),
     );
 
+    $public_fields['build'] = array(
+      'property' => 'field_build',
+      'resource' => array(
+        'build' => array(
+          'name' => 'builds',
+          'full_view' => FALSE,
+        ),
+      ),
+    );
+
     $public_fields['repository'] = array(
       'property' => 'og_repo',
       'resource' => array(

@@ -45,6 +45,11 @@ angular.module('clientApp')
     function getDataFromBackend(buildId) {
       var deferred = $q.defer();
       var url = Config.backend + '/api/builds';
+
+      if (buildId) {
+        url += '/' + buildId;
+      }
+
       var params = {
         sort: '-id'
       };

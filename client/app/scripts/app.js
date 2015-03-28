@@ -91,12 +91,15 @@ angular
         }
       })
       .state('dashboard.screenshots', {
-        url: '/screenshots/:testId',
+        url: '/screenshots/{buildId:int}',
         templateUrl: 'views/dashboard/screenshots/screenshots.html',
         controller: 'ScreenshotsCtrl',
         resolve: {
           screenshots: function(Screenshots, $stateParams) {
-            return Screenshots.get('company', $stateParams.testId);
+            return Screenshots.get($stateParams.buildId);
+          },
+          build: function(Builds, $stateParams) {
+            return Builds.get($stateParams.buildId);
           }
         }
       })
