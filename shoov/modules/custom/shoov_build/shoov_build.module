@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Shoov Build feature.
+ */
+
+include_once 'shoov_build.features.inc';
