@@ -135,6 +135,8 @@ class ShoovScreenshotsUploadResource extends RestfulFilesUpload {
    *   An existing or newly saved Repository node object.
    */
   protected function getRepositoryNode() {
+    $request = $this->getRequest();
+
     if (empty($request['repository'])) {
       throw new \RestfulBadRequestException('"repository" is a required value');
     }

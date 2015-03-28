@@ -100,6 +100,45 @@ function shoov_screenshot_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-screenshot-field_build'
+  $field_instances['node-screenshot-field_build'] = array(
+    'bundle' => 'screenshot',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => 1,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 12,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_build',
+    'label' => 'Build',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 11,
+    ),
+  );
+
   // Exported field_instance: 'node-screenshot-field_diff_image'
   $field_instances['node-screenshot-field_diff_image'] = array(
     'bundle' => 'screenshot',
@@ -385,6 +424,7 @@ function shoov_screenshot_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Baseline Image');
   t('Baseline name');
+  t('Build');
   t('Diff Image');
   t('Directory Prefix');
   t('Git Branch');
