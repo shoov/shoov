@@ -22,7 +22,7 @@ function shoov_build_field_default_field_instances() {
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 5,
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -178,10 +178,10 @@ function shoov_build_field_default_field_instances() {
         'label' => 'above',
         'module' => 'entityreference',
         'settings' => array(
-          'link' => FALSE,
+          'link' => 1,
         ),
         'type' => 'entityreference_label',
-        'weight' => 4,
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
