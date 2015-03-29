@@ -15,8 +15,8 @@ angular.module('clientApp')
     $scope.screenshots = screenshots;
     $scope.accessToken = Auth.getAccessToken();
 
-    // @todo: Change repo name to the name, instead of ID.
-    $scope.repoName = build[0].repository;
+    // @todo: Change repo name to be taken from build.
+    $scope.repoName = screenshots[0].repository.label;
     $scope.gitBranch = build[0].git_branch;
     $scope.gitCommit = build[0].git_commit.substring(0, 6);
 
