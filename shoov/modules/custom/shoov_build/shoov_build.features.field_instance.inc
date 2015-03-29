@@ -59,7 +59,7 @@ function shoov_build_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 3,
+        'weight' => 7,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -71,7 +71,7 @@ function shoov_build_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_directory_prefix',
     'label' => 'Directory Prefix',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'text_processing' => 0,
       'user_register_form' => FALSE,
@@ -83,7 +83,7 @@ function shoov_build_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 4,
+      'weight' => 8,
     ),
   );
 
@@ -99,7 +99,7 @@ function shoov_build_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 2,
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -111,7 +111,7 @@ function shoov_build_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_git_branch',
     'label' => 'Git Branch',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'text_processing' => 0,
       'user_register_form' => FALSE,
@@ -123,7 +123,7 @@ function shoov_build_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 3,
+      'weight' => 7,
     ),
   );
 
@@ -139,7 +139,7 @@ function shoov_build_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 1,
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -151,7 +151,7 @@ function shoov_build_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_git_commit',
     'label' => 'Git Commit',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'text_processing' => 0,
       'user_register_form' => FALSE,
@@ -163,7 +163,7 @@ function shoov_build_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 2,
+      'weight' => 6,
     ),
   );
 
