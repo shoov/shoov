@@ -25,7 +25,7 @@ describe('Homepage tests', function() {
       .webdrivercss(testName, {
         name: 'homepage'
       }, wdcssSetup.processResults)
-      .moveToObject('#submit')
+      .moveToObject('.btn-github')
       .webdrivercss(testName, {
         name: 'homepage-hover'
       }, wdcssSetup.processResults).
@@ -38,3 +38,4 @@ describe('Homepage tests', function() {
 
   });
 });
+
