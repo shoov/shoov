@@ -13,6 +13,14 @@ export BROWSERSTACK_USERNAME=<my user>
 export BROWSERSTACK_KEY=<your user>
 ```
 
-Get your token via ``https://dev-shoov.pantheon.io/api/login-token`` and then export it using
+Get your token via the ``/#/my-account`` page.
 
-``export SHOOV_ACCESS_TOKEN=<YOUR-TOKEN>``
+
+```json
+{
+  "access_token": "<YOUR-TOKEN>",
+  "backend_url": "http://localhost/shoov/www",
+  "client_url": "http://localhost:9000",
+  "debug": false
+}
+```
