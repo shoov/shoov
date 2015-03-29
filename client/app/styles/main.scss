@@ -12,3 +12,7 @@
 @import 'spinner';
 
 
+// @todo: This should be taken care of by the bootstrap-social lib.
+.btn.btn-github:hover {
+  color: white;
+}
