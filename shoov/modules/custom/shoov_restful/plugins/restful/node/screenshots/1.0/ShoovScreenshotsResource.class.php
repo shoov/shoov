@@ -45,16 +45,14 @@ class ShoovScreenshotsResource extends \ShoovEntityBaseNode {
       ),
     );
 
-    $public_fields['git_commit'] = array(
-      'property' => 'field_git_commit',
-    );
-
-    $public_fields['git_branch'] = array(
-      'property' => 'field_git_branch',
-    );
-
-    $public_fields['directory_prefix'] = array(
-      'property' => 'field_directory_prefix',
+    $public_fields['build'] = array(
+      'property' => 'field_build',
+      'resource' => array(
+        'build' => array(
+          'name' => 'builds',
+          'full_view' => FALSE,
+        ),
+      ),
     );
 
     $public_fields['repository'] = array(

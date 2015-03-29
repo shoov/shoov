@@ -54,11 +54,9 @@ function shoov_setup_variables() {
     // jQuery versions.
     'jquery_update_jquery_version' => '1.10',
     'jquery_update_jquery_admin_version' => '1.5',
+
     // Enable restful files upload.
-    'restful_file_upload' => 1,
-    // Private files directory.
-    'file_private_path' => 'sites/default/files/private',
-    'file_default_scheme' => 'private',
+    'restful_file_upload' => TRUE,
 
     // Set access token expiration to future date.
     'restful_token_auth_expiration_period' => 'P10Y',

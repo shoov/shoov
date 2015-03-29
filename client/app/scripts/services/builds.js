@@ -8,13 +8,13 @@
  * Service in the clientApp.
  */
 angular.module('clientApp')
-  .service('Screenshots', function ($q, $http, $timeout, Config, $rootScope, $log) {
+  .service('Builds', function ($q, $http, $timeout, Config, $rootScope, $log) {
 
     // A private cache key.
     var cache = {};
 
     // Update event broadcast name.
-    var broadcastUpdateEventName = 'ShoovScreenshotsChange';
+    var broadcastUpdateEventName = 'ShoovBuildChange';
 
 
     /**
@@ -33,22 +33,9 @@ angular.module('clientApp')
       return getDataFromBackend(buildId);
     };
 
-    /**
-     * Delete a screenshot.
-     *
-     * @param id
-     *   The screenshot ID.
-     */
-    this.delete = function(id) {
-      return $http({
-        method: 'DELETE',
-        url: Config.backend + '/api/screenshots/' + id,
-      });
-    };
-
 
     /**
-     * Return screenshots array from the server.
+     * Return builds array from the server.
      *
      * @param int buildId
      *   The build ID.
@@ -57,10 +44,14 @@ angular.module('clientApp')
      */
     function getDataFromBackend(buildId) {
       var deferred = $q.defer();
-      var url = Config.backend + '/api/screenshots';
+      var url = Config.backend + '/api/builds';
+
+      if (buildId) {
+        url += '/' + buildId;
+      }
 
       var params = {
-        'filter[build]': buildId
+        sort: '-id'
       };
 
       $http({

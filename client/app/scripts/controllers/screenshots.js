@@ -8,16 +8,17 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('ScreenshotsCtrl', function ($scope, screenshots, Auth, filterFilter, Zip, Screenshots, $state, $stateParams, $log) {
+  .controller('ScreenshotsCtrl', function ($scope, screenshots, build, Auth, filterFilter, Zip, Screenshots, $state, $stateParams, $log) {
 
     // Initialize values.
     $scope.showDiff = false;
-    $scope.screenshots = screenshots.data;
+    $scope.screenshots = screenshots;
     $scope.accessToken = Auth.getAccessToken();
 
-    $scope.repoName = screenshots.data[0].repository.label;
-    $scope.gitBranch = screenshots.data[0].git_branch;
-    $scope.gitCommit = screenshots.data[0].git_commit.substring(0, 6);
+    // @todo: Change repo name to be taken from build.
+    $scope.repoName = screenshots[0].repository.label;
+    $scope.gitBranch = build[0].git_branch;
+    $scope.gitCommit = build[0].git_commit.substring(0, 6);
 
     angular.forEach($scope.screenshots, function(value, key) {
       $scope.screenshots[key].selected = false;

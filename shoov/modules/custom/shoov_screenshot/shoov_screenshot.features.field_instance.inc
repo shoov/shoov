@@ -100,6 +100,45 @@ function shoov_screenshot_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-screenshot-field_build'
+  $field_instances['node-screenshot-field_build'] = array(
+    'bundle' => 'screenshot',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => 1,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 12,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_build',
+    'label' => 'Build',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 11,
+    ),
+  );
+
   // Exported field_instance: 'node-screenshot-field_diff_image'
   $field_instances['node-screenshot-field_diff_image'] = array(
     'bundle' => 'screenshot',
@@ -147,126 +186,6 @@ function shoov_screenshot_field_default_field_instances() {
       ),
       'type' => 'image_image',
       'weight' => 6,
-    ),
-  );
-
-  // Exported field_instance: 'node-screenshot-field_directory_prefix'
-  $field_instances['node-screenshot-field_directory_prefix'] = array(
-    'bundle' => 'screenshot',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 10,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_directory_prefix',
-    'label' => 'Directory Prefix',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 9,
-    ),
-  );
-
-  // Exported field_instance: 'node-screenshot-field_git_branch'
-  $field_instances['node-screenshot-field_git_branch'] = array(
-    'bundle' => 'screenshot',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 9,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_git_branch',
-    'label' => 'Git Branch',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 8,
-    ),
-  );
-
-  // Exported field_instance: 'node-screenshot-field_git_commit'
-  $field_instances['node-screenshot-field_git_commit'] = array(
-    'bundle' => 'screenshot',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 4,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_git_commit',
-    'label' => 'Git Commit',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 7,
     ),
   );
 
@@ -385,10 +304,8 @@ function shoov_screenshot_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Baseline Image');
   t('Baseline name');
+  t('Build');
   t('Diff Image');
-  t('Directory Prefix');
-  t('Git Branch');
-  t('Git Commit');
   t('Regression Image');
   t('Repository');
 
