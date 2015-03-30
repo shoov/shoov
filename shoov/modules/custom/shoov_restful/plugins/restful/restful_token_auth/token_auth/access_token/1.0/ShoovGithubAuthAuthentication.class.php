@@ -67,7 +67,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
 
     if (empty($result['user'])) {
       // Create a new user.
-      $account = $this->createUser($data, $options);
+      $account = $this->createUser($data, $options, $access_token);
     }
     else {
       $id = key($result['user']);
@@ -90,11 +90,13 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
    *   Array with the user's data from GitHub
    * @param array $options
    *   Options array as passed to drupal_http_request().
+   * @param string $access_token
+   *   The GitHub access token.
    *
    * @return \stdClass
    *   The newly saved user object.
    */
-  protected function createUser($data, $options) {
+  protected function createUser($data, $options, $access_token) {
     $fields = array(
       'name' => $data['login'],
       'mail' => $this->getEmailFromGithub($options),
@@ -102,6 +104,12 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
       'status' => TRUE,
       'roles' => array(
         DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+      ),
+      // Pipe our data so implementing modules amy use it for example in
+      // hook_user_preasve().
+      '_github' => array(
+        'access_token' => $access_token,
+        'data' => $data
       ),
     );
 

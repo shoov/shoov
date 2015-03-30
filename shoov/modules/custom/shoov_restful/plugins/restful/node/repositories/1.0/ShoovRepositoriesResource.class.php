@@ -31,6 +31,8 @@ class ShoovRepositoriesResource extends \ShoovEntityBaseNode {
    * Allow access to the SSH private key only for special users.
    */
   protected function accessSshPrivateKey($op, $public_field_name, \EntityMetadataWrapper $property_wrapper, \EntityMetadataWrapper $wrapper) {
-    return \RestfulInterface::ACCESS_DENY;
+    $request = $this->getRequest();
+
+    return !empty($request['ssh_key']) ? \RestfulInterface::ACCESS_ALLOW : \RestfulInterface::ACCESS_DENY;
   }
 }
