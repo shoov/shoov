@@ -171,6 +171,7 @@ function shoov_build_field_default_field_bases() {
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
+        'requested' => 'Requested',
         'in_progress' => 'In progress',
         'done' => 'Done',
         'error' => 'Error',
