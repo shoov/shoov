@@ -167,6 +167,86 @@ function shoov_build_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-build-field_pr_branch_name'
+  $field_instances['node-build-field_pr_branch_name'] = array(
+    'bundle' => 'build',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 11,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_pr_branch_name',
+    'label' => 'PR branch name',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 12,
+    ),
+  );
+
+  // Exported field_instance: 'node-build-field_pr_screenshot_ids'
+  $field_instances['node-build-field_pr_screenshot_ids'] = array(
+    'bundle' => 'build',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 10,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_pr_screenshot_ids',
+    'label' => 'PR screenshot IDs',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 11,
+    ),
+  );
+
   // Exported field_instance: 'node-build-field_pull_request'
   $field_instances['node-build-field_pull_request'] = array(
     'bundle' => 'build',
@@ -301,6 +381,8 @@ function shoov_build_field_default_field_instances() {
   t('Directory Prefix');
   t('Git Branch');
   t('Git Commit');
+  t('PR branch name');
+  t('PR screenshot IDs');
   t('Pull Request');
   t('Pull Request Status');
   t('Repository');
