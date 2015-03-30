@@ -167,6 +167,83 @@ function shoov_build_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-build-field_pull_request'
+  $field_instances['node-build-field_pull_request'] = array(
+    'bundle' => 'build',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'The Pull Request link',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 8,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_pull_request',
+    'label' => 'Pull Request',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 9,
+    ),
+  );
+
+  // Exported field_instance: 'node-build-field_pull_request_status'
+  $field_instances['node-build-field_pull_request_status'] = array(
+    'bundle' => 'build',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 9,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_pull_request_status',
+    'label' => 'Pull Request Status',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 10,
+    ),
+  );
+
   // Exported field_instance: 'node-build-og_repo'
   $field_instances['node-build-og_repo'] = array(
     'bundle' => 'build',
@@ -224,7 +301,10 @@ function shoov_build_field_default_field_instances() {
   t('Directory Prefix');
   t('Git Branch');
   t('Git Commit');
+  t('Pull Request');
+  t('Pull Request Status');
   t('Repository');
+  t('The Pull Request link');
 
   return $field_instances;
 }

@@ -75,6 +75,13 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
     else {
       $id = key($result['user']);
       $account = user_load($id);
+
+      // Make sure GitHub's access token is updated.
+      $wrapper = entity_metadata_wrapper('user', $id);
+      if ($wrapper->field_github_access_token->value() != $access_token) {
+        $wrapper->field_github_access_token->set($access_token);
+        $wrapper->save();
+      }
     }
 
     if ($account->status == FALSE) {

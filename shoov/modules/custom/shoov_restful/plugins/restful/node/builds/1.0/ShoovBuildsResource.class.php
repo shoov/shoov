@@ -36,6 +36,11 @@ class ShoovBuildsResource extends \ShoovEntityBaseNode {
       ),
     );
 
+    $public_fields['pull_request'] = array(
+      'property' => 'field_pull_request',
+    );
+
+
     return $public_fields;
   }
 }
