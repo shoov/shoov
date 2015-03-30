@@ -15,6 +15,6 @@ function shoov_user_user_presave(&$edit, $account, $category) {
     return;
   }
 
-  $wrapper = entity_metadata_wrapper('user', $account->uid);
+  $wrapper = entity_metadata_wrapper('user', $account);
   $wrapper->field_github_access_token->set($edit['_github']['access_token']);
 }
