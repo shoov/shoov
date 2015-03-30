@@ -22,6 +22,9 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
   /**
    * Get a user from GitHub.
    *
+   * @todo: Deal with the case that an existing user has revoked Github access
+   * so we need to re-set their key.
+   *
    * @return array
    *   Array from RESTful token authentication resource.
    *
