@@ -21,28 +21,42 @@ function shoov_build_node_update($node) {
     return;
   }
 
+  shoov_build_create_pr($node);
+}
+
+/**
+ * Call the Pull request server.
+ *
+ * @param $node
+ * @return object|void
+ * @throws \Exception
+ */
+function shoov_build_create_pr($node) {
+  $wrapper = entity_metadata_wrapper('node', $node);
+
   if (!$screenshot_ids = $wrapper->field_pr_screenshot_ids->value()) {
     // @todo: Add validation to see this doesn't happen if there was a request.
     return;
   }
 
   // Send a request.
-  $url = variable_get('shoov_build_pr_server');
+  $url = variable_get('shoov_build_pr_server', 'http://localhost:3000');
   if (!$url) {
     throw new Exception('Shoov build PR server is not setup.');
   }
 
   // {build Id}/{screenshot IDs}/{new branch}/{access token}
   $url = array(
-    variable_get('shoov_build_pr_server'),
+    $url,
+    'create_pr',
     $node->nid,
     $screenshot_ids,
     $wrapper->field_pr_branch_name->value(),
     // User's RESTful token.
-    shoov_restful_get_user_token()
+    shoov_restful_get_user_token(),
   );
 
   $url = implode('/', $url);
 
-  drupal_http_request($url);
+  return drupal_http_request($url);
 }
