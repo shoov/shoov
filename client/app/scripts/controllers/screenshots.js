@@ -8,7 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('ScreenshotsCtrl', function ($scope, screenshots, build, Auth, filterFilter, Zip, Screenshots, $state, $stateParams, $log) {
+  .controller('ScreenshotsCtrl', function ($scope, screenshots, build, Auth, filterFilter, Zip, Github, Screenshots, $log) {
 
     // Initialize values.
     $scope.showDiff = false;
@@ -19,6 +19,10 @@ angular.module('clientApp')
     $scope.repoName = screenshots[0].repository.label;
     $scope.gitBranch = build[0].git_branch;
     $scope.gitCommit = build[0].git_commit.substring(0, 6);
+
+    // Pull request name.
+    $scope.prName = 'shoov-' + $scope.gitBranch;
+    $scope.prUrl = build[0].pull_request;
 
     angular.forEach($scope.screenshots, function(value, key) {
       $scope.screenshots[key].selected = false;
@@ -58,8 +62,10 @@ angular.module('clientApp')
       });
     };
 
+    /**
+     * Create a zip file.
+     */
     $scope.zip = function() {
-
       var selectedScreenshots = $scope.selectedScreenshots();
       if (!selectedScreenshots) {
         // No selection.
@@ -78,5 +84,25 @@ angular.module('clientApp')
         data.push(imageData);
       });
       Zip.createZip(data);
+    };
+
+
+    $scope.pullRequest = function() {
+      var selectedScreenshots = $scope.selectedScreenshots();
+      if (!selectedScreenshots) {
+        // No selection.
+        return;
+      }
+
+      // Indicate PR is in progress.
+      $scope.prProgress = true;
+      $scope.prUrl = null;
+
+      Github
+        .createPullRequest(build[0].id, selectedScreenshots, $scope.prName)
+        .then(function(data) {
+          $scope.prUrl = data.data[0].pull_request;
+          $scope.prProgress = false;
+        });
     };
   });

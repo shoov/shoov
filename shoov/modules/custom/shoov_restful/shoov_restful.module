@@ -22,16 +22,26 @@ function shoov_restful_ctools_plugin_directory($module, $plugin) {
 /**
  * Get a user token.
  *
- * @todo: Allow passing other users.
- *
+ * @param stdClass $account
+ *   (optional) The user object. If empty the current user will be used.
  * @return string
  *   The user's access token.
  */
-function shoov_restful_get_user_token()  {
-  $handler = restful_get_restful_handler('access_token');
-  // @todo: Allow getOrCreateToken() to receive account.
-  $result = $handler->getOrCreateToken();
-  return $result['access_token'];
+function shoov_restful_get_user_token($account = NULL)  {
+  global $user;
+  $uid = $account ? $account->uid : $user->uid;
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'restful_token_auth')
+    ->entityCondition('bundle', 'access_token')
+    ->propertyCondition('uid', $uid)
+    ->range(0, 1)
+    ->execute();
+
+  $id = key($result['restful_token_auth']);
+  $entity = entity_load_single('restful_token_auth', $id);
+
+  return $entity->token;
 }
 
 /**

@@ -11,7 +11,22 @@
 
     <div>
         <div class="col-md-6">
-          <button class="btn btn-primary" ng-disabled="!selection.length" ng-click="zip()">Download</button>
+
+          <div class="pr-wrapper">
+
+            <div>
+              <input type="text" ng-disabled="prProgress" ng-model="prName">
+              <button class="btn btn-primary" ng-disabled="!selection.length || prProgress" ng-click="pullRequest()">Create Pull Request</button>
+            </div>
+
+            <div>
+              <a ng-href="prUrl" ng-show="prUrl">{{ prUrl }}</a>
+            </div>
+          </div>
+
+          <div class="download-wrapper">
+            <button class="btn btn-primary" ng-disabled="!selection.length" ng-click="zip()">Download</button>
+          </div>
         </div>
 
         <div class="col-md-6 show-diff">
