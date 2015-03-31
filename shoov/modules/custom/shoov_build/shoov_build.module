@@ -17,7 +17,7 @@ function shoov_build_node_update($node) {
   }
 
   $wrapper = entity_metadata_wrapper('node', $node);
-  if ($wrapper->field_pull_request_status->value() != 'request') {
+  if ($wrapper->field_pull_request_status->value() != 'requested') {
     return;
   }
 
@@ -25,10 +25,14 @@ function shoov_build_node_update($node) {
 }
 
 /**
- * Call the Pull request server.
+ * Call the Pull request server with the right arguments.
  *
  * @param $node
+ *   The Build node object.
+ *
  * @return object|void
+ *   The response object.
+ *
  * @throws \Exception
  */
 function shoov_build_create_pr($node) {
