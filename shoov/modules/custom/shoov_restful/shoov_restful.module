@@ -20,6 +20,21 @@ function shoov_restful_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
+ * Get a user token.
+ *
+ * @todo: Allow passing other users.
+ *
+ * @return string
+ *   The user's access token.
+ */
+function shoov_restful_get_user_token()  {
+  $handler = restful_get_restful_handler('access_token');
+  // @todo: Allow getOrCreateToken() to receive account.
+  $result = $handler->getOrCreateToken();
+  return $result['access_token'];
+}
+
+/**
  * Implements hook_file_download_access().
  *
  * Get the user account from the RESTful authentication.

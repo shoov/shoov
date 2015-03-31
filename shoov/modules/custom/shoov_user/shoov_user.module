@@ -1,0 +1,20 @@
+<?php
+/**
+ * @file
+ * User functionality.
+ */
+
+/**
+ * Implements hook_user_presave().
+ *
+ * @todo: Check this is for current user.
+ */
+function shoov_user_user_presave(&$edit, $account, $category) {
+  if (empty($edit['_github']['access_token'])) {
+    // No github data.
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('user', $account);
+  $wrapper->field_github_access_token->set($edit['_github']['access_token']);
+}

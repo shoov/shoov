@@ -1,0 +1,9 @@
+name = Shoov User
+core = 7.x
+package = Shoov
+dependencies[] = features
+dependencies[] = text
+features[features_api][] = api:2
+features[field_base][] = field_github_access_token
+features[field_instance][] = user-user-field_github_access_token
+mtime = 1427708192
