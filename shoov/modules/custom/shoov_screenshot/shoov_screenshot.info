@@ -37,4 +37,5 @@ features[variable][] = menu_parent_screenshot
 features[variable][] = node_options_screenshot
 features[variable][] = node_preview_screenshot
 features[variable][] = node_submitted_screenshot
-mtime = 1427573593
+files[] = includes/ShoovPipedStreamWrapper.php
+mtime = 1427876265
