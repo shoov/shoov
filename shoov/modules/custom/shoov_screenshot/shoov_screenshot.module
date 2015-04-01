@@ -5,3 +5,15 @@
  */
 
 include_once 'shoov_screenshot.features.inc';
+
+/**
+ * Implements hook_menu_alter().
+ *
+ * We set the file download to be private but in fact just use it to pipe the
+ * request through Drupal.
+ * This is a temporary hack as Pantheon doesn't allow sending CORS on public
+ * files.
+ */
+function shoov_screenshot_menu_alter(&$items) {
+  $items['system/files']['page arguments'] = array('public');
+}
