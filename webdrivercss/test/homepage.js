@@ -4,8 +4,7 @@ var Promise = require('bluebird');
 var WebdriverIO = require('webdriverio');
 var WebdriverCSS = require('webdrivercss');
 
-// @todo: Move to an NPM module.
-var wdcssSetup = require('../wdcss_setup');
+var shoovWebdrivercss = require('shoov-webdrivercss');
 
 var url = 'http://localhost:9000';
 var testName = 'chrome';
@@ -16,7 +15,7 @@ describe('Homepage tests', function() {
   var client = {};
 
   before(function(done){
-    client = wdcssSetup.before(done);
+    client = shoovWebdrivercss.before(done);
   });
 
   it('should show the homepage',function(done) {
@@ -24,17 +23,17 @@ describe('Homepage tests', function() {
       .url(url + '/#/login')
       .webdrivercss(testName, {
         name: 'homepage'
-      }, wdcssSetup.processResults)
+      }, shoovWebdrivercss.processResults)
       .moveToObject('.btn-github')
       .webdrivercss(testName, {
         name: 'homepage-hover'
-      }, wdcssSetup.processResults).
+      }, shoovWebdrivercss.processResults).
       call(done);
 
   });
 
   after(function(done) {
-    wdcssSetup.after(done);
+    shoovWebdrivercss.after(done);
 
   });
 });
