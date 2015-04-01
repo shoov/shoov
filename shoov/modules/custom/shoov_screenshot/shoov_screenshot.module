@@ -16,7 +16,7 @@ include_once 'shoov_screenshot.features.inc';
 function shoov_screenshot_menu() {
   $items['shoov/images'] = array(
     'title' => 'Images download',
-    'page callback' => 'shoov_screenshot_file_download',
+    'page callback' => 'shoov_screenshot_pipe_file_download',
     'page arguments' => array('piped'),
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
@@ -30,7 +30,7 @@ function shoov_screenshot_menu() {
  * 
  * @see file_donwload()
  */
-function shoov_screenshot_file_download() {
+function shoov_screenshot_pipe_file_download() {
   // Merge remainder of arguments from GET['q'], into relative file path.
   $args = func_get_args();
   $scheme = array_shift($args);
