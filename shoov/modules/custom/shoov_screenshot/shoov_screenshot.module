@@ -7,13 +7,77 @@
 include_once 'shoov_screenshot.features.inc';
 
 /**
- * Implements hook_menu_alter().
+ * Implements hook_menu().
  *
- * We set the file download to be private but in fact just use it to pipe the
- * request through Drupal.
+ * Add a piped public files download.
  * This is a temporary hack as Pantheon doesn't allow sending CORS on public
  * files.
  */
-function shoov_screenshot_menu_alter(&$items) {
-  $items['system/files']['page arguments'] = array('public');
+function shoov_screenshot_menu() {
+  $items['shoov/images'] = array(
+    'title' => 'Images download',
+    'page callback' => 'shoov_screenshot_file_download',
+    'page arguments' => array('piped'),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
 }
+
+/**
+ *
+ * @see system_menu()
+ */
+function shoov_screenshot_file_download() {
+  // Merge remainder of arguments from GET['q'], into relative file path.
+  $args = func_get_args();
+  $scheme = array_shift($args);
+  $target = implode('/', $args);
+  $uri = $scheme . '://' . $target;
+  if (file_stream_wrapper_valid_scheme($scheme) && file_exists($uri)) {
+
+    $files = file_load_multiple(array(), array('uri' => $uri));
+    if (count($files)) {
+      foreach ($files as $item) {
+        // Since some database servers sometimes use a case-insensitive comparison
+        // by default, double check that the filename is an exact match.
+        if ($item->uri === $uri) {
+          $file = $item;
+          break;
+        }
+      }
+    }
+    if (!isset($file)) {
+      return;
+    }
+
+    $headers = array(
+      'Content-Type' => mime_header_encode($file->filemime),
+      'Content-Length' => $file->filesize,
+    );
+
+    file_transfer($uri, $headers);
+  }
+  else {
+    drupal_not_found();
+  }
+  drupal_exit();
+}
+
+/**
+ * Implements hook_stream_wrappers().
+ */
+function shoov_screenshot_stream_wrappers() {
+  $wrappers = array(
+    'piped' => array(
+      'name' => t('Shoov images'),
+      'class' => 'ShoovPipedStreamWrapper',
+      'description' => t('Piped public local files served by Drupal.'),
+      'type' => STREAM_WRAPPERS_LOCAL_NORMAL,
+    ),
+  );
+
+  return $wrappers;
+}
+
