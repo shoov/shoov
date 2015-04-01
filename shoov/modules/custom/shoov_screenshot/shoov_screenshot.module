@@ -26,8 +26,9 @@ function shoov_screenshot_menu() {
 }
 
 /**
- *
- * @see system_menu()
+ * Pipe public files to be served from Drupal.
+ * 
+ * @see file_donwload()
  */
 function shoov_screenshot_file_download() {
   // Merge remainder of arguments from GET['q'], into relative file path.
