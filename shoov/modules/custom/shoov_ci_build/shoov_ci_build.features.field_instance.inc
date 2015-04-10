@@ -13,7 +13,11 @@ function shoov_ci_build_field_default_field_instances() {
   // Exported field_instance: 'node-ci_build-field_git_branch'
   $field_instances['node-ci_build-field_git_branch'] = array(
     'bundle' => 'ci_build',
-    'default_value' => NULL,
+    'default_value' => array(
+      0 => array(
+        'value' => 'master',
+      ),
+    ),
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -86,12 +90,12 @@ function shoov_ci_build_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 4,
+      'weight' => 3,
     ),
   );
 
-  // Exported field_instance: 'node-ci_build-og_group_ref'
-  $field_instances['node-ci_build-og_group_ref'] = array(
+  // Exported field_instance: 'node-ci_build-og_repo'
+  $field_instances['node-ci_build-og_repo'] = array(
     'bundle' => 'ci_build',
     'default_value' => NULL,
     'deleted' => 0,
@@ -99,10 +103,12 @@ function shoov_ci_build_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'og_ui',
-        'settings' => array(),
-        'type' => 'og_list_default',
-        'weight' => 0,
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -112,12 +118,13 @@ function shoov_ci_build_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'og_group_ref',
-    'label' => 'Groups audience',
-    'required' => FALSE,
+    'field_name' => 'og_repo',
+    'label' => 'Repository',
+    'required' => 1,
     'settings' => array(
       'behaviors' => array(
         'og_widget' => array(
+          'access_override' => 0,
           'admin' => array(
             'widget_type' => 'entityreference_autocomplete',
           ),
@@ -129,23 +136,12 @@ function shoov_ci_build_field_default_field_instances() {
       ),
       'user_register_form' => FALSE,
     ),
-    'view modes' => array(
-      'full' => array(
-        'custom settings' => FALSE,
-        'label' => 'Full',
-        'type' => 'og_list_default',
-      ),
-      'teaser' => array(
-        'custom settings' => FALSE,
-        'label' => 'Teaser',
-        'type' => 'og_list_default',
-      ),
-    ),
     'widget' => array(
+      'active' => 0,
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 0,
+      'weight' => 1,
     ),
   );
 
@@ -153,7 +149,7 @@ function shoov_ci_build_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Git Branch');
   t('Git Commit');
-  t('Groups audience');
+  t('Repository');
 
   return $field_instances;
 }
