@@ -10,13 +10,13 @@
 function shoov_ci_build_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'og_group_ref'
-  $field_bases['og_group_ref'] = array(
+  // Exported field_base: 'field_ci_build'
+  $field_bases['field_ci_build'] = array(
     'active' => 1,
-    'cardinality' => -1,
+    'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'og_group_ref',
+    'field_name' => 'field_ci_build',
     'foreign keys' => array(
       'node' => array(
         'columns' => array(
@@ -33,24 +33,82 @@ function shoov_ci_build_field_default_field_bases() {
     'locked' => 0,
     'module' => 'entityreference',
     'settings' => array(
-      'handler' => 'og',
+      'handler' => 'base',
       'handler_settings' => array(
         'behaviors' => array(
-          'og_behavior' => array(
-            'status' => TRUE,
+          'views-select-list' => array(
+            'status' => 0,
           ),
         ),
-        'membership_type' => 'og_membership_type_default',
+        'sort' => array(
+          'type' => 'none',
+        ),
         'target_bundles' => array(
-          0 => 'repository',
+          'ci_build' => 'ci_build',
         ),
       ),
-      'handler_submit' => 'Change handler',
       'target_type' => 'node',
     ),
-    'target_type' => 'node',
     'translatable' => 0,
     'type' => 'entityreference',
+  );
+
+  // Exported field_base: 'field_ci_build_status'
+  $field_bases['field_ci_build_status'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_ci_build_status',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        'queue' => 'Queue',
+        'in_progress' => 'In progress',
+        'done' => 'Done',
+        'error' => 'Error',
+      ),
+      'allowed_values_function' => '',
+    ),
+    'translatable' => 0,
+    'type' => 'list_text',
+  );
+
+  // Exported field_base: 'field_ci_build_timestap'
+  $field_bases['field_ci_build_timestap'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_ci_build_timestap',
+    'foreign keys' => array(),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'date',
+    'settings' => array(
+      'cache_count' => 4,
+      'cache_enabled' => 0,
+      'granularity' => array(
+        'day' => 'day',
+        'hour' => 'hour',
+        'minute' => 'minute',
+        'month' => 'month',
+        'second' => 0,
+        'year' => 'year',
+      ),
+      'timezone_db' => 'UTC',
+      'todate' => '',
+      'tz_handling' => 'site',
+    ),
+    'translatable' => 0,
+    'type' => 'datestamp',
   );
 
   return $field_bases;
