@@ -82,8 +82,8 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-ci_build-field_ci_build_timestap'
-  $field_instances['message-ci_build-field_ci_build_timestap'] = array(
+  // Exported field_instance: 'message-ci_build-field_ci_build_timestamp'
+  $field_instances['message-ci_build-field_ci_build_timestamp'] = array(
     'bundle' => 'ci_build',
     'deleted' => 0,
     'description' => '',
@@ -99,11 +99,11 @@ function shoov_ci_build_field_default_field_instances() {
           'multiple_to' => '',
         ),
         'type' => 'date_default',
-        'weight' => 2,
+        'weight' => 4,
       ),
     ),
     'entity_type' => 'message',
-    'field_name' => 'field_ci_build_timestap',
+    'field_name' => 'field_ci_build_timestamp',
     'label' => 'Start time',
     'required' => 1,
     'settings' => array(
@@ -125,7 +125,44 @@ function shoov_ci_build_field_default_field_instances() {
         'year_range' => '-3:+3',
       ),
       'type' => 'date_text',
-      'weight' => 3,
+      'weight' => 4,
+    ),
+  );
+
+  // Exported field_instance: 'message-ci_build-field_repository'
+  $field_instances['message-ci_build-field_repository'] = array(
+    'bundle' => 'ci_build',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 3,
+      ),
+    ),
+    'entity_type' => 'message',
+    'field_name' => 'field_repository',
+    'label' => 'Repository',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 4,
     ),
   );
 
