@@ -129,6 +129,49 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-ci_build-field_ci_build_enabled'
+  $field_instances['node-ci_build-field_ci_build_enabled'] = array(
+    'bundle' => 'ci_build',
+    'default_value' => array(
+      0 => array(
+        'value' => 1,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'Indicate if the CI build is enabled, and should be queued.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 4,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ci_build_enabled',
+    'label' => 'Enabled',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 4,
+    ),
+  );
+
   // Exported field_instance: 'node-ci_build-field_git_branch'
   $field_instances['node-ci_build-field_git_branch'] = array(
     'bundle' => 'ci_build',
@@ -267,8 +310,10 @@ function shoov_ci_build_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('CI build');
+  t('Enabled');
   t('Git Branch');
   t('Git Commit');
+  t('Indicate if the CI build is enabled, and should be queued.');
   t('Repository');
   t('Start time');
   t('Status');
