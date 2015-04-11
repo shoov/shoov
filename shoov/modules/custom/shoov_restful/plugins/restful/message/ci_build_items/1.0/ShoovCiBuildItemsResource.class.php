@@ -13,6 +13,8 @@ class ShoovCiBuildItemsResource extends \RestfulEntityBase {
   public function publicFieldsInfo() {
     $public_fields = parent::publicFieldsInfo();
 
+    unset($public_fields['label']);
+
     $public_fields['start_timestamp'] = array(
       'property' => 'field_ci_build_timestamp',
     );

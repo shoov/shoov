@@ -129,43 +129,6 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-ci_build-field_repository'
-  $field_instances['message-ci_build-field_repository'] = array(
-    'bundle' => 'ci_build',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 3,
-      ),
-    ),
-    'entity_type' => 'message',
-    'field_name' => 'field_repository',
-    'label' => 'Repository',
-    'required' => 1,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'entityreference',
-      'settings' => array(
-        'match_operator' => 'CONTAINS',
-        'path' => '',
-        'size' => 60,
-      ),
-      'type' => 'entityreference_autocomplete',
-      'weight' => 4,
-    ),
-  );
-
   // Exported field_instance: 'node-ci_build-field_ci_build_enabled'
   $field_instances['node-ci_build-field_ci_build_enabled'] = array(
     'bundle' => 'ci_build',
