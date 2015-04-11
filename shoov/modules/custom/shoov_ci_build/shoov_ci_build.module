@@ -5,3 +5,32 @@
  */
 
 include_once 'shoov_ci_build.features.inc';
+
+/**
+ * Return the CI builds that are waiting for processing.
+ *
+ * @param int $timestamp
+ *   The timestamp of "now". If empty, the existing current time will be used.
+ * @param int $range
+ *   The number of maximum items to return. Defaults to 50.
+ *
+ * @return array
+ *   Array of Message objects, or NULL if none found.
+ */
+function shoov_ci_build_get_ci_builds($timestamp = NULL, $range = 50) {
+  $timestamp = $timestamp ?: time();
+
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'message')
+    ->entityCondition('bundle', 'ci_build')
+    ->fieldCondition('field_ci_build_timestap', 'value', $timestamp, '>=')
+    ->range(0, $range)
+    ->propertyOrderBy('mid');
+
+  if (empty($result['message'])) {
+    return;
+  }
+
+  return message_load_multiple(array_keys($result['message']));
+}
