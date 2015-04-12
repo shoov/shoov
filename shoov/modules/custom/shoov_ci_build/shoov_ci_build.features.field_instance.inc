@@ -47,6 +47,40 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'message-ci_build-field_ci_build_log'
+  $field_instances['message-ci_build-field_ci_build_log'] = array(
+    'bundle' => 'ci_build',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 5,
+      ),
+    ),
+    'entity_type' => 'message',
+    'field_name' => 'field_ci_build_log',
+    'label' => 'Log',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 1,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 5,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 5,
+    ),
+  );
+
   // Exported field_instance: 'message-ci_build-field_ci_build_status'
   $field_instances['message-ci_build-field_ci_build_status'] = array(
     'bundle' => 'ci_build',
@@ -314,6 +348,7 @@ function shoov_ci_build_field_default_field_instances() {
   t('Git Branch');
   t('Git Commit');
   t('Indicate if the CI build is enabled, and should be queued.');
+  t('Log');
   t('Repository');
   t('Start time');
   t('Status');
