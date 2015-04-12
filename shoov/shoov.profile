@@ -74,22 +74,7 @@ function shoov_setup_variables() {
  * created.
  */
 function shoov_setup_og_permissions() {
-  $og_roles = og_roles('node', 'company');
-  $rid = array_search(OG_AUTHENTICATED_ROLE, $og_roles);
 
-  $permissions = array();
-  $types = array(
-    'item',
-    'item_variant',
-    'material',
-    'season',
-  );
-  foreach ($types as $type) {
-    $permissions["create $type content"] = TRUE;
-    $permissions["update own $type content"] = TRUE;
-    $permissions["update any $type content"] = TRUE;
-  }
-  og_role_change_permissions($rid, $permissions);
 }
 
 /**

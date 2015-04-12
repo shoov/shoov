@@ -170,6 +170,9 @@ function shoov_standard_install() {
     $permissions[] = "delete own $content_type content";
   }
 
+  // Allow user to access messages.
+  $permissions[] = 'create messages';
+
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 
   // Create a default role for site administrators, with all available permissions assigned.
