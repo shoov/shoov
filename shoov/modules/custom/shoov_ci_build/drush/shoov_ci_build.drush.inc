@@ -24,7 +24,7 @@ function shoov_ci_build_drush_command() {
  *
  * Command callback for csv2sql.
  */
-function drush_create_ci_build_item() {
+function drush_shoov_ci_build_create_ci_build_item() {
   if (!$messages = shoov_ci_build_get_ci_builds()) {
     drush_log('No items found for processing');
     return;
@@ -38,15 +38,17 @@ function drush_create_ci_build_item() {
     throw new Exception('Shoov build server is not setup.');
   }
 
-  $access_token = shoov_restful_get_user_token();
 
   // Send requests.
-  foreach ($messages as $delta => $message) {
+  $delta = 1;
+  foreach ($messages as $message) {
+    $account = user_load($message->uid);
+
     $url = array(
       $server_url,
       'ci',
       $message->mid,
-      $access_token,
+      shoov_restful_get_user_token($account),
     );
 
     $url = implode('/', $url);
@@ -56,9 +58,10 @@ function drush_create_ci_build_item() {
     $params = array(
       '@delta' => $delta,
       '@count' => $count,
-      '@id' => $message->id,
+      '@id' => $message->mid,
     );
 
     drush_log(dt('@delta / @count) Process message ID @id', $params));
+    $delta++;
   }
 }
