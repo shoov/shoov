@@ -34,3 +34,67 @@ function shoov_ci_build_get_ci_builds($timestamp = NULL, $range = 50) {
 
   return message_load_multiple(array_keys($result['message']));
 }
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Create a CI build item when a new CI build node is created.
+ */
+function shoov_ci_build_node_insert($node) {
+  shoov_ci_build_create_build_item($node);
+}
+
+/**
+ * Create a CI build item.
+ *
+ * @param $node
+ *   The CI-build node object.
+ * @param int $timestamp
+ *   The timestamp of "now". If empty, the existing current time will be used.
+ *
+ * @return Message
+ *   The message object.
+ */
+function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
+  if ($node->type != 'ci_build') {
+    return;
+  }
+
+  $timestamp = $timestamp ?: time();
+
+  $message = message_create('ci_build', array('uid' => $node->uid));
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $wrapper->field_ci_build->set($node);
+  $wrapper->field_ci_build_status->set('queue');
+  // Set to be invoked immediatly.
+  $wrapper->field_ci_build_timestamp->set($timestamp);
+
+  $wrapper->save();
+  return $message;
+}
+
+/**
+ * Implements hook_message_update().
+ *
+ * Add the next queue item.
+ */
+function shoov_ci_build_message_update(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $status = $wrapper->field_ci_build_status->value();
+  if (!in_array($status, array('error', 'done'))) {
+    // Item still in progress.
+    return;
+  }
+
+  if (!$wrapper->field_ci_build->field_ci_build_enabled->value()) {
+    // CI build is disabled.
+    return;
+  }
+
+  $node = $wrapper->field_ci_build->value();
+
+  // @todo: Make configurable.
+  $timestamp = strtotime('+3 minutes');
+
+  shoov_ci_build_create_build_item($node, $timestamp);
+}
