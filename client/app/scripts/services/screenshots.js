@@ -60,7 +60,9 @@ angular.module('clientApp')
       var url = Config.backend + '/api/screenshots';
 
       var params = {
-        'filter[build]': buildId
+        'filter[build]': buildId,
+        // Sort desc.
+        sort: '-id'
       };
 
       $http({
