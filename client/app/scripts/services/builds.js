@@ -86,7 +86,7 @@ angular.module('clientApp')
         if (cache.data && cache.data[cacheId]) {
           cache.data[cacheId] = null;
         }
-      }, 5000);
+      }, 5);
 
       // Broadcast a change event.
       $rootScope.$broadcast(broadcastUpdateEventName);

@@ -28,15 +28,15 @@ angular.module('clientApp')
       $scope.screenshots[key].selected = false;
     });
 
-    // selected fruits
+    // Selected screenshots.
     $scope.selection = [];
 
-    // helper method to get selected fruits
+    // Helper method to get selected screenshots.
     $scope.selectedScreenshots = function selectedScreenshots() {
       return filterFilter($scope.screenshots, { selected: true });
     };
 
-    // watch fruits for changes
+    // Watch screenshots for changes.
     $scope.$watch('screenshots|filter:{selected:true}', function (screenshots) {
       $scope.selection = screenshots.map(function (screenshot, key) {
         return key;
