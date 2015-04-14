@@ -95,7 +95,6 @@ class ShoovScreenshotsUploadResource extends RestfulFilesUpload {
       $build_node = node_load($id);
     }
     else {
-
       $params = array(
         '@subject' => substr($request['git_subject'], 0, 60),
         '@hash' => substr($request['git_commit'], 0, 7),
