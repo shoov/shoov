@@ -13,4 +13,5 @@ angular.module('clientApp')
       // Redirect to login.
       $state.go('login');
     }
+    $state.go('dashboard.builds');
   });

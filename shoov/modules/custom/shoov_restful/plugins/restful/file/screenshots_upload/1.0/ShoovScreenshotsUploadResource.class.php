@@ -76,6 +76,8 @@ class ShoovScreenshotsUploadResource extends RestfulFilesUpload {
    *
    * @return \stdClass
    *   An existing or newly saved Build node object.
+   *
+   * @throws \RestfulBadRequestException
    */
   protected function getBuildNode($repo_node) {
     $request = $this->getRequest();
@@ -95,11 +97,16 @@ class ShoovScreenshotsUploadResource extends RestfulFilesUpload {
       $build_node = node_load($id);
     }
     else {
+      $params = array(
+        '@subject' => substr($request['git_subject'], 0, 60),
+        '@hash' => substr($request['git_commit'], 0, 7),
+      );
+
       // Create a new node.
       $values = array(
         'type' => 'build',
         'uid' => $this->getAccount()->uid,
-        'title' => substr($request['git_commit'], 0, 7),
+        'title' => format_string('@subject (@hash)', $params),
       );
 
       $build_node = entity_create('node', $values);
@@ -133,6 +140,8 @@ class ShoovScreenshotsUploadResource extends RestfulFilesUpload {
    *
    * @return \stdClass
    *   An existing or newly saved Repository node object.
+   *
+   * @throws \RestfulBadRequestException
    */
   protected function getRepositoryNode() {
     $request = $this->getRequest();

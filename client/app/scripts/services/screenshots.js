@@ -60,7 +60,9 @@ angular.module('clientApp')
       var url = Config.backend + '/api/screenshots';
 
       var params = {
-        'filter[build]': buildId
+        'filter[build]': buildId,
+        // Sort desc.
+        sort: '-id'
       };
 
       $http({
@@ -95,7 +97,7 @@ angular.module('clientApp')
         if (cache.data && cache.data[cacheId]) {
           cache.data[cacheId] = null;
         }
-      }, 60000);
+      }, 60);
 
       // Broadcast a change event.
       $rootScope.$broadcast(broadcastUpdateEventName);
