@@ -81,12 +81,12 @@ angular.module('clientApp')
         timestamp: new Date()
       };
 
-      // Clear cache in 60 seconds.
+      // Clear cache in 5 seconds.
       $timeout(function() {
         if (cache.data && cache.data[cacheId]) {
           cache.data[cacheId] = null;
         }
-      }, 60000);
+      }, 5);
 
       // Broadcast a change event.
       $rootScope.$broadcast(broadcastUpdateEventName);
