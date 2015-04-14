@@ -95,11 +95,17 @@ class ShoovScreenshotsUploadResource extends RestfulFilesUpload {
       $build_node = node_load($id);
     }
     else {
+
+      $params = array(
+        '@subject' => substr($request['git_subject'], 0, 60),
+        '@hash' => substr($request['git_commit'], 0, 7),
+      );
+
       // Create a new node.
       $values = array(
         'type' => 'build',
         'uid' => $this->getAccount()->uid,
-        'title' => substr($request['git_commit'], 0, 7),
+        'title' => format_string('@subject (@hash)', $params),
       );
 
       $build_node = entity_create('node', $values);
