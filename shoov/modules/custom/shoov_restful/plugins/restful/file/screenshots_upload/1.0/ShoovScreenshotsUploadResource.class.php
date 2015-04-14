@@ -76,6 +76,8 @@ class ShoovScreenshotsUploadResource extends RestfulFilesUpload {
    *
    * @return \stdClass
    *   An existing or newly saved Build node object.
+   *
+   * @throws \RestfulBadRequestException
    */
   protected function getBuildNode($repo_node) {
     $request = $this->getRequest();
@@ -138,6 +140,8 @@ class ShoovScreenshotsUploadResource extends RestfulFilesUpload {
    *
    * @return \stdClass
    *   An existing or newly saved Repository node object.
+   *
+   * @throws \RestfulBadRequestException
    */
   protected function getRepositoryNode() {
     $request = $this->getRequest();
