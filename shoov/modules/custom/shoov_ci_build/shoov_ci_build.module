@@ -78,7 +78,8 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
 /**
  * Implements hook_message_update().
  *
- * Add the next queue item.
+ * @param \Message $message
+ *   The message object.
  */
 function shoov_ci_build_message_update(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
@@ -99,4 +100,49 @@ function shoov_ci_build_message_update(Message $message) {
   $timestamp = strtotime('+3 minutes');
 
   shoov_ci_build_create_build_item($node, $timestamp);
+  shoov_ci_build_set_build_status($message);
+}
+
+/**
+ * Set the status of the CI build on failure, and clear when it's fixed.
+ *
+ * @param \Message $message
+ *   The message object.
+ */
+function shoov_ci_build_set_build_status(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $status = $wrapper->field_ci_build_status->value();
+
+  if (!in_array($status, array('done', 'error'))) {
+    return;
+  }
+
+  $build_wrapper = $wrapper->field_ci_build;
+
+  $failed_build = $build_wrapper->field_failing_build->value();
+
+  $save = FALSE;
+  if (!$failed_build && $status == 'error') {
+    // Set an error.
+    $build_wrapper->field_failing_build->set($message);
+    $save = TRUE;
+  }
+  elseif ($failed_build && $status == 'done') {
+    // Clear up the error.
+    $build_wrapper->field_failing_build->set(NULL);
+    $save = TRUE;
+  }
+
+  if (!$save) {
+    return;
+  }
+
+  $wrapper->field_ci_build->save();
+
+  // Send a message to all following members.
+  $build_node = $build_wrapper->value();
+
+  // The message itself will take care of sending the right message by status.
+  message_subscribe_send_message('node', $build_node, $message);
 }
