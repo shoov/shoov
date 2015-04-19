@@ -75,9 +75,19 @@ function shoov_ci_build_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "Build for repo",
+          "value" : "@{repo} branch @{branch} @{status}",
+          "format" : "plain_text",
+          "safe_value" : "\\u003Cp\\u003E@{repo} branch @{branch} @{status}\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "\\u003Ca href=\\u0022@{url}\\u0022\\u003ESee logs\\u003C\\/a\\u003E",
           "format" : "filtered_html",
-          "safe_value" : "\\u003Cp\\u003EBuild for repo\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003E\\u003Ca href=\\u0022@{url}\\u0022\\u003ESee logs\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "Site was down for about @{downtime}",
+          "format" : "filtered_html",
+          "safe_value" : "\\u003Cp\\u003ESite was down for about @{downtime}\\u003C\\/p\\u003E\\n"
         }
       ]
     }
