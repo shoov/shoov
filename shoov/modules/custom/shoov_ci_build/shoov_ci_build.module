@@ -84,6 +84,7 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
 function shoov_ci_build_message_update(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $status = $wrapper->field_ci_build_status->value();
+  dpm($status);
   if (!in_array($status, array('error', 'done'))) {
     // Item still in progress.
     return;
@@ -143,5 +144,5 @@ function shoov_ci_build_set_build_status(Message $message) {
   // Send a message to all following members.
   // The message itself will take care of sending the right message by status.
   $build_node = $build_wrapper->value();
-  message_subscribe_send_message('node', $build_node, $message);
+  message_subscribe_send_message('node', $build_node, $message, array(), array('save message' => FALSE));
 }
