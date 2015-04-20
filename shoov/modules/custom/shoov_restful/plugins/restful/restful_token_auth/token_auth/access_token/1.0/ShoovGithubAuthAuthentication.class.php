@@ -45,7 +45,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
       )),
     );
 
-    $result = shoov_github_http_request('https://github.com/login/oauth/access_token', $options);
+    $result = shoov_github_http_request('https://github.com/login/oauth/access_token', $options, FALSE);
 
     $access_token = shoov_github_get_data_from_http_result($result);
 
@@ -55,7 +55,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
       ),
     );
 
-    $result = shoov_github_http_request('https://api.github.com/user', $options);
+    $result = shoov_github_http_request('user', $options);
 
     $data = drupal_json_decode($result->data);
     $name = $data['login'];
@@ -138,7 +138,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
    *   The user's email.
    */
   protected function getEmailFromGithub($options) {
-    $result = shoov_github_http_request('https://api.github.com/user/emails', $options);
+    $result = shoov_github_http_request('user/emails', $options);
     foreach (drupal_json_decode($result->data) as $row) {
       if (empty($row['primary'])) {
         // Not a primary email.

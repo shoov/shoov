@@ -23,5 +23,12 @@ function shoov_repository_node_presave($node) {
     return;
   }
 
+  list($owner, $repo) = explode('/', $node->title);
 
+  $data = shoov_github_get_data_from_http_result("repo/$owner/$repo");
+
+  // @todo: Throw exception on error?
+  if (!empty($data['id'])) {
+    $wrapper->field_github_id->set($data['id']);
+  }
 }

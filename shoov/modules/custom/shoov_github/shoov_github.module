@@ -8,19 +8,24 @@
  * Performs an HTTP request to GitHub and check for errors.
  *
  * @param string $url
- *   A string containing a fully qualified URI.
+ *   A string containing the resource path, without the full api base URL to
+ *   allow easier mocking of GitHub services.
  * @param array $options
  *   Options array as passed to drupal_http_request().
+ * @param bool $decode
+ *   Determines if response should be decoded. Defaults to TRUE.
  *
  * @return object
  *   The result object.
  *
  * @see drupal_http_request().
  */
-function shoov_github_http_request($url, $options) {
-  $result = drupal_http_request($url, $options);
+function shoov_github_http_request($url, $options, $decode = TRUE) {
+  $prefix = variable_get('shoov_github_api_base_url', 'https://api.github.com/');
+  $result = drupal_http_request($prefix . $url, $options);
   shoov_github_check_response_http_error($url, $result);
-  return $result;
+
+  return $decode ? drupal_json_decode($result->data) : $result;
 }
 
 

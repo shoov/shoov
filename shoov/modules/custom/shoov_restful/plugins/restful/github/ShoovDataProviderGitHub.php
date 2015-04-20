@@ -33,7 +33,7 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       ),
     );
 
-    $result = shoov_github_http_request('https://api.github.com/user/repos', $options);
+    $result = shoov_github_http_request('user/repos', $options);
     $data = drupal_json_decode($result->data);
 
     $this->repos = $this->getReposKeyedById($data);
