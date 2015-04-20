@@ -59,9 +59,10 @@ function drush_shoov_ci_build_create_ci_build_item() {
       '@delta' => $delta,
       '@count' => $count,
       '@id' => $message->mid,
+      '@url' => $url,
     );
 
-    drush_log(dt('@delta / @count) Process message ID @id', $params));
+    drush_log(dt('@delta / @count) Process message ID @id, sent request to @url', $params));
     $delta++;
   }
 }
