@@ -41,11 +41,19 @@ angular.module('clientApp')
     $scope.toggleRepo = function(repo) {
       if (repo.selected) {
         // Create repo on shoov, and auto enable build.
-        Repos.create(repo);
+        Repos
+          .create(repo)
+          .then(function(response) {
+            // Add build info to the repo info.
+          })
       }
       else {
         // Disable build.
-        Builds.disable(repo.build.id);
+        Builds
+          .disable(repo.build.id)
+          .then(function(response) {
+            // Update build info to the repo info.
+          });
 
 
       }
