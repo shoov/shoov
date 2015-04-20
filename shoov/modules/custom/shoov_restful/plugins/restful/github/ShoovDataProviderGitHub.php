@@ -86,6 +86,12 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
     foreach (node_load_multiple(array_keys($result['node'])) as $node) {
       $wrapper = entity_metadata_wrapper('node', $node);
       $github_id = $wrapper->field_github_id->value();
+
+      if (empty($this->repos[$github_id])) {
+        // @todo: Delete the repo and content?
+        // Repo does no longer exist.
+        continue;
+      }
       $this->repos[$github_id]['shoov_id'] = $node->nid;
     }
   }
