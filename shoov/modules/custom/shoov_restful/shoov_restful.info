@@ -5,3 +5,5 @@ dependencies[] = restful
 dependencies[] = entity_validator
 
 files[] = plugins/restful/node/ShoovEntityBaseNode.php
+files[] = plugins/restful/github/github_repos/1.0/github_repos__1_0.inc
+files[] = plugins/restful/github/github_repos/1.0/ShoovGitHubReposResource.class.php
