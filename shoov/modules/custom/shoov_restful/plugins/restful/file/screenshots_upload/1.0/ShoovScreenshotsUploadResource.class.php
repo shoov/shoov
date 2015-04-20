@@ -86,7 +86,7 @@ class ShoovScreenshotsUploadResource extends RestfulFilesUpload {
     $query = new EntityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'node')
-      ->entityCondition('bundle', 'build')
+      ->entityCondition('bundle', 'ui_build')
       ->fieldCondition('field_git_commit', 'value', $request['git_commit'])
       ->fieldCondition('og_repo', 'target_id', $repo_node->nid)
       ->range(0, 1)
@@ -104,7 +104,7 @@ class ShoovScreenshotsUploadResource extends RestfulFilesUpload {
 
       // Create a new node.
       $values = array(
-        'type' => 'build',
+        'type' => 'ui_build',
         'uid' => $this->getAccount()->uid,
         'title' => format_string('@subject (@hash)', $params),
       );

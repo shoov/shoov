@@ -125,7 +125,7 @@ function shoov_screenshot_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_build',
-    'label' => 'Build',
+    'label' => 'ui_build',
     'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -304,7 +304,7 @@ function shoov_screenshot_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Baseline Image');
   t('Baseline name');
-  t('Build');
+  t('ui_build');
   t('Diff Image');
   t('Regression Image');
   t('Repository');

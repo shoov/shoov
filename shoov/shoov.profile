@@ -73,8 +73,7 @@ function shoov_setup_variables() {
  * We do this here, late enough to make sure all group-content were
  * created.
  */
-function shoov_setup_permissions() {
-
+function shoov_setup_og_permissions() {
 }
 
 /**

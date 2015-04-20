@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * shoov_build.strongarm.inc
+ * shoov_ui_build.strongarm.inc
  */
 
 /**
  * Implements hook_strongarm().
  */
-function shoov_build_strongarm() {
+function shoov_ui_build_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();
