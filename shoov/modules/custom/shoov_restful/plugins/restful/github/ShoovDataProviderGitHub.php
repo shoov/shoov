@@ -33,8 +33,7 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       ),
     );
 
-    $result = shoov_github_http_request('user/repos', $options);
-    $data = drupal_json_decode($result->data);
+    $data = shoov_github_http_request('user/repos', $options);
 
     $this->repos = $this->getReposKeyedById($data);
 
@@ -68,7 +67,27 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
    * @todo: Update the repository title by the GitHub repo ID.
    */
   protected function syncLocalRepos() {
+    // Get all the local repos by the GitHub repo ID.
+    $ids = array_keys($this->repos);
 
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'repository')
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->fieldCondition('field_github_id', 'value', $ids, 'IN')
+      ->execute();
+
+    if (empty($result['node'])) {
+      // No matching local repos.
+      return;
+    }
+
+    foreach (node_load_multiple(array_keys($result['node'])) as $node) {
+      $wrapper = entity_metadata_wrapper('node', $node);
+      $github_id = $wrapper->field_github_id->value();
+      $this->repos[$github_id]['shoov_id'] = $node->nid;
+    }
   }
 
   /**

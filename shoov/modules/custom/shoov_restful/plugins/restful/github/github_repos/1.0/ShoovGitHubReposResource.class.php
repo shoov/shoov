@@ -20,6 +20,10 @@ class ShoovGitHubReposResource extends \ShoovDataProviderGitHub {
       'property' => 'id',
     );
 
+    $public_fields['shoov_id'] = array(
+      'property' => 'shoov_id',
+    );
+
     return $public_fields;
   }
 }
