@@ -12,7 +12,7 @@ include_once 'shoov_ui_build.features.inc';
  * @param $node
  */
 function shoov_ui_build_node_update($node) {
-  if ($node->type != 'build') {
+  if ($node->type != 'ui_build') {
     return;
   }
 

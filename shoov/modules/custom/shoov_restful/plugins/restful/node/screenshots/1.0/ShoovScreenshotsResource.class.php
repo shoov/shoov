@@ -45,10 +45,10 @@ class ShoovScreenshotsResource extends \ShoovEntityBaseNode {
       ),
     );
 
-    $public_fields['build'] = array(
+    $public_fields['ui_build'] = array(
       'property' => 'field_build',
       'resource' => array(
-        'build' => array(
+        'ui_build' => array(
           'name' => 'builds',
           'full_view' => FALSE,
         ),
