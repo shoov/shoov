@@ -14,7 +14,7 @@ angular.module('clientApp')
 
 
     angular.forEach($scope.repos, function(value, key) {
-      $scope.repos[key].selected = !!$scope.repos[key].shoov_id;
+      $scope.repos[key].selected = !!$scope.repos[key].build && !!$scope.repos[key].build.enabled;
     });
 
     // Selected repos.
