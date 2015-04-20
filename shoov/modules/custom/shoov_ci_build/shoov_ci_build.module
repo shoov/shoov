@@ -127,10 +127,19 @@ function shoov_ci_build_set_build_status(Message $message) {
   $ci_incident = shoov_ci_incident_get_latest_error_incident($build_node);
 
 
+  $arguments = array(
+    '@repo' => $wrapper->field_ci_build->og_repo->label(),
+    '@branch' => $wrapper->field_ci_build->field_git_branch->value(),
+  );
+
+
   if (!$ci_incident && $status == 'error') {
     // Create a new incident.
     $ci_incident = shoov_ci_incident_create_error_incident($message);
     $message_type = 'ci_incident_error';
+    $arguments += array(
+      '@url' => 'todo',
+    );
   }
   elseif ($ci_incident && $status == 'done') {
     // Mark the existing incident as fixed.
@@ -140,13 +149,16 @@ function shoov_ci_build_set_build_status(Message $message) {
     $incident_wrapper->save();
 
     $message_type = 'ci_incident_fixed';
+    $arguments += array(
+      '@downtime' => 'todo',
+    );
   }
   else {
     return;
   }
 
   // Send a message to all following members.
-  $incident_message = message_create($message_type);
+  $incident_message = message_create($message_type, array('arguments' => $arguments));
   $incident_message->uid = $message->uid;
   $message_wrapper = entity_metadata_wrapper('message', $incident_message);
   $message_wrapper->field_ci_incident->set($ci_incident);
