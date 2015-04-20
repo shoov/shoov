@@ -163,5 +163,8 @@ function shoov_ci_build_set_build_status(Message $message) {
   $message_wrapper = entity_metadata_wrapper('message', $incident_message);
   $message_wrapper->field_ci_incident->set($ci_incident);
 
-  message_subscribe_send_message('node', $build_node, $incident_message);
+  $subscribe_options = array(
+    'notify message owner' => TRUE,
+  );
+  message_subscribe_send_message('node', $build_node, $incident_message, array(), $subscribe_options);
 }
