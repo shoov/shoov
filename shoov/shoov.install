@@ -159,6 +159,10 @@ function shoov_standard_install() {
     // "View user profiles" is for viewing the task_assignee field.
     'access user profiles',
     filter_permission_name($filtered_html_format),
+
+    // Flag permissions.
+    'flag subscribe_ci_builds',
+    'unflag subscribe_ci_builds',
   );
 
   // Add content permissions.
