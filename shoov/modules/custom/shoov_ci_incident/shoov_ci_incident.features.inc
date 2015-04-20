@@ -32,14 +32,14 @@ function shoov_ci_incident_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "@{repo} branch @{branch} has failed",
+          "value" : "@repo branch @branch has failed",
           "format" : "plain_text",
-          "safe_value" : "\\u003Cp\\u003E@{repo} branch @{branch} has failed\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003E@repo branch @branch has failed\\u003C\\/p\\u003E\\n"
         },
         {
-          "value" : "See \\u003Ca href=\\u0022@{url}\\u0022\\u003Elogs\\u003C\\/a\\u003E",
+          "value" : "See \\u003Ca href=\\u0022@url\\u0022\\u003Elogs\\u003C\\/a\\u003E",
           "format" : "filtered_html",
-          "safe_value" : "\\u003Cp\\u003ESee \\u003Ca href=\\u0022@{url}\\u0022\\u003Elogs\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003ESee \\u003Ca href=\\u0022@url\\u0022\\u003Elogs\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n"
         }
       ]
     }
@@ -58,14 +58,14 @@ function shoov_ci_incident_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "@{repo} branch @{branch} is fixed",
+          "value" : "@repo branch @branch is fixed",
           "format" : "plain_text",
-          "safe_value" : "\\u003Cp\\u003E@{repo} branch @{branch} is fixed\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003E@repo branch @branch is fixed\\u003C\\/p\\u003E\\n"
         },
         {
-          "value" : "Site was down for about @{downtime}",
+          "value" : "Site was down for about @downtime",
           "format" : "filtered_html",
-          "safe_value" : "\\u003Cp\\u003ESite was down for about @{downtime}\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003ESite was down for about @downtime\\u003C\\/p\\u003E\\n"
         }
       ]
     }
