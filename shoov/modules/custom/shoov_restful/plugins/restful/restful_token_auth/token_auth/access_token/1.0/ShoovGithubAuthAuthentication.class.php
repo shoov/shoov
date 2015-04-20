@@ -45,7 +45,10 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
       )),
     );
 
-    $result = shoov_github_http_request('oauth/access_token', $options, FALSE);
+    // @todo: Allow mocking the login to Github.
+    $url = 'https://github.com/login/oauth/access_token';
+    $result = drupal_http_request($url, $options);
+    shoov_github_check_response_http_error($url, $result);
 
     $access_token = shoov_github_get_data_from_http_result($result);
 
