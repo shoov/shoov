@@ -75,9 +75,9 @@ function shoov_ci_build_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "@{message:field-ci-build:og-repo} branch @{message:field-ci-build:field_git_branch} @{message:field-ci-build-status}",
+          "value" : "@{message:field-ci-build:og-repo} branch @{message:field-ci-build:field_git_branch} [message:field-ci-build-status]",
           "format" : "plain_text",
-          "safe_value" : "\\u003Cp\\u003E@{message:field-ci-build:og-repo} branch @{message:field-ci-build:field_git_branch} @{message:field-ci-build-status}\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003E@{message:field-ci-build:og-repo} branch @{message:field-ci-build:field_git_branch} [message:field-ci-build-status]\\u003C\\/p\\u003E\\n"
         }
       ]
     }
