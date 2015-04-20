@@ -83,6 +83,39 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       return;
     }
 
+    $repo_ids = array_keys($result['node']);
+    $repo_nodes = array();
+    $build_nodes = array();
+
+    foreach (node_load_multiple(array_keys($result['node'])) as $repo) {
+      $repo_nodes[$repo->nid] = $repo;
+    }
+
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'build')
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->fieldCondition('og_repo', 'target_id', $repo_ids, 'IN')
+      ->execute();
+
+    if (empty($result['node'])) {
+      foreach (node_load_multiple(array_keys($result['node'])) as $build) {
+        $build_wrapper = entity_metadata_wrapper('node', $build);
+        $repo_id = $build_wrapper->og_repo->value(array('identifier' => TRUE));
+
+        // Add the build info.
+        // @todo: use the CI-build RESTful resource.
+        $repo_nodes[$repo_id]->_ci_build = array(
+          'id' => $build->nid,
+          'branch' => $build_wrapper->field_git_branch->value(),
+          'enabled' => $build_wrapper->field_ci_build_enabled->value(),
+        );
+
+      }
+
+    }
+
     foreach (node_load_multiple(array_keys($result['node'])) as $node) {
       $wrapper = entity_metadata_wrapper('node', $node);
       $github_id = $wrapper->field_github_id->value();
@@ -92,7 +125,12 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
         // Repo does no longer exist.
         continue;
       }
-      $this->repos[$github_id]['shoov_id'] = $node->nid;
+
+      $repo = &$this->repos[$github_id];
+      $repo['shoov_id'] = $node->nid;
+
+      // Get the build info.
+      $repo['shoov_build'] = !empty($node->_ci_build) ? $node->_ci_build : NULL;
     }
   }
 

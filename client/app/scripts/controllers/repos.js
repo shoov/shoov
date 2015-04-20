@@ -8,7 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('ReposCtrl', function ($scope, repos, $log) {
+  .controller('ReposCtrl', function ($scope, repos, Builds, Repos, $log) {
 
     $scope.repos = repos;
 
@@ -38,15 +38,18 @@ angular.module('clientApp')
      * @param id
      *   The screenshot ID.
      */
-    $scope.enableBuild = function(id) {
-      // We don't wait for the delete too actually happen on the server side,
-      // but immediately hide the image.
-      // @todo: Use RamdaJs
-      angular.forEach($scope.repos, function(value, key) {
-        if (value.id == id) {
-          $scope.repos.splice(key, 1);
-        }
-      });
+    $scope.toggleRepo = function(repo) {
+      if (repo.selected) {
+        // Create repo on shoov, and auto enable build.
+        Repos.create(repo);
+      }
+      else {
+        // Disable build.
+        Builds.disable(repo.build.id);
+
+
+      }
+      $log.log(repo);
     };
 
   });
