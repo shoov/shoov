@@ -112,7 +112,7 @@ function shoov_ci_build_message_update(Message $message) {
  * Set the status of the CI build on failure, and clear when it's fixed.
  *
  * @param \Message $message
- *   The message object.
+ *   The "ci_build" message object.
  */
 function shoov_ci_build_set_build_status(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
@@ -123,30 +123,32 @@ function shoov_ci_build_set_build_status(Message $message) {
     return;
   }
 
-  $build_wrapper = $wrapper->field_ci_build;
+  $build_node = $wrapper->field_ci_build->value();
+  $ci_incident = shoov_ci_incident_get_latest_error_incident($build_node);
 
-  $failed_build = $build_wrapper->field_failing_build->value();
 
-  $save = FALSE;
-  if (!$failed_build && $status == 'error') {
-    // Set an error.
-    $build_wrapper->field_failing_build->set($message);
-    $save = TRUE;
+  if (!$ci_incident && $status == 'error') {
+    // Create a new incident.
+    $ci_incident = shoov_ci_incident_create_error_incident($message);
+    $message_type = 'ci_incident_error';
   }
-  elseif ($failed_build && $status == 'done') {
-    // Clear up the error.
-    $build_wrapper->field_failing_build->set(NULL);
-    $save = TRUE;
-  }
+  elseif ($ci_incident && $status == 'done') {
+    // Mark the existing incident as fixed.
+    $incident_wrapper = entity_metadata_wrapper('node', $ci_incident);
+    $incident_wrapper->field_failing_build->set(NULL);
+    $incident_wrapper->save();
 
-  if (!$save) {
+    $message_type = 'ci_incident_fixed';
+  }
+  else {
     return;
   }
 
-  $wrapper->field_ci_build->save();
-
   // Send a message to all following members.
-  // The message itself will take care of sending the right message by status.
-  $build_node = $build_wrapper->value();
-  message_subscribe_send_message('node', $build_node, $message, array(), array('save message' => FALSE));
+  $incident_message = message_create($message_type);
+  $incident_message->uid = $message->uid;
+  $message_wrapper = entity_metadata_wrapper('message', $message);
+  $message_wrapper->field_ci_incident->set($ci_incident);
+
+  message_subscribe_send_message('node', $build_node, $message);
 }

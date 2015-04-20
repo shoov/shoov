@@ -5,3 +5,61 @@
  */
 
 include_once 'shoov_ci_incident.features.inc';
+
+
+/**
+ * Return an incident of a CI build.
+ *
+ * @param stdClass $node
+ *   The CI build node object.
+ *
+ * @return stdClass | null
+ *   The CI incident node object if found, or NULL.
+ */
+function shoov_ci_incident_get_latest_error_incident($node) {
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'ci_incident')
+    ->fieldCondition('field_ci_build', 'target_id', $node->nid)
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->range(0, 1)
+    ->execute();
+
+  if (empty($result['node'])) {
+    return;
+  }
+
+  $id = key($result['node']);
+  return node_load($id);
+}
+
+/**
+ * Create an error incident node.
+ *
+ * @param \Message $message
+ *   The "ci_build" message object.
+ *
+ * @return stdClass
+ *   The newly saved CI incident node object.
+ */
+function shoov_ci_incident_create_error_incident(Message $message) {
+  $values = array(
+    'type' => 'ci_incident',
+    // @todo: Improve
+    'title' => 'New incident',
+    'uid' => $message->uid,
+  );
+
+  $message_wrapper = entity_metadata_wrapper('message', $message);
+
+  $node = entity_create('node', $values);
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  $wrapper->og_repo->set($message_wrapper->field_ci_build->og_repo->value());
+  $wrapper->field_ci_build->set($message_wrapper->field_ci_build->value());
+  $wrapper->field_failing_build->set($message);
+  $wrapper->save();
+
+  return $node;
+}
