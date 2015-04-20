@@ -5,3 +5,23 @@
  */
 
 include_once 'shoov_repository.features.inc';
+
+/**
+ * Implements hook_node_presave().
+ *
+ * Get the GitHub repo ID for a local repository.
+ */
+function shoov_repository_node_presave($node) {
+  if ($node->type != 'repository') {
+    // Not a repository node.
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  if ($wrapper->field_github_id->value()) {
+    // GitHub Id already populated.
+    return;
+  }
+
+
+}

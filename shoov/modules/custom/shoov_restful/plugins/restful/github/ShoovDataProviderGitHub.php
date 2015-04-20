@@ -33,76 +33,42 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       ),
     );
 
-    $result = $this->httpRequestGithub('https://api.github.com/user/repos', $options);
+    $result = shoov_github_http_request('https://api.github.com/user/repos', $options);
     $data = drupal_json_decode($result->data);
 
-    $this->repos = $data;
+    $this->repos = $this->getReposKeyedById($data);
+
+    // @todo: Make this configurable by the plugin.
+    $this->syncLocalRepos();
     return $this->repos;
   }
 
   /**
-   * Performs an HTTP request to GitHub and check for errors.
+   * Return the repos list, keyed by ID.
    *
-   * @param string $url
-   *   A string containing a fully qualified URI.
-   * @param array $options
-   *   Options array as passed to drupal_http_request().
+   * We also take advantage of having the data, in order to update the repo name
+   * of local repos.
    *
-   * @return object
-   *   The result object.
+   * @param array $repo_list
+   *   The repo list.
    *
-   * @see drupal_http_request().
+   * @return array
+   *   Array keyed by the repo ID.
    */
-  protected function httpRequestGithub($url, $options) {
-    $result = drupal_http_request($url, $options);
-    $this->checkGitHubHttpError($url, $result);
-    return $result;
-  }
-
-
-  /**
-   * Check if an error was returned by Github, and if so throw an exception.
-   *
-   * GitHub might return a 200 code, but the data is in fact an error.
-   *
-   * @param string $url
-   *   The URL sent to GitHub
-   * @param $result
-   *   The result object from the drupal_http_request() call.
-   *
-   * @throws \RestfulServerConfigurationException
-   */
-  protected function checkGitHubHttpError($url, $result) {
-    if (intval($result->code) !== 200 || strpos($result->data, 'error=') === 0) {
-
-      $params = array(
-        '@url' => $url,
-        '@code' => $result->code,
-        '@error' => $result->data,
-      );
-
-      throw new \RestfulServerConfigurationException(format_string('Calling @url resulted with a @code HTTP code, with the following error message: @error', $params));
+  protected function getReposKeyedById(array $repo_list) {
+    $return = array();
+    foreach ($repo_list as $repo) {
+      $return[$repo['id']] = $repo;
     }
+
+    return $return;
   }
 
   /**
-   * Get the valid result from the response of the HTTP request.
-   *
-   * Result format is for example:
-   * 'access_token=someTokenValue&scope=&token_type=bearer';
-   *
-   * @param $result
-   *   The result object from the drupal_http_request() call.
-   *
-   * @return string
-   *   The result.
+   * @todo: Update the repository title by the GitHub repo ID.
    */
-  protected function getDataFromHttpResult($result) {
-    $return = $result->data;
+  protected function syncLocalRepos() {
 
-    $return = explode('&', $result->data);
-    $return = explode('=', $return[0]);
-    return $return[1];
   }
 
   /**
@@ -291,7 +257,7 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       }
       // Map row names to public properties.
       elseif ($info['property']) {
-        $value = $repo->$info['property'];
+        $value = $repo[$info['property']];
       }
 
       // Execute the process callbacks.
