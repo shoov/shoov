@@ -25,7 +25,7 @@ class ShoovGitHubReposResource extends \ShoovDataProviderGitHub {
     );
 
     $public_fields['build'] = array(
-      'property' => 'build',
+      'property' => 'shoov_build',
     );
 
     return $public_fields;

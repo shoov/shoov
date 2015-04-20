@@ -87,19 +87,20 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
     $repo_nodes = array();
     $build_nodes = array();
 
-    foreach (node_load_multiple(array_keys($result['node'])) as $repo) {
+    foreach(node_load_multiple($repo_ids) as $repo) {
+      // Key array by repo node ID.
       $repo_nodes[$repo->nid] = $repo;
     }
 
     $query = new EntityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'node')
-      ->entityCondition('bundle', 'build')
+      ->entityCondition('bundle', 'ci_build')
       ->propertyCondition('status', NODE_PUBLISHED)
       ->fieldCondition('og_repo', 'target_id', $repo_ids, 'IN')
       ->execute();
 
-    if (empty($result['node'])) {
+    if (!empty($result['node'])) {
       foreach (node_load_multiple(array_keys($result['node'])) as $build) {
         $build_wrapper = entity_metadata_wrapper('node', $build);
         $repo_id = $build_wrapper->og_repo->value(array('identifier' => TRUE));
@@ -116,7 +117,7 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
 
     }
 
-    foreach (node_load_multiple(array_keys($result['node'])) as $node) {
+    foreach ($repo_nodes as $node) {
       $wrapper = entity_metadata_wrapper('node', $node);
       $github_id = $wrapper->field_github_id->value();
 
