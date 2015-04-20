@@ -20,7 +20,7 @@
  *
  * @see drupal_http_request().
  */
-function shoov_github_http_request($url, $options, $decode = TRUE) {
+function shoov_github_http_request($url, array $options, $decode = TRUE) {
   $prefix = variable_get('shoov_github_api_base_url', 'https://api.github.com/');
   $result = drupal_http_request($prefix . $url, $options);
   shoov_github_check_response_http_error($url, $result);

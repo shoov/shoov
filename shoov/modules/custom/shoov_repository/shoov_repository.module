@@ -25,7 +25,16 @@ function shoov_repository_node_presave($node) {
 
   list($owner, $repo) = explode('/', $node->title);
 
-  $data = shoov_github_get_data_from_http_result("repo/$owner/$repo");
+  $user_wrapper = entity_metadata_wrapper('user', $node->uid);
+  $access_token = $user_wrapper->field_github_access_token->value();
+
+  $options = array(
+    'headers' => array(
+      'Authorization' => 'token ' . $access_token,
+    ),
+  );
+
+  $data = shoov_github_http_request("repos/$owner/$repo", $options);
 
   // @todo: Throw exception on error?
   if (!empty($data['id'])) {
