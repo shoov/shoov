@@ -96,7 +96,7 @@ function shoov_screenshot_field_default_field_bases() {
           'type' => 'none',
         ),
         'target_bundles' => array(
-          'build' => 'build',
+          'ui_build' => 'ui_build',
         ),
       ),
       'target_type' => 'node',

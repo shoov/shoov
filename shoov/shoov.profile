@@ -74,7 +74,6 @@ function shoov_setup_variables() {
  * created.
  */
 function shoov_setup_og_permissions() {
-
 }
 
 /**

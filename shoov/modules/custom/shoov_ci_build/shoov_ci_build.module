@@ -72,13 +72,19 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
   $wrapper->field_ci_build_timestamp->set($timestamp);
 
   $wrapper->save();
+
+  // Subscribe the author to the node.
+  $account = user_load($node->uid);
+  flag('flag', 'subscribe_ci_builds', $node->nid, $account);
+
   return $message;
 }
 
 /**
  * Implements hook_message_update().
  *
- * Add the next queue item.
+ * @param \Message $message
+ *   The message object.
  */
 function shoov_ci_build_message_update(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
@@ -99,4 +105,63 @@ function shoov_ci_build_message_update(Message $message) {
   $timestamp = strtotime('+3 minutes');
 
   shoov_ci_build_create_build_item($node, $timestamp);
+  shoov_ci_build_set_build_status($message);
+}
+
+/**
+ * Set the status of the CI build on failure, and clear when it's fixed.
+ *
+ * @param \Message $message
+ *   The "ci_build" message object.
+ */
+function shoov_ci_build_set_build_status(Message $message) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $status = $wrapper->field_ci_build_status->value();
+
+  if (!in_array($status, array('done', 'error'))) {
+    return;
+  }
+
+  $build_node = $wrapper->field_ci_build->value();
+  $ci_incident = shoov_ci_incident_get_latest_error_incident($build_node);
+
+
+  $arguments = array(
+    '@repo' => $wrapper->field_ci_build->og_repo->label(),
+    '@branch' => $wrapper->field_ci_build->field_git_branch->value(),
+  );
+
+
+  if (!$ci_incident && $status == 'error') {
+    // Create a new incident.
+    $ci_incident = shoov_ci_incident_create_error_incident($message);
+    $message_type = 'ci_incident_error';
+    $arguments += array(
+      '@url' => 'todo',
+    );
+  }
+  elseif ($ci_incident && $status == 'done') {
+    // Mark the existing incident as fixed.
+    $incident_wrapper = entity_metadata_wrapper('node', $ci_incident);
+    $incident_wrapper->field_fixed_build->set($message);
+    $incident_wrapper->field_ci_build_error->set(NULL);
+    $incident_wrapper->save();
+
+    $message_type = 'ci_incident_fixed';
+    $arguments += array(
+      '@downtime' => 'todo',
+    );
+  }
+  else {
+    return;
+  }
+
+  // Send a message to all following members.
+  $incident_message = message_create($message_type, array('arguments' => $arguments));
+  $incident_message->uid = $message->uid;
+  $message_wrapper = entity_metadata_wrapper('message', $incident_message);
+  $message_wrapper->field_ci_incident->set($ci_incident);
+
+  message_subscribe_send_message('node', $build_node, $incident_message);
 }

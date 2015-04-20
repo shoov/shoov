@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * shoov_build.features.inc
+ * shoov_ui_build.features.inc
  */
 
 /**
  * Implements hook_ctools_plugin_api().
  */
-function shoov_build_ctools_plugin_api($module = NULL, $api = NULL) {
+function shoov_ui_build_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
@@ -16,12 +16,12 @@ function shoov_build_ctools_plugin_api($module = NULL, $api = NULL) {
 /**
  * Implements hook_node_info().
  */
-function shoov_build_node_info() {
+function shoov_ui_build_node_info() {
   $items = array(
-    'build' => array(
-      'name' => t('Build'),
+    'ui_build' => array(
+      'name' => t('UI Build'),
       'base' => 'node_content',
-      'description' => t('Build is a collection of screenshots from the same git commit, and browser capabilities'),
+      'description' => t('UI Build is a collection of screenshots from the same git commit, and browser capabilities'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',

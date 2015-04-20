@@ -1,18 +1,18 @@
 <?php
 /**
  * @file
- * shoov_ci_build.features.field_instance.inc
+ * shoov_ci_incident.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function shoov_ci_build_field_default_field_instances() {
+function shoov_ci_incident_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'message-ci_build-field_ci_build'
-  $field_instances['message-ci_build-field_ci_build'] = array(
-    'bundle' => 'ci_build',
+  // Exported field_instance: 'message-ci_incident_error-field_ci_incident'
+  $field_instances['message-ci_incident_error-field_ci_incident'] = array(
+    'bundle' => 'ci_incident_error',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -21,7 +21,7 @@ function shoov_ci_build_field_default_field_instances() {
         'label' => 'above',
         'module' => 'entityreference',
         'settings' => array(
-          'link' => 1,
+          'link' => FALSE,
         ),
         'type' => 'entityreference_label',
         'weight' => 0,
@@ -40,8 +40,8 @@ function shoov_ci_build_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'message',
-    'field_name' => 'field_ci_build',
-    'label' => 'CI build',
+    'field_name' => 'field_ci_incident',
+    'label' => 'CI Incident',
     'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -59,19 +59,21 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-ci_build-field_ci_build_log'
-  $field_instances['message-ci_build-field_ci_build_log'] = array(
-    'bundle' => 'ci_build',
+  // Exported field_instance: 'message-ci_incident_fixed-field_ci_incident'
+  $field_instances['message-ci_incident_fixed-field_ci_incident'] = array(
+    'bundle' => 'ci_incident_fixed',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 5,
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 0,
       ),
       'message_notify_email_body' => array(
         'label' => 'above',
@@ -87,147 +89,40 @@ function shoov_ci_build_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'message',
-    'field_name' => 'field_ci_build_log',
-    'label' => 'Log',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 1,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'rows' => 5,
-      ),
-      'type' => 'text_textarea',
-      'weight' => 5,
-    ),
-  );
-
-  // Exported field_instance: 'message-ci_build-field_ci_build_status'
-  $field_instances['message-ci_build-field_ci_build_status'] = array(
-    'bundle' => 'ci_build',
-    'default_value' => array(
-      0 => array(
-        'value' => 'queue',
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 1,
-      ),
-      'message_notify_email_body' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'message_notify_email_subject' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'message',
-    'field_name' => 'field_ci_build_status',
-    'label' => 'Status',
+    'field_name' => 'field_ci_incident',
+    'label' => 'CI Incident',
     'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_select',
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
       'weight' => 2,
     ),
   );
 
-  // Exported field_instance: 'message-ci_build-field_ci_build_timestamp'
-  $field_instances['message-ci_build-field_ci_build_timestamp'] = array(
-    'bundle' => 'ci_build',
+  // Exported field_instance: 'node-ci_incident-field_ci_build'
+  $field_instances['node-ci_incident-field_ci_build'] = array(
+    'bundle' => 'ci_incident',
+    'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'date',
+        'module' => 'entityreference',
         'settings' => array(
-          'format_type' => 'long',
-          'fromto' => 'both',
-          'multiple_from' => '',
-          'multiple_number' => '',
-          'multiple_to' => '',
+          'link' => FALSE,
         ),
-        'type' => 'date_default',
-        'weight' => 4,
-      ),
-      'message_notify_email_body' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'message_notify_email_subject' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'message',
-    'field_name' => 'field_ci_build_timestamp',
-    'label' => 'Start time',
-    'required' => 1,
-    'settings' => array(
-      'default_value' => 'now',
-      'default_value2' => 'same',
-      'default_value_code' => '',
-      'default_value_code2' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'date',
-      'settings' => array(
-        'increment' => 15,
-        'input_format' => 'm/d/Y - H:i:s',
-        'input_format_custom' => '',
-        'label_position' => 'above',
-        'text_parts' => array(),
-        'year_range' => '-3:+3',
-      ),
-      'type' => 'date_text',
-      'weight' => 4,
-    ),
-  );
-
-  // Exported field_instance: 'node-ci_build-field_ci_build_enabled'
-  $field_instances['node-ci_build-field_ci_build_enabled'] = array(
-    'bundle' => 'ci_build',
-    'default_value' => array(
-      0 => array(
-        'value' => 1,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => 'Indicate if the CI build is enabled, and should be queued.',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 4,
+        'type' => 'entityreference_label',
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -237,8 +132,53 @@ function shoov_ci_build_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_ci_build_enabled',
-    'label' => 'Enabled',
+    'field_name' => 'field_ci_build',
+    'label' => 'CI build',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 8,
+    ),
+  );
+
+  // Exported field_instance: 'node-ci_incident-field_ci_build_error'
+  $field_instances['node-ci_incident-field_ci_build_error'] = array(
+    'bundle' => 'ci_incident',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 6,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ci_build_error',
+    'label' => 'Build error',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -250,66 +190,24 @@ function shoov_ci_build_field_default_field_instances() {
         'display_label' => 1,
       ),
       'type' => 'options_onoff',
-      'weight' => 4,
+      'weight' => 9,
     ),
   );
 
-  // Exported field_instance: 'node-ci_build-field_git_branch'
-  $field_instances['node-ci_build-field_git_branch'] = array(
-    'bundle' => 'ci_build',
-    'default_value' => array(
-      0 => array(
-        'value' => 'master',
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 1,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_git_branch',
-    'label' => 'Git Branch',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 2,
-    ),
-  );
-
-  // Exported field_instance: 'node-ci_build-field_git_commit'
-  $field_instances['node-ci_build-field_git_commit'] = array(
-    'bundle' => 'ci_build',
+  // Exported field_instance: 'node-ci_incident-field_failing_build'
+  $field_instances['node-ci_incident-field_failing_build'] = array(
+    'bundle' => 'ci_incident',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
         'weight' => 2,
       ),
       'teaser' => array(
@@ -320,27 +218,28 @@ function shoov_ci_build_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_git_commit',
-    'label' => 'Git Commit',
-    'required' => 0,
+    'field_name' => 'field_failing_build',
+    'label' => 'Failing Build',
+    'required' => 1,
     'settings' => array(
-      'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'text',
+      'module' => 'entityreference',
       'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
         'size' => 60,
       ),
-      'type' => 'text_textfield',
+      'type' => 'entityreference_autocomplete',
       'weight' => 3,
     ),
   );
 
-  // Exported field_instance: 'node-ci_build-og_repo'
-  $field_instances['node-ci_build-og_repo'] = array(
-    'bundle' => 'ci_build',
+  // Exported field_instance: 'node-ci_incident-field_fixed_build'
+  $field_instances['node-ci_incident-field_fixed_build'] = array(
+    'bundle' => 'ci_incident',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -349,10 +248,53 @@ function shoov_ci_build_field_default_field_instances() {
         'label' => 'above',
         'module' => 'entityreference',
         'settings' => array(
-          'link' => 1,
+          'link' => FALSE,
         ),
         'type' => 'entityreference_label',
         'weight' => 3,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_fixed_build',
+    'label' => 'Fixed Build',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 4,
+    ),
+  );
+
+  // Exported field_instance: 'node-ci_incident-og_repo'
+  $field_instances['node-ci_incident-og_repo'] = array(
+    'bundle' => 'ci_incident',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -385,21 +327,18 @@ function shoov_ci_build_field_default_field_instances() {
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 1,
+      'weight' => 6,
     ),
   );
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Build error');
+  t('CI Incident');
   t('CI build');
-  t('Enabled');
-  t('Git Branch');
-  t('Git Commit');
-  t('Indicate if the CI build is enabled, and should be queued.');
-  t('Log');
+  t('Failing Build');
+  t('Fixed Build');
   t('Repository');
-  t('Start time');
-  t('Status');
 
   return $field_instances;
 }

@@ -33,7 +33,7 @@ function drush_shoov_ci_build_create_ci_build_item() {
   $count = count($messages);
   drush_log(dt('Found @count items for processing', array('@count' => $count)));
 
-  $server_url = variable_get('shoov_build_pr_server', 'http://localhost:3000');
+  $server_url = variable_get('shoov_ui_build_pr_server', 'http://localhost:3000');
   if (!$server_url) {
     throw new Exception('Shoov build server is not setup.');
   }

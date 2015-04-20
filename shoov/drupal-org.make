@@ -65,6 +65,9 @@ projects[message][version] = "1.9"
 projects[message_notify][subdir] = "contrib"
 projects[message_notify][version] = "2.5"
 
+projects[message_subscribe][subdir] = "contrib"
+projects[message_subscribe][version] = "1.x-dev"
+
 projects[message_ui][subdir] = "contrib"
 projects[message_ui][version] = "1.4"
 
