@@ -80,12 +80,22 @@ angular
           }
         }
       })
+      .state('dashboard.repos', {
+        url: '/repos',
+        templateUrl: 'views/dashboard/repos/repos.html',
+        controller: 'ReposCtrl',
+        resolve: {
+          repos: function(Repos) {
+            return Repos.get();
+          }
+        }
+      })
       .state('dashboard.builds', {
         url: '/builds',
         templateUrl: 'views/dashboard/builds/builds.html',
         controller: 'BuildsCtrl',
         resolve: {
-          builds: function(Builds, $stateParams) {
+          builds: function(Builds) {
             return Builds.get();
           }
         }
