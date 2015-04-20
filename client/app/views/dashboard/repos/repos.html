@@ -7,14 +7,16 @@
 
     <ul class="repos">
       <li ng-repeat="repo in repos" class="repo-item">
+
         <div class="row">
           <div class="col-md-4 name">
             {{ repo.label }}
           </div>
 
           <div class="col-md-4 ops">
-            <input bs-switch type="checkbox" name="enabledRepos[]" ng-model="repos.selected"></input>
+            <input bs-switch type="checkbox" name="enabledRepos[]" ng-model="repo.selected"></input>
           </div>
+        </div>
 
       </li>
     </ul>
