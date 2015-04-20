@@ -72,6 +72,11 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
   $wrapper->field_ci_build_timestamp->set($timestamp);
 
   $wrapper->save();
+
+  // Subscribe the author to the node.
+  $account = user_load($node->uid);
+  flag('flag', 'subscribe_ci_builds', $node->nid, $account);
+
   return $message;
 }
 
