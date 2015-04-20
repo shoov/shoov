@@ -12,7 +12,7 @@ class ShoovGitHubReposResource extends \ShoovDataProviderGitHub {
    * {@inheritdoc}
    */
   public function publicFieldsInfo() {
-    $public_fields['repo'] = array(
+    $public_fields['label'] = array(
       'property' => 'full_name',
     );
 

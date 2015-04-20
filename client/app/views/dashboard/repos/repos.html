@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-md-8 repos-list">
+
+    <h2>Repositories</h2>
+    <div class="description">
+    </div>
+
+    <ul class="repos">
+      <li ng-repeat="repo in repos" class="repo-item">
+
+         {{ repo.label }}
+
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div ui-view></div>
+
