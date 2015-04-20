@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * shoov_build.features.field_instance.inc
+ * shoov_ui_build.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function shoov_build_field_default_field_instances() {
+function shoov_ui_build_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance: 'node-build-field_browser'
