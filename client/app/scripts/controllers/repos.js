@@ -8,13 +8,13 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('ReposCtrl', function ($scope, repos) {
+  .controller('ReposCtrl', function ($scope, repos, $log) {
 
     $scope.repos = repos;
 
 
     angular.forEach($scope.repos, function(value, key) {
-      $scope.repos[key].selected = false;
+      $scope.repos[key].selected = !!$scope.repos[key].shoov_id;
     });
 
     // Selected repos.
