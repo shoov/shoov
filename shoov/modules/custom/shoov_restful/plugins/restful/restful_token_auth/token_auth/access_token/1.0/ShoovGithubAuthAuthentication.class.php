@@ -45,7 +45,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
       )),
     );
 
-    $result = shoov_github_http_request('https://github.com/login/oauth/access_token', $options, FALSE);
+    $result = shoov_github_http_request('oauth/access_token', $options, FALSE);
 
     $access_token = shoov_github_get_data_from_http_result($result);
 
