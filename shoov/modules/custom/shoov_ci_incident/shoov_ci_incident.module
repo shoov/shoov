@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Shoov CI Incident feature.
+ */
+
+include_once 'shoov_ci_incident.features.inc';
