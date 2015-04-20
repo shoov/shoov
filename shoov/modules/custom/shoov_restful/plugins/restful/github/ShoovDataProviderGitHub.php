@@ -24,9 +24,12 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       return $this->repos;
     }
 
+    $wrapper = entity_metadata_wrapper('user', $this->getAccount());
+    $access_token = $wrapper->field_github_access_token->value();
+
     $options = array(
       'headers' => array(
-        'Authorization' => 'token ' . shoov_restful_get_user_token($this->getAccount()),
+        'Authorization' => 'token ' . $access_token,
       ),
     );
 

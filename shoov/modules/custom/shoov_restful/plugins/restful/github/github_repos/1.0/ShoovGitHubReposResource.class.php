@@ -9,12 +9,16 @@ class ShoovGitHubReposResource extends \ShoovDataProviderGitHub {
 
 
   /**
-   * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
+   * {@inheritdoc}
    */
   public function publicFieldsInfo() {
-    $public_fields = parent::publicFieldsInfo();
+    $public_fields['repo'] = array(
+      'property' => 'full_name',
+    );
 
-    unset($public_fields['updated']);
+    $public_fields['id'] = array(
+      'property' => 'id',
+    );
 
     return $public_fields;
   }
