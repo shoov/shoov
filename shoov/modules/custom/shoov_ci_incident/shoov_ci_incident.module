@@ -22,6 +22,7 @@ function shoov_ci_incident_get_latest_error_incident($node) {
     ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'ci_incident')
     ->fieldCondition('field_ci_build', 'target_id', $node->nid)
+    ->fieldCondition('field_ci_build_error', 'value', TRUE)
     ->propertyCondition('status', NODE_PUBLISHED)
     ->range(0, 1)
     ->execute();
@@ -59,6 +60,7 @@ function shoov_ci_incident_create_error_incident(Message $message) {
   $wrapper->og_repo->set($message_wrapper->field_ci_build->og_repo->value());
   $wrapper->field_ci_build->set($message_wrapper->field_ci_build->value());
   $wrapper->field_failing_build->set($message);
+  $wrapper->field_ci_build_error->set(TRUE);
   $wrapper->save();
 
   return $node;

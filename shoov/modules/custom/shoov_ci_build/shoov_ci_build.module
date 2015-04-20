@@ -135,7 +135,8 @@ function shoov_ci_build_set_build_status(Message $message) {
   elseif ($ci_incident && $status == 'done') {
     // Mark the existing incident as fixed.
     $incident_wrapper = entity_metadata_wrapper('node', $ci_incident);
-    $incident_wrapper->field_failing_build->set(NULL);
+    $incident_wrapper->field_fixed_build->set($message);
+    $incident_wrapper->field_ci_build_error->set(NULL);
     $incident_wrapper->save();
 
     $message_type = 'ci_incident_fixed';
@@ -147,8 +148,8 @@ function shoov_ci_build_set_build_status(Message $message) {
   // Send a message to all following members.
   $incident_message = message_create($message_type);
   $incident_message->uid = $message->uid;
-  $message_wrapper = entity_metadata_wrapper('message', $message);
+  $message_wrapper = entity_metadata_wrapper('message', $incident_message);
   $message_wrapper->field_ci_incident->set($ci_incident);
 
-  message_subscribe_send_message('node', $build_node, $message);
+  message_subscribe_send_message('node', $build_node, $incident_message);
 }
