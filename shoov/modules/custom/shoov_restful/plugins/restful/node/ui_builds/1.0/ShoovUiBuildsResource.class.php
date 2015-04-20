@@ -5,7 +5,7 @@
  * Contains ShoovBuildsResource.
  */
 
-class ShoovBuildsResource extends \ShoovEntityBaseNode {
+class ShoovUiBuildsResource extends \ShoovEntityBaseNode {
 
 
   /**
