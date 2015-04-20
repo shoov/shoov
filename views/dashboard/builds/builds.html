@@ -1,5 +1,13 @@
 <div class="row">
-  <div class="col-md-12 screenshots-list">
+  <div class="col-md-8 screenshots-list">
+
+    <h2>Recent UI builds</h2>
+    <div class="description">
+      Bellow are the recent UI regression builds.
+      If a regression was found it will be listed here, otherwise if all images passed, it will not appear here.
+      A build is identified by the git commit they were created in, so if you run your tests
+      manually, you will find the screenshots under that commit.
+    </div>
 
     <ul class="builds">
       <li ng-repeat="build in builds" class="build-item">
