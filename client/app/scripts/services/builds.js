@@ -40,10 +40,9 @@ angular.module('clientApp')
      *   Object with the build data.
      */
     this.create = function(params) {
-      var url = Config.backend + '/api/ci-builds';
       return $http({
         method: 'POST',
-        url: url,
+        url: Config.backend + '/api/ci-builds',
         params: params
       });
 
@@ -63,13 +62,13 @@ angular.module('clientApp')
 
       var params = {};
 
-      if (!repo.shoov_id) {
-        Repos.create(repo.label)
+      if (!parseInt(repo.shoov_id)) {
+        return Repos.create(repo.label)
           .then(function(response) {
             $log.log(response);
           });
       }
-      else if (!repo.build) {
+      else if (!parseInt(repo.build)) {
         // Existing repo, but no existing build.
         params = {
           label: repo.label,
@@ -88,7 +87,7 @@ angular.module('clientApp')
 
       return $http({
         method: 'PATCH',
-        url: url,
+        url: Config.backend + '/api/ci-builds',
         params: params
       });
     };
