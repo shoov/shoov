@@ -16,6 +16,17 @@ angular.module('clientApp')
     // Update event broadcast name.
     var broadcastUpdateEventName = 'ShoovReposChange';
 
+    this.create = function(label) {
+      var url = Config.backend + '/api/repository';
+      var params = {label: repo.label};
+
+      return $http({
+        method: 'POST',
+        url: url,
+        params: params
+      });
+    }
+
 
     /**
      * Return the promise with the events list, from cache or the server.

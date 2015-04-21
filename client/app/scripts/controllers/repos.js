@@ -32,6 +32,18 @@ angular.module('clientApp')
       });
     }, true);
 
+    var getKeyByRepo = function(repo) {
+      var scopeKey = 0;
+      angular.forEach($scope.repos, function(value, key) {
+        if (repo.id == value.id) {
+          scopeKey = key;
+        }
+      });
+
+      return scopeKey;
+
+    };
+
     /**
      * Enable a repo and create a build.
      *
@@ -39,12 +51,15 @@ angular.module('clientApp')
      *   The screenshot ID.
      */
     $scope.toggleRepo = function(repo) {
+      var scopeKey = getKeyByRepo(repo);
       if (repo.selected) {
         // Create repo on shoov, and auto enable build.
+
         Builds
           .enable(repo)
           .then(function(response) {
             // Add build info to the repo info.
+            $log.log(response);
           })
       }
       else {
@@ -53,11 +68,11 @@ angular.module('clientApp')
           .disable(repo.build.id)
           .then(function(response) {
             // Update build info to the repo info.
+            $log.log(response);
           });
 
 
       }
-      $log.log(repo);
     };
 
   });

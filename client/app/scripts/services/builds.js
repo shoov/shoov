@@ -8,7 +8,7 @@
  * Service in the clientApp.
  */
 angular.module('clientApp')
-  .service('Builds', function ($q, $http, $timeout, Config, $rootScope, $log) {
+  .service('Builds', function ($q, $http, $timeout, Config, Repos, $rootScope, $log) {
 
     // A private cache key.
     var cache = {};
@@ -33,34 +33,58 @@ angular.module('clientApp')
       return getDataFromBackend(buildId);
     };
 
-    this.enable = function(repo) {
-
+    /**
+     * Create a build.
+     *
+     * @param params
+     *   Object with the build data.
+     */
+    this.create = function(params) {
       var url = Config.backend + '/api/ci-builds';
+      return $http({
+        method: 'POST',
+        url: url,
+        params: params
+      });
+
+    };
+
+    /**
+     * Due to the way Shoov handles access (Using Drupal's Organic groups
+     * module), we must create a repository before being able to create a CI
+     * build.
+     *
+     * @param repo
+     *
+     * @returns {*}
+     */
+    this.enable = function(repo) {
+      $log.log(repo);
+
       var params = {};
 
-      if (!repo.build) {
-        // We need to create a build.
+      if (!repo.shoov_id) {
+        Repos.create(repo.label)
+          .then(function(response) {
+            $log.log(response);
+          });
+      }
+      else if (!repo.build) {
+        // Existing repo, but no existing build.
         params = {
           label: repo.label,
-          branch: repo.branch
+          branch: repo.branch,
+          repository: repo.shoov_id
         };
 
-        // We need to create a repo.
-        if (!repo.shoov_id) {
-          params.repository = {
-            label: repo.label
-          };
-
-          return $http({
-            method: 'POST',
-            url: url,
-            params: params
-          });
-        }
+        return this.create(params);
       }
 
       // We just need to enable the build and set the branch.
-      params = {enabled: false};
+      params = {
+        enabled: false,
+        branch: repo.branch
+      };
 
       return $http({
         method: 'PATCH',
