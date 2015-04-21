@@ -33,6 +33,58 @@ angular.module('clientApp')
       return getDataFromBackend(buildId);
     };
 
+    this.enable = function(repo) {
+
+      var url = Config.backend + '/api/ci-builds';
+      var params = {};
+
+      if (!repo.build) {
+        // We need to create a build.
+        params = {
+          label: repo.label,
+          branch: repo.branch
+        };
+
+        // We need to create a repo.
+        if (!repo.shoov_id) {
+          params.repository = {
+            label: repo.label
+          };
+
+          return $http({
+            method: 'POST',
+            url: url,
+            params: params
+          });
+        }
+      }
+
+      // We just need to enable the build and set the branch.
+      params = {enabled: false};
+
+      return $http({
+        method: 'PATCH',
+        url: url,
+        params: params
+      });
+    };
+
+    this.disable = function(repo) {
+      if (!repo.build || repo.build.enabled) {
+        // Build dosen't exist, or is already disabled.
+        return;
+      }
+
+      var url = Config.backend + '/api/ci-builds';
+      var params = {enabled: false};
+
+      return $http({
+        method: 'PATCH',
+        url: url,
+        params: params
+      });
+    };
+
 
     /**
      * Return builds array from the server.

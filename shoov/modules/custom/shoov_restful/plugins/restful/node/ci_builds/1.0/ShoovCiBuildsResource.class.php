@@ -14,8 +14,8 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
   public function publicFieldsInfo() {
     $public_fields = parent::publicFieldsInfo();
 
-    $public_fields['git_commit'] = array(
-      'property' => 'field_git_commit',
+    $public_fields['enabled'] = array(
+      'property' => 'field_ci_build_enabled',
     );
 
     $public_fields['git_branch'] = array(
