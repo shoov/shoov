@@ -55,7 +55,6 @@ angular.module('clientApp')
 
       if (repo.selected) {
         // Create repo on shoov, and auto enable build.
-
         Builds
           .enable(repo)
           .then(function(response) {
@@ -74,6 +73,7 @@ angular.module('clientApp')
         Builds
           .disable(repo.build.id)
           .then(function(response) {
+            $log.log(response);
             // Update build info to the repo info.
             $scope.repos[key].build.enabled = false;
           });

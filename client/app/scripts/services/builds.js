@@ -83,7 +83,7 @@ angular.module('clientApp')
 
       // We just need to enable the build and set the branch.
       params = {
-        enabled: false,
+        enabled: true,
         branch: githubRepo.branch
       };
 
@@ -96,14 +96,7 @@ angular.module('clientApp')
         return;
       }
 
-      var url = Config.backend + '/api/ci-builds';
-      var params = {enabled: false};
-
-      return $http({
-        method: 'PATCH',
-        url: url,
-        params: params
-      });
+      return $http.patch(Config.backend + '/api/ci-builds', {enabled: false});
     };
 
 
