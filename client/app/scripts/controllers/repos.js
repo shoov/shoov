@@ -71,7 +71,7 @@ angular.module('clientApp')
       else {
         // Disable build.
         Builds
-          .disable(repo.build.id)
+          .disable(repo)
           .then(function(response) {
             $log.log(response);
             // Update build info to the repo info.
