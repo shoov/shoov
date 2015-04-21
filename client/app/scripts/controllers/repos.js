@@ -51,7 +51,8 @@ angular.module('clientApp')
      *   The screenshot ID.
      */
     $scope.toggleRepo = function(repo) {
-      var scopeKey = getKeyByRepo(repo);
+      var key = getKeyByRepo(repo);
+
       if (repo.selected) {
         // Create repo on shoov, and auto enable build.
 
@@ -59,7 +60,13 @@ angular.module('clientApp')
           .enable(repo)
           .then(function(response) {
             // Add build info to the repo info.
-            $log.log(response);
+            var data = response.data.data[0];
+            $log.log(data);
+            $scope.repos[key].build = {
+              shoov_id: data.repository,
+              enabled: true,
+              id: data.id
+            };
           })
       }
       else {
@@ -68,10 +75,8 @@ angular.module('clientApp')
           .disable(repo.build.id)
           .then(function(response) {
             // Update build info to the repo info.
-            $log.log(response);
+            $scope.repos[key].build.enabled = false;
           });
-
-
       }
     };
 

@@ -17,14 +17,7 @@ angular.module('clientApp')
     var broadcastUpdateEventName = 'ShoovReposChange';
 
     this.create = function(label) {
-      var url = Config.backend + '/api/repositories';
-      var params = {label: label};
-
-      return $http({
-        method: 'POST',
-        url: url,
-        params: params
-      });
+      return $http.post(Config.backend + '/api/repositories', {label: label});
     };
 
 

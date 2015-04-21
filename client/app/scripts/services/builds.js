@@ -40,12 +40,7 @@ angular.module('clientApp')
      *   Object with the build data.
      */
     this.create = function(params) {
-      return $http({
-        method: 'POST',
-        url: Config.backend + '/api/ci-builds',
-        params: params
-      });
-
+      return $http.post(Config.backend + '/api/ci-builds', params);
     };
 
     /**
@@ -53,27 +48,34 @@ angular.module('clientApp')
      * module), we must create a repository before being able to create a CI
      * build.
      *
-     * @param repo
+     * @param githubRepo
      *
      * @returns {*}
      */
-    this.enable = function(repo) {
-      $log.log(repo);
-
+    this.enable = function(githubRepo) {
       var params = {};
+      var self = this;
 
-      if (!parseInt(repo.shoov_id)) {
-        return Repos.create(repo.label)
+      if (!parseInt(githubRepo.shoov_id)) {
+        return Repos.create(githubRepo.label)
           .then(function(response) {
-            $log.log(response);
+            var repo = response.data.data[0];
+
+            params = {
+              label: repo.label,
+              branch: githubRepo.branch,
+              repository: repo.id
+            };
+
+            return self.create(params);
           });
       }
-      else if (!parseInt(repo.build)) {
+      else if (!parseInt(githubRepo.build)) {
         // Existing repo, but no existing build.
         params = {
-          label: repo.label,
-          branch: repo.branch,
-          repository: repo.shoov_id
+          label: githubRepo.label,
+          branch: githubRepo.branch,
+          repository: githubRepo.shoov_id
         };
 
         return this.create(params);
@@ -82,14 +84,10 @@ angular.module('clientApp')
       // We just need to enable the build and set the branch.
       params = {
         enabled: false,
-        branch: repo.branch
+        branch: githubRepo.branch
       };
 
-      return $http({
-        method: 'PATCH',
-        url: Config.backend + '/api/ci-builds',
-        params: params
-      });
+      return $http.patch(Config.backend + '/api/ci-builds', params);
     };
 
     this.disable = function(repo) {
