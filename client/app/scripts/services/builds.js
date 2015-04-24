@@ -91,7 +91,6 @@ angular.module('clientApp')
     };
 
     this.disable = function(githubRepo) {
-      $log.log(githubRepo);
       if (!githubRepo.build || !githubRepo.build.enabled) {
         // Build doesn't exist, or is already disabled.
         return;

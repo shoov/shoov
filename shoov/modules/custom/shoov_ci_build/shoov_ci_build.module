@@ -72,7 +72,7 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
   }
 
   $wrapper = entity_metadata_wrapper('node', $node);
-  if ($wrapper->field_ci_build_enabled->value()) {
+  if (!$wrapper->field_ci_build_enabled->value()) {
     // CI build is not enabled.
     return;
   }
