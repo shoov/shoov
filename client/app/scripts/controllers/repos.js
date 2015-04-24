@@ -9,28 +9,7 @@
  */
 angular.module('clientApp')
   .controller('ReposCtrl', function ($scope, repos, Builds, Repos, $log) {
-
     $scope.repos = repos;
-
-
-    angular.forEach($scope.repos, function(value, key) {
-      $scope.repos[key].selected = !!$scope.repos[key].build && !!$scope.repos[key].build.enabled;
-    });
-
-    // Selected repos.
-    $scope.selection = [];
-
-    // Helper method to get selected repos.
-    $scope.selectedRepos = function selectedRepos() {
-      return filterFilter($scope.repos, { selected: true });
-    };
-
-    // Watch repos for changes.
-    $scope.$watch('repos|filter:{selected:true}', function(repos) {
-      $scope.selection = repos.map(function(repo, key) {
-        return key;
-      });
-    }, true);
 
     var getKeyByRepo = function(repo) {
       var scopeKey = 0;

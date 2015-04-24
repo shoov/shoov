@@ -91,7 +91,6 @@ angular.module('clientApp')
     };
 
     this.disable = function(repo) {
-      $log.log(repo);
       if (!repo.build || !repo.build.enabled) {
         // Build doesn't exist, or is already disabled.
         return;
