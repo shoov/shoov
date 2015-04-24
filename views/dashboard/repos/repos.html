@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-md-8 repos-list">
+
+    <h2>Repositories</h2>
+    <div class="description">
+    </div>
+
+    <ul class="repos">
+      <li ng-repeat="repo in repos" class="repo-item">
+
+        <div class="row">
+          <div class="col-md-4 name">
+            {{ repo.label }}
+          </div>
+
+          <div class="col-md-4 ops">
+            <input type="checkbox" ng-checked="repo.build.enabled" ng-click="toggleRepo(repo)" ng-disabled="repo._inProgress"/>
+          </div>
+        </div>
+
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div ui-view></div>
+
