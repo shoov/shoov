@@ -70,7 +70,7 @@ angular.module('clientApp')
             return self.create(params);
           });
       }
-      else if (!parseInt(githubRepo.build)) {
+      else if (githubRepo.build && !githubRepo.build.id) {
         // Existing repo, but no existing build.
         params = {
           label: githubRepo.label,
@@ -87,16 +87,17 @@ angular.module('clientApp')
         branch: githubRepo.branch
       };
 
-      return $http.patch(Config.backend + '/api/ci-builds/' + repo.build.id, params);
+      return $http.patch(Config.backend + '/api/ci-builds/' + githubRepo.build.id, params);
     };
 
-    this.disable = function(repo) {
-      if (!repo.build || !repo.build.enabled) {
+    this.disable = function(githubRepo) {
+      $log.log(githubRepo);
+      if (!githubRepo.build || !githubRepo.build.enabled) {
         // Build doesn't exist, or is already disabled.
         return;
       }
 
-      return $http.patch(Config.backend + '/api/ci-builds/' + repo.build.id, {enabled: false});
+      return $http.patch(Config.backend + '/api/ci-builds/' + githubRepo.build.id, {enabled: false});
     };
 
 

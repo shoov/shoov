@@ -14,7 +14,7 @@
           </div>
 
           <div class="col-md-4 ops">
-            <input bs-switch type="checkbox" name="enabledRepos[]" ng-model="repo.build.id" ng-change="toggleRepo(repo)"/>
+            <input type="checkbox" ng-model="repo.checked" ng-checked="repo.build.id" ng-change="toggleRepo(repo)" ng-disabled="repo._inProgress"/>
           </div>
         </div>
 

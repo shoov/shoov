@@ -31,30 +31,34 @@ angular.module('clientApp')
      */
     $scope.toggleRepo = function(repo) {
       var key = getKeyByRepo(repo);
+      $scope.repos[key]._inProgress = true;
 
-      if (repo.selected) {
+      if (!repo.build || !repo.build.id) {
+        $log.log('ctrl enable');
         // Create repo on shoov, and auto enable build.
         Builds
           .enable(repo)
           .then(function(response) {
             // Add build info to the repo info.
             var data = response.data.data[0];
-            $log.log(data);
             $scope.repos[key].build = {
-              shoov_id: data.repository,
               enabled: true,
               id: data.id
             };
+
+            $scope.repos[key].shoov_id = data.repository;
+            $scope.repos[key]._inProgress = false;
           })
       }
       else {
+        $log.log('ctrl disable');
         // Disable build.
         Builds
           .disable(repo)
           .then(function(response) {
-            $log.log(response);
             // Update build info to the repo info.
             $scope.repos[key].build.enabled = false;
+            $scope.repos[key]._inProgress = false;
           });
       }
     };
