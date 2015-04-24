@@ -33,7 +33,9 @@ angular.module('clientApp')
       var key = getKeyByRepo(repo);
       $scope.repos[key]._inProgress = true;
 
-      if (!repo.build || !repo.build.id) {
+      $log.log(repo);
+
+      if (!repo.build || !repo.build.enabled) {
         $log.log('ctrl enable');
         // Create repo on shoov, and auto enable build.
         Builds
