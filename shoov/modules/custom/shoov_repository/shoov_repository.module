@@ -5,3 +5,39 @@
  */
 
 include_once 'shoov_repository.features.inc';
+
+/**
+ * Implements hook_node_presave().
+ *
+ * Get the GitHub repo ID for a local repository.
+ */
+function shoov_repository_node_presave($node) {
+  if ($node->type != 'repository') {
+    // Not a repository node.
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  if ($wrapper->field_github_id->value()) {
+    // GitHub Id already populated.
+    return;
+  }
+
+  list($owner, $repo) = explode('/', $node->title);
+
+  $user_wrapper = entity_metadata_wrapper('user', $node->uid);
+  $access_token = $user_wrapper->field_github_access_token->value();
+
+  $options = array(
+    'headers' => array(
+      'Authorization' => 'token ' . $access_token,
+    ),
+  );
+
+  $data = shoov_github_http_request("repos/$owner/$repo", $options);
+
+  // @todo: Throw exception on error?
+  if (!empty($data['id'])) {
+    $wrapper->field_github_id->set($data['id']);
+  }
+}

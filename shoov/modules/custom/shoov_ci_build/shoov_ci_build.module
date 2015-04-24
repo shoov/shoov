@@ -47,6 +47,15 @@ function shoov_ci_build_node_insert($node) {
 }
 
 /**
+ * Implements hook_node_update().
+ *
+ * Create a CI build item when an existing CI build is enabled.
+ */
+function shoov_ci_build_node_update($node) {
+  shoov_ci_build_create_build_item($node);
+}
+
+/**
  * Create a CI build item.
  *
  * @param $node
@@ -54,11 +63,36 @@ function shoov_ci_build_node_insert($node) {
  * @param int $timestamp
  *   The timestamp of "now". If empty, the existing current time will be used.
  *
- * @return Message
- *   The message object.
+ * @return Message | NULL
+ *   The message object if all conditions were met.
  */
 function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
   if ($node->type != 'ci_build') {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  if (!$wrapper->field_ci_build_enabled->value()) {
+    // CI build is not enabled.
+    return;
+  }
+
+  // Verify a "queue" or "in progress" build items doesn't already exist.
+  $status = array(
+    'queue',
+    'in_progress',
+  );
+
+  $query = new EntityFieldQuery();
+  $count = $query
+    ->entityCondition('entity_type', 'message')
+    ->entityCondition('bundle', 'ci_build')
+    ->fieldCondition('field_ci_build', 'target_id', $node->nid)
+    ->fieldCondition('field_ci_build_status', 'value', $status, 'IN')
+    ->count()
+    ->execute();
+
+  if ($count) {
     return;
   }
 
@@ -68,7 +102,7 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_ci_build->set($node);
   $wrapper->field_ci_build_status->set('queue');
-  // Set to be invoked immediatly.
+  // Set to be invoked immediately.
   $wrapper->field_ci_build_timestamp->set($timestamp);
 
   $wrapper->save();

@@ -52,6 +52,7 @@ dependencies[] = views_bulk_operations
 ; Shoov
 dependencies[] = shoov_ci_build
 dependencies[] = shoov_ci_incident
+dependencies[] = shoov_github
 dependencies[] = shoov_screenshot
 dependencies[] = shoov_repository
 dependencies[] = shoov_restful

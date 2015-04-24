@@ -8,7 +8,7 @@
  * Service in the clientApp.
  */
 angular.module('clientApp')
-  .service('Builds', function ($q, $http, $timeout, Config, $rootScope, $log) {
+  .service('Builds', function ($q, $http, $timeout, Config, Repos, $rootScope, $log) {
 
     // A private cache key.
     var cache = {};
@@ -31,6 +31,72 @@ angular.module('clientApp')
       }
 
       return getDataFromBackend(buildId);
+    };
+
+    /**
+     * Create a build.
+     *
+     * @param params
+     *   Object with the build data.
+     */
+    this.create = function(params) {
+      return $http.post(Config.backend + '/api/ci-builds', params);
+    };
+
+    /**
+     * Due to the way Shoov handles access (Using Drupal's Organic groups
+     * module), we must create a repository before being able to create a CI
+     * build.
+     *
+     * @param githubRepo
+     *
+     * @returns {*}
+     */
+    this.enable = function(githubRepo) {
+      var params = {};
+      var self = this;
+
+      if (!parseInt(githubRepo.shoov_id)) {
+        return Repos.create(githubRepo.label)
+          .then(function(response) {
+            var repo = response.data.data[0];
+
+            params = {
+              label: repo.label,
+              branch: githubRepo.branch,
+              repository: repo.id
+            };
+
+            return self.create(params);
+          });
+      }
+      else if (githubRepo.build && !githubRepo.build.id) {
+        // Existing repo, but no existing build.
+        params = {
+          label: githubRepo.label,
+          branch: githubRepo.branch,
+          repository: githubRepo.shoov_id
+        };
+
+        return this.create(params);
+      }
+
+      // We just need to enable the build and set the branch.
+      params = {
+        enabled: true,
+        branch: githubRepo.branch
+      };
+
+      return $http.patch(Config.backend + '/api/ci-builds/' + githubRepo.build.id, params);
+    };
+
+    this.disable = function(githubRepo) {
+      if (!githubRepo.build || !githubRepo.build.enabled) {
+        // Build doesn't exist, or is already disabled.
+        return;
+      }
+
+      return $http.patch(Config.backend + '/api/ci-builds/' + githubRepo.build.id, {enabled: false});
     };
 
 

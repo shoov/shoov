@@ -45,9 +45,12 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
       )),
     );
 
-    $result = $this->httpRequestGithub('https://github.com/login/oauth/access_token', $options);
+    // Allow mocking the login to Github.
+    $url = variable_get('shoov_github_api_login_url', 'https://github.com/login/oauth/access_token');
+    $result = drupal_http_request($url, $options);
+    shoov_github_check_response_http_error($url, $result);
 
-    $access_token = $this->getDataFromHttpResult($result);
+    $access_token = shoov_github_get_data_from_http_result($result);
 
     $options = array(
       'headers' => array(
@@ -55,9 +58,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
       ),
     );
 
-    $result = $this->httpRequestGithub('https://api.github.com/user', $options);
-
-    $data = drupal_json_decode($result->data);
+    $data = shoov_github_http_request('user', $options);
     $name = $data['login'];
 
     // Get the username from Github and compare with ours.
@@ -138,8 +139,8 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
    *   The user's email.
    */
   protected function getEmailFromGithub($options) {
-    $result = $this->httpRequestGithub('https://api.github.com/user/emails', $options);
-    foreach (drupal_json_decode($result->data) as $row) {
+    $data = shoov_github_http_request('user/emails', $options);
+    foreach ($data as $row) {
       if (empty($row['primary'])) {
         // Not a primary email.
         continue;
@@ -147,70 +148,5 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
 
       return $row['email'];
     }
-  }
-
-  /**
-   * Performs an HTTP request to GitHub and check for errors.
-   *
-   * @param string $url
-   *   A string containing a fully qualified URI.
-   * @param array $options
-   *   Options array as passed to drupal_http_request().
-   *
-   * @return object
-   *   The result object.
-   *
-   * @see drupal_http_request().
-   */
-  protected function httpRequestGithub($url, $options) {
-    $result = drupal_http_request($url, $options);
-    $this->checkGitHubHttpError($url, $result);
-    return $result;
-  }
-
-
-  /**
-   * Check if an error was returned by Github, and if so throw an exception.
-   *
-   * GitHub might return a 200 code, but the data is in fact an error.
-   *
-   * @param string $url
-   *   The URL sent to GitHub
-   * @param $result
-   *   The result object from the drupal_http_request() call.
-   *
-   * @throws \RestfulServerConfigurationException
-   */
-  protected function checkGitHubHttpError($url, $result) {
-    if (intval($result->code) !== 200 || strpos($result->data, 'error=') === 0) {
-
-      $params = array(
-        '@url' => $url,
-        '@code' => $result->code,
-        '@error' => $result->data,
-      );
-
-      throw new \RestfulServerConfigurationException(format_string('Calling @url resulted with a @code HTTP code, with the following error message: @error', $params));
-    }
-  }
-
-  /**
-   * Get the valid result from the response of the HTTP request.
-   *
-   * Result format is for example:
-   * 'access_token=someTokenValue&scope=&token_type=bearer';
-   *
-   * @param $result
-   *   The result object from the drupal_http_request() call.
-   *
-   * @return string
-   *   The result.
-   */
-  protected function getDataFromHttpResult($result) {
-    $return = $result->data;
-
-    $return = explode('&', $result->data);
-    $return = explode('=', $return[0]);
-    return $return[1];
   }
 }
