@@ -33,10 +33,7 @@ angular.module('clientApp')
       var key = getKeyByRepo(repo);
       $scope.repos[key]._inProgress = true;
 
-      $log.log(repo);
-
       if (!repo.build || !repo.build.enabled) {
-        $log.log('ctrl enable');
         // Create repo on shoov, and auto enable build.
         Builds
           .enable(repo)
@@ -53,7 +50,6 @@ angular.module('clientApp')
           })
       }
       else {
-        $log.log('ctrl disable');
         // Disable build.
         Builds
           .disable(repo)
