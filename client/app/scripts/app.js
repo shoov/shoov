@@ -62,7 +62,7 @@ angular
       })
       .state('github', {
         url: '/auth/github',
-        templateUrl: 'views/login.html',
+        templateUrl: 'views/github-auth.html',
         controller: 'GithubAuthCtrl'
       })
       .state('dashboard', {
