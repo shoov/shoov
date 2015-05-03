@@ -20,27 +20,25 @@
 }
 
 
-body {
-
-  #dashboard-login {
-    margin-top: 80px;
-
-    .jumbotron {
-      background-color: white;
-    }
-  }
-
+#dashboard-login,
+#dashboard-github-auth {
   background: {
     image: image-url("fish.jpg");
     repeat: no-repeat;
     position: top left;
   };
+  width: 100%;
+  height: 100%;
+  position: absolute;
 
   @include background-size(cover);
 
-  .github-private {
-    margin-top: 20px;
-    font-size: 13px;
+  .jumbotron {
+    margin-top: 80px;
+    background-color: white;
   }
 
+  .github-private {
+    margin-top: 20px;
+  }
 }
