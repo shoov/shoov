@@ -452,7 +452,8 @@ module.exports = function (grunt) {
             cwd: '<%= yeoman.dist %>',
             src: ['**/*'],
             dest: '/',
-            action: 'upload'
+            action: 'upload',
+            differential: true
           }
         ]
       }
