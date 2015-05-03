@@ -438,20 +438,24 @@ module.exports = function (grunt) {
 
     aws_s3: {
       options: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID, // Use the variables
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, // You can also use env variables
-        bucket: 'shoov-live',
-        region: 'us-west-2'
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
       },
-      files: [
-        {
-          expand: true,
-          cwd: '<%= yeoman.dist %>',
-          src: ['**/*'],
-          dest: '/',
-          action: 'upload'
-        }
-      ]
+      dist: {
+        options: {
+          bucket: 'shoov-live',
+          region: 'us-west-2'
+        },
+        files: [
+          {
+            expand: true,
+            cwd: '<%= yeoman.dist %>',
+            src: ['**/*'],
+            dest: '/',
+            action: 'upload'
+          }
+        ]
+      }
     }
   });
 
