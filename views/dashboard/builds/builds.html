@@ -1,15 +1,18 @@
 <div class="row">
-  <div class="col-md-8 screenshots-list">
+  <div class="col-md-offset-3 col-md-5 screenshots-list">
 
-    <h2>Recent UI builds</h2>
+    <h2>UI Builds</h2>
+
     <div class="description">
-      Bellow are the recent UI regression builds.
-      If a regression was found it will be listed here, otherwise if all images passed, it will not appear here.
-      A build is identified by the git commit they were created in, so if you run your tests
-      manually, you will find the screenshots under that commit.
+      Bellow are the recent UI regression builds. Only if a visual regression was found (i.e. a failing test) it will be listed here.
     </div>
 
-    <ul class="builds">
+    <div ng-hide="builds.length" class="jumbotron">
+      No builds were uploaded yet. Make sure you have created your <a ui-sref="dashboard.account">~/.shoov</a> file
+      and executed a test. See <a href="https://github.com/shoov/test-example" target="_blank">this</a> repo for an example.
+    </div>
+
+    <ul ng-show="builds.length" class="builds">
       <li ng-repeat="build in builds" class="build-item">
 
          <a ng-href="#/screenshots/{{ build.id }}">{{ build.label }}</a>
