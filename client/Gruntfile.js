@@ -434,6 +434,24 @@ module.exports = function (grunt) {
           push: true
         }
       }
+    },
+
+    aws_s3: {
+      options: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID, // Use the variables
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, // You can also use env variables
+        bucket: 'shoov-live',
+        region: 'us-west-2'
+      },
+      files: [
+        {
+          expand: true,
+          cwd: '<%= yeoman.dist %>',
+          src: ['**/*'],
+          dest: '/',
+          action: 'upload'
+        }
+      ]
     }
   });
 
@@ -487,7 +505,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('deploy', [
     'build',
-    'buildcontrol'
+    // 'buildcontrol'
+    'aws_s3'
   ]);
 
   grunt.registerTask('default', [
