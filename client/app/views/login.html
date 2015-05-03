@@ -1,21 +1,15 @@
 <div id="dashboard-login">
-  <div class="page-signin">
-    <div class="container">
+  <div class="container">
+    <div class="row jumbotron">
+      <div class="col-md-offset-2 col-md-4">
 
-      <div class="row jumbotron">
-        <div class="title">
-          <h1>Login</h1>
+        <a class="btn btn-block btn-social btn-lg btn-github" ng-show="githubClientId" ng-href="https://github.com/login/oauth/authorize?client_id={{ githubClientId }}&scope=user:email,{{ githubPrivateAccess ? 'repo' : 'repo_public'}}">
+          <i class="fa fa-github"></i> Sign in with GitHub
+        </a>
+
+        <div class="github-private">
+          <checkbox ng-model="githubPrivateAccess"></checkbox> Allow Shoov to access your private repositories
         </div>
-
-        <div class="col-md-offset-2 col-md-4">
-
-          <a class="btn btn-block btn-social btn-lg btn-github" ng-show="githubClientId" ng-href="https://github.com/login/oauth/authorize?client_id={{ githubClientId }}&scope=user:email,{{ githubPrivateAccess ? 'repo' : 'repo_public'}}">
-            <i class="fa fa-github"></i> Sign in with GitHub
-          </a>
-
-          <div class="github-private">
-            <checkbox ng-model="githubPrivateAccess"></checkbox> Allow Shoov to access your private repositories
-          </div>
       </div>
 
       <div class="col-md-offset-1 col-md-3">
@@ -23,7 +17,6 @@
         CI builds on the live site
       </div>
     </div>
-    </div>
-
   </div>
+
 </div>

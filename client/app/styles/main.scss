@@ -11,12 +11,36 @@
 @import 'screenshots';
 @import 'spinner';
 
+@import "compass/css3";
+
 
 // @todo: This should be taken care of by the bootstrap-social lib.
 .btn.btn-github:hover {
   color: white;
 }
 
-.github-private {
-  margin-top: 20px;
+
+body {
+
+  #dashboard-login {
+    margin-top: 50px;
+
+    .jumbotron {
+      background-color: #fff0c0;
+    }
+  }
+
+  background: {
+    image: image-url("fish.jpg");
+    repeat: no-repeat;
+    position: top left;
+  };
+
+  @include background-size(cover);
+
+  .github-private {
+    margin-top: 20px;
+    font-size: 13px;
+  }
+
 }
