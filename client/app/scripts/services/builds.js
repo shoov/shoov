@@ -149,10 +149,8 @@ angular.module('clientApp')
 
       // Clear cache in 5 seconds.
       $timeout(function() {
-        if (cache.data && cache.data[cacheId]) {
-          cache.data[cacheId] = null;
-        }
-      }, 5);
+        cache[cacheId] = null;
+      }, 5000);
 
       // Broadcast a change event.
       $rootScope.$broadcast(broadcastUpdateEventName);

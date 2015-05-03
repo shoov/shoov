@@ -113,37 +113,6 @@ angular
           }
         }
       })
-      .state('dashboard.byCompany', {
-        url: '/dashboard/{companyId:int}',
-        abstract: true,
-        // Since the state is abstract, we inline the <ui-view> tag.
-        template: '<ui-view/>',
-        resolve: {
-          mapConfig: function(Map) {
-            return Map.getConfig();
-          },
-          authors: function($stateParams, Events) {
-            return Events.getAuthors($stateParams.companyId);
-          }
-        }
-      })
-      .state('dashboard.companies', {
-        url: '/companies',
-        templateUrl: 'views/dashboard/companies/companies.html',
-        controller: 'CompaniesCtrl',
-        onEnter: page403,
-        resolve: {
-          companies: function(Companies) {
-            return Companies.get();
-          }
-        }
-      })
-      .state('dashboard.companies.company', {
-        url: '/{id:int}',
-        templateUrl: 'views/dashboard/companies/companies.company.html',
-        controller: 'CompaniesCtrl',
-        onEnter: page403
-      })
       .state('dashboard.account', {
         url: '/my-account',
         templateUrl: 'views/dashboard/account/account.html',

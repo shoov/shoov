@@ -16,7 +16,7 @@ angular.module('clientApp')
     Auth.authByGithubCode(code)
       .then(function(data) {
         // Login was ok.
-        $state.go('dashboard.account');
+        $state.go('dashboard.builds');
       })
       .catch(function(data) {
         // @todo: Add error message.
