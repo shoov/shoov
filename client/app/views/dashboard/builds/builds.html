@@ -8,8 +8,14 @@
     </div>
 
     <div ng-hide="builds.length" class="jumbotron">
-      No builds were uploaded yet. Make sure you have created your <a ui-sref="dashboard.account">~/.shoov</a> file
-      and executed a test. See <a href="https://github.com/shoov/test-example" target="_blank">this</a> repo for an example.
+      No builds were uploaded yet. Make sure you have created your <code>~/.shoov.json</code> file by copy pasting the following code into your terminal:
+
+      <div class="config">
+        <input type="text" size="50" name="config" value='curl -o ~/.shoov.json {{backend}}/api/v1.0/config?access_token={{ accessToken }}'>
+      </div>
+
+
+      See <a href="https://github.com/shoov/test-example" target="_blank">this</a> repo for an example.
     </div>
 
     <ul ng-show="builds.length" class="builds">

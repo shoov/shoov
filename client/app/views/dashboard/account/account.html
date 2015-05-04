@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-offset-3 col-md-5">
     <div>
       Name: {{ account.label }}
     </div>
@@ -8,11 +8,16 @@
       Mail: {{ account.mail }}
     </div>
 
-    <div class="config">
-      Copy paste this code into your terminal:
-      <div>
-        <code>echo '{"access_token": "{{ account.accessToken }}"}' > ~/.shoov.json</code>
+
+    <div class="jumbotron">
+      Create or update your <code>~/.shoov.json</code> file by copy pasting the following code into your terminal:
+
+      <div class="config">
+        <input type="text" size="50" name="config" value='curl -o ~/.shoov.json {{backend}}/api/v1.0/config?access_token={{ accessToken }}'>
       </div>
+
+      See <a href="https://github.com/shoov/test-example" target="_blank">this</a> repo for an example.
     </div>
+
   </div>
 </div>
