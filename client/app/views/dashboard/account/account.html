@@ -8,7 +8,6 @@
       Mail: {{ account.mail }}
     </div>
 
-
     <div class="jumbotron">
       Create or update your <code>~/.shoov.json</code> file by copy pasting the following code into your terminal:
 
@@ -17,7 +16,22 @@
       </div>
 
       See <a href="https://github.com/shoov/test-example" target="_blank">this</a> repo for an example.
+
+      <div class="dev-tip">
+        <i class="fa fa-info-circle" popover-template="'userAccount.html'" popover-title="Dev Tip"></i>
+      </div>
     </div>
 
   </div>
 </div>
+
+<script type="text/ng-template" id="userAccount.html">
+  <p>
+    Since <code>~/.shoov.json</code> is a JS file we use RESTful to get the info. With a <a href="https://github.com/shoov/shoov/blob/master/shoov/modules/custom/shoov_restful/plugins/restful/user/config/1.0/config__1_0.inc#L11-L12" target="_blank">pass-through</a> formatter
+    we get exactly what we want.
+  </p>
+  <div>
+    Next in out todo list is allowing you to add your BrowserStack/ SauceLabs
+    username and key, so it will be part of the config. We already have it in the backend.
+  </div>
+</script>

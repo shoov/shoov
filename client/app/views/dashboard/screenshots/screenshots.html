@@ -16,7 +16,8 @@
 
             <div>
               <input type="text" ng-disabled="prProgress" ng-model="prName">
-              <button class="btn btn-primary" ng-disabled="!selection.length || prProgress" ng-click="pullRequest()">Create Pull Request</button>
+              <button class="btn btn-primary" ng-disabled="!selection.length || prProgress" ng-click="pullRequest()">Create Pull Request </button>
+              <i class="fa fa-info-circle" popover-template="'prDocker.html'" popover-title="Dev Tip"></i>
             </div>
 
             <div>
@@ -25,7 +26,7 @@
           </div>
 
           <div class="download-wrapper">
-            <button class="btn btn-primary" ng-disabled="!selection.length" ng-click="zip()">Download</button>
+            <button class="btn btn-primary" ng-disabled="!selection.length" ng-click="zip()">Download</button> <i class="fa fa-info-circle" popover-template="'zip.html'" popover-title="Dev Tip"></i>
           </div>
         </div>
 
@@ -64,3 +65,17 @@
 
 <div ui-view></div>
 
+<script type="text/ng-template" id="prDocker.html">
+  <p>
+    We still need to add socket.io so you won't need to press <code>F5</code>, as you need now. Also there's almost no error handling if a PR fails.
+  </p>
+  <div>
+    But still this part is pretty cool. Hey, why not have a look at the <a href="https://github.com/shoov/php-ci/blob/master/Dockerfile#L1" target="_blank">Dockerfile</a>, or the <a href="https://github.com/shoov/shoov-pr-server/blob/master/routes/create_pr.js#L1" target="_blank">nodejs</a> server?
+  </div>
+</script>
+
+<script type="text/ng-template" id="zip.html">
+  <p>
+    Yap, The zip is created in the <a href="https://github.com/shoov/shoov/blob/master/client/app/scripts/services/zip.js#L21" target="_blank">client</a>!
+  </p>
+</script>
