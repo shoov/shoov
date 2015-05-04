@@ -1,5 +1,16 @@
 'use strict';
 
+
+angular.module('clientApp')
+  .controller('ModalInstanceCtrl', function ($scope, $modalInstance) {
+
+  $scope.ok = function () {
+    $modalInstance.close();
+  }
+});
+
+
+
 /**
  * @ngdoc function
  * @name clientApp.controller:LoginCtrl
@@ -40,3 +51,6 @@ angular.module('clientApp')
 
     $scope.githubPrivateAccess = false;
   });
+
+
+
