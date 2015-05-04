@@ -16,17 +16,44 @@
 
 
       See <a href="https://github.com/shoov/test-example" target="_blank">this</a> repo for an example.
+
+      <div class="dev-tip">
+        <i class="fa fa-info-circle" popover-template="'angularFun.html'" popover-title="Dev Tip"></i>
+      </div>
     </div>
 
-    <ul ng-show="builds.length" class="builds">
-      <li ng-repeat="build in builds" class="build-item">
+    <div ng-show="builds.length">
 
-         <a ng-href="#/screenshots/{{ build.id }}">{{ build.label }}</a>
+      <div class="dev-tip">
+        <i class="fa fa-info-circle" popover-template="'improveList.html'" popover-title="Dev Tip"></i>
+      </div>
 
-      </li>
-    </ul>
+      <ul class="builds">
+        <li ng-repeat="build in builds" class="build-item">
+
+          <a ng-href="#/screenshots/{{ build.id }}">{{ build.label }}</a>
+        </li>
+      </ul>
+    </div>
+
   </div>
 </div>
 
 <div ui-view></div>
+
+<script type="text/ng-template" id="angularFun.html">
+  <p>
+    More of a client side person? The Angular code for this page is <a href="https://github.com/shoov/shoov/blob/master/client/app/views/dashboard/builds/builds.html#L1" target="_blank">here</a>. Care to join and improve? It's open source after all!
+  </p>
+</script>
+
+
+<script type="text/ng-template" id="improveList.html">
+  <p>
+    Yeah, we know, the list looks bad. Help us make it look better - it's open source!
+  </p>
+  <div>
+    <em>Not really a tip, we know, but we're trying to get you to contribute code :)</em>
+  </div>
+</script>
 
