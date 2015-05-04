@@ -14,10 +14,9 @@ angular
     'ngCookies',
     'ngSanitize',
     'config',
-    'cm.angularHttpPlus',
     'frapontillo.bootstrap-switch',
-    'leaflet-directive',
     'LocalStorageModule',
+    'ui.bootstrap',
     'ui.checkbox',
     'ui.router',
     'angular-loading-bar'
