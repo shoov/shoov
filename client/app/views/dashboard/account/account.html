@@ -11,7 +11,9 @@
     <div class="config">
       Copy paste this code into your terminal:
       <div>
-        <code>echo '{"access_token": "{{ account.accessToken }}"}' > ~/.shoov.json</code>
+        <code>
+          curl -o ~/.shoov.json {{backend}}/api/v1.0/config?access_token={{ account.accessToken }}
+        </code>
       </div>
     </div>
   </div>
