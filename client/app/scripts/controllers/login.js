@@ -51,11 +51,6 @@ angular.module('clientApp')
 
     $scope.githubPrivateAccess = false;
 
-    $scope.dynamicPopover = {
-      content: 'Hello, World!',
-      templateUrl: 'myPopoverTemplate.html',
-      title: 'Title'
-    };
   });
 
 
