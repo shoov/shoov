@@ -50,6 +50,12 @@ angular.module('clientApp')
     $scope.githubClientId = Config.githubClientId;
 
     $scope.githubPrivateAccess = false;
+
+    $scope.dynamicPopover = {
+      content: 'Hello, World!',
+      templateUrl: 'myPopoverTemplate.html',
+      title: 'Title'
+    };
   });
 
 
