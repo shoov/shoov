@@ -17,7 +17,7 @@
             <div>
               <input type="text" ng-disabled="prProgress" ng-model="prName">
               <button class="btn btn-primary" ng-disabled="!selection.length || prProgress" ng-click="pullRequest()">Create Pull Request </button>
-              <i class="fa fa-info-circle" popover-template="'prDocker.html'" popover-title="Dev Tip"></i>
+              <i class="fa fa-info-circle" popover-placement="right" popover-template="'prDocker.html'" popover-title="Dev Tip"></i>
             </div>
 
             <div>
@@ -26,7 +26,7 @@
           </div>
 
           <div class="download-wrapper">
-            <button class="btn btn-primary" ng-disabled="!selection.length" ng-click="zip()">Download</button> <i class="fa fa-info-circle" popover-template="'zip.html'" popover-title="Dev Tip"></i>
+            <button class="btn btn-primary" ng-disabled="!selection.length" ng-click="zip()">Download</button> <i class="fa fa-info-circle" popover-placement="right" popover-template="'zip.html'" popover-title="Dev Tip"></i>
           </div>
         </div>
 
