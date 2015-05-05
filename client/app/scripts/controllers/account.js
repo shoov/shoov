@@ -10,6 +10,6 @@
 angular.module('clientApp')
   .controller('AccountCtrl', function ($scope, account, Auth, Config) {
     $scope.account = account;
-    $scope.account.accessToken = Auth.getAccessToken();
+    $scope.accessToken = Auth.getAccessToken();
     $scope.backend = Config.backend;
   });
