@@ -39,4 +39,8 @@ angular.module('clientApp')
     $scope.githubClientId = Config.githubClientId;
 
     $scope.githubPrivateAccess = false;
+
   });
+
+
+
