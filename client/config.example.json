@@ -7,6 +7,12 @@
   "production": {
     "backend": "https://example.com",
     "debugUiRouter": false,
-    "githubClientId": false
+    "githubClientId": false,
+    "aws": {
+      "key": "",
+      "secret": "",
+      "bucket": "",
+      "region": ""
+    }
   }
 }

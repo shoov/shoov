@@ -438,13 +438,13 @@ module.exports = function (grunt) {
 
     aws_s3: {
       options: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+        accessKeyId: grunt.file.readJSON('config.json').production.aws.key,
+        secretAccessKey: grunt.file.readJSON('config.json').production.aws.secret
       },
       dist: {
         options: {
-          bucket: 'shoov-live',
-          region: 'us-west-2'
+          bucket: grunt.file.readJSON('config.json').production.aws.bucket,
+          region: grunt.file.readJSON('config.json').production.aws.region
         },
         files: [
           {
