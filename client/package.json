@@ -1,10 +1,13 @@
 {
   "name": "client",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "grunt-s3": "^0.2.0-alpha.3"
+  },
   "devDependencies": {
     "grunt": "^0.4.1",
     "grunt-autoprefixer": "^0.7.3",
+    "grunt-aws-s3": "^0.13.0",
     "grunt-build-control": "^0.2.2",
     "grunt-concurrent": "^0.5.0",
     "grunt-contrib-clean": "^0.5.0",

@@ -423,16 +423,26 @@ module.exports = function (grunt) {
         }
       }
     },
-
-    // Publish to gh-pages.
-    buildcontrol: {
+    aws_s3: {
+      options: {
+        accessKeyId: grunt.file.readJSON('config.json').production.aws.key,
+        secretAccessKey: grunt.file.readJSON('config.json').production.aws.secret
+      },
       dist: {
         options: {
-          remote: 'git@github.com:shoov/shoov.git',
-          branch: 'gh-pages',
-          commit: true,
-          push: true
-        }
+          bucket: grunt.file.readJSON('config.json').production.aws.bucket,
+          region: grunt.file.readJSON('config.json').production.aws.region
+        },
+        files: [
+          {
+            expand: true,
+            cwd: '<%= yeoman.dist %>',
+            src: ['**/*'],
+            dest: '/',
+            action: 'upload',
+            differential: true
+          }
+        ]
       }
     }
   });
@@ -487,7 +497,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('deploy', [
     'build',
-    'buildcontrol'
+    'aws_s3'
   ]);
 
   grunt.registerTask('default', [
