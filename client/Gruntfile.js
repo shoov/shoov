@@ -423,19 +423,6 @@ module.exports = function (grunt) {
         }
       }
     },
-
-    // Publish to gh-pages.
-    buildcontrol: {
-      dist: {
-        options: {
-          remote: 'git@github.com:shoov/shoov.git',
-          branch: 'gh-pages',
-          commit: true,
-          push: true
-        }
-      }
-    },
-
     aws_s3: {
       options: {
         accessKeyId: grunt.file.readJSON('config.json').production.aws.key,
@@ -510,7 +497,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('deploy', [
     'build',
-    // 'buildcontrol'
     'aws_s3'
   ]);
 
