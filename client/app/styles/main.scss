@@ -54,4 +54,18 @@
 
 .dev-tip {
   margin-top: 10px;
+
+  .fa {
+    font-size: 20px;
+    color: green;
+  }
+
+  &.message {
+    margin-top: 40px;
+    background-color: #ffffe0;
+    border: 1px solid black;
+    padding: 10px 20px;
+    @include border-radius(5px);
+    font-size: 18px;
+  }
 }
