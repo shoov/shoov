@@ -27,8 +27,7 @@
 
 <script type="text/ng-template" id="userAccount.html">
   <p>
-    Since <code>~/.shoov.json</code> is a JS file we use RESTful to get the info. With a <a href="https://github.com/shoov/shoov/blob/master/shoov/modules/custom/shoov_restful/plugins/restful/user/config/1.0/config__1_0.inc#L11-L12" target="_blank">pass-through</a> formatter
-    we get exactly what we want.
+    Since <code>~/.shoov.json</code> is a JS file we use RESTful to get the info, so infact the <code>curl</code> command calls a custom RESTful <a href="https://github.com/shoov/shoov/blob/master/shoov/modules/custom/shoov_restful/plugins/restful/user/config/1.0/ShoovConfigResource.class.php#L22" target="_blank">resource</a>
   </p>
   <div>
     Next in out todo list is allowing you to add your BrowserStack/ SauceLabs
