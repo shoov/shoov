@@ -435,9 +435,32 @@ module.exports = function (grunt) {
         },
         files: [
           {
+            // Short cache.
+            params: {
+              CacheControl: '60'
+            },
             expand: true,
             cwd: '<%= yeoman.dist %>',
-            src: ['**/*'],
+            src: [
+              '*.html',
+              'views/**/*.html'
+            ],
+            dest: '/',
+            action: 'upload',
+            differential: true
+          },
+          {
+            // Long cache.
+            expand: true,
+            cwd: '<%= yeoman.dist %>',
+            src: [
+              '*.{ico,png,txt}',
+              'bower_components/**/*',
+              'fonts/{,*/}*.*',
+              'images/{,*/}*.*',
+              'scripts/{,*/}*.*',
+              'styles/{,*/}*.*'
+            ],
             dest: '/',
             action: 'upload',
             differential: true
