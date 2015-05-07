@@ -437,7 +437,7 @@ module.exports = function (grunt) {
           {
             // Short cache.
             params: {
-              CacheControl: '60'
+              CacheControl: 'public,max-age=60'
             },
             expand: true,
             cwd: '<%= yeoman.dist %>',
