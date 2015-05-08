@@ -321,7 +321,7 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       }
       // Map row names to public properties.
       elseif ($info['property']) {
-        $value = $repo[$info['property']];
+        $value = !empty($repo[$info['property']]) ? $repo[$info['property']] : NULL;
       }
 
       // Execute the process callbacks.
