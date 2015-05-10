@@ -63,9 +63,9 @@ function shoov_ci_incident_default_message_type() {
           "safe_value" : "\\u003Cp\\u003E@repo branch @branch is fixed\\u003C\\/p\\u003E\\n"
         },
         {
-          "value" : "Site was down for about @downtime",
+          "value" : "See \\u003Ca href=\\u0022@url\\u0022\\u003Elogs\\u003C\\/a\\u003E",
           "format" : "filtered_html",
-          "safe_value" : "\\u003Cp\\u003ESite was down for about @downtime\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003ESee \\u003Ca href=\\u0022@url\\u0022\\u003Elogs\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n"
         }
       ]
     }
