@@ -1,23 +1,18 @@
 <div class="row">
   <div class="col-md-8 repos-list">
 
-    <h2>Incidents</h2>
+    <h2>Incident {{ incident.label }}</h2>
 
     <div class="dev-tip">
       <i class="fa fa-info-circle" popover-placement="right" popover-template="'ciBuilds.html'" popover-title="Dev Tip"></i>
     </div>
 
-    <ul class="ci-incidents">
-      <li ng-repeat="incident in incidents" class="incident-item">
+    <div class="row">
+      <div class="col-md-8 log">
+        {{ incident.failing_build.log }}
+      </div>
+    </div>
 
-        <div class="row">
-          <div class="col-md-4">
-            <a ui-sref="dashboard.ciIncident({ incidentId: incident.id })">{{ incident.label }}</a>
-          </div>
-        </div>
-
-      </li>
-    </ul>
   </div>
 </div>
 
