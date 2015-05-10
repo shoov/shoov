@@ -19,7 +19,7 @@ class ShoovCiIncidentsResource extends \ShoovEntityBaseNode {
       'resource' => array(
         'ci_build' => array(
           'name' => 'ci-build-items',
-          'full_view' => FALSE,
+          'full_view' => TRUE,
         ),
       ),
     );
@@ -29,7 +29,7 @@ class ShoovCiIncidentsResource extends \ShoovEntityBaseNode {
       'resource' => array(
         'ci_build' => array(
           'name' => 'ci-build-items',
-          'full_view' => FALSE,
+          'full_view' => TRUE,
         ),
       ),
     );

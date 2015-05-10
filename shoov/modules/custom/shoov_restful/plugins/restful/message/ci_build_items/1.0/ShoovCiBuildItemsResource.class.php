@@ -25,6 +25,7 @@ class ShoovCiBuildItemsResource extends \RestfulEntityBase {
 
     $public_fields['log'] = array(
       'property' => 'field_ci_build_log',
+      'sub_property' => 'value',
     );
 
     $public_fields['build'] = array(
