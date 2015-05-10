@@ -187,13 +187,13 @@ function shoov_ci_build_set_build_status(Message $message) {
   );
 
   // @todo: Move to a general module?
-  $client_url = variable_get('shoov_client_url');
+  $client_url = variable_get('shoov_client_url', 'http://localhost:9000');
 
   if (!$ci_incident && $status == 'error') {
     // Create a new incident.
     $message_type = 'ci_incident_error';
     $ci_incident = shoov_ci_incident_create_error_incident($message);
-    $options = array('fragment' => 'ci-incidents/' . $ci_incident->nid);
+    $options = array('fragment' => '/ci-incidents/' . $ci_incident->nid);
     $arguments += array(
       '@url' => url($client_url, $options),
     );
@@ -206,7 +206,7 @@ function shoov_ci_build_set_build_status(Message $message) {
     $incident_wrapper->save();
 
     $message_type = 'ci_incident_fixed';
-    $options = array('fragment' => 'ci-incidents/' . $ci_incident->nid);
+    $options = array('fragment' => '/ci-incidents/' . $ci_incident->nid);
     $arguments += array(
       '@url' => url($client_url, $options),
     );

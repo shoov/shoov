@@ -49,7 +49,7 @@ function shoov_ci_incident_create_error_incident(Message $message) {
   $ci_build_id = $message_wrapper->field_ci_build->getIdentifier();
 
   $params = array(
-    '@count' => shoov_ci_incident_get_incidents_count($ci_build_id),
+    '@count' => shoov_ci_incident_get_incidents_count($ci_build_id) + 1,
   );
 
   $values = array(
