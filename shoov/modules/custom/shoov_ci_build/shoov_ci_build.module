@@ -37,6 +37,26 @@ function shoov_ci_build_get_ci_builds($timestamp = NULL, $range = 50) {
   return message_load_multiple(array_keys($result['message']));
 }
 
+function shoov_ci_build_get_stuck_ci_builds($timestamp = NULL, $range = 50) {
+  $timestamp = $timestamp ?: time() - variable_get('shoov_ci_stuck_ci_builds_timespan', 60 * 60);
+
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'message')
+    ->entityCondition('bundle', 'ci_build')
+    ->fieldCondition('field_ci_build_timestamp', 'value', $timestamp, '<=')
+    ->fieldCondition('field_ci_build_status', 'value', 'in_progress')
+    ->range(0, $range)
+    ->propertyOrderBy('mid')
+    ->execute();
+
+  if (empty($result['message'])) {
+    return;
+  }
+
+  return message_load_multiple(array_keys($result['message']));
+}
+
 /**
  * Implements hook_node_insert().
  *
@@ -124,7 +144,7 @@ function shoov_ci_build_message_update(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $status = $wrapper->field_ci_build_status->value();
   if (!in_array($status, array('error', 'done'))) {
-    // Item still in progress.
+    // Item still in progress or re-queued after being stuck.
     return;
   }
 

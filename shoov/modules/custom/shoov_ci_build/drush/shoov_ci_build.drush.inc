@@ -66,3 +66,19 @@ function drush_shoov_ci_build_create_ci_build_item() {
     $delta++;
   }
 }
+
+/**
+ * Release items that are marked in progress for too long.
+ */
+function drush_shoov_ci_build_release_stuck_items() {
+  if (!$messages = shoov_ci_build_get_stuck_ci_builds()) {
+    drush_log('No stuck items found for processing');
+    return;
+  }
+
+  foreach ($messages as $message) {
+    $wrapper = entity_metadata_wrapper('message', $message);
+    $wrapper->field_ci_build_status->set('queue');
+    $wrapper->save();
+  }
+}
