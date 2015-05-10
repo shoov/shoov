@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-8 repos-list">
+  <div class="col-md-offset-3 col-md-5 repos-list">
 
     <h2>{{ incident.label }}</h2>
 
@@ -7,10 +7,8 @@
       <i class="fa fa-info-circle" popover-placement="right" popover-template="'ciBuilds.html'" popover-title="Dev Tip"></i>
     </div>
 
-    <div class="row">
-      <div class="col-md-8 log">
-        <div ng-bind-html="incident.failing_build.log"></div>
-      </div>
+    <div class="log-wrapper">
+      <div ng-bind-html="incident.failing_build.log"></div>
     </div>
 
   </div>
