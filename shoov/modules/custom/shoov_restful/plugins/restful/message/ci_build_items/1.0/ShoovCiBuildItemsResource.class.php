@@ -26,6 +26,9 @@ class ShoovCiBuildItemsResource extends \RestfulEntityBase {
     $public_fields['log'] = array(
       'property' => 'field_ci_build_log',
       'sub_property' => 'value',
+      'process_callbacks' => array(
+        array($this, 'processLog'),
+      ),
     );
 
     $public_fields['build'] = array(
@@ -39,5 +42,17 @@ class ShoovCiBuildItemsResource extends \RestfulEntityBase {
     );
 
     return $public_fields;
+  }
+
+  /**
+   * @param $value
+   * @return string
+   */
+  protected function processLog($value) {
+    if (strpos($value, "ENOENT, open '/home/shoov/build/.shoov.yml'") == TRUE) {
+      return '.shoov.yml file is missing. Make sure to add one in the root of your repository.';
+    }
+
+    return $value;
   }
 }
