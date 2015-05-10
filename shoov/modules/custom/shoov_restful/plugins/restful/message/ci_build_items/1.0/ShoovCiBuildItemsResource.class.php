@@ -53,6 +53,8 @@ class ShoovCiBuildItemsResource extends \RestfulEntityBase {
       return '.shoov.yml file is missing. Make sure to add one in the root of your repository.';
     }
 
+    $value = str_replace('+ sh -c /home/shoov/shoov.sh', '', $value);
+
     return $value;
   }
 
