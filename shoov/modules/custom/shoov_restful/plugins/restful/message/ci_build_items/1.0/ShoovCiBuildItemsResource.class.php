@@ -55,4 +55,19 @@ class ShoovCiBuildItemsResource extends \RestfulEntityBase {
 
     return $value;
   }
+
+  /**
+   * {@inheritdoc}
+   *
+   * Set the Log field to be full html.
+   * @todo: be more careful here...
+   */
+  protected function propertyValuesPreprocessText($property_name, $value, $field_info) {
+    $output = parent::propertyValuesPreprocessText($property_name, $value, $field_info);
+    if ($property_name == 'log') {
+      $output['format'] = 'full_html';
+    }
+
+    return $output;
+  }
 }
