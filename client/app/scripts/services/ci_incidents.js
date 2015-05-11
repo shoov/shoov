@@ -8,18 +8,13 @@
  * Service in the clientApp.
  */
 angular.module('clientApp')
-  .service('Repos', function ($q, $http, $timeout, Config, $rootScope, $log) {
+  .service('CiIncidents', function ($q, $http, $timeout, Config, $rootScope, $log) {
 
     // A private cache key.
     var cache = {};
 
     // Update event broadcast name.
-    var broadcastUpdateEventName = 'ShoovReposChange';
-
-    this.create = function(label) {
-      return $http.post(Config.backend + '/api/repositories', {label: label});
-    };
-
+    var broadcastUpdateEventName = 'ShoovCiIncidentsChange';
 
     /**
      * Return the promise with the events list, from cache or the server.
@@ -29,12 +24,12 @@ angular.module('clientApp')
      *
      * @returns {*}
      */
-    this.get = function(repoId) {
-      if (cache && cache[repoId]) {
-        return $q.when(cache[repoId].data);
+    this.get = function(id) {
+      if (cache && cache[id]) {
+        return $q.when(cache[id].data);
       }
 
-      return getDataFromBackend(repoId);
+      return getDataFromBackend(id);
     };
 
 
@@ -46,12 +41,12 @@ angular.module('clientApp')
      *
      * @returns {$q.promise}
      */
-    function getDataFromBackend(repoId) {
+    function getDataFromBackend(id) {
       var deferred = $q.defer();
-      var url = Config.backend + '/api/github_repos';
+      var url = Config.backend + '/api/ci-incidents';
 
-      if (repoId) {
-        url += '/' + repoId;
+      if (id) {
+        url += '/' + id;
       }
 
       var params = {
@@ -63,7 +58,7 @@ angular.module('clientApp')
         url: url,
         params: params
       }).success(function(response) {
-        setCache(repoId, response.data);
+        setCache(id, response.data);
         deferred.resolve(response.data);
       });
 

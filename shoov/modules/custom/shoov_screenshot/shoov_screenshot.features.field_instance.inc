@@ -304,10 +304,10 @@ function shoov_screenshot_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Baseline Image');
   t('Baseline name');
-  t('ui_build');
   t('Diff Image');
   t('Regression Image');
   t('Repository');
+  t('ui_build');
 
   return $field_instances;
 }

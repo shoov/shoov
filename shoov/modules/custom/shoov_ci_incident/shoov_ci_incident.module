@@ -45,23 +45,50 @@ function shoov_ci_incident_get_latest_error_incident($node) {
  *   The newly saved CI incident node object.
  */
 function shoov_ci_incident_create_error_incident(Message $message) {
+  $message_wrapper = entity_metadata_wrapper('message', $message);
+  $ci_build_id = $message_wrapper->field_ci_build->getIdentifier();
+
+  $params = array(
+    '@count' => shoov_ci_incident_get_incidents_count($ci_build_id) + 1,
+  );
+
   $values = array(
     'type' => 'ci_incident',
-    // @todo: Improve
-    'title' => 'New incident',
+    'title' => format_string('Incident @count', $params),
     'uid' => $message->uid,
   );
 
-  $message_wrapper = entity_metadata_wrapper('message', $message);
 
   $node = entity_create('node', $values);
   $wrapper = entity_metadata_wrapper('node', $node);
 
-  $wrapper->og_repo->set($message_wrapper->field_ci_build->og_repo->value());
-  $wrapper->field_ci_build->set($message_wrapper->field_ci_build->value());
+  $wrapper->og_repo->set($message_wrapper->field_ci_build->og_repo->getIdentifier());
+  $wrapper->field_ci_build->set($ci_build_id);
   $wrapper->field_failing_build->set($message);
   $wrapper->field_ci_build_error->set(TRUE);
   $wrapper->save();
 
   return $node;
+}
+
+/**
+ * Get the number of existing incidents per CI build.
+ *
+ * @param int $nid
+ *   The CI-build node ID.
+ *
+ * @return int
+ *   The count of CI incidents.
+ */
+function shoov_ci_incident_get_incidents_count($nid) {
+  $query = new EntityFieldQuery();
+  $count = $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'ci_incident')
+    ->fieldCondition('field_ci_build', 'target_id', $nid)
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->count()
+    ->execute();
+
+  return $count;
 }

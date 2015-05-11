@@ -25,6 +25,10 @@ class ShoovCiBuildItemsResource extends \RestfulEntityBase {
 
     $public_fields['log'] = array(
       'property' => 'field_ci_build_log',
+      'sub_property' => 'value',
+      'process_callbacks' => array(
+        array($this, 'processLog'),
+      ),
     );
 
     $public_fields['build'] = array(
@@ -38,5 +42,34 @@ class ShoovCiBuildItemsResource extends \RestfulEntityBase {
     );
 
     return $public_fields;
+  }
+
+  /**
+   * @param $value
+   * @return string
+   */
+  protected function processLog($value) {
+    if (strpos($value, "ENOENT, open '/home/shoov/build/.shoov.yml'") == TRUE) {
+      return '.shoov.yml file is missing. Make sure to add one in the root of your repository.';
+    }
+
+    $value = str_replace('+ sh -c /home/shoov/shoov.sh', '', $value);
+
+    return $value;
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * Set the Log field to be full html.
+   * @todo: be more careful here...
+   */
+  protected function propertyValuesPreprocessText($property_name, $value, $field_info) {
+    $output = parent::propertyValuesPreprocessText($property_name, $value, $field_info);
+    if ($property_name == 'log') {
+      $output['format'] = 'full_html';
+    }
+
+    return $output;
   }
 }
