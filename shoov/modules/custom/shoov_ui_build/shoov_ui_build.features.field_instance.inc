@@ -10,8 +10,8 @@
 function shoov_ui_build_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-build-field_browser'
-  $field_instances['node-build-field_browser'] = array(
+  // Exported field_instance: 'node-ui_build-field_browser'
+  $field_instances['node-ui_build-field_browser'] = array(
     'bundle' => 'ui_build',
     'default_value' => NULL,
     'deleted' => 0,
@@ -47,8 +47,8 @@ function shoov_ui_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-build-field_directory_prefix'
-  $field_instances['node-build-field_directory_prefix'] = array(
+  // Exported field_instance: 'node-ui_build-field_directory_prefix'
+  $field_instances['node-ui_build-field_directory_prefix'] = array(
     'bundle' => 'ui_build',
     'default_value' => NULL,
     'deleted' => 0,
@@ -87,8 +87,8 @@ function shoov_ui_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-build-field_git_branch'
-  $field_instances['node-build-field_git_branch'] = array(
+  // Exported field_instance: 'node-ui_build-field_git_branch'
+  $field_instances['node-ui_build-field_git_branch'] = array(
     'bundle' => 'ui_build',
     'default_value' => NULL,
     'deleted' => 0,
@@ -127,8 +127,8 @@ function shoov_ui_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-build-field_git_commit'
-  $field_instances['node-build-field_git_commit'] = array(
+  // Exported field_instance: 'node-ui_build-field_git_commit'
+  $field_instances['node-ui_build-field_git_commit'] = array(
     'bundle' => 'ui_build',
     'default_value' => NULL,
     'deleted' => 0,
@@ -167,8 +167,8 @@ function shoov_ui_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-build-field_pr_branch_name'
-  $field_instances['node-build-field_pr_branch_name'] = array(
+  // Exported field_instance: 'node-ui_build-field_pr_branch_name'
+  $field_instances['node-ui_build-field_pr_branch_name'] = array(
     'bundle' => 'ui_build',
     'default_value' => NULL,
     'deleted' => 0,
@@ -207,8 +207,8 @@ function shoov_ui_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-build-field_pr_screenshot_ids'
-  $field_instances['node-build-field_pr_screenshot_ids'] = array(
+  // Exported field_instance: 'node-ui_build-field_pr_screenshot_ids'
+  $field_instances['node-ui_build-field_pr_screenshot_ids'] = array(
     'bundle' => 'ui_build',
     'default_value' => NULL,
     'deleted' => 0,
@@ -247,8 +247,8 @@ function shoov_ui_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-build-field_pull_request'
-  $field_instances['node-build-field_pull_request'] = array(
+  // Exported field_instance: 'node-ui_build-field_pull_request'
+  $field_instances['node-ui_build-field_pull_request'] = array(
     'bundle' => 'ui_build',
     'default_value' => NULL,
     'deleted' => 0,
@@ -287,8 +287,8 @@ function shoov_ui_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-build-field_pull_request_status'
-  $field_instances['node-build-field_pull_request_status'] = array(
+  // Exported field_instance: 'node-ui_build-field_pull_request_status'
+  $field_instances['node-ui_build-field_pull_request_status'] = array(
     'bundle' => 'ui_build',
     'default_value' => NULL,
     'deleted' => 0,
@@ -324,8 +324,8 @@ function shoov_ui_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-build-og_repo'
-  $field_instances['node-build-og_repo'] = array(
+  // Exported field_instance: 'node-ui_build-og_repo'
+  $field_instances['node-ui_build-og_repo'] = array(
     'bundle' => 'ui_build',
     'default_value' => NULL,
     'deleted' => 0,
