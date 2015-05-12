@@ -89,6 +89,26 @@ angular
           }
         }
       })
+      .state('dashboard.ciBuildItems', {
+        url: '/ci-build-items',
+        templateUrl: 'views/dashboard/ci_build_items/ci_build_items.html',
+        controller: 'CiBuildItemsCtrl',
+        resolve: {
+          ciBuildItems: function(CiBuildItems) {
+            return CiBuildItems.get();
+          }
+        }
+      })
+      .state('dashboard.ciBuildItem', {
+        url: '/ci-build-items/{ciBuildItemId:int}',
+        templateUrl: 'views/dashboard/ci_build_items/ci_build_item.html',
+        controller: 'CiBuildItemCtrl',
+        resolve: {
+          ciBuildItem: function(CiBuildItems, $stateParams) {
+            return CiBuildItems.get($stateParams.ciBuildItemId);
+          }
+        }
+      })
       .state('dashboard.ciIncidents', {
         url: '/ci-incidents',
         templateUrl: 'views/dashboard/ci_incidents/ci_incidents.html',
