@@ -83,17 +83,22 @@ class ShoovCiBuildItemsResource extends \RestfulEntityBase {
   protected function queryForListFilter(\EntityFieldQuery $query) {
     parent::queryForListFilter($query);
 
-
     $build_query = new EntityFieldQuery();
     $result = $build_query
       ->entityCondition('entity_type', 'node')
       ->entityCondition('bundle', 'ci_build')
+      ->addMetaData('account', $this->getAccount())
       ->addTag('node_access')
       ->execute();
 
-    $valid_builds = !empty($result['node']) ? array_keys($result['node']) : array();
+    if (!$valid_builds = !empty($result['node']) ? array_keys($result['node']) : array()) {
+      // No valid builds, so falsify the query.
+      $query->propertyCondition('mid', 1, '<');
 
-    $query->fieldCondition('field_ci_build', 'target_id', $valid_builds, 'IN');
+    }
+    else {
+      $query->fieldCondition('field_ci_build', 'target_id', $valid_builds, 'IN');
+    }
   }
 
 }
