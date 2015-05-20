@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-offset-3 col-md-5 jumbotron">
 
-        <a class="btn btn-block btn-social btn-lg btn-github" ng-show="githubClientId" ng-href="https://github.com/login/oauth/authorize?client_id={{ githubClientId }}&scope=user:email,{{ githubPrivateAccess ? 'repo' : 'repo_public'}}">
+        <a class="btn btn-block btn-social btn-lg btn-github" ng-show="githubClientId" ng-href="https://github.com/login/oauth/authorize?client_id={{ githubClientId }}&scope=user:email,{{ githubPrivateAccess ? 'repo' : 'public_repo'}}">
           <i class="fa fa-github"></i> Sign in with GitHub
         </a>
 
