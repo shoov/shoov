@@ -11,7 +11,7 @@
 function shoov_migrate_migrate_api() {
   $migrations = array(
     // Nodes.
-    'ShoovCompaniesMigrate',
+    'ShoovRepositoriesMigrate',
     'ShoovEventsMigrate',
     // Users.
     'ShoovUsersMigrate',
