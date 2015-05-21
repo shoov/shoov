@@ -10,6 +10,11 @@ class ShoovRepositoriesMigrate extends \ShoovMigrateBase {
   public $entityType = 'node';
   public $bundle = 'repository';
 
+  public $fields = array(
+    '_github_id',
+    '_user'
+  );
+
   public function __construct() {
     parent::__construct();
     $this
@@ -21,9 +26,11 @@ class ShoovRepositoriesMigrate extends \ShoovMigrateBase {
       ->addFieldMapping(OG_ACCESS_FIELD)
       ->defaultValue(TRUE);
 
-    // Group belong to the admin by default.
     $this
-      ->addFieldMapping('uid')
-      ->defaultValue('1');
+      ->addFieldMapping('field_github_id', '_github_id');
+
+    $this
+      ->addFieldMapping('uid', '_user')
+      ->sourceMigration('ShoovUsersMigrate');
   }
 }
