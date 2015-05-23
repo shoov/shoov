@@ -12,30 +12,24 @@ class ShoovUsersMigrate extends Migration {
    */
   public $fields = array(
     '_unique_id',
-    '_company',
     '_username',
-    '_password',
-    '_email',
   );
 
   public $entityType = 'user';
-
-  public $dependencies = array(
-    'ShoovCompaniesMigrate',
-  );
 
   public function __construct() {
     parent::__construct();
     $this->description = t('Import users from a CSV file.');
 
-    $this
-      ->addFieldMapping('og_user_node', '_company')
-      ->separator('|')
-      ->sourceMigration('ShoovCompaniesMigrate');
 
     $this->addFieldMapping('name', '_username');
-    $this->addFieldMapping('pass', '_password');
-    $this->addFieldMapping('mail', '_email');
+
+    $this
+      ->addFieldMapping('pass')
+      ->defaultValue('1234');
+
+    $this->addFieldMapping('mail');
+
     $this
       ->addFieldMapping('roles')
       ->defaultValue(DRUPAL_AUTHENTICATED_RID);
@@ -63,5 +57,14 @@ class ShoovUsersMigrate extends Migration {
 
     // Create a MigrateSource object.
     $this->destination = new MigrateDestinationUser();
+  }
+
+  /**
+   * Overrides Migration::prepareRow().
+   *
+   * Add default email.
+   */
+  public function prepareRow($row) {
+    $row->mail = $row->name . '@example.com';
   }
 }
