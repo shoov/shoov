@@ -1,0 +1,5 @@
+Unique ID,Title,Repository,Git Branch,Git Commit,Enabled
+ci_build1,Gizra/Gizra,master,1234
+ci_build2,shoov/shoov,master,5678
+ci_build3,Foo/Bar,err,abcd
+ci_build4,Drupal/fun,another-one,1a2b3c,0
