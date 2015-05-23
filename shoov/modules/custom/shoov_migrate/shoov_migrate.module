@@ -12,7 +12,7 @@ function shoov_migrate_migrate_api() {
   $migrations = array(
     // Nodes.
     'ShoovRepositoriesMigrate',
-    'ShoovEventsMigrate',
+    'ShoovCiBuildMigrate',
     // Users.
     'ShoovUsersMigrate',
   );

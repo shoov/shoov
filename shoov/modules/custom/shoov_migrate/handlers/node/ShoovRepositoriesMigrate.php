@@ -15,6 +15,10 @@ class ShoovRepositoriesMigrate extends \ShoovMigrateBase {
     '_user'
   );
 
+  public $dependencies = array(
+    'ShoovUsersMigrate',
+  );
+
   public function __construct() {
     parent::__construct();
     $this
