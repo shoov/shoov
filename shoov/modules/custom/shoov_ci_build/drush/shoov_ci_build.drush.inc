@@ -93,5 +93,10 @@ function drush_shoov_ci_build_release_stuck_items() {
 
     drush_log(dt('@delta / @count) Re-queued message ID @id after being stuck.', $params));
     $delta++;
+
+    // @todo: Remove this hack.
+    // Sleep for 1 second, to prevent INSERT errors when there are multiple
+    // builds.
+    sleep(1);
   }
 }
