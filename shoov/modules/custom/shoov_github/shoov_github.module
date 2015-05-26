@@ -51,7 +51,7 @@ function shoov_github_check_response_http_error($url, $result) {
     );
 
     $message = format_string('Calling @url resulted with a @code HTTP code, with the following error message: @error', $params);
-    watchdog('shoov_github', $message, WATCHDOG_ERROR);
+    watchdog('shoov_github', $message, array(), WATCHDOG_ERROR);
 
     throw new \RestfulServerConfigurationException($message);
   }
