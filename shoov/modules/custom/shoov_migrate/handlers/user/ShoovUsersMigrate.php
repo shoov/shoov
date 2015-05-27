@@ -13,9 +13,14 @@ class ShoovUsersMigrate extends Migration {
   public $fields = array(
     '_unique_id',
     '_username',
+    '_repositories'
   );
 
   public $entityType = 'user';
+
+  public $dependencies = array(
+    'ShoovUsersMigrate',
+  );
 
   public function __construct() {
     parent::__construct();
@@ -23,6 +28,9 @@ class ShoovUsersMigrate extends Migration {
 
 
     $this->addFieldMapping('name', '_username');
+
+    $this
+      ->addFieldMapping('name', '_repositories');
 
     $this
       ->addFieldMapping('pass')

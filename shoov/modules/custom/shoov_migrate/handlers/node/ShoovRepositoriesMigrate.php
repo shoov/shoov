@@ -12,11 +12,6 @@ class ShoovRepositoriesMigrate extends \ShoovMigrateBase {
 
   public $fields = array(
     '_github_id',
-    '_user'
-  );
-
-  public $dependencies = array(
-    'ShoovUsersMigrate',
   );
 
   public function __construct() {
@@ -33,8 +28,9 @@ class ShoovRepositoriesMigrate extends \ShoovMigrateBase {
     $this
       ->addFieldMapping('field_github_id', '_github_id');
 
+    // Set the admin as the group owner.
     $this
-      ->addFieldMapping('uid', '_user')
-      ->sourceMigration('ShoovUsersMigrate');
+      ->addFieldMapping('uid')
+      ->defaultValue(1);
   }
 }
