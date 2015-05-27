@@ -338,6 +338,45 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-ci_build-field_private_key'
+  $field_instances['node-ci_build-field_private_key'] = array(
+    'bundle' => 'ci_build',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 5,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_private_key',
+    'label' => 'Private Key',
+    'required' => FALSE,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 5,
+    ),
+  );
+
   // Exported field_instance: 'node-ci_build-og_repo'
   $field_instances['node-ci_build-og_repo'] = array(
     'bundle' => 'ci_build',
@@ -397,6 +436,7 @@ function shoov_ci_build_field_default_field_instances() {
   t('Git Commit');
   t('Indicate if the CI build is enabled, and should be queued.');
   t('Log');
+  t('Private Key');
   t('Repository');
   t('Start time');
   t('Status');
