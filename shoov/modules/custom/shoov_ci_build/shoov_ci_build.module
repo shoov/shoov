@@ -58,6 +58,25 @@ function shoov_ci_build_get_stuck_ci_builds($timestamp = NULL, $range = 50) {
 }
 
 /**
+ * Implements hook_node_presave().
+ *
+ * Add a random private key to the CI build.
+ */
+function shoov_ci_build_node_presave($node) {
+  if ($node->type != 'ci_build') {
+    return;
+  }
+
+  if (!empty($node->nid)) {
+    // Node is already saved.
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $wrapper->field_private_key->set(drupal_random_key());
+}
+
+/**
  * Implements hook_node_insert().
  *
  * Create a CI build item when a new CI build node is created.
