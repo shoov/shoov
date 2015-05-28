@@ -85,7 +85,6 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
 
     $repo_ids = array_keys($result['node']);
     $repo_nodes = array();
-    $build_nodes = array();
 
     foreach(node_load_multiple($repo_ids) as $repo) {
       // Key array by repo node ID.
