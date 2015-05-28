@@ -67,12 +67,12 @@ function shoov_ci_build_node_presave($node) {
     return;
   }
 
-  if (!empty($node->nid)) {
-    // Node is already saved.
+  $wrapper = entity_metadata_wrapper('node', $node);
+  if ($wrapper->field_private_key->value()) {
+    // Private key is already populated.
     return;
   }
 
-  $wrapper = entity_metadata_wrapper('node', $node);
   $wrapper->field_private_key->set(drupal_random_key());
 }
 
