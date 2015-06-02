@@ -11,32 +11,23 @@ class ShoovUsersMigrate extends Migration {
    * Map the field and properties to the CSV header.
    */
   public $fields = array(
-    '_unique_id',
-    '_username',
-    '_repositories'
+    '_username'
   );
 
   public $entityType = 'user';
-
-  public $dependencies = array(
-    'ShoovUsersMigrate',
-  );
 
   public function __construct() {
     parent::__construct();
     $this->description = t('Import users from a CSV file.');
 
-
     $this->addFieldMapping('name', '_username');
 
-    $this
-      ->addFieldMapping('name', '_repositories');
-
+    // Set default password '1234' for each imported user.
     $this
       ->addFieldMapping('pass')
       ->defaultValue('1234');
 
-    $this->addFieldMapping('mail');
+    $this->addFieldMapping('mail', '_email');
 
     $this
       ->addFieldMapping('roles')
@@ -45,6 +36,9 @@ class ShoovUsersMigrate extends Migration {
     $this
       ->addFieldMapping('status')
       ->defaultValue(TRUE);
+
+    // Set random Github access token because this field is required.
+    $this->addFieldMapping('field_github_access_token', '_github_token');
 
     // Create a map object for tracking the relationships between source rows
     $key = array(
@@ -70,9 +64,10 @@ class ShoovUsersMigrate extends Migration {
   /**
    * Overrides Migration::prepareRow().
    *
-   * Add default email.
+   * Add default email and randomly generated Github token.
    */
   public function prepareRow($row) {
-    $row->mail = $row->name . '@example.com';
+    $row->_email = strtolower($row->_username) . '@example.com';
+    $row->_github_token = sha1(srand());
   }
 }

@@ -12,25 +12,31 @@ class ShoovRepositoriesMigrate extends \ShoovMigrateBase {
 
   public $fields = array(
     '_github_id',
+    '_private',
+    '_user_id'
+  );
+
+  public $dependencies = array(
+    'ShoovUsersMigrate',
   );
 
   public function __construct() {
     parent::__construct();
+
     $this
       ->addFieldMapping(OG_GROUP_FIELD)
       ->defaultValue(TRUE);
 
     // Group is private by default.
     $this
-      ->addFieldMapping(OG_ACCESS_FIELD)
+      ->addFieldMapping(OG_ACCESS_FIELD, '_private')
       ->defaultValue(TRUE);
 
-    $this
-      ->addFieldMapping('field_github_id', '_github_id');
+    $this->addFieldMapping('field_github_id', '_github_id');
 
-    // Set the admin as the group owner.
+    // Map users to their repositories.
     $this
-      ->addFieldMapping('uid')
-      ->defaultValue(1);
+      ->addFieldMapping('uid', '_user_id')
+      ->sourceMigration('ShoovUsersMigrate');
   }
 }
