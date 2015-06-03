@@ -68,7 +68,7 @@ abstract class ShoovMigrateBase extends Migration {
   }
 
   /**
-   * Return the author ID of specific repository.
+   * Return the author ID of the specific repository.
    *
    * @param $repo_id
    *  Node ID of repository.

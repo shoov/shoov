@@ -23,8 +23,7 @@ class ShoovUiBuildMigrate extends \ShoovMigrateBase {
   );
 
   public $dependencies = array(
-    'ShoovRepositoriesMigrate',
-//    'ShoovScreenshotsMigrate'
+    'ShoovRepositoriesMigrate'
   );
 
   public function __construct() {
@@ -36,37 +35,35 @@ class ShoovUiBuildMigrate extends \ShoovMigrateBase {
       ->sourceMigration('ShoovRepositoriesMigrate')
       ->callbacks(array($this, 'getUidFromRepo'));
 
-    // Map Repository field.
+    // Map Repository.
     $this
       ->addFieldMapping('og_repo', '_repository')
       ->sourceMigration('ShoovRepositoriesMigrate');
 
-    // Map Browser field.
+    // Map Browser.
     $this->addFieldMapping('field_browser', '_browser');
 
-    // Map Git Commit field.
+    // Map Git Commit.
     $this->addFieldMapping('field_git_commit', '_git_commit');
 
-    // Map Git Branch field.
+    // Map Git Branch.
     $this->addFieldMapping('field_git_branch', '_git_branch');
 
-    // Map Directory prefix field.
+    // Map Directory prefix.
     $this->addFieldMapping('field_directory_prefix', '_directory_prefix');
 
-    // Map Pull Request field.
+    // Map Pull Request.
     $this->addFieldMapping('field_pull_request', '_pull_request');
 
-    // Map Pull Request Status field.
+    // Map Pull Request Status.
     $this->addFieldMapping('field_pull_request_status', '_pull_request_status');
 
-    // Map PR Screenshot IDs field.
-    // TODO: create ShoovScreenshotsMigrate migration.
+    // Map PR Branch Name.
+    $this->addFieldMapping('field_pr_branch_name', '_pr_branch_name');
+
+    // Map PR Screenshot IDs.
 //    $this
 //      ->addFieldMapping('field_pr_screenshot_ids', '_pr_screenshot_ids')
 //      ->sourceMigration('ShoovScreenshotsMigrate');
-
-    // Map PR Branch Name field.
-    $this->addFieldMapping('field_pr_branch_name', '_pr_branch_name');
-
   }
 }
