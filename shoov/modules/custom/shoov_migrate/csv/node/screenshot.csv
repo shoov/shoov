@@ -1,5 +1,5 @@
 Unique ID,Title,Baseline name,Baseline Image,Regression Image,Diff Image,Repository,ui_build
-screenshot1,"default duckduck",webdrivercss/company1.jpg,company1.jpg,company1.jpg,company1.jpg,repository1,ui_build1
-screenshot2,"browserstack-chrome google",webdrivercss/company2.jpg,company2.jpg,company2.jpg,company2.jpg,repository2,ui_build2
-screenshot3,"browserstack-ie11 wiki",webdrivercss/company3.jpg,company3.jpg,company3.jpg,company3.jpg,repository3,ui_build3
-screenshot4,"chrome pendant",webdrivercss/company4.jpg,company4.jpg,company4.jpg,company4.jpg,repository4,ui_build4
+screenshot1,"default duckduck",webdrivercss/default.duckduck.baseline.png,default.duckduck.baseline.png,default.duckduck.regression.png,default.duckduck.diff.png,repository1,ui_build1
+screenshot2,"browserstack-chrome google",webdrivercss/default.google.baseline.png,default.google.baseline.png,default.google.regression.png,default.google.diff.png,repository2,ui_build2
+screenshot3,"browserstack-ie11 wiki",webdrivercss/default.duckduck.baseline.png,default.duckduck.baseline.png,default.duckduck.regression.png,default.duckduck.diff.png,repository3,ui_build3
+screenshot4,"chrome pendant",webdrivercss/default.google.baseline.png,default.google.baseline.png,default.google.regression.png,default.google.diff.png,repository4,ui_build4
