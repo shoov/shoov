@@ -49,9 +49,4 @@ class ShoovCiBuildMigrate extends \ShoovMigrateBase {
       ->callbacks(array($this, 'getUidFromRepo'));
 
   }
-
-  public function getUidFromRepo($repo_id) {
-    $repo_node = node_load($repo_id['destid1']);
-    return $repo_node->uid;
-  }
 }

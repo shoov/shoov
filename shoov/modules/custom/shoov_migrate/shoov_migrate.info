@@ -10,6 +10,7 @@ files[] = handlers/ShoovMigrateBase.php
 
 files[] = handlers/node/ShoovRepositoriesMigrate.php
 files[] = handlers/node/ShoovCiBuildMigrate.php
+files[] = handlers/node/ShoovUiBuildMigrate.php
 
 files[] = handlers/user/ShoovUsersMigrate.php
 
