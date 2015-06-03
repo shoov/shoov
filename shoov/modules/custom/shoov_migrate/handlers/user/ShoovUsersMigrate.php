@@ -11,6 +11,7 @@ class ShoovUsersMigrate extends Migration {
    * Map the field and properties to the CSV header.
    */
   public $fields = array(
+    '_unique_id',
     '_username'
   );
 
@@ -37,7 +38,7 @@ class ShoovUsersMigrate extends Migration {
       ->addFieldMapping('status')
       ->defaultValue(TRUE);
 
-    // Set random Github access token because this field is required.
+    // Set random Github access token for each user because this field is required.
     $this->addFieldMapping('field_github_access_token', '_github_token');
 
     // Create a map object for tracking the relationships between source rows
@@ -64,7 +65,7 @@ class ShoovUsersMigrate extends Migration {
   /**
    * Overrides Migration::prepareRow().
    *
-   * Add default email and randomly generated Github token.
+   * Add default email and randomly generated token.
    */
   public function prepareRow($row) {
     $row->_email = strtolower($row->_username) . '@example.com';

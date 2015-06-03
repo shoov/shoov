@@ -2,34 +2,23 @@
 
 /**
  * @file
- * Contains \ShoovMigration.
+ * Contains \ShoovMigrateMessage.
  */
 
-abstract class ShoovMigrateBase extends Migration {
+abstract class ShoovMigrateMessage extends Migration {
 
   public function __construct() {
     parent::__construct();
 
-    // Make sure we can use it for node and term only.
-    if (!in_array($this->entityType, array('node', 'taxonomy_term'))) {
-      throw new Exception('\ShoovMigrateBase supports only nodes and terms.');
+    // Make sure we can use it for messages only.
+    if ($this->entityType != 'message') {
+      throw new Exception('\ShoovMigrateMessage supports only messages.');
     }
 
     $this->description = t('Import @type - @bundle from SQL table', array('@type' => $this->entityType, '@bundle' => $this->bundle));
 
     $this->fields = !empty($this->fields) ? $this->fields : array();
     $sql_fields[] = '_unique_id';
-
-    if ($this->entityType == 'node') {
-      $this->addFieldMapping('title', '_title');
-      $class_name = 'MigrateDestinationNode';
-      $sql_fields[] = '_title';
-    }
-    elseif ($this->entityType == 'taxonomy_term') {
-      $this->addFieldMapping('name', '_name');
-      $class_name = 'MigrateDestinationTerm';
-      $sql_fields[] = '_name';
-    }
 
     // Rebuild the csv columns array.
     $this->fields = array_merge($sql_fields, $this->fields);

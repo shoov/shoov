@@ -1,0 +1,6 @@
+Unique ID, CI build, Status, Start time
+1001,ci_build1,Done,06/02/2015 - 15:00
+1002,ci_build1,In progress,06/02/2015 - 15:03
+1003,ci_build2,Error,07/02/2015 - 09:00
+1004,ci_build3,Queue,08/02/2015 - 17:00
+1005,ci_build3,Error,09/02/2015 - 18:00
