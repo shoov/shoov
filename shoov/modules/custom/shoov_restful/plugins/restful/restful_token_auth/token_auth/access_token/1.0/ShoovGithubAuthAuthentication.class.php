@@ -41,9 +41,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
       'data' => http_build_query(array(
         'client_id' => variable_get('shoov_github_client_id'),
         'client_secret' => variable_get('shoov_github_client_secret'),
-        'code' => $request['code'],
-        'X-NewRelic-ID' => 'XQUCV15VGwYJXVhTBAg=',
-        'X-NewRelic-Transaction' => 'PxRVWAdUWQEHBlVUVFcEVABVFB8EBw8RVT8=',
+        'code' => $request['code']
       )),
       'headers' => array(
       ),
