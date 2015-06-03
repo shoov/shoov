@@ -18,7 +18,6 @@ class ShoovUiBuildMigrate extends \ShoovMigrateBase {
     '_directory_prefix',
     '_pull_request',
     '_pull_request_status',
-    '_pr_screenshot_ids',
     '_pr_branch_name'
   );
 
@@ -60,10 +59,5 @@ class ShoovUiBuildMigrate extends \ShoovMigrateBase {
 
     // Map PR Branch Name.
     $this->addFieldMapping('field_pr_branch_name', '_pr_branch_name');
-
-    // Map PR Screenshot IDs.
-//    $this
-//      ->addFieldMapping('field_pr_screenshot_ids', '_pr_screenshot_ids')
-//      ->sourceMigration('ShoovScreenshotsMigrate');
   }
 }
