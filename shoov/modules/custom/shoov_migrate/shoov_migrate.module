@@ -13,6 +13,8 @@ function shoov_migrate_migrate_api() {
     // Nodes.
     'ShoovRepositoriesMigrate',
     'ShoovCiBuildMigrate',
+    // Entities.
+    'ShoovCiBuildMessagesMigrate',
     // Users.
     'ShoovUsersMigrate',
   );

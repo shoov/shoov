@@ -54,7 +54,7 @@ abstract class ShoovMigrateBase extends Migration {
       ->orderBy('__id');
     $this->source = new MigrateSourceSQL($query, $this->fields);
 
-    $this->destination = new $class_name($this->bundle, array('text_format' => 'filtered_html'));
+    $this->destination = new MigrateDestinationNode($this->bundle, array('text_format' => 'filtered_html'));
   }
 
   /**

@@ -36,14 +36,14 @@ abstract class ShoovMigrateMessage extends Migration {
     $this->map = new MigrateSQLMap($this->machineName, $key, $destination_handler->getKeySchema($this->entityType));
 
     // Create a MigrateSource object.
-    $sql_table = (isset($this->sqlTable)) ? '_raw_' . $this->sqlTable : '_raw_' . $this->bundle;
+    $sql_table = (isset($this->sqlTable)) ? '_raw_' . $this->sqlTable : '_raw_msg_' . $this->bundle;
 
     $query = db_select($sql_table, 't')
       ->fields('t')
       ->orderBy('__id');
     $this->source = new MigrateSourceSQL($query, $this->fields);
 
-    $this->destination = new $class_name($this->bundle, array('text_format' => 'filtered_html'));
+    $this->destination = new MigrateDestinationMessage($this->bundle, array('text_format' => 'filtered_html'));
   }
 
   /**
