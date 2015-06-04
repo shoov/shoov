@@ -49,6 +49,11 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
       ),
     );
 
+
+    // Pantheon has a nasty bug that causes http_build_query() to build the
+    // query incorrectly.
+    $options['data'] = 'client_id=' . variable_get('shoov_github_client_id') . '&client_secret=' . variable_get('shoov_github_client_secret') . '&code=' . $request['code'];
+
     // Allow mocking the login to Github.
     $url = variable_get('shoov_github_api_login_url', 'https://github.com/login/oauth/access_token');
     $result = drupal_http_request($url, $options);

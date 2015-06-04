@@ -24,16 +24,15 @@ class ShoovCiBuildMigrate extends \ShoovMigrateBase {
   public function __construct() {
     parent::__construct();
 
-    $this
-      ->addFieldMapping(OG_AUDIENCE_FIELD, '_repository')
-      ->sourceMigration('ShoovRepositoriesMigrate');
-
+    // Map Git Branch.
     $this
       ->addFieldMapping('field_git_branch', '_git_branch');
 
+    // Map Git Commit.
     $this
       ->addFieldMapping('field_git_commit', '_git_commit');
 
+    // Map Status of Ci Build.
     $this
       ->addFieldMapping('field_ci_build_enabled', '_enabled');
 
@@ -48,10 +47,5 @@ class ShoovCiBuildMigrate extends \ShoovMigrateBase {
       ->sourceMigration('ShoovRepositoriesMigrate')
       ->callbacks(array($this, 'getUidFromRepo'));
 
-  }
-
-  public function getUidFromRepo($repo_id) {
-    $repo_node = node_load($repo_id['destid1']);
-    return $repo_node->uid;
   }
 }

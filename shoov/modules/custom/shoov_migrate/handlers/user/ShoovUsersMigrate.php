@@ -21,6 +21,7 @@ class ShoovUsersMigrate extends Migration {
     parent::__construct();
     $this->description = t('Import users from a CSV file.');
 
+    // Map Username.
     $this->addFieldMapping('name', '_username');
 
     // Set default password '1234' for each imported user.
@@ -28,17 +29,20 @@ class ShoovUsersMigrate extends Migration {
       ->addFieldMapping('pass')
       ->defaultValue('1234');
 
+    // Map Email.
     $this->addFieldMapping('mail', '_email');
 
+    // Map Role.
     $this
       ->addFieldMapping('roles')
       ->defaultValue(DRUPAL_AUTHENTICATED_RID);
 
+    // Map Status.
     $this
       ->addFieldMapping('status')
       ->defaultValue(TRUE);
 
-    // Set random Github access token for each user because this field is required.
+    // Set random Github access token because this field is required.
     $this->addFieldMapping('field_github_access_token', '_github_token');
 
     // Create a map object for tracking the relationships between source rows
@@ -65,10 +69,10 @@ class ShoovUsersMigrate extends Migration {
   /**
    * Overrides Migration::prepareRow().
    *
-   * Add default email and randomly generated token.
+   * Add default email and randomly generated Github token.
    */
   public function prepareRow($row) {
     $row->_email = strtolower($row->_username) . '@example.com';
-    $row->_github_token = sha1(srand());
+    $row->_github_token = drupal_random_key();
   }
 }
