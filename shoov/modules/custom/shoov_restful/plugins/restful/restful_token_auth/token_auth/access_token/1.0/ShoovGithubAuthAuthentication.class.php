@@ -42,7 +42,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
         'client_id' => variable_get('shoov_github_client_id'),
         'client_secret' => variable_get('shoov_github_client_secret'),
         'code' => $request['code'],
-      ))
+      )),
     );
 
     // Allow mocking the login to Github.
