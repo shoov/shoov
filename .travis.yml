@@ -11,6 +11,7 @@ mysql:
 before_install:
   - sudo apt-get update > /dev/null
   - composer self-update
+  - npm install -g npm@2
 
   # Install Bower, Grunt
   - npm install -g bower grunt-cli
