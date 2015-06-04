@@ -95,16 +95,14 @@ class MigrateDestinationMessage extends MigrateDestinationEntity {
    *  successful. FALSE on failure.
    */
   public function import(stdClass $message, stdClass $row) {
+    $msg_object = message_create($this->getBundle(), array('uid' => $message->uid));
 
-    $values = array('field_ci_build' => 5, 'ci_build' => 6, 'build' => 7);
-    $account = array();
-    $msg_object = message_create($this->getBundle(), $values, $account);
-    $msg_object->arguments['field_ci_build'] = 5;
-    $msg_object->arguments['ci_build'] = 6;
-    $msg_object->arguments['build'] = 7;
-    message_save($msg_object);
+    $wrapper = entity_metadata_wrapper('message', $msg_object);
+    $wrapper->field_ci_build->set($message->field_ci_build['destid1']);
+    $wrapper->field_ci_build_status->set(strtolower($message->field_ci_build_status));
+    $wrapper->field_ci_build_timestamp->set(strtotime($message->field_ci_build_timestamp));
+//    $wrapper->field_ci_build_log->set();
 
-    dsm($message);
-    dsm($row);
+    return message_save($msg_object);
   }
 }
