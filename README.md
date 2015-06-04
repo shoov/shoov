@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/shoov/shoov.svg)](https://travis-ci.org/shoov/shoov)
+[![Build Status](https://travis-ci.org/shoov/shoov.svg?branch=master)](https://travis-ci.org/shoov/shoov)
 
 # Drupal 7 - Install Profile Shoov
 
