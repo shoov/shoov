@@ -68,6 +68,6 @@ class ShoovUsersMigrate extends Migration {
    */
   public function prepareRow($row) {
     $row->_email = strtolower($row->_username) . '@example.com';
-    $row->_github_token = sha1(srand());
+    $row->_github_token = drupal_random_key();
   }
 }

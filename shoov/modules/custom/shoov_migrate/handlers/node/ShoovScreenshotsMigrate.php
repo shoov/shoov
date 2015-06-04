@@ -75,14 +75,17 @@ class ShoovScreenshotsMigrate extends \ShoovMigrateBase {
   }
 
   /**
-   * Assign this screenshot with Ui Build.
+   * Implements MigrateDestination::complete().
+   *
+   * Assign this screenshot with Ui Build that its have. Because they depend
+   * from each other.
    *
    * @param $entity
    * @param $row
    */
   public function complete($entity, $row) {
-    $ui_build = node_load($entity->field_build[LANGUAGE_NONE][0]['target_id']);
-    $wrapper = entity_metadata_wrapper('node', $ui_build);
+    $ui_build_id = $entity->field_build[LANGUAGE_NONE][0]['target_id'];
+    $wrapper = entity_metadata_wrapper('node', $ui_build_id);
     $wrapper->field_pr_screenshot_ids->set($entity->nid);
     $wrapper->save();
   }
