@@ -44,6 +44,8 @@ class ShoovCiBuildMessagesMigrate extends ShoovMigrateMessage {
     // Map Start Time.
     $this->addFieldMapping('field_ci_build_timestamp', '_start_time');
 
+    // Map Log.
+    $this->addFieldMapping('field_ci_build_log', '_log');
   }
 
   /**

@@ -78,7 +78,7 @@ class MigrateDestinationMessage extends MigrateDestinationEntity {
   public function bulkRollback(array $mids) {
     migrate_instrument_start('message_delete_multiple');
     $this->prepareRollback($mids);
-    node_delete_multiple($mids);
+    message_delete_multiple($mids);
     $this->completeRollback($mids);
     migrate_instrument_stop('message_delete_multiple');
   }
@@ -101,8 +101,16 @@ class MigrateDestinationMessage extends MigrateDestinationEntity {
     $wrapper->field_ci_build->set($message->field_ci_build['destid1']);
     $wrapper->field_ci_build_status->set(strtolower($message->field_ci_build_status));
     $wrapper->field_ci_build_timestamp->set(strtotime($message->field_ci_build_timestamp));
-//    $wrapper->field_ci_build_log->set();
+    $wrapper->field_ci_build_log->value = $message->field_ci_build_log;
 
-    return message_save($msg_object);
+    message_save($msg_object);
+
+    if (!$msg_object->mid) {
+      return FALSE;
+    }
+
+    $return = array($msg_object->mid);
+
+    return $return;
   }
 }
