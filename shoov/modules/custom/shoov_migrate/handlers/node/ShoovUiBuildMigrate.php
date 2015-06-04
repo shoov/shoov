@@ -5,7 +5,7 @@
  * Contains \ShoovUiBuildMigrate.
  */
 
-class ShoovUiBuildMigrate extends \ShoovMigrateBase {
+class ShoovUiBuildMigrate extends \ShoovMigrateNode {
 
   public $entityType = 'node';
   public $bundle = 'ui_build';

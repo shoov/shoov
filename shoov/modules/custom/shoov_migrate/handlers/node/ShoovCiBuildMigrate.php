@@ -5,7 +5,7 @@
  * Contains \ShoovCiBuildMigrate.
  */
 
-class ShoovCiBuildMigrate extends \ShoovMigrateBase {
+class ShoovCiBuildMigrate extends \ShoovMigrateNode {
 
   public $entityType = 'node';
   public $bundle = 'ci_build';

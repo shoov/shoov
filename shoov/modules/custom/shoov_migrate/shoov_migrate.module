@@ -15,6 +15,7 @@ function shoov_migrate_migrate_api() {
     'ShoovCiBuildMigrate',
     'ShoovUiBuildMigrate',
     'ShoovScreenshotsMigrate',
+    'ShoovCiIncidentsMigrate',
     // Entities.
     'ShoovCiBuildMessagesMigrate',
     // Users.

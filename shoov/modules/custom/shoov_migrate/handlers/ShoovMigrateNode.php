@@ -5,7 +5,7 @@
  * Contains \ShoovMigration.
  */
 
-abstract class ShoovMigrateBase extends Migration {
+abstract class ShoovMigrateNode extends Migration {
 
   public function __construct() {
     parent::__construct();

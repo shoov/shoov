@@ -5,7 +5,7 @@
  * Contains \ShoovScreenshotsMigrate.
  */
 
-class ShoovScreenshotsMigrate extends \ShoovMigrateBase {
+class ShoovScreenshotsMigrate extends \ShoovMigrateNode {
 
   public $entityType = 'node';
   public $bundle = 'screenshot';
