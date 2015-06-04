@@ -1,5 +1,7 @@
 default:
   extensions:
+    Behat\MinkExtension:
+      base_url: "http://localhost/shoov/www"
     Drupal\DrupalExtension:
       drupal:
         drupal_root: "/var/www/shoov/www"
