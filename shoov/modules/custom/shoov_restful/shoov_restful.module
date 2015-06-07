@@ -38,6 +38,14 @@ function shoov_restful_get_user_token($account = NULL)  {
     ->range(0, 1)
     ->execute();
 
+  if (empty($result['restful_token_auth'])) {
+    // User might not have a user token, if it was created programmatically,
+    // e.g. via migrate.
+    $controller = entity_get_controller('restful_token_auth');
+    $access_token = $controller->generateAccessToken($uid);
+    return $access_token->id;
+  }
+
   $id = key($result['restful_token_auth']);
   $entity = entity_load_single('restful_token_auth', $id);
 

@@ -5,7 +5,7 @@
 # This script will setup a local copy of Drupal 7
 # based on the Installation Profile.
 #
-# Do not change the content of this file, 
+# Do not change the content of this file,
 # all configuration variables are in the config.sh file.
 #
 ################################################################################
@@ -143,14 +143,14 @@ create_sites_default_files_directory
 # Enable the development modules.
 enable_development_modules
 
+# Run post script (if any).
+run_post_script "install"
+
 # Load demo content if required.
 if [ $DEMO_CONTENT ]; then
   convert_csv_to_sql
   import_demo_content
 fi
-
-# Run post script (if any).
-run_post_script "install"
 
 
 # Check if we have a working bootstrap.
