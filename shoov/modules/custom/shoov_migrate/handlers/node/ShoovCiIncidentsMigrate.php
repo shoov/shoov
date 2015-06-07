@@ -34,9 +34,11 @@ class ShoovCiIncidentsMigrate extends \ShoovMigrateNode {
       ->sourceMigration('ShoovCiBuildMessagesMigrate');
 
     // Map Fixed Build.
-    $this
-      ->addFieldMapping('field_fixed_build', '_fixed_build')
-      ->sourceMigration('ShoovCiBuildMessagesMigrate');
+    // TODO: Commented in favor of next bug
+    // https://github.com/shoov/shoov/pull/29#issuecomment-108925427
+//    $this
+//      ->addFieldMapping('field_fixed_build', '_fixed_build')
+//      ->sourceMigration('ShoovCiBuildMessagesMigrate');
 
     // Map Repository.
     $this
@@ -59,13 +61,5 @@ class ShoovCiIncidentsMigrate extends \ShoovMigrateNode {
       ->sourceMigration('ShoovRepositoriesMigrate')
       ->callbacks(array($this, 'getUidFromRepo'));
 
-  }
-
-  public function prepare($entity, $row){
-    dsm ($entity);
-  }
-
-  public function complete($entity){
-    dsm ($entity);
   }
 }

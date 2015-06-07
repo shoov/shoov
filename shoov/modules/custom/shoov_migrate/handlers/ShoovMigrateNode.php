@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \ShoovMigration.
+ * Contains \ShoovMigrateNode.
  */
 
 abstract class ShoovMigrateNode extends Migration {
@@ -11,7 +11,7 @@ abstract class ShoovMigrateNode extends Migration {
     parent::__construct();
 
     // Make sure we can use it for node and term only.
-    if (!in_array($this->entityType, array('node', 'taxonomy_term'))) {
+    if (!in_array($this->entityType, array('node'))) {
       throw new Exception('\ShoovMigrateBase supports only nodes and terms.');
     }
 
@@ -20,16 +20,8 @@ abstract class ShoovMigrateNode extends Migration {
     $this->fields = !empty($this->fields) ? $this->fields : array();
     $sql_fields[] = '_unique_id';
 
-    if ($this->entityType == 'node') {
-      $this->addFieldMapping('title', '_title');
-      $class_name = 'MigrateDestinationNode';
-      $sql_fields[] = '_title';
-    }
-    elseif ($this->entityType == 'taxonomy_term') {
-      $this->addFieldMapping('name', '_name');
-      $class_name = 'MigrateDestinationTerm';
-      $sql_fields[] = '_name';
-    }
+    $sql_fields[] = '_title';
+    $this->addFieldMapping('title', '_title');
 
     // Rebuild the csv columns array.
     $this->fields = array_merge($sql_fields, $this->fields);
