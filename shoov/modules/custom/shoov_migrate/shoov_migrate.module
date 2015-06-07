@@ -19,6 +19,7 @@ function shoov_migrate_migrate_api() {
     // Entities.
     'ShoovCiBuildMessagesMigrate',
     'ShoovCiIncidentErrorMessagesMigrate',
+    'ShoovCiIncidentFixedMessagesMigrate',
     // Users.
     'ShoovUsersMigrate',
   );

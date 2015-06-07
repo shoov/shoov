@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \ShoovCiIncidentErrorMessagesMigrate.
+ * Contains \ShoovCiIncidentFixedMessagesMigrate.
  */
 
-class ShoovCiIncidentErrorMessagesMigrate extends ShoovMigrateMessage {
+class ShoovCiIncidentFixedMessagesMigrate extends ShoovMigrateMessage {
 
   /**
    * Map the field and properties to the CSV header.
@@ -15,7 +15,7 @@ class ShoovCiIncidentErrorMessagesMigrate extends ShoovMigrateMessage {
   );
 
   public $entityType = 'message';
-  public $bundle = 'ci_incident_error';
+  public $bundle = 'ci_incident_fixed';
 
   public $dependencies = array(
     'ShoovCiIncidentsMigrate',
@@ -23,7 +23,7 @@ class ShoovCiIncidentErrorMessagesMigrate extends ShoovMigrateMessage {
 
   public function __construct() {
     parent::__construct();
-    $this->description = t('Import CI Incidents Error messages from a CSV file.');
+    $this->description = t('Import CI Incidents Fixed messages from a CSV file.');
 
     // Map User.
     $this

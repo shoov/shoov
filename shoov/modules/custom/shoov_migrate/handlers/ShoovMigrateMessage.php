@@ -55,4 +55,19 @@ abstract class ShoovMigrateMessage extends Migration {
   protected function getMigrateDirectory() {
     return variable_get('shoov_migrate_directory', FALSE) ? variable_get('shoov_migrate_directory') : drupal_get_path('module', 'shoov_migrate');
   }
+
+  /**
+   * Implements Callback function.
+   *
+   * Return the author ID of the specific CI Incident.
+   *
+   * @param $ci_incident_id
+   *  Node ID of CI Incident.
+   * @return mixed
+   *  Author ID of CI Incident.
+   */
+  protected function getUidFromCiIncident($ci_incident_id) {
+    $ci_incident_node = node_load($ci_incident_id['destid1']);
+    return $ci_incident_node->uid;
+  }
 }
