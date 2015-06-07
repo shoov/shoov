@@ -3,7 +3,7 @@ Feature: User
   As a privileged user
   I need to be able to view a migrated users.
 
-  @api @test
+  @api
   Scenario Outline: Check users exists
     Given I login with user "admin"
     When  I visit "admin/people"
