@@ -10,8 +10,8 @@ Feature: Repository
     Then  I should have access to the page
 
   Examples:
-    | title                |
-    | drupal/drupal        |
-    | amitaibu/gizra-behat |
-    | Gizra/Gizra          |
+    | title                    |
+    | drupal/drupal            |
+    | shoov-tester/gizra-behat |
+    | Gizra/Gizra              |
 

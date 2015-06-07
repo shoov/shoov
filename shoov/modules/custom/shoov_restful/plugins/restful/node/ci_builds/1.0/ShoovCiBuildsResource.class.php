@@ -32,6 +32,10 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
       ),
     );
 
+    $public_fields['private_key'] = array(
+      'property' => 'field_private_key',
+    );
+
     return $public_fields;
   }
 }
