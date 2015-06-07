@@ -5,7 +5,7 @@
  * Contains \ShoovRepositoriesMigrate.
  */
 
-class ShoovRepositoriesMigrate extends \ShoovMigrateBase {
+class ShoovRepositoriesMigrate extends \ShoovMigrateNode {
 
   public $entityType = 'node';
   public $bundle = 'repository';

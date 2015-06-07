@@ -11,6 +11,7 @@ class ShoovUsersMigrate extends Migration {
    * Map the field and properties to the CSV header.
    */
   public $fields = array(
+    '_unique_id',
     '_username'
   );
 
@@ -20,6 +21,7 @@ class ShoovUsersMigrate extends Migration {
     parent::__construct();
     $this->description = t('Import users from a CSV file.');
 
+    // Map Username.
     $this->addFieldMapping('name', '_username');
 
     // Set default password '1234' for each imported user.
@@ -27,12 +29,15 @@ class ShoovUsersMigrate extends Migration {
       ->addFieldMapping('pass')
       ->defaultValue('1234');
 
+    // Map Email.
     $this->addFieldMapping('mail', '_email');
 
+    // Map Role.
     $this
       ->addFieldMapping('roles')
       ->defaultValue(DRUPAL_AUTHENTICATED_RID);
 
+    // Map Status.
     $this
       ->addFieldMapping('status')
       ->defaultValue(TRUE);

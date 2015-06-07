@@ -2,34 +2,23 @@
 
 /**
  * @file
- * Contains \ShoovMigration.
+ * Contains \ShoovMigrateMessage.
  */
 
-abstract class ShoovMigrateBase extends Migration {
+abstract class ShoovMigrateMessage extends Migration {
 
   public function __construct() {
     parent::__construct();
 
-    // Make sure we can use it for node and term only.
-    if (!in_array($this->entityType, array('node', 'taxonomy_term'))) {
-      throw new Exception('\ShoovMigration supports only nodes and terms.');
+    // Make sure we can use it for messages only.
+    if ($this->entityType != 'message') {
+      throw new Exception('\ShoovMigrateMessage supports only messages.');
     }
 
     $this->description = t('Import @type - @bundle from SQL table', array('@type' => $this->entityType, '@bundle' => $this->bundle));
 
     $this->fields = !empty($this->fields) ? $this->fields : array();
     $sql_fields[] = '_unique_id';
-
-    if ($this->entityType == 'node') {
-      $this->addFieldMapping('title', '_title');
-      $class_name = 'MigrateDestinationNode';
-      $sql_fields[] = '_title';
-    }
-    elseif ($this->entityType == 'taxonomy_term') {
-      $this->addFieldMapping('name', '_name');
-      $class_name = 'MigrateDestinationTerm';
-      $sql_fields[] = '_name';
-    }
 
     // Rebuild the csv columns array.
     $this->fields = array_merge($sql_fields, $this->fields);
@@ -47,14 +36,14 @@ abstract class ShoovMigrateBase extends Migration {
     $this->map = new MigrateSQLMap($this->machineName, $key, $destination_handler->getKeySchema($this->entityType));
 
     // Create a MigrateSource object.
-    $sql_table = (isset($this->sqlTable)) ? '_raw_' . $this->sqlTable : '_raw_' . $this->bundle;
+    $sql_table = (isset($this->sqlTable)) ? '_raw_' . $this->sqlTable : '_raw_msg_' . $this->bundle;
 
     $query = db_select($sql_table, 't')
       ->fields('t')
       ->orderBy('__id');
     $this->source = new MigrateSourceSQL($query, $this->fields);
 
-    $this->destination = new $class_name($this->bundle, array('text_format' => 'filtered_html'));
+    $this->destination = new MigrateDestinationMessage($this->bundle, array('text_format' => 'filtered_html'));
   }
 
   /**
@@ -70,15 +59,15 @@ abstract class ShoovMigrateBase extends Migration {
   /**
    * Implements Callback function.
    *
-   * Return the author ID of the specific repository.
+   * Return the author ID of the specific CI Incident.
    *
-   * @param $repo_id
-   *  Node ID of repository.
+   * @param $ci_incident_id
+   *  Node ID of CI Incident.
    * @return mixed
-   *  Owner ID of repository.
+   *  Author ID of CI Incident.
    */
-  protected function getUidFromRepo($repo_id) {
-    $repo_node = node_load($repo_id['destid1']);
-    return $repo_node->uid;
+  protected function getUidFromCiIncident($ci_incident_id) {
+    $ci_incident_node = node_load($ci_incident_id['destid1']);
+    return $ci_incident_node->uid;
   }
 }
