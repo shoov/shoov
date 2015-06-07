@@ -41,7 +41,7 @@ before_script:
   - cd ..
 
   # start a web server on port 8080, run in the background; wait for initialization
-  - drush @site runserver 127.0.0.1:8080 &
+  - drush @site runserver 127.0.0.1:8080  > ~/php-server.log 2>&1 &
   - until netstat -an 2>/dev/null | grep '8080.*LISTEN'; do true; done
 
 script:
