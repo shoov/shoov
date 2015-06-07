@@ -10,7 +10,7 @@ Feature: CI Build Message
     Then  I should see text matching "<title>"
 
   Examples:
-    | title                                          |
-    | amitaibu/gizra-behat branch master Done        |
-    | amitaibu/gizra-behat branch master in progress |
-    | Gizra/Gizra branch develop Queue               |
+    | title                                              |
+    | shoov-tester/gizra-behat branch master Done        |
+    | shoov-tester/gizra-behat branch master in progress |
+    | Gizra/Gizra branch develop Queue                   |
