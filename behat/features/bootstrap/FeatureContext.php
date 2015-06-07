@@ -67,11 +67,4 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   public function iShouldHaveAccessToThePage() {
     $this->assertSession()->statusCodeEquals('200');
   }
-
-  /**
-   * @When /^I visit the path "([^"]*)"
-   */
-  public function iVisitThePath($path){
-    $this->getPage($path)->open();
-  }
 }
