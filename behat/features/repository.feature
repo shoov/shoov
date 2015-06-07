@@ -3,7 +3,7 @@ Feature: Repository
   As a privileged user
   I need to be able to view a repository page
 
-  @api @test
+  @api
   Scenario Outline: Check access to the repository
     Given I login with user "admin"
     When  I visit "<title>" node of type "repository"
