@@ -136,11 +136,7 @@ class MigrateDestinationMessage extends MigrateDestinationEntity {
       $wrapper->arguments->set($arguments);
     }
 
-    message_save($msg_object);
-
-    if (!$msg_object->mid) {
-      return FALSE;
-    }
+    $msg_object->save();
 
     $return = array($msg_object->mid);
 
