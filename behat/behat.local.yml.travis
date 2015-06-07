@@ -1,5 +1,7 @@
 default:
   extensions:
+    Behat\MinkExtension:
+      base_url: "http://127.0.0.1:8080"
     Drupal\DrupalExtension:
       drupal:
-        drupal_root: "/home/travis/build/amitaibu/shoov/www"
+        drupal_root: "/home/travis/build/shoov/shoov/www"

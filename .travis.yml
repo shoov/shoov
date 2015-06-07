@@ -10,19 +10,14 @@ mysql:
 
 before_install:
   - sudo apt-get update > /dev/null
-  - composer self-update 1.0.0-alpha9
+  - composer self-update
+  - npm install -g npm@2
 
-  # Install Bower, Grunt and CasperJs.
-  - npm install -g bower grunt-cli casperjs
+  # Install Bower, Grunt
+  - npm install -g bower grunt-cli
 
   # Install Sass and Compass for Grunt to work.
   - gem install compass
-
-  # Configure imgur bash script to upload images on failure.
-  - npm install -g jshon
-  - chmod +x imgur
-  - chmod +x install
-
 install:
   # install php packages required for running a web server from drush on php 5.3
   - sudo apt-get install -y --force-yes php5-cgi php5-mysql
@@ -38,19 +33,6 @@ before_script:
   - cp travis.config.sh config.sh
   - ./install -dy
 
-  # Install client
-  - cd client
-  - npm install
-  - bower install
-  - cp config.travis.json config.json
-  - grunt serve > ~/grunt.log 2>&1 &
-  - cd ..
-
-  # Install PhantomCSS
-  - cd phantomcss
-  - npm install
-  - cd ..
-
   # Install Behat
   - cd behat
   - cp aliases.drushrc.php ~/.drush/
@@ -62,32 +44,7 @@ before_script:
   - drush @site runserver 127.0.0.1:8080 &
   - until netstat -an 2>/dev/null | grep '8080.*LISTEN'; do true; done
 
-  # Create display.
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-
-  # Wait for Grunt to finish loading.
-  - until $(curl --output /dev/null --silent --head --fail http://localhost:9000); do sleep 1; echo '.'; done
-
 script:
-
-  # Run PhantomCSS tests.
-  - cd phantomcss
-  - casperjs test dashboard.js
-
-  # Upload failed images to imgur
-  - bash scan_phantomcss_fails.sh > ~/phantomcss.log 2>&1 &
-  # Print a list of images created on imgur.
-  - cat ~/phantomcss.log
-
-
-  # Run phantomJs.
-  - phantomjs --webdriver=4444 > ~/phantomjs.log 2>&1 &
-
   # Run behat tests.
-  - cd ../behat
+  - cd ./behat
   - ./bin/behat --tags=~@wip
-
-  # Print logs.
-  - cat ~/grunt.log
-  - cat ~/phantomjs.log

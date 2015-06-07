@@ -1,0 +1,5 @@
+Unique ID,Title,Repository,Git Branch,Git Commit,Enabled
+ci_build1,shoov-tester/gizra-behat,repository1,master,252ff4,1
+ci_build2,DavidKohav/test-example,repository2,feature-365,dde912,1
+ci_build3,Gizra/Gizra,repository3,develop,f4e658,1
+ci_build4,drupal/drupal,repository4,bug-120,0c8de1,0
