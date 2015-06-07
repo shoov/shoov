@@ -68,7 +68,12 @@ MYSQL_DB_NAME="shoov"
 ##
 
 # Post install script.
-# function post_install {}
+function post_install {
+  chmod 777 www/sites/default/settings.php
+  echo "\$conf['shoov_github_client_id'] = 'your-client-id';" >> www/sites/default/settings.php
+  echo "\$conf['shoov_github_client_secret'] = 'your-client-secret';"  >> www/sites/default/settings.php
+  echo "\$conf['shoov_user_github_dummy'] = 'github-user-access-token';"  >> www/sites/default/settings.php
+}
 
 # Post upgrade script.
 # function post_upgrade {}
