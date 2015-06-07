@@ -23,7 +23,7 @@ class ShoovScreenshotsMigrate extends \ShoovMigrateNode {
   public $dependencies = array(
     'ShoovUsersMigrate',
     'ShoovRepositoriesMigrate',
-    'ShoovUiBuildMigrate'
+    'ShoovUiBuildsMigrate'
   );
 
   public function __construct() {
@@ -43,7 +43,7 @@ class ShoovScreenshotsMigrate extends \ShoovMigrateNode {
     // Map UI Build.
     $this
       ->addFieldMapping('field_build', '_ui_build')
-      ->sourceMigration('ShoovUiBuildMigrate');
+      ->sourceMigration('ShoovUiBuildsMigrate');
 
     // Map Baseline name.
     $this->addFieldMapping('field_baseline_name', '_baseline_name');

@@ -12,8 +12,8 @@ files[] = plugins/message.inc
 
 ; Nodes
 files[] = handlers/node/ShoovRepositoriesMigrate.php
-files[] = handlers/node/ShoovCiBuildMigrate.php
-files[] = handlers/node/ShoovUiBuildMigrate.php
+files[] = handlers/node/ShoovCiBuildsMigrate.php
+files[] = handlers/node/ShoovUiBuildsMigrate.php
 files[] = handlers/node/ShoovScreenshotsMigrate.php
 files[] = handlers/node/ShoovCiIncidentsMigrate.php
 
@@ -22,3 +22,4 @@ files[] = handlers/user/ShoovUsersMigrate.php
 
 ; Entities
 files[] = handlers/entities/ShoovCiBuildMessagesMigrate.php
+files[] = handlers/entities/ShoovCiIncidentErrorMessagesMigrate.php

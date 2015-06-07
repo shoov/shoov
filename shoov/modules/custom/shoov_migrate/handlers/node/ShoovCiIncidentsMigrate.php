@@ -20,7 +20,7 @@ class ShoovCiIncidentsMigrate extends \ShoovMigrateNode {
 
   public $dependencies = array(
     'ShoovUsersMigrate',
-    'ShoovCiBuildMigrate',
+    'ShoovCiBuildsMigrate',
     'ShoovRepositoriesMigrate',
     'ShoovCiBuildMessagesMigrate'
   );
@@ -34,8 +34,7 @@ class ShoovCiIncidentsMigrate extends \ShoovMigrateNode {
       ->sourceMigration('ShoovCiBuildMessagesMigrate');
 
     // Map Fixed Build.
-    // TODO: Commented in favor of next bug
-    // https://github.com/shoov/shoov/pull/29#issuecomment-108925427
+    // TODO: Skip because the data is empty.
 //    $this
 //      ->addFieldMapping('field_fixed_build', '_fixed_build')
 //      ->sourceMigration('ShoovCiBuildMessagesMigrate');
@@ -48,7 +47,7 @@ class ShoovCiIncidentsMigrate extends \ShoovMigrateNode {
     // Map CI Build.
     $this
       ->addFieldMapping('field_ci_build', '_ci_build')
-      ->sourceMigration('ShoovCiBuildMigrate');
+      ->sourceMigration('ShoovCiBuildsMigrate');
 
     // Map Build Error.
     $this

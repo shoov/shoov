@@ -20,7 +20,7 @@ class ShoovCiBuildMessagesMigrate extends ShoovMigrateMessage {
   public $bundle = 'ci_build';
 
   public $dependencies = array(
-    'ShoovCiBuildMigrate',
+    'ShoovCiBuildsMigrate',
   );
 
   public function __construct() {
@@ -30,13 +30,13 @@ class ShoovCiBuildMessagesMigrate extends ShoovMigrateMessage {
     // Map User.
     $this
       ->addFieldMapping('uid', '_ci_build')
-      ->sourceMigration('ShoovCiBuildMigrate')
+      ->sourceMigration('ShoovCiBuildsMigrate')
       ->callbacks(array($this, 'getUidFromCiBuild'));
 
     // Map CI Build.
     $this
       ->addFieldMapping('field_ci_build', '_ci_build')
-      ->sourceMigration('ShoovCiBuildMigrate');
+      ->sourceMigration('ShoovCiBuildsMigrate');
 
     // Map Status.
     $this->addFieldMapping('field_ci_build_status', '_status');

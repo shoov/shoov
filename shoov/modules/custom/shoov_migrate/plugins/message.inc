@@ -98,10 +98,31 @@ class MigrateDestinationMessage extends MigrateDestinationEntity {
     $msg_object = message_create($this->getBundle(), array('uid' => $message->uid));
 
     $wrapper = entity_metadata_wrapper('message', $msg_object);
-    $wrapper->field_ci_build->set($message->field_ci_build['destid1']);
-    $wrapper->field_ci_build_status->set(strtolower($message->field_ci_build_status));
-    $wrapper->field_ci_build_timestamp->set(strtotime($message->field_ci_build_timestamp));
-    $wrapper->field_ci_build_log->value = $message->field_ci_build_log;
+
+    if ($this->getBundle() == 'ci_build') {
+      $wrapper->field_ci_build->set($message->field_ci_build['destid1']);
+      $wrapper->field_ci_build_status->set(strtolower($message->field_ci_build_status));
+      $wrapper->field_ci_build_timestamp->set(strtotime($message->field_ci_build_timestamp));
+      $wrapper->field_ci_build_log->value = $message->field_ci_build_log;
+    }
+    elseif ($this->getBundle() == 'ci_incident_error') {
+      $incident_id = $message->field_ci_incident['destid1'];
+      $wrapper->field_ci_incident->set($incident_id);
+
+      // We need replace @repo and @branch attributes. To do this we need to get
+      // CI Build for this CI Incident.
+      $ci_build_node = node_load($message->field_ci_incident['destid1']);
+      $ci_build_wrapper = entity_metadata_wrapper('node', $ci_build_node);
+      $arguments = array(
+        '@repo' => $ci_build_wrapper->og_repo->label(),
+        '@branch' => $ci_build_wrapper->field_ci_build->field_git_branch->value(),
+        '@url' => variable_get('shoov_client_url', 'http://localhost:9000') . '/#/ci-incidents/' . $incident_id,
+      );
+      $wrapper->arguments->set($arguments);
+    }
+    elseif ($this->getBundle() == 'ci_incident_fixed') {
+
+    }
 
     message_save($msg_object);
 

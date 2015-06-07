@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \ShoovUiBuildMigrate.
+ * Contains \ShoovUiBuildsMigrate.
  */
 
-class ShoovUiBuildMigrate extends \ShoovMigrateNode {
+class ShoovUiBuildsMigrate extends \ShoovMigrateNode {
 
   public $entityType = 'node';
   public $bundle = 'ui_build';

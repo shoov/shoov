@@ -12,12 +12,13 @@ function shoov_migrate_migrate_api() {
   $migrations = array(
     // Nodes.
     'ShoovRepositoriesMigrate',
-    'ShoovCiBuildMigrate',
-    'ShoovUiBuildMigrate',
+    'ShoovCiBuildsMigrate',
+    'ShoovUiBuildsMigrate',
     'ShoovScreenshotsMigrate',
     'ShoovCiIncidentsMigrate',
     // Entities.
     'ShoovCiBuildMessagesMigrate',
+    'ShoovCiIncidentErrorMessagesMigrate',
     // Users.
     'ShoovUsersMigrate',
   );
