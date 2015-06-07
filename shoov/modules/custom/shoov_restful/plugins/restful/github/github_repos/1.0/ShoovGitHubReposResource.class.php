@@ -7,7 +7,6 @@
 
 class ShoovGitHubReposResource extends \ShoovDataProviderGitHub {
 
-
   /**
    * {@inheritdoc}
    */

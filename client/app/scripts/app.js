@@ -54,6 +54,13 @@ angular
           }
         }
       })
+      .state('logout', {
+        url: '/logout',
+        controller: function($scope, $state, Auth) {
+          Auth.logout();
+          $state.go('homepage');
+        }
+      })
       .state('login', {
         url: '/login',
         templateUrl: 'views/login.html',
