@@ -29,7 +29,7 @@ angular.module('clientApp')
       $scope.loginButtonEnabled = false;
       Auth.login(user)
         .then(function() {
-          $state.go('dashboard.builds');
+          $state.go('dashboard.homepage');
         }, function() {
           $scope.loginButtonEnabled = true;
           $scope.loginFailed = true;
