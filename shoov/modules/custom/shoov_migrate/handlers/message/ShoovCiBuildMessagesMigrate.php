@@ -43,7 +43,7 @@ class ShoovCiBuildMessagesMigrate extends ShoovMigrateMessage {
   }
 
   /**
-   * Implements Migrate::prepare().
+   * Overrides Migrate::prepare().
    *
    * Map the user based on the CI build content type.
    */
