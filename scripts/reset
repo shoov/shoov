@@ -154,7 +154,7 @@ run_post_script "reset"
 # Load demo content if requested.
 if [ $DEMO_CONTENT ]; then
   convert_csv_to_sql
-  import_demo_content
+  # import_demo_content
 fi
 
 

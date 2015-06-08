@@ -27,12 +27,6 @@ class ShoovCiBuildMessagesMigrate extends ShoovMigrateMessage {
     parent::__construct();
     $this->description = t('Import Ci Build messages from a CSV file.');
 
-    // Map User.
-    $this
-      ->addFieldMapping('uid', '_ci_build')
-      ->sourceMigration('ShoovCiBuildsMigrate')
-      ->callbacks(array($this, 'getUidFromCiBuild'));
-
     // Map CI Build.
     $this
       ->addFieldMapping('field_ci_build', '_ci_build')
@@ -49,18 +43,12 @@ class ShoovCiBuildMessagesMigrate extends ShoovMigrateMessage {
   }
 
   /**
-   * Implements Callback function.
+   * Overrides Migrate::prepare().
    *
-   * Return the author ID of the specific CI Build.
-   *
-   * @param $ci_build_id
-   *  Node ID of repository.
-   * @return mixed
-   *  Author ID of CI Build.
+   * Map the user based on the CI build content type.
    */
-  protected function getUidFromCiBuild($ci_build_id) {
-      $ci_build_node = node_load($ci_build_id['destid1']);
-      return $ci_build_node->uid;
+  public function prepare($entity, $row) {
+    $wrapper = entity_metadata_wrapper('message', $entity);
+    $entity->uid = $wrapper->field_ci_build->author->getIdentifier();
   }
-
 }
