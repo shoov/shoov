@@ -54,6 +54,15 @@ angular
           }
         }
       })
+      .state('homepageWithSlash', {
+        url: '/',
+        controller: 'HomepageCtrl',
+        resolve: {
+          account: function(Account) {
+            return Account.get();
+          }
+        }
+      })
       .state('logout', {
         url: '/logout',
         controller: function($scope, $state, Auth) {
@@ -89,7 +98,6 @@ angular
       .state('dashboard.homepage', {
         url: 'homepage',
         templateUrl: 'views/dashboard/homepage.html',
-        controller: 'HomepageCtrl',
         onEnter: page403,
         resolve: {
           account: function(Account) {
