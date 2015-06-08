@@ -3,7 +3,7 @@ Feature: CI Incident Fixed Message
   As a privileged user
   I need to be able to view a CI Incidents Fixed Messages
 
-  @api
+  @api @wip
   Scenario Outline: Check CI Incidents Fixed messages exists
     Given I login with user "admin"
     When  I visit "admin/content/message?type=ci_incident_fixed"
