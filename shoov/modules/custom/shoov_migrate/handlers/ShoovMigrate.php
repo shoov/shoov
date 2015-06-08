@@ -62,5 +62,18 @@ abstract class ShoovMigrate extends Migration {
     return variable_get('shoov_migrate_directory', FALSE) ? variable_get('shoov_migrate_directory') : drupal_get_path('module', 'shoov_migrate');
   }
 
-
+  /**
+   * Implements Callback function.
+   *
+   * Return the author ID of the specific repository.
+   *
+   * @param $repo_id
+   *  Node ID of repository.
+   * @return mixed
+   *  Owner ID of repository.
+   */
+  protected function getUidFromRepo($repo_id) {
+    $repo_node = node_load($repo_id['destid1']);
+    return $repo_node->uid;
+  }
 }
