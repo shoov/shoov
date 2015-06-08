@@ -33,12 +33,6 @@ class ShoovCiIncidentsMigrate extends \ShoovMigrateNode {
       ->addFieldMapping('field_failing_build', '_failing_build')
       ->sourceMigration('ShoovCiBuildMessagesMigrate');
 
-    // Map Fixed Build.
-    // TODO: Skip because the data is empty.
-//    $this
-//      ->addFieldMapping('field_fixed_build', '_fixed_build')
-//      ->sourceMigration('ShoovCiBuildMessagesMigrate');
-
     // Map Repository.
     $this
       ->addFieldMapping('og_repo', '_repository')
