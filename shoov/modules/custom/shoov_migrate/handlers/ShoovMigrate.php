@@ -2,34 +2,20 @@
 
 /**
  * @file
- * Contains \ShoovMigration.
+ * Contains \ShoovMigrateNode.
  */
 
-abstract class ShoovMigrateBase extends Migration {
+abstract class ShoovMigrate extends Migration {
 
   public function __construct() {
     parent::__construct();
-
-    // Make sure we can use it for node and term only.
-    if (!in_array($this->entityType, array('node', 'taxonomy_term'))) {
-      throw new Exception('\ShoovMigration supports only nodes and terms.');
-    }
 
     $this->description = t('Import @type - @bundle from SQL table', array('@type' => $this->entityType, '@bundle' => $this->bundle));
 
     $this->fields = !empty($this->fields) ? $this->fields : array();
     $sql_fields[] = '_unique_id';
 
-    if ($this->entityType == 'node') {
-      $this->addFieldMapping('title', '_title');
-      $class_name = 'MigrateDestinationNode';
-      $sql_fields[] = '_title';
-    }
-    elseif ($this->entityType == 'taxonomy_term') {
-      $this->addFieldMapping('name', '_name');
-      $class_name = 'MigrateDestinationTerm';
-      $sql_fields[] = '_name';
-    }
+    $sql_fields = array_merge($sql_fields, $this->addDefaultSqlFields());
 
     // Rebuild the csv columns array.
     $this->fields = array_merge($sql_fields, $this->fields);
@@ -43,18 +29,27 @@ abstract class ShoovMigrateBase extends Migration {
       ),
     );
 
-    $destination_handler = new MigrateDestinationEntityAPI($this->entityType, $this->bundle);
+    $destination_handler = new MigrateDestinationEntityAPI($this->entityType, $this->bundle, array('text_format' => 'filtered_html'));
     $this->map = new MigrateSQLMap($this->machineName, $key, $destination_handler->getKeySchema($this->entityType));
 
     // Create a MigrateSource object.
-    $sql_table = (isset($this->sqlTable)) ? '_raw_' . $this->sqlTable : '_raw_' . $this->bundle;
+    $sql_prefix = $this->getSqlTablePrefix();
+    $sql_table = isset($this->sqlTable) ? $sql_prefix . '_' . $this->sqlTable : $sql_prefix . '_' . $this->bundle;
 
     $query = db_select($sql_table, 't')
       ->fields('t')
       ->orderBy('__id');
     $this->source = new MigrateSourceSQL($query, $this->fields);
 
-    $this->destination = new $class_name($this->bundle, array('text_format' => 'filtered_html'));
+    $this->destination = $destination_handler;
+  }
+
+  protected function addDefaultSqlFields() {
+    return array();
+  }
+
+  protected function getSqlTablePrefix() {
+    return '_raw';
   }
 
   /**

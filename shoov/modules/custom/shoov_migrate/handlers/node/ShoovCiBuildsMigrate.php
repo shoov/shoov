@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \ShoovCiBuildMigrate.
+ * Contains \ShoovCiBuildsMigrate.
  */
 
-class ShoovCiBuildMigrate extends \ShoovMigrateBase {
+class ShoovCiBuildsMigrate extends \ShoovMigrateNode {
 
   public $entityType = 'node';
   public $bundle = 'ci_build';
