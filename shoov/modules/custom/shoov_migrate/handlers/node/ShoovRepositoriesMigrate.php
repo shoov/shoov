@@ -30,7 +30,7 @@ class ShoovRepositoriesMigrate extends \ShoovMigrateNode {
 
     // Group is private by default.
     $this
-      ->addFieldMapping(OG_ACCESS_FIELD, '_private')
+      ->addFieldMapping(OG_ACCESS_FIELD)
       ->defaultValue(TRUE);
 
     // Map Github Id.

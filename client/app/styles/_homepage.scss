@@ -1,0 +1,28 @@
+.live-monitor-wrapper,
+.visual-regression-wrapper {
+  width: 50%;
+  position: absolute;
+  height: 100%;
+
+  // Align vertical and horizontal.
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  a {
+    color: white;
+    font-size: 44px;
+    font-weight: bold;
+  }
+}
+
+.live-monitor-wrapper {
+  left: 0px;
+  background-color: salmon;
+}
+
+
+.visual-regression-wrapper {
+  right: 0px;
+  background-color: blue;
+}

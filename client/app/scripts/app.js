@@ -54,6 +54,15 @@ angular
           }
         }
       })
+      .state('homepageWithSlash', {
+        url: '/',
+        controller: 'HomepageCtrl',
+        resolve: {
+          account: function(Account) {
+            return Account.get();
+          }
+        }
+      })
       .state('logout', {
         url: '/logout',
         controller: function($scope, $state, Auth) {
@@ -83,6 +92,16 @@ angular
           },
           selectedCompany: function($stateParams) {
             return $stateParams.companyId;
+          }
+        }
+      })
+      .state('dashboard.homepage', {
+        url: 'homepage',
+        templateUrl: 'views/dashboard/homepage.html',
+        onEnter: page403,
+        resolve: {
+          account: function(Account) {
+            return Account.get();
           }
         }
       })
