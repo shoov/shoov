@@ -21,6 +21,6 @@ files[] = handlers/node/ShoovCiIncidentsMigrate.php
 files[] = handlers/user/ShoovUsersMigrate.php
 
 ; Entities
-files[] = handlers/entities/ShoovCiBuildMessagesMigrate.php
-files[] = handlers/entities/ShoovCiIncidentErrorMessagesMigrate.php
-files[] = handlers/entities/ShoovCiIncidentFixedMessagesMigrate.php
+files[] = handlers/message/ShoovCiBuildMessagesMigrate.php
+files[] = handlers/message/ShoovCiIncidentErrorMessagesMigrate.php
+files[] = handlers/message/ShoovCiIncidentFixedMessagesMigrate.php
