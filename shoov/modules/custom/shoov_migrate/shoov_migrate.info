@@ -6,14 +6,21 @@ dependencies[] = migrate
 dependencies[] = migrate_extras
 
 ; Handlers
-files[] = handlers/ShoovMigrateBase.php
+files[] = handlers/ShoovMigrate.php
+files[] = handlers/ShoovMigrateNode.php
+files[] = handlers/ShoovMigrateMessage.php
 
 ; Nodes
 files[] = handlers/node/ShoovRepositoriesMigrate.php
-files[] = handlers/node/ShoovCiBuildMigrate.php
-files[] = handlers/node/ShoovUiBuildMigrate.php
+files[] = handlers/node/ShoovCiBuildsMigrate.php
+files[] = handlers/node/ShoovUiBuildsMigrate.php
 files[] = handlers/node/ShoovScreenshotsMigrate.php
+files[] = handlers/node/ShoovCiIncidentsMigrate.php
 
 ; Users
 files[] = handlers/user/ShoovUsersMigrate.php
 
+; Message
+files[] = handlers/message/ShoovCiBuildMessagesMigrate.php
+files[] = handlers/message/ShoovCiIncidentErrorMessagesMigrate.php
+files[] = handlers/message/ShoovCiIncidentFixedMessagesMigrate.php

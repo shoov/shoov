@@ -11,7 +11,7 @@ Feature: Repository
 
   Examples:
     | title                    |
-    | drupal/drupal            |
     | shoov-tester/gizra-behat |
+    | DavidKohav/test-example  |
     | Gizra/Gizra              |
 
