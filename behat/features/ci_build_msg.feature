@@ -12,5 +12,5 @@ Feature: CI Build Message
   Examples:
     | title                                              |
     | shoov-tester/gizra-behat branch master Done        |
-    | shoov-tester/gizra-behat branch master in progress |
+    | shoov-tester/gizra-behat branch master In progress |
     | Gizra/Gizra branch develop Queue                   |
