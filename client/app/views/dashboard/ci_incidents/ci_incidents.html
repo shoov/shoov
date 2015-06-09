@@ -3,8 +3,15 @@
 
     <h2>Live Monitor Incidents</h2>
 
-    <div ng-show="incidents.length == 0">
-      No incidentes reported yet. Have you <a ui-sref="dashboard.repos">enabled</a> a repository to be tested?
+    <div>
+      <ul class="operations">
+        <li><a ui-sref="dashboard.ciBuildItems">Build History</a></li>
+        <li><a ui-sref="dashboard.ciIncidents">Incidents</a></li>
+      </ul>
+    </div>
+
+    <div ng-hide="incidents.length">
+      No incidents reported yet. Have you <a ui-sref="dashboard.repos">enabled</a> a repository to be tested?
     </div>
 
     <div ng-show="incidents.length">

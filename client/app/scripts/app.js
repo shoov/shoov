@@ -115,6 +115,19 @@ angular
           }
         }
       })
+      .state('dashboard.repos.repo', {
+        url: '/repos/{repoId:int}',
+        templateUrl: 'views/dashboard/repos/repo.html',
+        controller: 'RepoCtrl',
+        resolve: {
+          repos: function(Repos, $stateParams) {
+            return Repos.get($stateParams.repoId);
+          },
+          ciBuildItems: function(CiBuildItems, $stateParams) {
+            return CiBuildItems.get($stateParams.repoId, 'repository');
+          }
+        }
+      })
       .state('dashboard.ciBuildItems', {
         url: '/ci-build-items',
         templateUrl: 'views/dashboard/ci_build_items/ci_build_items.html',

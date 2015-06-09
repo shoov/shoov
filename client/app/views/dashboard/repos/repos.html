@@ -1,23 +1,22 @@
 <div class="row" xmlns="http://www.w3.org/1999/html">
-  <h2>Live Monitor</h2>
+  <h2>Live Monitor Repositories</h2>
   <div class="col-md-4 repos-list">
     <div class="dev-tip">
       <i class="fa fa-info-circle" popover-placement="right" popover-template="'ciBuilds.html'" popover-title="Dev Tip"></i>
     </div>
 
     <div>
-    <ul class="operations">
-      <li><a ui-sref="dashboard.ciBuildItems">Monitoring History</a></li>
-      <li><a ui-sref="dashboard.ciIncidents">Incidents</a></li>
-
-    </ul>
+      <ul class="operations">
+        <li><a ui-sref="dashboard.ciBuildItems">Build History</a></li>
+        <li><a ui-sref="dashboard.ciIncidents">Incidents</a></li>
+      </ul>
     </div>
 
     <ul class="repos">
       <li ng-repeat="repo in repos" class="repo-item">
 
         <input type="checkbox" ng-checked="repo.build.enabled" ng-click="toggleRepo(repo)" ng-disabled="repo._inProgress"/>
-        <span class="name">{{ repo.label }}</span>
+        <span class="name">{{ repo.label }}</span> ( {{ repo }})
       </li>
     </ul>
   </div>
