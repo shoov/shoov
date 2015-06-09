@@ -11,6 +11,10 @@ angular.module('clientApp')
   .controller('ReposCtrl', function ($scope, repos, Builds, Repos, $log) {
     $scope.repos = repos;
 
+    // Allow parseInt an expression.
+    // @todo: Service should be responsible of this.
+    $scope.parseInt = parseInt;
+
     var getKeyByRepo = function(repo) {
       var scopeKey = 0;
       angular.forEach($scope.repos, function(value, key) {
