@@ -5,20 +5,20 @@
  * Contains ShoovEncryptResource.
  */
 
-class ShoovEncryptResource extends \RestfulBase  implements \RestfulDataProviderInterface {
+class ShoovEncryptResource extends \RestfulEntityBase {
 
   /**
-   * Overrides \RestfulEntityBase::controllers.
+   * Overrides \RestfulBase::controllers.
    */
   protected $controllers = array(
-    '' => array(
-      \RestfulInterface::GET => 'getEncrypt',
+    '^.*$' => array(
+      \RestfulInterface::POST => 'viewEntities',
     ),
   );
 
 
   /**
-   * Overrides \RestfulEntityBase::publicFieldsInfo().
+   * Overrides \RestfulBase::publicFieldsInfo().
    */
   public function publicFieldsInfo() {
     $public_fields = parent::publicFieldsInfo();
@@ -38,6 +38,8 @@ class ShoovEncryptResource extends \RestfulBase  implements \RestfulDataProvider
     $request = $this->getRequest();
 
     $server_url = variable_get('shoov_ui_build_pr_server', 'http://localhost:3000');
+
+    return 'some value!';
   }
 
 }
