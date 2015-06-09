@@ -191,7 +191,7 @@ angular
       });
 
     // For any unmatched url, redirect to '/'.
-    // $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/');
 
     // Define interceptors.
     $httpProvider.interceptors.push(function ($q, Auth, localStorageService) {
