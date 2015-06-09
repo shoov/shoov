@@ -8,23 +8,23 @@
 class ShoovEncryptResource extends \RestfulBase {
 
   /**
-   * Overrides \RestfulEntityBase::controllers.
+   * Overrides \RestfulBase::controllers.
    */
   protected $controllers = array(
     '' => array(
-      \RestfulInterface::GET => 'getEncrypt',
+      \RestfulInterface::POST => 'getEncrypt',
     ),
   );
 
 
   /**
-   * Overrides \RestfulEntityBase::publicFieldsInfo().
+   * Overrides \RestfulBase::publicFieldsInfo().
    */
   public function publicFieldsInfo() {
     $public_fields = parent::publicFieldsInfo();
 
     $public_fields['encrypt'] = array(
-      'callback' => array($this, 'getEncrypt'),
+      'collback' => array($this, 'getEncrypt'),
     );
 
     return $public_fields;
@@ -35,11 +35,15 @@ class ShoovEncryptResource extends \RestfulBase {
    * @return string
    */
   protected function getEncrypt($value) {
+
+    print_r($value);
+    die;
+
     $request = $this->getRequest();
 
     $server_url = variable_get('shoov_ui_build_pr_server', 'http://localhost:3000');
 
-    drupal_http_request()
+//    drupal_http_request();
 
   }
 
