@@ -53,7 +53,7 @@ angular.module('clientApp')
 
       var params = {};
 
-      if (type == 'ci_incidents') {
+      if (type == 'ci_incident') {
         if (id) {
           url += '/' + id;
         }
