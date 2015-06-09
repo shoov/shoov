@@ -1,8 +1,6 @@
-<div class="row">
-  <div class="col-md-8 repos-list">
-
-    <h2>Repositories</h2>
-
+<div class="row" xmlns="http://www.w3.org/1999/html">
+  <h2>Live Monitor</h2>
+  <div class="col-md-4 repos-list">
     <div class="dev-tip">
       <i class="fa fa-info-circle" popover-placement="right" popover-template="'ciBuilds.html'" popover-title="Dev Tip"></i>
     </div>
@@ -10,27 +8,54 @@
     <ul class="repos">
       <li ng-repeat="repo in repos" class="repo-item">
 
-        <div class="row">
-          <div class="col-md-4 name">
-            {{ repo.label }}
-          </div>
-
-          <div class="col-md-4 ops">
-            <input type="checkbox" ng-checked="repo.build.enabled" ng-click="toggleRepo(repo)" ng-disabled="repo._inProgress"/>
-          </div>
-        </div>
-
+        <input type="checkbox" ng-checked="repo.build.enabled" ng-click="toggleRepo(repo)" ng-disabled="repo._inProgress"/>
+        <span class="name">{{ repo.label }}</span>
       </li>
     </ul>
+  </div>
+
+  <div class="col-md-8 repos-docs">
+    <h3>What is it?</h3>
+    <div>
+      <p>
+        With Shoov you can easily run your functional tests on your live site(s), in order to better monitor them.
+      </p>
+      <p>
+        You can for example use Behat to check critical functionally such as the login to your site, add to cart, and recent blog posts blog are working properly. <br/>
+        Once you enable a repository, Shoov will look for a <code>.shoov.yml</code> file in the root of that
+        repository and execute the commands it has.
+      </p>
+      <p>
+        Every enabled repository is automatically picked up by Shoov, and executed every 3 minutes.
+      </p>
+
+      <div>
+        Go ahead and try it for yourself. You have two options: <br/>
+        <h4>New repository</h4>
+        <p>
+          Fork <a href="https://github.com/amitaibu/gizra-behat" target="_blank">this</a> repository which has all the configuration already in place. <br/>
+          After forking, refresh this page and enable the repository.
+        </p>
+
+        <h4>Existing repository</h4>
+        <p>
+          If you already have a repository you can use the following command in order to <em>Shoovify</em> it:<br/>
+          <code>curl -s http://shoov.io/shoovify.sh | sh</code> <br/>
+          After pushing your changes to the <code>master</code> branch, refresh this page and enable the repository.
+        </p>
+
+        <p>
+          The command will add a pre-configured <code>.shoov.yml</code> file along with an example <code>Behat</code> directory you can later on modify
+          to fit your live monitoring needs.
+        </p>
+      </div>
+    </div>
   </div>
 </div>
 
 <div ui-view></div>
 
 <script type="text/ng-template" id="ciBuilds.html">
-  <p>
-    This needs more love. But the idea is that you can run your own tests (e.g. Behat) on the <em>live</em> site every few minites. Like Pingdom, only smarter.
-  </p>
   <div>
     This <a href="https://github.com/amitaibu/gizra-behat" target="_blank">example repo</a> is already being used to monitor Gizra.com. It runs every 3 minutes.
   </div>
