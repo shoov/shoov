@@ -5,7 +5,7 @@
  * Contains ShoovEncryptResource.
  */
 
-class ShoovEncryptResource extends \RestfulBase {
+class ShoovEncryptResource extends \RestfulBase  implements \RestfulDataProviderInterface {
 
   /**
    * Overrides \RestfulEntityBase::controllers.
@@ -38,9 +38,6 @@ class ShoovEncryptResource extends \RestfulBase {
     $request = $this->getRequest();
 
     $server_url = variable_get('shoov_ui_build_pr_server', 'http://localhost:3000');
-
-    drupal_http_request()
-
   }
 
 }
