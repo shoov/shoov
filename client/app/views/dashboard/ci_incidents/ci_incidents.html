@@ -1,18 +1,14 @@
 <div class="row">
   <div class="col-md-offset-3 col-md-5 ci-incidents-list">
 
-    <h2>Incidents</h2>
+    <h2>Live Monitor Incidents</h2>
 
-    <div class="dev-tip">
-      <i class="fa fa-info-circle" popover-placement="right" popover-template="'ciBuilds.html'" popover-title="Dev Tip"></i>
-    </div>
-
-    <div ng-show="!incidents">
+    <div ng-show="incidents.length == 0">
       No incidentes reported yet. Have you <a ui-sref="dashboard.repos">enabled</a> a repository to be tested?
     </div>
 
-
-    <div ng-show="incidents">
+    <div ng-show="incidents.length">
+      Below you will find all the reported incidents.
       <ul class="ci-incidents">
         <li ng-repeat="incident in incidents" class="incident-item">
           <a ui-sref="dashboard.ciIncident({ incidentId: incident.id })">{{ incident.label }}</a>
@@ -24,13 +20,4 @@
 </div>
 
 <div ui-view></div>
-
-<script type="text/ng-template" id="ciBuilds.html">
-  <p>
-    This needs more love. But the idea is that you can run your own tests (e.g. Behat) on the <em>live</em> site every few minites. Like Pingdom, only smarter.
-  </p>
-  <div>
-    This <a href="https://github.com/amitaibu/gizra-behat" target="_blank">example repo</a> is already being used to monitor Gizra.com. It runs every 3 minutes.
-  </div>
-</script>
 
