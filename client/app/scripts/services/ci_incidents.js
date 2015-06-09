@@ -70,7 +70,8 @@ angular.module('clientApp')
         url: url,
         params: params
       }).success(function(response) {
-        setCache(id, response.data);
+        var identifier = id + ':' + type;
+        setCache(identifier, response.data);
         deferred.resolve(response.data);
       });
 

@@ -125,6 +125,9 @@ angular
           },
           ciBuildItems: function(CiBuildItems, $stateParams) {
             return CiBuildItems.get($stateParams.buildId, 'ci_build');
+          },
+          incidents: function(CiIncidents, $stateParams) {
+            return CiIncidents.get($stateParams.buildId, 'ci_build');
           }
         }
       })

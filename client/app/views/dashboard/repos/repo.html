@@ -23,6 +23,15 @@
       Yay, no incidents!
     </div>
 
+    <div ng-show="incidents.length">
+      Below you will find all the reported incidents.
+      <ul class="ci-incidents">
+        <li ng-repeat="incident in incidents" class="incident-item">
+          <a ui-sref="dashboard.ciIncident({ incidentId: incident.id })">{{ incident.label }}</a>
+        </li>
+      </ul>
+    </div>
+
   </div>
 </div>
 
