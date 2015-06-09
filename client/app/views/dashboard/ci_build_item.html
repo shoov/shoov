@@ -3,11 +3,11 @@
 
     <h2>#{{ ciBuildItem.id }} (status: {{ ciBuildItem.status }})</h2>
 
-    <div ng-show="ciBuildItem.status != queue" class="log-wrapper">
+    <div ng-show="ciBuildItem.status != 'queue'" class="log-wrapper">
       <div ng-bind-html="ciBuildItem.log"></div>
     </div>
 
-    <div ng-show="ciBuildItem.status == queue">
+    <div ng-show="ciBuildItem.status == 'queue'">
       Live Monitor build item is still in the queue. Refresh in a few minutes to see the log.
     </div>
 
