@@ -19,17 +19,23 @@ angular.module('clientApp')
     /**
      * Return the promise with the events list, from cache or the server.
      *
-     * @param int companyId
-     *   The company ID.
+     * @param int id
+     *   The repository or CI build item ID.
+     * @param string type
+     *   The type of the ID Allowed values are "ci_build" and "ci_incident".
+     *   Defaults to "ci_build_item".
      *
      * @returns {*}
      */
-    this.get = function(id) {
-      if (cache && cache[id]) {
-        return $q.when(cache[id].data);
+    this.get = function(id, type) {
+      type = type || 'ci_incident';
+      var identifier = id + ':' + type;
+
+      if (cache && cache[identifier]) {
+        return $q.when(cache[identifier].data);
       }
 
-      return getDataFromBackend(id);
+      return getDataFromBackend(id, type);
     };
 
 
@@ -41,17 +47,23 @@ angular.module('clientApp')
      *
      * @returns {$q.promise}
      */
-    function getDataFromBackend(id) {
+    function getDataFromBackend(id, type) {
       var deferred = $q.defer();
       var url = Config.backend + '/api/ci-incidents';
 
-      if (id) {
-        url += '/' + id;
-      }
+      var params = {};
 
-      var params = {
-        sort: '-id'
-      };
+      if (type == 'ci_incidents') {
+        if (id) {
+          url += '/' + id;
+        }
+      }
+      else {
+        // The ID is the CI build.
+        params = {'filter[ci_build]': id};
+      }
+      // Sort desc.
+      params.sort = '-id';
 
       $http({
         method: 'GET',

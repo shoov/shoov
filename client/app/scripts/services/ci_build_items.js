@@ -22,7 +22,7 @@ angular.module('clientApp')
      * @param int id
      *   The repository or CI build item ID.
      * @param string type
-     *   The type of the ID Allowed values are "build" and "ci_build_item".
+     *   The type of the ID Allowed values are "ci_build" and "ci_build_item".
      *   Defaults to "ci_build_item".
      *
      * @returns {*}
