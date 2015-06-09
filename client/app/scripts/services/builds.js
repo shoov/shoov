@@ -20,17 +20,23 @@ angular.module('clientApp')
     /**
      * Return the promise with the events list, from cache or the server.
      *
-     * @param int companyId
-     *   The company ID.
+     * @param int id
+     *   The repository or CI build item ID.
+     * @param string type
+     *   The type of the ID Allowed values are "ci_build" and "ui_build".
+     *   Defaults to "ui_build".
      *
      * @returns {*}
      */
-    this.get = function(buildId) {
-      if (cache && cache[buildId]) {
-        return $q.when(cache[buildId].data);
+    this.get = function(id, type) {
+      type = type || 'ui_build';
+      var identifier = id + ':' + type;
+
+      if (cache && cache[identifier]) {
+        return $q.when(cache[identifier].data);
       }
 
-      return getDataFromBackend(buildId);
+      return getDataFromBackend(id, type);
     };
 
     /**
@@ -103,29 +109,36 @@ angular.module('clientApp')
     /**
      * Return builds array from the server.
      *
-     * @param int buildId
-     *   The build ID.
+     * @param int id
+     *   The repository or CI build item ID.
+     * @param string type
+     *   The type of the ID Allowed values are "ci_build" and "ui_build".
+     *   Defaults to "ui_build".
      *
      * @returns {$q.promise}
      */
-    function getDataFromBackend(buildId) {
+    function getDataFromBackend(id, type) {
       var deferred = $q.defer();
-      var url = Config.backend + '/api/builds';
+      var resource = type == 'ui_build' ? 'builds' : 'ci-builds';
 
-      if (buildId) {
-        url += '/' + buildId;
+      var url = Config.backend + '/api/' + resource;
+
+      if (id) {
+        url += '/' + id;
       }
 
-      var params = {
-        sort: '-id'
-      };
+      var params = {};
+      if (type == 'ui_build') {
+        params.sort = '-id';
+      }
 
       $http({
         method: 'GET',
         url: url,
         params: params
       }).success(function(response) {
-        setCache(buildId, response.data);
+        var identifier = id + ':' + type;
+        setCache(identifier, response.data);
         deferred.resolve(response.data);
       });
 

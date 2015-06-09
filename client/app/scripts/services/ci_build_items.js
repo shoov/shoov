@@ -22,13 +22,13 @@ angular.module('clientApp')
      * @param int id
      *   The repository or CI build item ID.
      * @param string type
-     *   The type of the ID. Defaults to "ci_build_item".
+     *   The type of the ID Allowed values are "build" and "ci_build_item".
+     *   Defaults to "ci_build_item".
      *
      * @returns {*}
      */
     this.get = function(id, type) {
       type = type || 'ci_build_item';
-
       var identifier = id + ':' + type;
 
       if (cache && cache[identifier]) {
@@ -61,8 +61,8 @@ angular.module('clientApp')
         }
       }
       else {
-        // The ID is the repository.
-        params = {'filter[repository]': id};
+        // The ID is the CI build.
+        params = {'filter[build]': id};
       }
       // Sort desc.
       params.sort = '-id';

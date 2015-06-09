@@ -1,9 +1,28 @@
 <div class="row" xmlns="http://www.w3.org/1999/html">
-  <h2>Live Monitor: {{ repo.label }}</h2>
+  <h2>Live Monitor: {{ build.label }}</h2>
+
+  <div ng-hide="ciBuildItems.length">
+    No monitoring build items were created yet. Have you <a ui-sref="dashboard.repos">enabled</a> a repository to be tested?
+  </div>
+
   <div class="col-md-6 ">
+
+    <h3>Build History</h3>
+
+    <ul class="ci-build-items">
+      <li ng-repeat="ciBuildItem in ciBuildItems" class="ci-build-item">
+        <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: ciBuildItem.id })">#{{ ciBuildItem.id }} (status: {{ ciBuildItem.status }})</a>
+      </li>
+    </ul>
   </div>
 
   <div class="col-md-6">
+    <h3>Incidents</h3>
+
+    <div ng-hide="incidents.length">
+      Yay, no incidents!
+    </div>
+
   </div>
 </div>
 

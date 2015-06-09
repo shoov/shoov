@@ -16,7 +16,7 @@
       <li ng-repeat="repo in repos" class="repo-item">
 
         <input type="checkbox" ng-checked="repo.build.enabled" ng-click="toggleRepo(repo)" ng-disabled="repo._inProgress"/>
-        <span class="name">{{ repo.label }}</span> ( {{ repo }})
+        <span class="name">{{ repo.label }}</span> ( {{ repo | json }})
       </li>
     </ul>
   </div>

@@ -115,16 +115,16 @@ angular
           }
         }
       })
-      .state('dashboard.repos.repo', {
-        url: '/repos/{repoId:int}',
+      .state('dashboard.ciBuild', {
+        url: '/repos/{buildId:int}',
         templateUrl: 'views/dashboard/repos/repo.html',
         controller: 'RepoCtrl',
         resolve: {
-          repos: function(Repos, $stateParams) {
-            return Repos.get($stateParams.repoId);
+          build: function(Builds, $stateParams) {
+            return Builds.get($stateParams.buildId, 'ci_build');
           },
           ciBuildItems: function(CiBuildItems, $stateParams) {
-            return CiBuildItems.get($stateParams.repoId, 'repository');
+            return CiBuildItems.get($stateParams.buildId, 'ci_build');
           }
         }
       })
@@ -208,7 +208,7 @@ angular
       });
 
     // For any unmatched url, redirect to '/'.
-    $urlRouterProvider.otherwise('/');
+    // $urlRouterProvider.otherwise('/');
 
     // Define interceptors.
     $httpProvider.interceptors.push(function ($q, Auth, localStorageService) {
