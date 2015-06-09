@@ -1,13 +1,13 @@
 <div class="row" xmlns="http://www.w3.org/1999/html">
   <h2>Live Monitor: <a ng-href="https://github.com/{{ build.label }}" target="_blank">{{ build.label }}</a></h2>
 
-  <div ng-hide="ciBuildItems.length">
-    No monitoring build items were created yet. Have you <a ui-sref="dashboard.repos">enabled</a> a repository to be tested?
-  </div>
-
-  <div class="col-md-6 ">
+  <div class="col-md-6">
 
     <h3>Build History</h3>
+
+    <div ng-hide="ciBuildItems.length">
+      Here you will see a log of every live monitor build.
+    </div>
 
     <ul class="ci-build-items">
       <li ng-repeat="ciBuildItem in ciBuildItems" class="ci-build-item">
