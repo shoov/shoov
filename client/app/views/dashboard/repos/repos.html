@@ -1,15 +1,17 @@
 <div class="row" xmlns="http://www.w3.org/1999/html">
-  <h2>Live Monitor</h2>
+  <h2>Live Monitor Repositories</h2>
   <div class="col-md-4 repos-list">
-    <div class="dev-tip">
-      <i class="fa fa-info-circle" popover-placement="right" popover-template="'ciBuilds.html'" popover-title="Dev Tip"></i>
-    </div>
 
     <ul class="repos">
       <li ng-repeat="repo in repos" class="repo-item">
 
         <input type="checkbox" ng-checked="repo.build.enabled" ng-click="toggleRepo(repo)" ng-disabled="repo._inProgress"/>
-        <span class="name">{{ repo.label }}</span>
+
+        <span ng-hide="repo.build" class="name">{{ repo.label }}</span>
+
+        <span ng-show="repo.build" class="name">
+          <a ui-sref="dashboard.ciBuild({ buildId: parseInt(repo.build.id) })">{{ repo.label }}</a>
+        </span>
       </li>
     </ul>
   </div>
@@ -54,10 +56,3 @@
 </div>
 
 <div ui-view></div>
-
-<script type="text/ng-template" id="ciBuilds.html">
-  <div>
-    This <a href="https://github.com/amitaibu/gizra-behat" target="_blank">example repo</a> is already being used to monitor Gizra.com. It runs every 3 minutes.
-  </div>
-</script>
-

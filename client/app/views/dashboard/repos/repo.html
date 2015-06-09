@@ -1,0 +1,38 @@
+<div class="row" xmlns="http://www.w3.org/1999/html">
+  <h2>Live Monitor: <a ng-href="https://github.com/{{ build.label }}" target="_blank">{{ build.label }}</a></h2>
+
+  <div class="col-md-6">
+
+    <h3>Build History</h3>
+
+    <div ng-hide="ciBuildItems.length">
+      Here you will see a log of every live monitor build.
+    </div>
+
+    <ul class="ci-build-items">
+      <li ng-repeat="ciBuildItem in ciBuildItems" class="ci-build-item">
+        <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: ciBuildItem.id })">#{{ ciBuildItem.id }} (status: {{ ciBuildItem.status }})</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="col-md-6">
+    <h3>Incidents</h3>
+
+    <div ng-hide="incidents.length">
+      Yay, no incidents!
+    </div>
+
+    <div ng-show="incidents.length">
+      Below you will find all the reported incidents.
+      <ul class="ci-incidents">
+        <li ng-repeat="incident in incidents" class="incident-item">
+          <a ui-sref="dashboard.ciIncident({ incidentId: incident.id })">{{ incident.label }}</a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<div ui-view></div>

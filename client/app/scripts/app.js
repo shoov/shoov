@@ -115,19 +115,25 @@ angular
           }
         }
       })
-      .state('dashboard.ciBuildItems', {
-        url: '/ci-build-items',
-        templateUrl: 'views/dashboard/ci_build_items/ci_build_items.html',
-        controller: 'CiBuildItemsCtrl',
+      .state('dashboard.ciBuild', {
+        url: '/repos/{buildId:int}',
+        templateUrl: 'views/dashboard/repos/repo.html',
+        controller: 'RepoCtrl',
         resolve: {
-          ciBuildItems: function(CiBuildItems) {
-            return CiBuildItems.get();
+          build: function(Builds, $stateParams) {
+            return Builds.get($stateParams.buildId, 'ci_build');
+          },
+          ciBuildItems: function(CiBuildItems, $stateParams) {
+            return CiBuildItems.get($stateParams.buildId, 'ci_build');
+          },
+          incidents: function(CiIncidents, $stateParams) {
+            return CiIncidents.get($stateParams.buildId, 'ci_build');
           }
         }
       })
       .state('dashboard.ciBuildItem', {
         url: '/ci-build-items/{ciBuildItemId:int}',
-        templateUrl: 'views/dashboard/ci_build_items/ci_build_item.html',
+        templateUrl: 'views/dashboard/ci_build_item.html',
         controller: 'CiBuildItemCtrl',
         resolve: {
           ciBuildItem: function(CiBuildItems, $stateParams) {
@@ -135,19 +141,9 @@ angular
           }
         }
       })
-      .state('dashboard.ciIncidents', {
-        url: '/ci-incidents',
-        templateUrl: 'views/dashboard/ci_incidents/ci_incidents.html',
-        controller: 'CiIncidentsCtrl',
-        resolve: {
-          incidents: function(CiIncidents) {
-            return CiIncidents.get();
-          }
-        }
-      })
       .state('dashboard.ciIncident', {
         url: '/ci-incidents/{incidentId:int}',
-        templateUrl: 'views/dashboard/ci_incidents/ci_incident.html',
+        templateUrl: 'views/dashboard/ci_incident.html',
         controller: 'CiIncidentCtrl',
         resolve: {
           incident: function(CiIncidents, $stateParams) {
