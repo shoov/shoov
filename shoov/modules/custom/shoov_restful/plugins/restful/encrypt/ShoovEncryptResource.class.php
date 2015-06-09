@@ -8,7 +8,7 @@
 class ShoovEncryptResource extends \RestfulEntityBase {
 
   /**
-   * Overrides \RestfulBase::controllers.
+   * Overrides \RestfulEntityBase::controllers.
    */
   protected $controllers = array(
     '^.*$' => array(
@@ -18,7 +18,7 @@ class ShoovEncryptResource extends \RestfulEntityBase {
 
 
   /**
-   * Overrides \RestfulBase::publicFieldsInfo().
+   * Overrides \RestfulEntityBase::publicFieldsInfo().
    */
   public function publicFieldsInfo() {
     $public_fields['encrypt'] = array(
@@ -29,13 +29,22 @@ class ShoovEncryptResource extends \RestfulEntityBase {
   }
 
   /**
-   * Function it is a simple proxy between client request to encode a params and
-   * nodejs server who have encrypting tool to do that.
+   * Encrypt values via another server.
    *
-   * @param $value
-   *   CI Build object in wrapper.
+   * It's a simple proxy between client request and nodejs server
+   * that have encrypting tool to do that.
+   *
+   * @param \EntityMetadataWrapper $value
+   *   CI Build object.
+   *
    * @return string
    *   Encrypted string.
+   *
+   * @throws \RestfulBadRequestException
+   *   Request not contain requests keys or these keys are empty.
+   *
+   * @throws \RestfulServerConfigurationException
+   *   NodeJS is down or return wrong response.
    */
   protected function getEncrypt($value) {
     $private_key = $value->field_private_key->value();
