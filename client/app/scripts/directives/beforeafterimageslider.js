@@ -16,12 +16,12 @@ angular.module('clientApp')
         height: '@'
       },
       template:
-        '<div class="before-after-slider">' +
-            '<div class="first-wrapper">' +
-              '<img ng-src="{{ first }}" width="{{ width }}" height="{{ height }}" alt="first" />' +
-            '</div>' +
+        '<div class="before-after-slider" style="height: {{ height }}px; width: {{ width }}px">' +
+          '<div class="first-wrapper">' +
+            '<img ng-src="{{ first }}" alt="first" />' +
+          '</div>' +
           '<div class="second-wrapper">' +
-            '<img ng-src="{{ second }}" width="{{ width }}" height="{{ height }}"  alt="second" />' +
+            '<img ng-src="{{ second }}" alt="second" />' +
           '</div>' +
         '</div>',
       link: function postLink(scope, element, attrs) {
