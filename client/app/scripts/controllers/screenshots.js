@@ -26,7 +26,7 @@ angular.module('clientApp')
 
     angular.forEach($scope.screenshots, function(value, key) {
       $scope.screenshots[key].selected = false;
-      // Find the highest picture. 
+      // Find the highest images.
       $scope.screenshots[key].maxHeight = value.regression.height > value.baseline.height ? value.regression.height : value.baseline.height;
     });
 
