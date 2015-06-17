@@ -16,11 +16,11 @@ angular.module('clientApp')
         maxHeight: '@'
       },
       template:
-        '<div class="labels" style="width: {{ maxWidth }}px">' +
-          '<div class="baseline text-muted">baseline image</div>' +
-          '<div class="regression text-muted">regression image</div>' +
-        '</div>' +
         '<div class="before-after-slider" style="height: {{ maxHeight }}px; width: {{ maxWidth }}px">' +
+          '<div class="labels" >' +
+            '<div class="baseline text-muted">Baseline</div>' +
+            '<div class="regression text-muted">Regression</div>' +
+          '</div>' +
           '<div class="regression-wrapper">' +
             '<img ng-src="{{ regressionImgSrc }}" alt="regression image" />' +
           '</div>' +

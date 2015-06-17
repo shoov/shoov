@@ -1,21 +1,24 @@
-.labels {
-  height: 25px;
-  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-
-  .baseline {
-    float: left;
-  }
-
-  .regression {
-    float: right;
-  }
-}
-
 .before-after-slider {
   position: relative;
 
   & > * {
     position: absolute;
+  }
+
+  .labels {
+    height: 25px;
+    position: relative;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    margin-left: 2px;
+    margin-right: -2px;
+
+    .baseline {
+      float: left;
+    }
+
+    .regression {
+      float: right;
+    }
   }
 
   .baseline-wrapper {
