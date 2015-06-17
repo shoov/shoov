@@ -33,10 +33,11 @@ angular.module('clientApp')
           init_split = Math.round(scope.maxWidth/2);
 
         $baseline_wrapper.width(init_split);
-
+        
         element.find('.before-after-slider').mousemove(function(e) {
           var offX  = (e.offsetX || e.clientX - $baseline_wrapper.offset().left);
-          if (offX <= 0 || offX >= scope.width) {
+          console.log(offX);
+          if (offX <= 0 || offX >= scope.maxWidth) {
             return;
           }
           $baseline_wrapper.width(offX);
