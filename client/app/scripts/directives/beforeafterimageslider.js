@@ -22,10 +22,10 @@ angular.module('clientApp')
             '<div class="regression text-muted">Regression</div>' +
           '</div>' +
           '<div class="regression-wrapper">' +
-            '<img ng-src="{{ regressionImgSrc }}" alt="regression image" />' +
+            '<img ng-src="{{ regressionImgSrc }}" alt="Regression" />' +
           '</div>' +
           '<div class="baseline-wrapper">' +
-            '<img ng-src="{{ baselineImgSrc }}" alt="baseline image" />' +
+            '<img ng-src="{{ baselineImgSrc }}" alt="Baseline" />' +
           '</div>' +
         '</div>',
       link: function postLink(scope, element, attrs) {
