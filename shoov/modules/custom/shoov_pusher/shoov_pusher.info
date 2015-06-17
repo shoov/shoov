@@ -1,0 +1,4 @@
+name = Shoov Pusher
+core = 7.x
+package = Shoov
+dependencies[] = composer_manager
