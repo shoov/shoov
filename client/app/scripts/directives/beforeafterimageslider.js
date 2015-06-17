@@ -36,7 +36,6 @@ angular.module('clientApp')
         
         element.find('.before-after-slider').mousemove(function(e) {
           var offX  = (e.offsetX || e.clientX - $baseline_wrapper.offset().left);
-          console.log(offX);
           if (offX <= 0 || offX >= scope.maxWidth) {
             return;
           }
