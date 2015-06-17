@@ -16,11 +16,12 @@ angular.module('clientApp')
         height: '@'
       },
       template:
+        '<div><span>baseline</span><span>regression</span></div>' +
         '<div class="before-after-slider" style="height: {{ height }}px; width: {{ width }}px">' +
-          '<div class="first-wrapper">' +
+          '<div class="first-wrapper baseline">' +
             '<img ng-src="{{ first }}" alt="first" />' +
           '</div>' +
-          '<div class="second-wrapper">' +
+          '<div class="second-wrapper regression">' +
             '<img ng-src="{{ second }}" alt="second" />' +
           '</div>' +
         '</div>',
