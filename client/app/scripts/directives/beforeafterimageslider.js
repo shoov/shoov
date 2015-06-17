@@ -10,31 +10,36 @@ angular.module('clientApp')
   .directive('beforeAfterImageSlider', function () {
     return {
       scope: {
-        first: '@',
-        second: '@',
-        width: '@',
-        height: '@'
+        baselineImgSrc: '@',
+        regressionImgSrc: '@',
+        maxWidth: '@',
+        maxHeight: '@'
       },
       template:
-        '<div><span>baseline</span><span>regression</span></div>' +
-        '<div class="before-after-slider" style="height: {{ height }}px; width: {{ width }}px">' +
-          '<div class="first-wrapper baseline">' +
-            '<img ng-src="{{ first }}" alt="first" />' +
+        '<div class="labels" style="width: {{ maxWidth }}px">' +
+          '<div class="baseline text-muted">baseline image</div>' +
+          '<div class="regression text-muted">regression image</div>' +
+        '</div>' +
+        '<div class="before-after-slider" style="height: {{ maxHeight }}px; width: {{ maxWidth }}px">' +
+          '<div class="regression-wrapper">' +
+            '<img ng-src="{{ regressionImgSrc }}" alt="regression image" />' +
           '</div>' +
-          '<div class="second-wrapper regression">' +
-            '<img ng-src="{{ second }}" alt="second" />' +
+          '<div class="baseline-wrapper">' +
+            '<img ng-src="{{ baselineImgSrc }}" alt="baseline image" />' +
           '</div>' +
         '</div>',
       link: function postLink(scope, element, attrs) {
-        var $second_wrapper = element.find('.second-wrapper'),
-          img_width = element.find('.second-wrapper img').width(),
-          init_split = Math.round(img_width/2);
+        var $baseline_wrapper = element.find('.baseline-wrapper'),
+          init_split = Math.round(scope.maxWidth/2);
 
-        $second_wrapper.width(init_split);
+        $baseline_wrapper.width(init_split);
 
-        element.find('.before-after-slider').mousemove(function(e){
-          var offX  = (e.offsetX || e.clientX - $second_wrapper.offset().left);
-          $second_wrapper.width(offX);
+        element.find('.before-after-slider').mousemove(function(e) {
+          var offX  = (e.offsetX || e.clientX - $baseline_wrapper.offset().left);
+          if (offX <= 0 || offX >= scope.width) {
+            return;
+          }
+          $baseline_wrapper.width(offX);
         });
       }
     };
