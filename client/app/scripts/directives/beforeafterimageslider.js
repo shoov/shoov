@@ -17,7 +17,7 @@ angular.module('clientApp')
       },
       template:
         '<div class="before-after-slider" style="height: {{ maxHeight }}px; width: {{ maxWidth }}px">' +
-          '<div class="labels" >' +
+          '<div class="labels">' +
             '<div class="baseline text-muted">Baseline</div>' +
             '<div class="regression text-muted">Regression</div>' +
           '</div>' +
