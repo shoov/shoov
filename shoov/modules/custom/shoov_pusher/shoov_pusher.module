@@ -3,3 +3,30 @@
  * @file
  * Code for the Pusher API integration.
  */
+
+
+/**
+ * Implements hook_node_update().
+ */
+function shoov_pusher_node_update($node) {
+  $pusher = shoov_pusher_get_pusher();
+  $pusher->trigger('private-repo-1', 'ci_build_pr', array('message' => 'PR update'));
+}
+
+function shoov_pusher_get_pusher() {
+  $pusher = &drupal_static(__FUNCTION__);
+  if ($pusher) {
+    return $pusher;
+  }
+
+  $app_key = variable_get('shoov_pusher_app_key');
+  $app_secret = variable_get('shoov_pusher_app_secret');
+  $app_id = variable_get('shoov_pusher_app_id');
+
+  if (empty($app_key) || empty($app_secret) || empty($app_id)) {
+    throw new \RestfulServerConfigurationException('Pusher app is not configured properly.');
+  }
+
+  $pusher = new Pusher($app_key, $app_secret, $app_id);
+  return $pusher;
+}
