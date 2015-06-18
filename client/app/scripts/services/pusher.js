@@ -8,7 +8,7 @@
  * Service in the clientApp.
  */
 angular.module('clientApp')
-  .service('channelManager', function ($q, $http, $timeout, Config, $pusher, $log) {
+  .service('channelManager', function ($q, $http, $timeout, Config, $pusher, $log, Config, Auth) {
 
     var channel, cNum;
 
@@ -18,7 +18,16 @@ angular.module('clientApp')
 
     this.set = function (channelNum, username) {
       cNum = channelNum;
-      var client = new Pusher('b2ac1e614d90c85ec13b', { auth: { params: { username: username}} });
+      var pusherConf = {
+        authEndpoint: Config.backend + '/api/v1.0/pusher_auth',
+        auth: {
+          headers: {
+            "access-token": Auth.getAccessToken()
+          }
+        }
+      };
+
+      var client = new Pusher('b2ac1e614d90c85ec13b', pusherConf);
       var pusher = $pusher(client);
       channel = pusher.subscribe('presence-collaborate-' + channelNum);
       return channel;
