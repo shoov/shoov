@@ -8,4 +8,6 @@ $plugin = array(
   'entity_type' => 'user',
   'bundle' => 'user',
   'authentication_types' => TRUE,
+  // Add a passthrough formatter.
+  'formatter' => 'simple',
 );

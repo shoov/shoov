@@ -25,7 +25,7 @@ class ShoovRestfulFormatterSimple extends \RestfulFormatterBase implements \Rest
       return $data;
     }
 
-    return $data[0];
+    return $data;
   }
 
   /**
