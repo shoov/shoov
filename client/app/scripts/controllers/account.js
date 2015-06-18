@@ -8,10 +8,14 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('AccountCtrl', function ($scope, account, Auth, Config, channelManager) {
+  .controller('AccountCtrl', function ($scope, account, Auth, Config, channelManager, $log) {
     $scope.account = account;
     $scope.accessToken = Auth.getAccessToken();
     $scope.backend = Config.backend;
 
-    channelManager.set(1);
+    var channel = channelManager.set(1);
+
+    channel.bind_all(function(data) {
+      $log.log(data);
+    })
   });
