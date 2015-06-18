@@ -10,30 +10,36 @@ angular.module('clientApp')
   .directive('beforeAfterImageSlider', function () {
     return {
       scope: {
-        first: '@',
-        second: '@',
-        width: '@',
-        height: '@'
+        baselineImgSrc: '@',
+        regressionImgSrc: '@',
+        maxWidth: '@',
+        maxHeight: '@'
       },
       template:
-        '<div class="before-after-slider">' +
-            '<div class="first-wrapper">' +
-              '<img ng-src="{{ first }}" width="{{ width }}" height="{{ height }}" alt="first" />' +
-            '</div>' +
-          '<div class="second-wrapper">' +
-            '<img ng-src="{{ second }}" width="{{ width }}" height="{{ height }}"  alt="second" />' +
+        '<div class="before-after-slider" style="height: {{ maxHeight }}px; width: {{ maxWidth }}px">' +
+          '<div class="labels">' +
+            '<div class="baseline text-muted">Baseline</div>' +
+            '<div class="regression text-muted">Regression</div>' +
+          '</div>' +
+          '<div class="regression-wrapper">' +
+            '<img ng-src="{{ regressionImgSrc }}" alt="Regression" />' +
+          '</div>' +
+          '<div class="baseline-wrapper">' +
+            '<img ng-src="{{ baselineImgSrc }}" alt="Baseline" />' +
           '</div>' +
         '</div>',
       link: function postLink(scope, element, attrs) {
-        var $second_wrapper = element.find('.second-wrapper'),
-          img_width = element.find('.second-wrapper img').width(),
-          init_split = Math.round(img_width/2);
+        var $baseline_wrapper = element.find('.baseline-wrapper'),
+          init_split = Math.round(scope.maxWidth/2);
 
-        $second_wrapper.width(init_split);
-
-        element.find('.before-after-slider').mousemove(function(e){
-          var offX  = (e.offsetX || e.clientX - $second_wrapper.offset().left);
-          $second_wrapper.width(offX);
+        $baseline_wrapper.width(init_split);
+        
+        element.find('.before-after-slider').mousemove(function(e) {
+          var offX  = (e.offsetX || e.clientX - $baseline_wrapper.offset().left);
+          if (offX <= 0 || offX >= scope.maxWidth) {
+            return;
+          }
+          $baseline_wrapper.width(offX);
         });
       }
     };
