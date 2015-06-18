@@ -8,7 +8,7 @@
  * Service in the clientApp.
  */
 angular.module('clientApp')
-  .service('channelManager', function ($q, $http, $timeout, Config, $pusher, $log, Config, Auth) {
+  .service('channelManager', function ($q, $http, $timeout, $pusher, $log, Config, Auth) {
 
     var channel, cNum;
 
@@ -16,7 +16,7 @@ angular.module('clientApp')
       return channel;
     };
 
-    this.set = function (channelNum, username) {
+    this.set = function (channelNum) {
       cNum = channelNum;
       var pusherConf = {
         authEndpoint: Config.backend + '/api/v1.0/pusher_auth',
