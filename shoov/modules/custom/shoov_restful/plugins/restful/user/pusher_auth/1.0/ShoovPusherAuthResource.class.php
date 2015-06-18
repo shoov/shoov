@@ -65,7 +65,8 @@ class ShoovPusherAuthResource extends \RestfulEntityBaseUser {
 
     $pusher = new Pusher($app_key, $app_secret, $app_id);
     $result = $pusher->socket_auth($request['channel_name'], $request['socket_id']);
+    $data = drupal_json_decode($result);
 
-    return $result ;
+    return $data['auth'];
   }
 }
