@@ -45,13 +45,27 @@ class ShoovPusherAuthResource extends \RestfulEntityBaseUser {
       throw new \RestfulBadRequestException('"socket_id" property is missing');
     }
 
-    return parent::viewEntity($entity_id);
+    $account = $this->getAccount();
+    return parent::viewEntity($account->uid);
   }
 
   /**
    * Get the pusher auth.
    */
-  protected function getPusherAuth($op, $public_field_name, \EntityMetadataWrapper $property_wrapper, \EntityMetadataWrapper $wrapper) {
+  protected function getPusherAuth() {
     $request = $this->getRequest();
+
+    $app_key = variable_get('shoov_pusher_app_key');
+    $app_secret = variable_get('shoov_pusher_app_secret');
+    $app_id = variable_get('shoov_pusher_app_id');
+
+    if (empty($app_key) || empty($app_secret) || empty($app_id)) {
+      throw new \RestfulServerConfigurationException('Pusher app is not configured properly.');
+    }
+
+    $pusher = new Pusher($app_key, $app_secret, $app_id);
+    $result = $pusher->socket_auth($request['channel_name'], $request['socket_id']);
+
+    return $result ;
   }
 }
