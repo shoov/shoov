@@ -29,7 +29,7 @@ angular.module('clientApp')
 
       var client = new Pusher('b2ac1e614d90c85ec13b', pusherConf);
       var pusher = $pusher(client);
-      channel = pusher.subscribe('presence-collaborate-' + channelNum);
+      channel = pusher.subscribe('private-repo-' + channelNum);
       return channel;
     };
 
