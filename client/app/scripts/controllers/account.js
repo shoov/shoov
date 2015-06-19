@@ -15,7 +15,7 @@ angular.module('clientApp')
 
     var channel = channelManager.set(1);
 
-    channel.bind_all(function(data) {
-      $log.log(data);
+    channel.bind_all(function(eventName, data) {
+      $log.log(eventName, data);
     })
   });

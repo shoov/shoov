@@ -6,9 +6,9 @@
 
 
 /**
- * Implements hook_node_update().
+ * Implements hook_node_insert().
  */
-function shoov_pusher_init() {
+function shoov_pusher_node_insert($node) {
   $pusher = shoov_pusher_get_pusher();
   $pusher->trigger('private-repo-1', 'ci_build_pr', array('message' => time('dd,mm,yy')));
 }
