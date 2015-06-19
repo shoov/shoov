@@ -13,9 +13,13 @@ angular.module('clientApp')
     $scope.accessToken = Auth.getAccessToken();
     $scope.backend = Config.backend;
 
-    var channel = channelManager.set(1);
+    $log.log(account);
 
-    channel.bind_all(function(eventName, data) {
-      $log.log(eventName, data);
-    })
+    angular.forEach(account.repository, function(repoId) {
+      channelManager.set(repoId);
+    });
+
+//    channel.bind_all(function(eventName, data) {
+//      $log.log(eventName, data);
+//    })
   });
