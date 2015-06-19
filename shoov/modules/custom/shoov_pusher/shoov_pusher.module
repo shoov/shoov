@@ -6,11 +6,21 @@
 
 
 /**
- * Implements hook_node_insert().
+ * Trigger a Pusher event.
+ *
+ * @param $repo_id
+ * @param $event_name
+ * @param $message
+ * @param array $data
+ *
+ * @throws \PusherException
+ * @throws \RestfulServerConfigurationException
+ *
+ * @return bool
  */
-function shoov_pusher_node_insert($node) {
+function shoov_pusher_trigger_event($repo_id, $event_name, $data = array()) {
   $pusher = shoov_pusher_get_pusher();
-  $pusher->trigger('private-repo-1', 'ci_build_pr', array('message' => time('dd,mm,yy')));
+  return $pusher->trigger('private-repo-' . $repo_id, $event_name, $data);
 }
 
 function shoov_pusher_get_pusher() {

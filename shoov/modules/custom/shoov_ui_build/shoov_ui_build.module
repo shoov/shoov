@@ -17,7 +17,15 @@ function shoov_ui_build_node_update($node) {
   }
 
   $wrapper = entity_metadata_wrapper('node', $node);
-  if ($wrapper->field_pull_request_status->value() != 'requested') {
+
+
+  $repo_id = $wrapper->og_repo->value(array('identifier' => TRUE));
+  $status = $wrapper->field_pull_request_status->value();
+  $data = array('status' => $status);
+  shoov_pusher_trigger_event($repo_id, 'ui_build_pull_request', $data);
+
+
+  if ($status != 'requested') {
     return;
   }
 
