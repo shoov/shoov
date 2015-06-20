@@ -194,7 +194,7 @@ function composer_install {
   echo -e "${LBLUE}> Composer install${RESTORE}"
 
   cd $ROOT/www/sites/default/files/composer
-  drush composer-manager install
+  composer install
   echo
 
   cd $ROOT
