@@ -17,6 +17,12 @@ angular.module('clientApp')
     };
 
     this.addChannel = function (repoId) {
+      var pusher = $pusher(this.getClient());
+      channels[repoId] = pusher.subscribe('private-repo-' + repoId);
+      return channels[repoId];
+    };
+
+    this.getClient = function() {
       var pusherConf = {
         authEndpoint: Config.backend + '/api/v1.0/pusher_auth',
         auth: {
@@ -25,10 +31,6 @@ angular.module('clientApp')
           }
         }
       };
-
-      var client = new Pusher('b2ac1e614d90c85ec13b', pusherConf);
-      var pusher = $pusher(client);
-      channels[repoId] = pusher.subscribe('private-repo-' + repoId);
-      return channels[repoId];
-    };
+      return new Pusher('b2ac1e614d90c85ec13b', pusherConf);
+    }
   });
