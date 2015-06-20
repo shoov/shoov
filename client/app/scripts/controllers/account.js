@@ -16,4 +16,9 @@ angular.module('clientApp')
     channelManager.getClient().bind_all(function(eventName, data) {
       $log.log(eventName, data);
     })
+
+    var channels = channelManager.getChannels();
+    channels['29'].bind('foo', function(data) {
+      $log.log(data);
+    })
   });
