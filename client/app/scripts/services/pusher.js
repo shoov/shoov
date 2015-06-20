@@ -17,6 +17,10 @@ angular.module('clientApp')
     };
 
     this.addChannel = function (repoId) {
+      if (!!channels[repoId]) {
+        // Already subscribed to channel.
+        return;
+      }
       var pusher = $pusher(this.getClient());
       channels[repoId] = pusher.subscribe('private-repo-' + repoId);
       return channels[repoId];
