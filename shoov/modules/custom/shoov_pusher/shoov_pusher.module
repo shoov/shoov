@@ -23,6 +23,14 @@ function shoov_pusher_trigger_event($repo_id, $event_name, $data = array()) {
   return $pusher->trigger('private-repo-' . $repo_id, $event_name, $data);
 }
 
+/**
+ * Get a Pusher instance.
+ *
+ * @return \Pusher
+ *   The Pusher object.
+ *
+ * @throws \RestfulServerConfigurationException
+ */
 function shoov_pusher_get_pusher() {
   $pusher = &drupal_static(__FUNCTION__);
   if ($pusher) {
@@ -37,6 +45,5 @@ function shoov_pusher_get_pusher() {
     throw new \RestfulServerConfigurationException('Pusher app is not configured properly.');
   }
 
-  $pusher = new Pusher($app_key, $app_secret, $app_id);
-  return $pusher;
+  return new Pusher($app_key, $app_secret, $app_id);
 }
