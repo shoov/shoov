@@ -8,10 +8,13 @@
  * Service in the clientApp.
  */
 angular.module('clientApp')
-  .service('Account', function ($q, $http, $timeout, Config, $rootScope, $log) {
+  .service('Account', function ($q, $http, $timeout, Config, $rootScope, channelManager, $log) {
 
     // A private cache key.
     var cache = {};
+
+    // Update event broadcast name.
+    var broadcastUpdateEventName = 'ShoovAccountChange';
 
     /**
      * Return the promise with the events list, from cache or the server.
@@ -35,18 +38,19 @@ angular.module('clientApp')
         method: 'GET',
         url: url
       }).success(function(response) {
-        setCache(response.data[0]);
-        deferred.resolve(response.data[0]);
+        var data = response.data[0];
+        setCache(data);
+        // Subscribe user to Pusher channel.
+        setChannels(data.repository);
+        deferred.resolve(data);
       });
 
       return deferred.promise;
     }
 
     /**
-     * Save meters in cache, and broadcast en event to inform that the meters data changed.
+     * Cache the account data.
      *
-     * @param itemId
-     *   The item ID.
      * @param data
      *   The data to cache.
      */
@@ -63,7 +67,23 @@ angular.module('clientApp')
       }, 60000);
 
       // Broadcast a change event.
-      $rootScope.$broadcast('gb.account.changed');
+      $rootScope.$broadcast(broadcastUpdateEventName);
+    };
+
+    /**
+     * Subscribe user to Pusher channels.
+     *
+     * @param array repositories
+     *   The user repositories.
+     */
+    var setChannels = function(repositories) {
+      if(!repositories) {
+        return;
+      }
+
+      repositories.forEach(function(repoId) {
+        channelManager.set(repoId);
+      });
     };
 
     $rootScope.$on('clearCache', function() {
