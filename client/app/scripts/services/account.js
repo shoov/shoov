@@ -78,11 +78,12 @@ angular.module('clientApp')
      */
     var setChannels = function(repositories) {
       if(!repositories) {
+        // User doesn't have repositories yet.
         return;
       }
 
       repositories.forEach(function(repoId) {
-        channelManager.set(repoId);
+        channelManager.addChannel(repoId);
       });
     };
 
