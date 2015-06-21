@@ -2,12 +2,14 @@
   "development": {
     "backend": "http://localhost/shoov/www",
     "debugUiRouter": true,
-    "githubClientId": false
+    "githubClientId": false,
+    "pusherKey": "<your-pusher-key>"
   },
   "production": {
     "backend": "https://example.com",
     "debugUiRouter": false,
     "githubClientId": false,
+    "pusherKey": "<your-pusher-key>",
     "aws": {
       "key": "",
       "secret": "",

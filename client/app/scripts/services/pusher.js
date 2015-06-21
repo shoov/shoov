@@ -35,6 +35,6 @@ angular.module('clientApp')
           }
         }
       };
-      return new Pusher('b2ac1e614d90c85ec13b', pusherConf);
+      return new Pusher(Config.pusherKey, pusherConf);
     }
   });
