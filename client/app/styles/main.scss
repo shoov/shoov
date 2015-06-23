@@ -56,6 +56,18 @@
   margin-top: 20px;
 }
 
+.build-item {
+//  -webkit-transition: background-color 1000ms linear;
+//  -moz-transition: background-color 1000ms linear;
+//  -o-transition: background-color 1000ms linear;
+//  -ms-transition: background-color 1000ms linear;
+//  transition: background-color 1000ms linear;
+
+  &.new {
+    background-color: yellow;
+  }
+}
+
 .config {
   margin-top: 10px;
   margin-bottom: 20px;
