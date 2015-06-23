@@ -7,9 +7,28 @@
 include_once 'shoov_ui_build.features.inc';
 
 /**
+ * Implements hook_node_insert().
+ */
+function shoov_ui_build_node_insert($node) {
+  if ($node->type != 'ui_build') {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  $repo_id = $wrapper->og_repo->value(array('identifier' => TRUE));
+
+
+  $account = user_load($node->uid);
+  $handler = restful_get_restful_handler('builds');
+  $handler->setAccount($account);
+  $result = $handler->get($node->nid);
+
+  shoov_pusher_trigger_event($repo_id, 'new_ui_build', $result[0]);
+}
+
+/**
  * Implements hook_node_update().
- *
- * @param $node
  */
 function shoov_ui_build_node_update($node) {
   if ($node->type != 'ui_build') {

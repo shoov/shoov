@@ -49,6 +49,16 @@ angular.module('clientApp')
       return $http.post(Config.backend + '/api/ci-builds', params);
     };
 
+    this.addItem = function(item) {
+      var items = this.cache;
+      items.unshift(item);
+
+      var identifier = id + ':' + type;
+      setCache(identifier, items);
+
+      return items;
+    }
+
     /**
      * Due to the way Shoov handles access (Using Drupal's Organic groups
      * module), we must create a repository before being able to create a CI
