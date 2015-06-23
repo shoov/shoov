@@ -43,7 +43,7 @@ function shoov_restful_get_user_token($account = NULL)  {
     // e.g. via migrate.
     $controller = entity_get_controller('restful_token_auth');
     $access_token = $controller->generateAccessToken($uid);
-    return $access_token->id;
+    return $access_token->token;
   }
 
   $id = key($result['restful_token_auth']);
