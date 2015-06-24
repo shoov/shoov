@@ -25,6 +25,11 @@ function shoov_install_tasks() {
     'display' => FALSE,
   );
 
+  $tasks['shoov_setup_content_permissions'] = array(
+    'display_name' => st('Set Permissions'),
+    'display' => FALSE,
+  );
+
   $tasks['shoov_setup_og_permissions'] = array(
     'display_name' => st('Set Blocks'),
     'display' => FALSE,
@@ -74,6 +79,31 @@ function shoov_setup_variables() {
  * created.
  */
 function shoov_setup_og_permissions() {
+}
+
+/**
+ * Task callback; Setup content permissions.
+ *
+ * We do this here, late enough to make sure all content types were
+ * created.
+ */
+function shoov_setup_content_permissions() {
+  $content_type = 'repository';
+  $content_types = array_keys(node_type_get_types());
+
+  // Allow user to access messages.
+  $permissions[] = 'create messages';
+
+  if (in_array($content_type, $content_types)) {
+    // Add repository content permissions.
+    $permissions[] = "create $content_type content";
+    $permissions[] = "edit any $content_type content";
+    $permissions[] = "edit own $content_type content";
+    $permissions[] = "delete any $content_type content";
+    $permissions[] = "delete own $content_type content";
+  }
+
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 }
 
 /**
