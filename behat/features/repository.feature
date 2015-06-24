@@ -38,8 +38,7 @@ Feature: Repository
   Scenario: Check authenticated user can delete a repository
     Given I login with user "emma"
     When  I delete "Test repository" node of type "repository"
-    Then  I should see the text "Test repository"
-    And   I should see the text "has been deleted."
+    Then  Node "Test repository" of type "repository" should be deleted
 
   @api
   Scenario Outline: Check authenticated user without groups can't create nodes of other types.
@@ -59,7 +58,7 @@ Feature: Repository
     Given I login with user "emma"
     When  I start creating node of type "<type>"
     Then  I should have access to the page
-    And   I should not see "drupal/drupal" option in the repositories list
+    And   I should not be able to add content to "drupal/drupal" repository
 
   Examples:
     | type        |

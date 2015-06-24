@@ -109,10 +109,10 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    * @When I create :title node of type :type
    */
   public function iCreateNodeOfType($title, $type) {
-    $user = user_load_by_name($this->user->name);
+    $account = user_load_by_name($this->user->name);
     $values = array(
       'type' => $type,
-      'uid' => $user->uid,
+      'uid' => $account->uid,
       'status' => 1,
       'comment' => 1,
       'promote' => 0,
@@ -144,48 +144,56 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       throw new \Exception(format_string("Node @title of @type not found.", $params));
     }
     $nid = key($result['node']);
-    $this->getSession()->visit($this->locatePath('node/' . $nid . '/delete'));
-    $this->getSession()->getPage()->pressButton('Delete');
-  }
-
-  public function iCheckTheRadioButton($labelText) {
-    $page = $this->getSession()->getPage();
-    foreach ($page->findAll('css', 'label') as $label) {
-      if ( $labelText === $label->getText() ) {
-        $radioButton = $page->find('css', '#'.$label->getAttribute('for'));
-        $value = $radioButton->getAttribute('value');
-        $radioButton->selectOption($value, FALSE);
-        return;
-      }
-    }
-    throw new \Exception("Radio button with label {$labelText} not found");
+    node_delete($nid);
   }
 
   /**
-   * @Then I should see :value option in the repositories list
+   * @Then I should not be able to add content to :title repository
    */
-  public function iShouldSeeOptionInTheRepositoriesList($value) {
-    $selectElement = $this->getSession()->getPage()->find('named', array('select', 'og_repo[und][0][default]'));
-    $options = $selectElement->findAll('css', 'option');
-    foreach ($options as $option) {
-      if ($option->getText() == $value) {
-        return;
-      }
+  public function iShouldNotBeAbleToAddContentToRepository($title) {
+    $query = new \entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'repository')
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+        '@type' => 'repository',
+      );
+      throw new \Exception(format_string("Node @title of @type not found.", $params));
     }
-    throw new \Exception("{$value} was not found in the repositories list");
+    $nid = key($result['node']);
+    $account = user_load_by_name($this->user->name);
+    if (og_user_access('node', $nid, 'access group', $account)) {
+      throw new \Exception(format_string("You can add content to @title group", array('@title' => $title)));
+    }
   }
 
   /**
-   * @Then I should not see :value option in the repositories list
+   * @Then Node :title of type :type should be deleted
    */
-  public function iShouldNotSeeOptionInTheRepositoriesList($value) {
-    $selectElement = $this->getSession()->getPage()->find('named', array('select', 'og_repo[und][0][default]'));
-    $options = $selectElement->findAll('css', 'option');
-    foreach ($options as $option) {
-      if ($option->getText() == $value) {
-        throw new \Exception("{$value} was not found in the repositories list");
-      }
+  public function nodeOfTypeShouldBeDeleted($title, $type) {
+    $query = new \entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', strtolower($type))
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+    if (!empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+        '@type' => $type,
+      );
+      throw new \Exception(format_string("Node @title of @type was found.", $params));
     }
   }
+
+
 
 }
