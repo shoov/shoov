@@ -8,6 +8,7 @@ Feature: Repository
     Given I login with user "admin"
     When  I visit "<title>" node of type "repository"
     Then  I should have access to the page
+    And I press the "sdcfsf" button
 
   Examples:
     | title                    |
@@ -18,9 +19,9 @@ Feature: Repository
   @api
   Scenario: Check authenticated user can create a repository
     Given I login with user "emma"
-    When  I create "Test repository" node of type "repository" with "public" access
-    Then  I should see the text "Test repository"
-    And   I should see the text "has been created."
+    When  I create "Test repository" node of type "repository"
+    And   I visit "Test repository" node of type "repository"
+    Then  I should have access to the page
 
   @api
   Scenario Outline: Check authenticated user has access to the repository
@@ -51,6 +52,20 @@ Feature: Repository
     Given I login with user "john"
     When  I start creating node of type "<type>"
     Then  I should not have access to the page
+
+  Examples:
+    | type        |
+    | ci-build    |
+    | ci-incident |
+    | screenshot  |
+    | ui-build    |
+
+  @api
+  Scenario Outline: Check authenticated user can't create nodes in not his groups.
+    Given I login with user "emma"
+    When  I start creating node of type "<type>"
+    Then  I should have access to the page
+    And   I should not see "drupal/drupal" option in the repositories list
 
   Examples:
     | type        |

@@ -88,15 +88,9 @@ function shoov_setup_og_permissions() {
  * created.
  */
 function shoov_setup_permissions() {
-  // Allow user to access messages.
-  // Add repository content permissions.
   $permissions = array(
     'create messages',
-    "create repository content",
-    "edit any repository content",
-    "edit own repository content",
-    "delete any repository content",
-    "delete own repository content",
+    'create repository content',
   );
 
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);

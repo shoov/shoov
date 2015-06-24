@@ -106,15 +106,22 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * @When I create :title node of type :type with :access access
+   * @When I create :title node of type :type
    */
-  public function iCreateNodeOfType($title, $type, $access) {
-    $this->getSession()->visit($this->locatePath('node/add/' . $type));
-    $this->getSession()->getPage()->fillField('title', $title);
-    $label = $access == "public" ? "Public - accessible to all site users" : "Private - accessible only to group members";
-    $this->iCheckTheRadioButton($label);
-    $this->getSession()->getPage()->fillField('field_github_id[und][0][value]', '123');
-    $this->getSession()->getPage()->pressButton('Save');
+  public function iCreateNodeOfType($title, $type) {
+    $user = user_load_by_name($this->user->name);
+    $values = array(
+      'type' => $type,
+      'uid' => $user->uid,
+      'status' => 1,
+      'comment' => 1,
+      'promote' => 0,
+    );
+    $entity = entity_create('node', $values);
+    $wrapper = entity_metadata_wrapper('node', $entity);
+    $wrapper->title->set($title);
+    $entity->field_github_id[LANGUAGE_NONE][0] = array('value' => 123456);
+    $wrapper->save();
   }
 
   /**
@@ -152,6 +159,33 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       }
     }
     throw new \Exception("Radio button with label {$labelText} not found");
+  }
+
+  /**
+   * @Then I should see :value option in the repositories list
+   */
+  public function iShouldSeeOptionInTheRepositoriesList($value) {
+    $selectElement = $this->getSession()->getPage()->find('named', array('select', 'og_repo[und][0][default]'));
+    $options = $selectElement->findAll('css', 'option');
+    foreach ($options as $option) {
+      if ($option->getText() == $value) {
+        return;
+      }
+    }
+    throw new \Exception("{$value} was not found in the repositories list");
+  }
+
+  /**
+   * @Then I should not see :value option in the repositories list
+   */
+  public function iShouldNotSeeOptionInTheRepositoriesList($value) {
+    $selectElement = $this->getSession()->getPage()->find('named', array('select', 'og_repo[und][0][default]'));
+    $options = $selectElement->findAll('css', 'option');
+    foreach ($options as $option) {
+      if ($option->getText() == $value) {
+        throw new \Exception("{$value} was not found in the repositories list");
+      }
+    }
   }
 
 }
