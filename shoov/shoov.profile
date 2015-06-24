@@ -92,7 +92,7 @@ function shoov_setup_content_permissions() {
   $content_types = array_keys(node_type_get_types());
 
   // Allow user to access messages.
-  $permissions[] = 'create messages';
+  $permissions = array('create messages');
 
   if (in_array($content_type, $content_types)) {
     // Add repository content permissions.
