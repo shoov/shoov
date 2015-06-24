@@ -8,7 +8,6 @@ Feature: Repository
     Given I login with user "admin"
     When  I visit "<title>" node of type "repository"
     Then  I should have access to the page
-    And I press the "sdcfsf" button
 
   Examples:
     | title                    |
@@ -24,15 +23,10 @@ Feature: Repository
     Then  I should have access to the page
 
   @api
-  Scenario Outline: Check authenticated user has access to the repository
-    Given I login with user "<user>"
+  Scenario: Check authenticated user has access to the repository
+    Given I login with user "emma"
     When  I visit "Test repository" node of type "repository"
     Then  I should have access to the page
-
-  Examples:
-    | user |
-    | emma |
-    | john |
 
   @api
   Scenario: Check authenticated user can edit a repository
