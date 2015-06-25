@@ -119,7 +119,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     );
     $entity = entity_create('node', $values);
     $wrapper = entity_metadata_wrapper('node', $entity);
-    $wrapper->label->set($title);
+    $wrapper->title->set($title);
     $wrapper->field_github_id->set(123456);
     $wrapper->save();
   }
