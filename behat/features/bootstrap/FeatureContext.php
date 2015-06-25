@@ -119,8 +119,8 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     );
     $entity = entity_create('node', $values);
     $wrapper = entity_metadata_wrapper('node', $entity);
-    $wrapper->title->set($title);
-    $entity->field_github_id[LANGUAGE_NONE][0] = array('value' => 123456);
+    $wrapper->label->set($title);
+    $wrapper->field_github_id->set(123456);
     $wrapper->save();
   }
 
@@ -185,15 +185,13 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       ->propertyCondition('status', NODE_PUBLISHED)
       ->range(0, 1)
       ->execute();
-    if (!empty($result['node'])) {
-      $params = array(
-        '@title' => $title,
-        '@type' => $type,
-      );
-      throw new \Exception(format_string("Node @title of @type was found.", $params));
+    if (empty($result['node'])) {
+      return;
     }
+    $params = array(
+      '@title' => $title,
+      '@type' => $type,
+    );
+    throw new \Exception(format_string("Node @title of @type was found.", $params));
   }
-
-
-
 }
