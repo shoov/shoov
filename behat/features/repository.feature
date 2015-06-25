@@ -31,8 +31,7 @@ Feature: Repository
   @api
   Scenario: Check authenticated user can edit a repository
     Given I login with user "emma"
-    When  I start editing "Test repository" node of type "repository"
-    Then  I should have access to the page
+    Then  I should be able to edit "Test repository" node of type "repository"
 
   @api
   Scenario: Check authenticated user can delete a repository

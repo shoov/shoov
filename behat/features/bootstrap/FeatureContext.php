@@ -76,9 +76,9 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * @When I start editing :title node of type :type
+   * @When I should be able to edit :title node of type :type
    */
-  public function iStartEditingNodeOfType($title, $type) {
+  public function iShouldBeAbleToEditNodeOfType($title, $type) {
     $query = new \entityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'node')
@@ -95,7 +95,14 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       throw new \Exception(format_string("Node @title of @type not found.", $params));
     }
     $nid = key($result['node']);
-    $this->getSession()->visit($this->locatePath('node/' . $nid . '/edit'));
+    if (node_access('update', node_load($nid), user_load_by_name($this->user->name))) {
+      return;
+    }
+    $params = array(
+      '@title' => $title,
+      '@type' => $type,
+    );
+    throw new \Exception(format_string("You can't edit the node @title of @type not found.", $params));
   }
 
   /**
