@@ -131,6 +131,16 @@ angular
           }
         }
       })
+      .state('dashboard.encrypt', {
+        url: '/repos/{buildId:int}/encrypt',
+        templateUrl: 'views/dashboard/repos/encrypt.html',
+        controller: 'EncryptCtrl',
+        resolve: {
+          build: function(Builds, $stateParams) {
+            return Builds.get($stateParams.buildId, 'ci_build');
+          }
+        }
+      })
       .state('dashboard.ciBuildItem', {
         url: '/ci-build-items/{ciBuildItemId:int}',
         templateUrl: 'views/dashboard/ci_build_item.html',
