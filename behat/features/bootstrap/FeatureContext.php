@@ -106,10 +106,13 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * @When I start creating node of type :type
+   * @When I should be able to create node of type :type
    */
-  public function iStartCreatingNodeOfType($type) {
-    $this->getSession()->visit($this->locatePath('node/add/' . $type));
+  public function iShouldBeAbleToCreateNodeOfType($type) {
+    if (node_access('create', $type, user_load_by_name($this->user->name))) {
+      return;
+    }
+    throw new \Exception(format_string("User @user can't create node of @type'", array('@type' => $type, '@user' => $this->user->name)));
   }
 
   /**
@@ -120,9 +123,6 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     $values = array(
       'type' => $type,
       'uid' => $account->uid,
-      'status' => 1,
-      'comment' => 1,
-      'promote' => 0,
     );
     $entity = entity_create('node', $values);
     $wrapper = entity_metadata_wrapper('node', $entity);
@@ -132,7 +132,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * @When I delete :arg1 node of type :arg2
+   * @When I delete :title node of type :type
    */
   public function iDeleteNodeOfType($title, $type) {
     $query = new \entityFieldQuery();
@@ -173,10 +173,10 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       );
       throw new \Exception(format_string("Node @title of @type not found.", $params));
     }
-    $nid = key($result['node']);
+    $gid = key($result['node']);
     $account = user_load_by_name($this->user->name);
-    if (og_user_access('node', $nid, 'access group', $account)) {
-      throw new \Exception(format_string("You can add content to @title group", array('@title' => $title)));
+    if (node_access('update', node_load($gid), $account)) {
+      throw new \Exception(format_string("User @user can add content to @title group", array('@title' => $title, '@user' => $this->user->name)));
     }
   }
 

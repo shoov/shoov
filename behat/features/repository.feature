@@ -42,8 +42,7 @@ Feature: Repository
   @api
   Scenario Outline: Check authenticated user without groups can't create nodes of other types.
     Given I login with user "john"
-    When  I start creating node of type "<type>"
-    Then  I should not have access to the page
+    Then  I should be able to create node of type "<type>"
 
   Examples:
     | type        |
@@ -55,8 +54,7 @@ Feature: Repository
   @api
   Scenario Outline: Check authenticated user can't create nodes in not his groups.
     Given I login with user "emma"
-    When  I start creating node of type "<type>"
-    Then  I should have access to the page
+    When  I should be able to create node of type "<type>"
     And   I should not be able to add content to "drupal/drupal" repository
 
   Examples:
