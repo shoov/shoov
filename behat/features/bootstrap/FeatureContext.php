@@ -112,7 +112,16 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     if (node_access('create', $type, user_load_by_name($this->user->name))) {
       return;
     }
-    throw new \Exception(format_string("User @user can't create node of @type'", array('@type' => $type, '@user' => $this->user->name)));
+    throw new \Exception(format_string("User @user can't create node of @type", array('@type' => $type, '@user' => $this->user->name)));
+  }
+
+  /**
+   * @When I should not be able to create node of type :type
+   */
+  public function iShouldNotBeAbleToCreateNodeOfType($type) {
+    if (node_access('create', $type, user_load_by_name($this->user->name))) {
+      throw new \Exception(format_string("User @user can create node of @type", array('@type' => $type, '@user' => $this->user->name)));
+    }
   }
 
   /**
@@ -195,6 +204,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     if (empty($result['node'])) {
       return;
     }
+
     $params = array(
       '@title' => $title,
       '@type' => $type,

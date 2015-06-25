@@ -42,24 +42,16 @@ Feature: Repository
   @api
   Scenario Outline: Check authenticated user without groups can't create nodes of other types.
     Given I login with user "john"
-    Then  I should be able to create node of type "<type>"
+    Then  I should not be able to create node of type "<type>"
 
   Examples:
     | type        |
-    | ci-build    |
-    | ci-incident |
+    | ci_build    |
+    | ci_incident |
     | screenshot  |
-    | ui-build    |
+    | ui_build    |
 
   @api
-  Scenario Outline: Check authenticated user can't create nodes in not his groups.
+  Scenario: Check authenticated user can't create nodes in not his groups.
     Given I login with user "emma"
-    When  I should be able to create node of type "<type>"
-    And   I should not be able to add content to "drupal/drupal" repository
-
-  Examples:
-    | type        |
-    | ci-build    |
-    | ci-incident |
-    | screenshot  |
-    | ui-build    |
+    Then   I should not be able to add content to "drupal/drupal" repository
