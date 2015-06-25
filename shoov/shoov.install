@@ -165,18 +165,6 @@ function shoov_standard_install() {
     'unflag subscribe_ci_builds',
   );
 
-  // Add content permissions.
-  foreach (array_keys(node_type_get_types()) as $content_type) {
-    $permissions[] = "create $content_type content";
-    $permissions[] = "edit any $content_type content";
-    $permissions[] = "edit own $content_type content";
-    $permissions[] = "delete any $content_type content";
-    $permissions[] = "delete own $content_type content";
-  }
-
-  // Allow user to access messages.
-  $permissions[] = 'create messages';
-
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $permissions);
 
   // Create a default role for site administrators, with all available permissions assigned.
