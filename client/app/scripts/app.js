@@ -43,7 +43,6 @@ angular
       }
     };
 
-    // Now set up the states.
     $stateProvider
       .state('homepage', {
         url: '',
