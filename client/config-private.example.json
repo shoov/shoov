@@ -1,0 +1,10 @@
+{
+  "production": {
+    "aws": {
+      "key": "",
+      "secret": "",
+      "bucket": "",
+      "region": ""
+    }
+  }
+}
