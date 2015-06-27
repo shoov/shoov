@@ -4,5 +4,6 @@ dist
 .sass-cache
 bower_components
 config.json
+config-private.json
 app/scripts/config.js
 sync_hedley.sh
