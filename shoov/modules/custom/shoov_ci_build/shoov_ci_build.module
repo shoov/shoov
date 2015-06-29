@@ -6,6 +6,15 @@
 
 include_once 'shoov_ci_build.features.inc';
 
+// Possible statuses of CI Build.
+const CI_BUILD_STATUS_NEW = 0;
+const CI_BUILD_STATUS_DONE = 1;
+const CI_BUILD_STATUS_UNCONFIRMED_ERROR = 3;
+const CI_BUILD_STATUS_ERROR = 4;
+
+// The count of fails afters CI build set value to error.
+const CI_BUILD_MAXIMUM_UNCONFIRMED_ERRORS = 3;
+
 /**
  * Return the CI builds that are waiting for processing.
  *
@@ -110,9 +119,9 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
     return;
   }
 
+  // Do not create CI Build item for disabled CI Build.
   $wrapper = entity_metadata_wrapper('node', $node);
   if (!$wrapper->field_ci_build_enabled->value()) {
-    // CI build is not enabled.
     return;
   }
 
@@ -162,22 +171,52 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
 function shoov_ci_build_message_update(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $status = $wrapper->field_ci_build_status->value();
+
+  // Stop process if CI build item still in intermediate state.
   if (!in_array($status, array('error', 'done'))) {
     // Item still in progress or re-queued after being stuck.
     return;
   }
 
+  // Stop process for disabled CI Build.
   if (!$wrapper->field_ci_build->field_ci_build_enabled->value()) {
-    // CI build is disabled.
     return;
   }
 
-  $node = $wrapper->field_ci_build->value();
+  $ci_build = $wrapper->field_ci_build->value();
 
-  // @todo: Make configurable.
-  $timestamp = strtotime('+3 minutes');
+  // If CI build item finished with error then increase the fail count.
+  if ($status == 'error') {
+    $ci_build->field_ci_build_fail_count++;
 
-  shoov_ci_build_create_build_item($node, $timestamp);
+    // Save error status for CI Build if the count of fails is exceeded.
+    if ($ci_build->field_ci_build_fail_count >= CI_BUILD_MAXIMUM_UNCONFIRMED_ERRORS) {
+      $ci_build->field_ci_build_incident_status = CI_BUILD_STATUS_ERROR;
+
+      // Continue test CI build in regular mode.
+      // @todo: Make configurable.
+      $timestamp = strtotime('+3 minutes');
+    }
+    // Or execute new CI build item immediately to check again.
+    else {
+      $ci_build->field_ci_build_incident_status = CI_BUILD_STATUS_UNCONFIRMED_ERROR;
+      $timestamp = false;
+    }
+  }
+  elseif ($status == 'done') {
+    // Release the fail count for CI Build and update the status.
+    $ci_build->field_ci_build_fail_count = 0;
+    $ci_build->field_ci_build_incident_status = CI_BUILD_STATUS_DONE;
+
+    // Continue test CI build after 3 minutes.
+    // @todo: Make configurable.
+    $timestamp = strtotime('+3 minutes');
+  }
+  else {
+    return;
+  }
+
+  shoov_ci_build_create_build_item($ci_build, $timestamp);
   shoov_ci_build_set_build_status($message);
 }
 
@@ -196,8 +235,8 @@ function shoov_ci_build_set_build_status(Message $message) {
     return;
   }
 
-  $build_node = $wrapper->field_ci_build->value();
-  $ci_incident = shoov_ci_incident_get_latest_error_incident($build_node);
+  $ci_build = $wrapper->field_ci_build->value();
+  $ci_incident = shoov_ci_incident_get_latest_error_incident($ci_build);
 
 
   $arguments = array(
@@ -243,5 +282,5 @@ function shoov_ci_build_set_build_status(Message $message) {
   $subscribe_options = array(
     'notify message owner' => TRUE,
   );
-  message_subscribe_send_message('node', $build_node, $incident_message, array(), $subscribe_options);
+  message_subscribe_send_message('node', $ci_build, $incident_message, array(), $subscribe_options);
 }
