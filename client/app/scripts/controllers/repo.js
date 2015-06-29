@@ -12,4 +12,6 @@ angular.module('clientApp')
     $scope.build = build[0];
     $scope.ciBuildItems = ciBuildItems;
     $scope.incidents = incidents;
+
+    $scope.parseInt = parseInt;
   });

@@ -45,7 +45,6 @@ angular
       }
     };
 
-    // Now set up the states.
     $stateProvider
       .state('homepage', {
         url: '',
@@ -130,6 +129,16 @@ angular
           },
           incidents: function(CiIncidents, $stateParams) {
             return CiIncidents.get($stateParams.buildId, 'ci_build');
+          }
+        }
+      })
+      .state('dashboard.encrypt', {
+        url: '/repos/{buildId:int}/encrypt',
+        templateUrl: 'views/dashboard/repos/encrypt.html',
+        controller: 'EncryptCtrl',
+        resolve: {
+          build: function(Builds, $stateParams) {
+            return Builds.get($stateParams.buildId, 'ci_build');
           }
         }
       })

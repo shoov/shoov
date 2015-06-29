@@ -1,0 +1,44 @@
+<div class="row" xmlns="http://www.w3.org/1999/html">
+  <h2>Encrypt</h2>
+  <div class="col-md-6">
+
+    <form class="encrypt-key-form" ng-submit="getKey(data)">
+      <div class="form-item">
+        <label>Key <i class="red">*</i></label>
+        <input type="text" required id="key-name" ng-model="data.keyName">
+      </div>
+      <div class="form-item">
+        <label>Value <i class="red">*</i></label>
+        <input type="text" required id="key-value" ng-model="data.keyValue">
+      </div>
+      <div class="form-item">
+        <label>Description</label>
+        <textarea id="key-description" ng-model="data.description"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit">Submit</button>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="col-md-6" ng-show="encryptedKey">
+
+    <div class="result">
+      <label>Encrypted Key</label>
+      <input type="text" id="encrypted-key" ng-value="encryptedKey">
+    </div>
+    <div class="result">
+      <label>Add this to your .shoov.yml file:</label>
+      <textarea id="yml-file" ng-value="ymlFile">
+env:
+  # {{data.description}}
+  - secure: "{{encryptedKey}}"
+      </textarea>
+    </div>
+
+  </div>
+</div>
+
+<div ui-view></div>

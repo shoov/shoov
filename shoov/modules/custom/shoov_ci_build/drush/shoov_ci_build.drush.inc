@@ -70,7 +70,7 @@ function drush_shoov_ci_build_create_ci_build_item() {
     // @todo: Remove this hack.
     // Sleep for 1 second, to prevent INSERT errors when there are multiple
     // builds.
-    sleep(1);
+    sleep(variable_get('shoov_ci_build_create_build_item_sleep', 1));
   }
 }
 
@@ -88,6 +88,9 @@ function drush_shoov_ci_build_release_stuck_items() {
   foreach ($messages as $message) {
     $wrapper = entity_metadata_wrapper('message', $message);
     $wrapper->field_ci_build_status->set('queue');
+    // Set start time to "now", so it won't be processed again as a stuck
+    // build item.
+    $wrapper->field_ci_build_timestamp->set(time());
     $wrapper->save();
 
     $params = array(

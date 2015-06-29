@@ -427,13 +427,13 @@ module.exports = function (grunt) {
     },
     aws_s3: {
       options: {
-        accessKeyId: grunt.file.readJSON('config.json').production.aws.key,
-        secretAccessKey: grunt.file.readJSON('config.json').production.aws.secret
+        accessKeyId: grunt.file.readJSON('config-private.json').production.aws.key,
+        secretAccessKey: grunt.file.readJSON('config-private.json').production.aws.secret
       },
       dist: {
         options: {
-          bucket: grunt.file.readJSON('config.json').production.aws.bucket,
-          region: grunt.file.readJSON('config.json').production.aws.region
+          bucket: grunt.file.readJSON('config-private.json').production.aws.bucket,
+          region: grunt.file.readJSON('config-private.json').production.aws.region
         },
         files: [
           {
