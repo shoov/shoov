@@ -254,6 +254,47 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-ci_build-field_ci_build_incident_status'
+  $field_instances['node-ci_build-field_ci_build_incident_status'] = array(
+    'bundle' => 'ci_build',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'The current status of processing CI Build.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 6,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ci_build_incident_status',
+    'label' => 'Status',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 6,
+    ),
+  );
+
   // Exported field_instance: 'node-ci_build-field_git_branch'
   $field_instances['node-ci_build-field_git_branch'] = array(
     'bundle' => 'ci_build',
@@ -440,6 +481,7 @@ function shoov_ci_build_field_default_field_instances() {
   t('Repository');
   t('Start time');
   t('Status');
+  t('The current status of processing CI Build.');
 
   return $field_instances;
 }
