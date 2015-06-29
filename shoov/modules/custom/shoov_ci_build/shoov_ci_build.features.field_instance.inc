@@ -254,6 +254,56 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-ci_build-field_ci_build_failed_count'
+  $field_instances['node-ci_build-field_ci_build_failed_count'] = array(
+    'bundle' => 'ci_build',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'The count of failed CI build items before set state of CI build to error. ',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => ' ',
+        ),
+        'type' => 'number_integer',
+        'weight' => 7,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ci_build_failed_count',
+    'label' => 'Failed count',
+    'required' => 1,
+    'settings' => array(
+      'max' => 3,
+      'min' => 0,
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 7,
+    ),
+  );
+
   // Exported field_instance: 'node-ci_build-field_ci_build_incident_status'
   $field_instances['node-ci_build-field_ci_build_incident_status'] = array(
     'bundle' => 'ci_build',
@@ -473,6 +523,7 @@ function shoov_ci_build_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('CI build');
   t('Enabled');
+  t('Failed count');
   t('Git Branch');
   t('Git Commit');
   t('Indicate if the CI build is enabled, and should be queued.');
@@ -481,6 +532,7 @@ function shoov_ci_build_field_default_field_instances() {
   t('Repository');
   t('Start time');
   t('Status');
+  t('The count of failed CI build items before set state of CI build to error. ');
   t('The current status of processing CI Build.');
 
   return $field_instances;
