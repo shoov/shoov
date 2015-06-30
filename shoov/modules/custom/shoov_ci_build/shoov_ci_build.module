@@ -9,9 +9,9 @@ include_once 'shoov_ci_build.features.inc';
 /**
  * Available statuses for CI build.
  */
-const SHOOV_CI_BUILD_CI_BUILD_STATUS_OK = null;
-const SHOOV_CI_BUILD_CI_BUILD_STATUS_ERROR = 'error';
-const SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_ERROR = 'unconfirmed_error';
+const SHOOV_CI_BUILD_CI_BUILD_STATUS_OK = 1;
+const SHOOV_CI_BUILD_CI_BUILD_STATUS_ERROR = 2;
+const SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_ERROR = 3;
 
 /**
  * Return the CI builds that are waiting for processing.
