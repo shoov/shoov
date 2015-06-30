@@ -110,15 +110,13 @@ function shoov_ci_build_field_default_field_bases() {
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
-        0 => 'new',
-        1 => 'done',
-        2 => 'unconfirmed error',
-        3 => 'error',
+        'unconfirmed_error' => 'Unconfirmed error',
+        'error' => 'Error',
       ),
       'allowed_values_function' => '',
     ),
     'translatable' => 0,
-    'type' => 'list_integer',
+    'type' => 'list_text',
   );
 
   // Exported field_base: 'field_ci_build_log'

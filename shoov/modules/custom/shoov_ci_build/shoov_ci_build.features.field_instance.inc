@@ -227,7 +227,7 @@ function shoov_ci_build_field_default_field_instances() {
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 4,
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -275,7 +275,7 @@ function shoov_ci_build_field_default_field_instances() {
           'thousand_separator' => ' ',
         ),
         'type' => 'number_integer',
-        'weight' => 7,
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -289,7 +289,7 @@ function shoov_ci_build_field_default_field_instances() {
     'label' => 'Failed count',
     'required' => 1,
     'settings' => array(
-      'max' => 3,
+      'max' => '',
       'min' => 0,
       'prefix' => '',
       'suffix' => '',
@@ -307,11 +307,7 @@ function shoov_ci_build_field_default_field_instances() {
   // Exported field_instance: 'node-ci_build-field_ci_build_incident_status'
   $field_instances['node-ci_build-field_ci_build_incident_status'] = array(
     'bundle' => 'ci_build',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
+    'default_value' => NULL,
     'deleted' => 0,
     'description' => 'The current status of processing CI Build.',
     'display' => array(
@@ -332,7 +328,7 @@ function shoov_ci_build_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_ci_build_incident_status',
     'label' => 'Status',
-    'required' => 1,
+    'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
@@ -341,7 +337,7 @@ function shoov_ci_build_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 6,
+      'weight' => 8,
     ),
   );
 
@@ -361,7 +357,7 @@ function shoov_ci_build_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 1,
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -401,7 +397,7 @@ function shoov_ci_build_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 2,
+        'weight' => 1,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -441,7 +437,7 @@ function shoov_ci_build_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 5,
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -482,7 +478,7 @@ function shoov_ci_build_field_default_field_instances() {
           'link' => 1,
         ),
         'type' => 'entityreference_label',
-        'weight' => 3,
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'above',
