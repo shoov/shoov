@@ -113,7 +113,7 @@ function shoov_ci_build_create_item($node, $timestamp = NULL) {
   $ci_build = $node;
 
   // Skip disabled CI Build.
-  $ci_build_wrp = entity_metadata_wrapper('node', $node);
+  $ci_build_wrp = entity_metadata_wrapper('node', $ci_build);
   if (!$ci_build_wrp->field_ci_build_enabled->value()) {
     return;
   }
@@ -181,7 +181,8 @@ function shoov_ci_build_message_update(Message $ci_build_item) {
 
   // If CI build item finished with error then increase the fail count.
   if ($ci_build_item_status == 'error') {
-    $ci_build_wrp->field_ci_build_failed_count++;
+    $failed_count = $ci_build_wrp->field_ci_build_failed_count->value();
+    $ci_build_wrp->field_ci_build_failed_count->set($failed_count + 1);
 
     // Save error status for CI Build if the count of fails is exceeded.
     if ($ci_build_wrp->field_ci_build_failed_count->value() >= variable_get('shoov_ci_build_failed_count_threshold', 3)) {
@@ -209,6 +210,8 @@ function shoov_ci_build_message_update(Message $ci_build_item) {
   else {
     return;
   }
+  
+  $ci_build_wrp->save();
 
   shoov_ci_build_create_item($ci_build, $timestamp);
   shoov_ci_build_set_status($ci_build_item);
