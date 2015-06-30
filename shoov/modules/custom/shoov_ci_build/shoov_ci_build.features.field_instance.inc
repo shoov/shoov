@@ -138,7 +138,7 @@ function shoov_ci_build_field_default_field_instances() {
     ),
     'entity_type' => 'message',
     'field_name' => 'field_ci_build_status',
-    'label' => 'Status',
+    'label' => 'Incident Status',
     'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,

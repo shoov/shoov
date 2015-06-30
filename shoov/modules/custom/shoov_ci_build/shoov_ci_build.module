@@ -6,6 +6,9 @@
 
 include_once 'shoov_ci_build.features.inc';
 
+/**
+ * Available statuses for CI build.
+ */
 const SHOOV_CI_BUILD_CI_BUILD_STATUS_OK = null;
 const SHOOV_CI_BUILD_CI_BUILD_STATUS_ERROR = 'error';
 const SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_ERROR = 'unconfirmed_error';
@@ -41,6 +44,17 @@ function shoov_ci_build_get_ci_builds($timestamp = NULL, $range = 50) {
   return message_load_multiple(array_keys($result['message']));
 }
 
+/**
+ * Return the CI builds items that stuck in "in_progress" state.
+ *
+ * @param null $timestamp
+ *   The timestamp of "now". If empty, the existing current time will be used.
+ * @param int $range
+ *   The number of maximum items to return. Defaults to 50.
+ *
+ * @return array
+ *   Array of Message objects, or NULL if none found.
+ */
 function shoov_ci_build_get_stuck_ci_builds($timestamp = NULL, $range = 50) {
   $timestamp = $timestamp ?: time() - variable_get('shoov_ci_stuck_ci_builds_timespan', 60 * 60);
 
@@ -180,8 +194,6 @@ function shoov_ci_build_message_update(Message $message) {
     return;
   }
 
-  $node = $wrapper->field_ci_build->value();
-
   shoov_ci_build_process_ci_build_item($message);
 }
 
@@ -189,8 +201,9 @@ function shoov_ci_build_message_update(Message $message) {
  * Return the timestamp for the next CI build item execution.
  *
  * @param Message $message
- *  The CI build item.
- * @return int|null
+ *  The CI build item object.
+ *
+ * @return int|NULL
  *  The time of start next CI build item.
  *
  */
@@ -201,13 +214,13 @@ function shoov_ci_build_get_timestamp_for_next_ci_build_item(Message $message) {
   $status = $wrapper->field_ci_build_status->value();
   $ci_build_status = shoov_ci_build_get_ci_build_status($node);
 
-  if ($status == 'error' && $ci_build_status == SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_OK) {
-    // This is the first error.
+  if ($status == 'error' && $ci_build_status == SHOOV_CI_BUILD_CI_BUILD_STATUS_OK) {
+    // Handle the first error for CI build.
     return NULL;
   }
 
   if ($ci_build_status == SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_ERROR) {
-    // Error occured, but not determined yet is a confirmed incident.
+    // Error occurred, but not determined yet is a confirmed incident.
     return NULL;
   }
 
@@ -219,8 +232,9 @@ function shoov_ci_build_get_timestamp_for_next_ci_build_item(Message $message) {
  * Return the status of CI build.
  *
  * @param $node
- *  The CI build.
- * @return null|string
+ *  The CI build object.
+ *
+ * @return string|NULL
  *  The name of status.
  */
 function shoov_ci_build_get_ci_build_status($node) {
@@ -239,10 +253,10 @@ function shoov_ci_build_get_ci_build_status($node) {
 }
 
 /**
- * Set the CI build incident status.
+ * Set the CI build incident status and create incident if necessary.
  *
  * @param \Message $message
- *   The "ci_build" message object.
+ *   The CI build item object.
  */
 function shoov_ci_build_process_ci_build_item(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
@@ -262,10 +276,11 @@ function shoov_ci_build_process_ci_build_item(Message $message) {
   // status or error count.
   $save = FALSE;
   if ($status == 'error' && $ci_build_status != SHOOV_CI_BUILD_CI_BUILD_STATUS_ERROR) {
+    // Increase amount of unconfirmed errors.
     $failed_count = $wrapper->field_ci_build->field_ci_build_failed_count->value();
     ++$failed_count;
     $wrapper->field_ci_build->field_ci_build_failed_count->set($failed_count);
-
+    // Determine a new status for CI build.
     $new_status = $failed_count >= variable_get('shoov_ci_build_failed_count_threshold', 3) ? 'error' : 'unconfirmed_error';
     $wrapper->field_ci_build->field_ci_build_incident_status->set($new_status);
     $save = TRUE;
