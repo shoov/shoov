@@ -4,6 +4,10 @@
  * Code for the Shoov Build feature.
  */
 
+define('APP_ID', '123919');
+define('APP_KEY', 'b2ac1e614d90c85ec13b');
+define('APP_SECRET', '1821fcf3333a2557344c');
+
 include_once 'shoov_ui_build.features.inc';
 
 /**
@@ -71,4 +75,20 @@ function shoov_ui_build_create_pr($node) {
   $url = implode('/', $url);
 
   return drupal_http_request($url);
+}
+
+/**
+ * Implements hook_node_update().
+ *
+ * @param $node
+ */
+function shoov_ui_build_node_insert($node) {
+  if ($node->type != 'ui_build') {
+    return;
+  }
+
+  $pusher = new Pusher(APP_KEY, APP_SECRET, APP_ID);
+
+  $data['build'] = array('type' => $node->type, 'nid' => $node->nid);
+  $pusher->trigger('builds', 'new_build', $data);
 }
