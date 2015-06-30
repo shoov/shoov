@@ -82,7 +82,7 @@ function shoov_ci_build_node_presave($node) {
  * Create a CI build item when a new CI build node is created.
  */
 function shoov_ci_build_node_insert($node) {
-  shoov_ci_build_create_item($node);
+  shoov_ci_build_create_ci_build_item($node);
 }
 
 /**
@@ -91,7 +91,7 @@ function shoov_ci_build_node_insert($node) {
  * Create a CI build item when an existing CI build is enabled.
  */
 function shoov_ci_build_node_update($node) {
-  shoov_ci_build_create_item($node);
+  shoov_ci_build_create_ci_build_item($node);
 }
 
 /**
@@ -105,7 +105,7 @@ function shoov_ci_build_node_update($node) {
  * @return Message | NULL
  *   The message object if all conditions were met.
  */
-function shoov_ci_build_create_item($node, $timestamp = NULL) {
+function shoov_ci_build_create_ci_build_item($node, $timestamp = NULL) {
   if ($node->type != 'ci_build') {
     return;
   }
@@ -216,17 +216,17 @@ function shoov_ci_build_message_update(Message $message) {
   }
 
   // Prevent another CI build item from being created in
-  // shoov_ci_build_create_item().
+  // shoov_ci_build_create_ci_build_item().
   $ci_build_node->_skip_create_ci_build_item = TRUE;
   $ci_build_wrapper->save();
 
-  shoov_ci_build_create_item($ci_build_node, $timestamp);
+  shoov_ci_build_create_ci_build_item($ci_build_node, $timestamp);
   shoov_ci_build_set_status($message);
 }
 
 /**
  * Return the status of CI build.
- * 
+ *
  * @param $ci_build
  *   The id or object of specific CI Build.
  * @return string
@@ -234,7 +234,7 @@ function shoov_ci_build_message_update(Message $message) {
  */
 function shoov_ci_build_get_status($ci_build) {
   $ci_build_wrapper = entity_metadata_wrapper('node', $ci_build);
-  
+
   $ci_build_status = $ci_build_wrapper->field_ci_build_incident_status->value();
   if (!$ci_build_status) {
     return 'ok';
@@ -265,9 +265,9 @@ function shoov_ci_build_set_status(Message $message) {
   if (!in_array($message->field_ci_build_status, array('done', 'error'))) {
     return;
   }
-  
+
   $ci_incident = shoov_ci_incident_get_latest_error_incident($ci_build);
-  
+
   $arguments = array(
     '@repo' => $ci_build->field_ci_build->og_repo->label(),
     '@branch' => $ci_build->field_ci_build->field_git_branch->value(),
