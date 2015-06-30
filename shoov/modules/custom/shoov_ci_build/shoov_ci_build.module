@@ -194,6 +194,10 @@ function shoov_ci_build_message_update(Message $message) {
     return;
   }
 
+  $node = $wrapper->field_ci_build->value();
+  $timestamp = shoov_ci_build_get_timestamp_for_next_ci_build_item($message);
+
+  shoov_ci_build_create_build_item($node, $timestamp);
   shoov_ci_build_process_ci_build_item($message);
 }
 
