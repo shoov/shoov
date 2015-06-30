@@ -110,11 +110,15 @@ function shoov_ci_build_create_item($node, $timestamp = NULL) {
     return;
   }
 
+  if (!empty($node->_skip_create_ci_build_item)) {
+    return;
+  }
+
   $ci_build = $node;
 
   // Skip disabled CI Build.
-  $ci_build_wrp = entity_metadata_wrapper('node', $ci_build);
-  if (!$ci_build_wrp->field_ci_build_enabled->value()) {
+  $ci_build_wrapper = entity_metadata_wrapper('node', $ci_build);
+  if (!$ci_build_wrapper->field_ci_build_enabled->value()) {
     return;
   }
 
@@ -140,13 +144,13 @@ function shoov_ci_build_create_item($node, $timestamp = NULL) {
   $timestamp = $timestamp ?: time();
 
   $ci_build_item = message_create('ci_build', array('uid' => $ci_build->uid));
-  $ci_build_item_wrp = entity_metadata_wrapper('message', $ci_build_item);
-  $ci_build_item_wrp->field_ci_build->set($node);
-  $ci_build_item_wrp->field_ci_build_status->set('queue');
+  $ci_build_item_wrapper = entity_metadata_wrapper('message', $ci_build_item);
+  $ci_build_item_wrapper->field_ci_build->set($node);
+  $ci_build_item_wrapper->field_ci_build_status->set('queue');
   // Set to be invoked immediately.
-  $ci_build_item_wrp->field_ci_build_timestamp->set($timestamp);
+  $ci_build_item_wrapper->field_ci_build_timestamp->set($timestamp);
 
-  $ci_build_item_wrp->save();
+  $ci_build_item_wrapper->save();
 
   // Subscribe the author to the node.
   $account = user_load($ci_build->uid);
@@ -161,9 +165,9 @@ function shoov_ci_build_create_item($node, $timestamp = NULL) {
  * @param \Message $ci_build_item
  *   The message object.
  */
-function shoov_ci_build_message_update(Message $ci_build_item) {
-  $ci_build_item_wrp = entity_metadata_wrapper('message', $ci_build_item);
-  $ci_build_item_status = $ci_build_item_wrp->field_ci_build_status->value();
+function shoov_ci_build_message_update(Message $message) {
+  $ci_build_item_wrapper = entity_metadata_wrapper('message', $message);
+  $ci_build_item_status = $ci_build_item_wrapper->field_ci_build_status->value();
 
   // Stop process if CI build item still in intermediate state.
   if (!in_array($ci_build_item_status, array('error', 'done'))) {
@@ -172,21 +176,21 @@ function shoov_ci_build_message_update(Message $ci_build_item) {
   }
 
   // Stop process for disabled CI Build.
-  if (!$ci_build_item_wrp->field_ci_build->field_ci_build_enabled->value()) {
+  if (!$ci_build_item_wrapper->field_ci_build->field_ci_build_enabled->value()) {
     return;
   }
 
-  $ci_build = $ci_build_item_wrp->field_ci_build->value();
-  $ci_build_wrp = entity_metadata_wrapper('node', $ci_build);
+  $ci_build_node = $ci_build_item_wrapper->field_ci_build->value();
+  $ci_build_wrapper = entity_metadata_wrapper('node', $ci_build_node);
 
   // If CI build item finished with error then increase the fail count.
   if ($ci_build_item_status == 'error') {
-    $failed_count = $ci_build_wrp->field_ci_build_failed_count->value();
-    $ci_build_wrp->field_ci_build_failed_count->set($failed_count + 1);
+    $failed_count = $ci_build_wrapper->field_ci_build_failed_count->value();
+    $ci_build_wrapper->field_ci_build_failed_count->set($failed_count + 1);
 
     // Save error status for CI Build if the count of fails is exceeded.
-    if ($ci_build_wrp->field_ci_build_failed_count->value() >= variable_get('shoov_ci_build_failed_count_threshold', 3)) {
-      $ci_build_wrp->field_ci_build_incident_status->set('error');
+    if ($ci_build_wrapper->field_ci_build_failed_count->value() >= variable_get('shoov_ci_build_failed_count_threshold', 3)) {
+      $ci_build_wrapper->field_ci_build_incident_status->set('error');
 
       // Continue test CI build in regular mode.
       // @todo: Make configurable.
@@ -194,14 +198,14 @@ function shoov_ci_build_message_update(Message $ci_build_item) {
     }
     // Or execute new CI build item immediately to check again.
     else {
-      $ci_build_wrp->field_ci_build_incident_status->set('unconfirmed_error');
+      $ci_build_wrapper->field_ci_build_incident_status->set('unconfirmed_error');
       $timestamp = FALSE;
     }
   }
   elseif ($ci_build_item_status == 'done') {
     // Release the fail count for CI Build and update the status.
-    $ci_build_wrp->field_ci_build_failed_count->set(0);
-    $ci_build_wrp->field_ci_build_incident_status->set(NULL);
+    $ci_build_wrapper->field_ci_build_failed_count->set(0);
+    $ci_build_wrapper->field_ci_build_incident_status->set(NULL);
 
     // Continue test CI build after 3 minutes.
     // @todo: Make configurable.
@@ -210,11 +214,14 @@ function shoov_ci_build_message_update(Message $ci_build_item) {
   else {
     return;
   }
-  
-  $ci_build_wrp->save();
 
-  shoov_ci_build_create_item($ci_build, $timestamp);
-  shoov_ci_build_set_status($ci_build_item);
+  // Prevent another CI build item from being created in
+  // shoov_ci_build_create_item().
+  $ci_build_node->_skip_create_ci_build_item = TRUE;
+  $ci_build_wrapper->save();
+
+  shoov_ci_build_create_item($ci_build_node, $timestamp);
+  shoov_ci_build_set_status($message);
 }
 
 /**
@@ -226,14 +233,14 @@ function shoov_ci_build_message_update(Message $ci_build_item) {
  *   Possible statuses: 'ok', 'error', 'unconfirmed_error'.
  */
 function shoov_ci_build_get_status($ci_build) {
-  $ci_build_wrp = entity_metadata_wrapper('node', $ci_build);
+  $ci_build_wrapper = entity_metadata_wrapper('node', $ci_build);
   
-  $ci_build_status = $ci_build_wrp->field_ci_build_incident_status->value();
+  $ci_build_status = $ci_build_wrapper->field_ci_build_incident_status->value();
   if (!$ci_build_status) {
     return 'ok';
   }
 
-  $failed_count = $ci_build_wrp->field_ci_build_failed_count->value();
+  $failed_count = $ci_build_wrapper->field_ci_build_failed_count->value();
 
   if ($failed_count >= variable_get('shoov_ci_build_failed_count_threshold', 3)) {
     return 'error';
@@ -249,13 +256,13 @@ function shoov_ci_build_get_status($ci_build) {
  * @param \Message $ci_build_item
  *   The CI build item object.
  */
-function shoov_ci_build_set_status(Message $ci_build_item) {
-  $ci_build_item_wrp = entity_metadata_wrapper('message', $ci_build_item);
-  $ci_build = $ci_build_item_wrp->field_ci_build->value();
+function shoov_ci_build_set_status(Message $message) {
+  $ci_build_item_wrapper = entity_metadata_wrapper('message', $message);
+  $ci_build = $ci_build_item_wrapper->field_ci_build->value();
   $ci_build_status = shoov_ci_build_get_status($ci_build);
 
   // Do not update CI build status if CI build item not in complete state.
-  if (!in_array($ci_build_item->field_ci_build_status, array('done', 'error'))) {
+  if (!in_array($message->field_ci_build_status, array('done', 'error'))) {
     return;
   }
   
@@ -272,7 +279,7 @@ function shoov_ci_build_set_status(Message $ci_build_item) {
   if (!$ci_incident && $ci_build_status == 'error') {
     // Create a new incident.
     $message_type = 'ci_incident_error';
-    $ci_incident = shoov_ci_incident_create_error_incident($ci_build_item);
+    $ci_incident = shoov_ci_incident_create_error_incident($message);
     $options = array('fragment' => '/ci-incidents/' . $ci_incident->nid);
     $arguments += array(
       '@url' => url($client_url, $options),
@@ -280,10 +287,10 @@ function shoov_ci_build_set_status(Message $ci_build_item) {
   }
   elseif ($ci_incident && $ci_build_status == 'ok') {
     // Mark the existing incident as fixed.
-    $incident_wrp = entity_metadata_wrapper('node', $ci_incident);
-    $incident_wrp->field_fixed_build->set($ci_build_item);
-    $incident_wrp->field_ci_build_error->set(NULL);
-    $incident_wrp->save();
+    $incident_wrapper = entity_metadata_wrapper('node', $ci_incident);
+    $incident_wrapper->field_fixed_build->set($message);
+    $incident_wrapper->field_ci_build_error->set(NULL);
+    $incident_wrapper->save();
 
     $message_type = 'ci_incident_fixed';
     $options = array('fragment' => '/ci-incidents/' . $ci_incident->nid);
@@ -297,7 +304,7 @@ function shoov_ci_build_set_status(Message $ci_build_item) {
 
   // Send a message to all following members.
   $incident_msg = message_create($message_type, array('arguments' => $arguments));
-  $incident_msg->uid = $ci_build_item->uid;
+  $incident_msg->uid = $message->uid;
   $message_wrapper = entity_metadata_wrapper('message', $incident_msg);
   $message_wrapper->field_ci_incident->set($ci_incident);
 
