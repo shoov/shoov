@@ -6,6 +6,11 @@
 
 include_once 'shoov_ci_build.features.inc';
 
+
+const SHOOV_CI_BUILD_CI_BUILD_STATUS_OK = 1;
+const SHOOV_CI_BUILD_CI_BUILD_STATUS_ERROR = 2;
+const SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_ERROR = 3;
+
 /**
  * Return the CI builds that are waiting for processing.
  *
@@ -110,6 +115,10 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
     return;
   }
 
+  if (!empty($node->_skip_create_ci_build_item)) {
+    return;
+  }
+
   $wrapper = entity_metadata_wrapper('node', $node);
   if (!$wrapper->field_ci_build_enabled->value()) {
     // CI build is not enabled.
@@ -174,21 +183,49 @@ function shoov_ci_build_message_update(Message $message) {
 
   $node = $wrapper->field_ci_build->value();
 
-  // @todo: Make configurable.
-  $timestamp = strtotime('+3 minutes');
+  $timestamp = shoov_ci_build_get_timestamp_for_next_ci_build_item($message);
 
   shoov_ci_build_create_build_item($node, $timestamp);
-  shoov_ci_build_set_build_status($message);
+  shoov_ci_build_process_ci_build_item($message);
 }
 
 /**
- * Set the status of the CI build on failure, and clear when it's fixed.
+ * Return the timestamp for the next CI build item execution.
+ *
+ * @param Message $message
+ *
+ *
+ */
+function shoov_ci_build_get_timestamp_for_next_ci_build_item(Message $message) {
+  // @todo: Make configurable.
+  return strtotime('+3 minutes');
+}
+
+function shoov_ci_build_get_ci_build_status($node) {
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  if (!$ci_build_status = $wrapper->field_ci_build_incident_status->value()) {
+    return SHOOV_CI_BUILD_CI_BUILD_STATUS_OK;
+  }
+
+  $failed_count = $wrapper->field_ci_build_failed_count->value();
+  if ($failed_count >= variable_get('shoov_ci_build_failed_count_threshold', 3)) {
+    return SHOOV_CI_BUILD_CI_BUILD_STATUS_ERROR;
+  }
+
+  return SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_ERROR;
+}
+
+/**
+ * Set the CI build incident status.
  *
  * @param \Message $message
  *   The "ci_build" message object.
  */
-function shoov_ci_build_set_build_status(Message $message) {
+function shoov_ci_build_process_ci_build_item(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
+
+  $ci_build_node = $wrapper->field_ci_build->value();
 
   $status = $wrapper->field_ci_build_status->value();
 
@@ -196,9 +233,39 @@ function shoov_ci_build_set_build_status(Message $message) {
     return;
   }
 
-  $build_node = $wrapper->field_ci_build->value();
-  $ci_incident = shoov_ci_incident_get_latest_error_incident($build_node);
+  $ci_build_status = shoov_ci_build_get_ci_build_status($ci_build_node);
+  $ci_incident = shoov_ci_incident_get_latest_error_incident($ci_build_node);
 
+
+
+
+  // Indicate if the Ci build node needs to be saved, due to a change in the
+  // status or error count.
+
+  $save = FALSE;
+  if ($status == 'error' && $ci_build_status != SHOOV_CI_BUILD_CI_BUILD_STATUS_ERROR) {
+    $failed_count = $wrapper->field_ci_build_failed_count->value();
+    ++$failed_count;
+
+    $new_status = $failed_count >= variable_get('shoov_ci_build_failed_count_threshold', 3) ? 'error' : 'unconfirmed_error';
+    $wrapper->field_ci_build->field_ci_build_incident_status->set($new_status);
+    $save = TRUE;
+  }
+  elseif ($status == 'done' && $ci_build_status != SHOOV_CI_BUILD_CI_BUILD_STATUS_OK) {
+    // Reset the CI build incident status and error count number.
+    $wrapper->field_ci_build->field_ci_build_incident_status->set(NULL);
+    $wrapper->field_ci_build->field_ci_build_failed_count->set(0);
+    $save = TRUE;
+  }
+
+  if ($save) {
+    // Skip the creation of a CI build item.
+    $ci_build_node->_skip_create_ci_build_item = TRUE;
+    $wrapper->field_ci_build->save();
+
+    // Get the updated status.
+    $ci_build_status = shoov_ci_build_get_ci_build_status($ci_build_node);
+  }
 
   $arguments = array(
     '@repo' => $wrapper->field_ci_build->og_repo->label(),
@@ -208,7 +275,8 @@ function shoov_ci_build_set_build_status(Message $message) {
   // @todo: Move to a general module?
   $client_url = variable_get('shoov_client_url', 'http://localhost:9000');
 
-  if (!$ci_incident && $status == 'error') {
+
+  if (!$ci_incident && $ci_build_status == SHOOV_CI_BUILD_CI_BUILD_STATUS_ERROR) {
     // Create a new incident.
     $message_type = 'ci_incident_error';
     $ci_incident = shoov_ci_incident_create_error_incident($message);
@@ -217,7 +285,7 @@ function shoov_ci_build_set_build_status(Message $message) {
       '@url' => url($client_url, $options),
     );
   }
-  elseif ($ci_incident && $status == 'done') {
+  elseif ($ci_incident && $ci_build_status == SHOOV_CI_BUILD_CI_BUILD_STATUS_OK) {
     // Mark the existing incident as fixed.
     $incident_wrapper = entity_metadata_wrapper('node', $ci_incident);
     $incident_wrapper->field_fixed_build->set($message);
