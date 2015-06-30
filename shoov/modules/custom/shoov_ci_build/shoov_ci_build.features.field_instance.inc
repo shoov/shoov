@@ -138,7 +138,7 @@ function shoov_ci_build_field_default_field_instances() {
     ),
     'entity_type' => 'message',
     'field_name' => 'field_ci_build_status',
-    'label' => 'Incident Status',
+    'label' => 'Status',
     'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -327,7 +327,7 @@ function shoov_ci_build_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ci_build_incident_status',
-    'label' => 'Status',
+    'label' => 'Incident Status',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -527,7 +527,7 @@ function shoov_ci_build_field_default_field_instances() {
   t('Private Key');
   t('Repository');
   t('Start time');
-  t('Status');
+  t('Incident Status');
   t('The count of failed CI build items before set state of CI build to error. ');
   t('The current status of processing CI Build.');
 
