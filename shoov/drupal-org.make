@@ -84,8 +84,6 @@ projects[og_vocab][version] = "1.2"
 
 projects[restful][subdir] = "contrib"
 projects[restful][version] = "1.x-dev"
-projects[restful][patch][] = "https://patch-diff.githubusercontent.com/raw/RESTful-Drupal/restful/pull/507.diff"
-
 
 projects[search_api][subdir] = "contrib"
 projects[search_api][version] = "1.12"
