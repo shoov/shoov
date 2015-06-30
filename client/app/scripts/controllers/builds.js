@@ -23,10 +23,10 @@ angular.module('clientApp')
     var channel = pusher.subscribe('builds');
 
     channel.bind('new_build', function(data) {
-      var promise = Builds.get(parseInt(data.build.nid), data.build.type);
-      promise.then(function(val) {
-        val[0].new = true;
-        $scope.builds.unshift(val[0]);
-      });
+      Builds.get(parseInt(data.build.nid), data.build.type)
+        .then(function(val) {
+          val[0].new = true;
+          $scope.builds.unshift(val[0]);
+        });
     });
   });

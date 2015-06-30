@@ -77,7 +77,6 @@ angular.module('clientApp')
      *   The user repositories.
      */
     var setChannels = function(repositories) {
-      $log.log(repositories);
       if(!repositories) {
         // User doesn't have repositories yet.
         return;

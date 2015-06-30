@@ -22,7 +22,6 @@ function shoov_ui_build_node_update($node) {
 
   $wrapper = entity_metadata_wrapper('node', $node);
 
-
   $repo_id = $wrapper->og_repo->value(array('identifier' => TRUE));
   $status = $wrapper->field_pull_request_status->value();
   $data = array('status' => $status);
@@ -78,15 +77,14 @@ function shoov_ui_build_create_pr($node) {
 }
 
 /**
- * Implements hook_node_update().
- *
- * @param $node
+ * Implements hook_node_insert().
  */
 function shoov_ui_build_node_insert($node) {
   if ($node->type != 'ui_build') {
     return;
   }
 
+  // Send message to client through pusher when new ui-build was created.
   $pusher = new Pusher(APP_KEY, APP_SECRET, APP_ID);
 
   $data['build'] = array('type' => $node->type, 'nid' => $node->nid);

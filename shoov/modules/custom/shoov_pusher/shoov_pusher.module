@@ -10,7 +10,6 @@
  *
  * @param $repo_id
  * @param $event_name
- * @param $message
  * @param array $data
  *
  * @throws \PusherException
