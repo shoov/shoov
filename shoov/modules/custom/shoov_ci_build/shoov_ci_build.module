@@ -249,7 +249,7 @@ function shoov_ci_build_get_ci_build_status($node) {
   }
 
   $failed_count = $wrapper->field_ci_build_failed_count->value();
-  if ($failed_count >= variable_get('shoov_ci_build_failed_count_threshold', 3)) {
+  if ($failed_count >= variable_get('shoov_ci_build_failed_count_threshold', 2)) {
     return SHOOV_CI_BUILD_CI_BUILD_STATUS_ERROR;
   }
 
@@ -285,7 +285,7 @@ function shoov_ci_build_process_ci_build_item(Message $message) {
     ++$failed_count;
     $wrapper->field_ci_build->field_ci_build_failed_count->set($failed_count);
     // Determine a new status for CI build.
-    $new_status = $failed_count >= variable_get('shoov_ci_build_failed_count_threshold', 3) ? 'error' : 'unconfirmed_error';
+    $new_status = $failed_count >= variable_get('shoov_ci_build_failed_count_threshold', 2) ? 'error' : 'unconfirmed_error';
     $wrapper->field_ci_build->field_ci_build_incident_status->set($new_status);
     $save = TRUE;
   }
