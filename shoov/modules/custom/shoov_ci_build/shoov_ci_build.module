@@ -198,7 +198,16 @@ function shoov_ci_build_get_timestamp_for_next_ci_build_item(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
   $node = $wrapper->field_ci_build->value();
 
-  if (shoov_ci_build_get_ci_build_status($node) == SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_ERROR) {
+  $status = $wrapper->field_ci_build_status->value();
+  $ci_build_status = shoov_ci_build_get_ci_build_status($node);
+
+  if ($status == 'error' && $ci_build_status == SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_OK) {
+    // This is the first error.
+    return NULL;
+  }
+
+  if ($ci_build_status == SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_ERROR) {
+    // Error occured, but not determined yet is a confirmed incident.
     return NULL;
   }
 
