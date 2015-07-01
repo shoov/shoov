@@ -4,10 +4,6 @@
  * Code for the Shoov Build feature.
  */
 
-define('APP_ID', '123919');
-define('APP_KEY', 'b2ac1e614d90c85ec13b');
-define('APP_SECRET', '1821fcf3333a2557344c');
-
 include_once 'shoov_ui_build.features.inc';
 
 /**
@@ -84,9 +80,10 @@ function shoov_ui_build_node_insert($node) {
     return;
   }
 
-  // Send message to client through pusher when new ui-build was created.
-  $pusher = new Pusher(APP_KEY, APP_SECRET, APP_ID);
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $repo_id = $wrapper->og_repo->value(array('identifier' => TRUE));
 
-  $data['build'] = array('type' => $node->type, 'nid' => $node->nid);
-  $pusher->trigger('builds', 'new_build', $data);
+  $data = array('type' => $node->type, 'nid' => $node->nid);
+  shoov_pusher_trigger_event($repo_id, 'new_ui_build', $data);
+
 }

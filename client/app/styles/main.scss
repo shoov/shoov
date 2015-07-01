@@ -3,7 +3,7 @@
 
 // $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 // bower:scss
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
+// @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 
 @import "compass/css3";
 
@@ -83,19 +83,7 @@
 
 .builds {
 
-  li {
-    -webkit-transition: all 2s 1.5s ease-out;
-    -moz-transition: all 1.5s ease-out;
-    transition: all 1.5s ease-out;
-
-    list-style: none;
-    padding: 10px;
-  }
-
-  .highlight-enter-setup {
-    background: yellow;
-  }
-  .highlight-enter-start {
-    background: white;
+  .new-item {
+    background-color: #ffff00;
   }
 }

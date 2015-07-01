@@ -8,7 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('BuildsCtrl', function ($scope, builds, Auth, Config, Builds, channelManager) {
+  .controller('BuildsCtrl', function ($scope, builds, Auth, Config, Builds, channelManager, $timeout) {
 
     $scope.builds = builds;
 
@@ -20,16 +20,17 @@ angular.module('clientApp')
     $scope.backend = Config.backend;
 
     var channels = channelManager.getChannels();
-    console.log(channels);
 
     angular.forEach(channels, function(channel) {
       channel.bind('new_ui_build', function(data) {
         Builds.get(parseInt(data.nid), data.type)
           .then(function(val) {
-            // Set property 'new' to true for a new item.
-            //val[0].new = true;
             // Put new item in the begginning of the list.
+            val[0].new = true;
             $scope.builds.unshift(val[0]);
+            $timeout(function(){
+              $scope.builds[0].new = false
+            }, 1000);
           });
       });
     });
