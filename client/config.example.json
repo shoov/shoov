@@ -10,11 +10,5 @@
     "debugUiRouter": false,
     "githubClientId": false,
     "pusherKey": "<your-pusher-key>",
-    "aws": {
-      "key": "",
-      "secret": "",
-      "bucket": "",
-      "region": ""
-    }
   }
 }
