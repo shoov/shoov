@@ -62,6 +62,20 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
+   * @when I visit repository :title
+   */
+  public function iVisitRepository($title) {
+    $this->iVisitNodePageOfType($title, 'repository');
+  }
+
+  /**
+   * @when I visit CI build :title
+   */
+  public function iVisitCIBuild($title) {
+    $this->iVisitNodePageOfType($title, 'ci_build');
+  }
+
+  /**
    * @Then I should have access to the page
    */
   public function iShouldHaveAccessToThePage() {
@@ -125,9 +139,99 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
+   * @When I create message of type :type
+   */
+  public function iCreateMessageOfType($type, $options = NULL) {
+    $account = user_load_by_name($this->user->name);
+
+    $message = message_create($type, array('uid' => $account->uid));
+    $wrapper = entity_metadata_wrapper('message', $message);
+
+    if ($type == 'ci_build') {
+      $wrapper->field_ci_build->set($options->ci_build_id);
+      $wrapper->field_ci_build_status->set($options->status);
+      $wrapper->field_ci_build_timestamp->set(time());
+    }
+
+    $wrapper->save();
+  }
+
+  /**
+   * @when I create CI build item with status :status for CI build :ci_build
+   */
+  public function iCreateCIBuildItemWithStatusForCIBuild($status, $ci_build) {
+    $query = new EntityFieldQuery();
+    $entity = $query->entityCondition('entity_type', 'node')
+      ->propertyCondition('type', 'ci_build')
+      ->propertyCondition('title', $ci_build)
+      ->range(0,1)
+      ->execute();
+
+    $ci_build_id = array_keys($entity['node'])[0];
+
+    $options = [
+      'status' => $status,
+      'ci_build' => $ci_build_id
+    ];
+    $this->iCreateMessageOfType('ci_build', $options);
+  }
+
+  /**
+   * @Then CI build :ci_build should have status :status
+   */
+  public function CIBuildShouldHaveStatus($ci_build, $status) {
+    $status = ($status == 'OK') ? NULL : strtolower($status);
+
+    $query = new EntityFieldQuery();
+    $entity = $query->entityCondition('entity_type', 'node')
+      ->propertyCondition('type', 'ci_build')
+      ->propertyCondition('title', $ci_build)
+      ->range(0, 1)
+      ->execute();
+
+    $node = node_load(array_keys($entity['node'])[0]);
+    $wrapper = entity_metadata_wrapper('node', $node);
+
+    $ci_build_status = $wrapper->field_ci_build_incident_status->value();
+    if ($ci_build_status != $status) {
+      $params = [
+        '@title' => $ci_build,
+        '@ci_build_status' => $ci_build_status,
+        '@status' => $status
+      ];
+      throw new \Exception(format_string("CI build @title have status @ci_build_status instead of @status", $params));
+    }
+  }
+
+  /**
+   * @Then CI build "William/app" should have failed count equal to :number
+   */
+  public function CIBuildShouldHaveFailedCountEqualTo($ci_build, $number) {
+    $query = new EntityFieldQuery();
+    $entity = $query->entityCondition('entity_type', 'node')
+      ->propertyCondition('type', 'ci_build')
+      ->propertyCondition('title', $ci_build)
+      ->range(0, 1)
+      ->execute();
+
+    $node = node_load(array_keys($entity['node'])[0]);
+    $wrapper = entity_metadata_wrapper('node', $node);
+
+    $failed_count = $wrapper->field_ci_build_failed_count->value();
+    if ($failed_count != $number) {
+      $params = [
+        '@ci_build' => $ci_build,
+        '@failed_count' => $failed_count,
+        '@number' => $number
+      ];
+      throw new \Exception(format_string("CI build @ci_build have failed count @failed_count instead of @number", $params));
+    }
+  }
+
+  /**
    * @When I create :title node of type :type
    */
-  public function iCreateNodeOfType($title, $type) {
+  public function iCreateNodeOfType($title, $type, $repository = NULL) {
     $account = user_load_by_name($this->user->name);
     $values = array(
       'type' => $type,
@@ -136,8 +240,39 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     $entity = entity_create('node', $values);
     $wrapper = entity_metadata_wrapper('node', $entity);
     $wrapper->title->set($title);
-    $wrapper->field_github_id->set(123456);
+    if ($type == 'repository') {
+      $wrapper->field_github_id->set(123456);
+    }
+    elseif ($type == 'ci_build') {
+      if (!$repository) {
+        return;
+      }
+
+      $query = new EntityFieldQuery();
+      $entity = $query->entityCondition('entity_type', 'node')
+        ->propertyCondition('type', 'repository')
+        ->propertyCondition('title', $repository)
+        ->range(0,1)
+        ->execute();
+
+      $repository_id = array_keys($entity['node'])[0];
+      $wrapper->og_repo->set($repository_id);
+    }
     $wrapper->save();
+  }
+
+  /**
+   * @When I create repository :title
+   */
+  public function iCreateRepository($title) {
+    $this->iCreateNodeOfType($title, 'repository');
+  }
+
+  /**
+   * @when I create CI build :title for repository :repository
+   */
+  public function iCreateCIBuildForRepository($title, $repository) {
+    $this->iCreateNodeOfType($title, 'ci_build', $repository);
   }
 
   /**
