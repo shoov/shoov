@@ -159,7 +159,12 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
 
   $timestamp = $timestamp ?: time();
 
-  $message = message_create('ci_build', array('uid' => $node->uid));
+  $arguments = array(
+    '@{message:field-ci-build:og-repo}' => $wrapper->og_repo->label(),
+    '@{message:field-ci-build:field_git_branch}' => $wrapper->field_git_branch->value(),
+  );
+
+  $message = message_create('ci_build', array('uid' => $node->uid, 'arguments' => $arguments));
   $wrapper = entity_metadata_wrapper('message', $message);
   $wrapper->field_ci_build->set($node);
   $wrapper->field_ci_build_status->set('queue');
