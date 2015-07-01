@@ -29,9 +29,8 @@
       </div>
 
       <ul class="builds">
-        <li ng-repeat="build in builds" class="build-item" ng-class="{updated: build.new}">
-
-          <a ng-href="#/screenshots/{{ build.id }}">{{ build.label }}</a>
+        <li ng-animate="'highlight'" class="build-item" ng-repeat="build in builds">
+          <a ng-href="#/screenshots/{{ build.id }}" >{{ build.label }}</a>
         </li>
       </ul>
     </div>
