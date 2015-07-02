@@ -33,4 +33,4 @@ Feature: Check threshold functionally
     And  "1" CI build item for CI build "William/app4" are set to status "Done"
     Then  I should see status "Ok" for CI build "William/app4"
     And   I should see failed count "0" for CI build "William/app4"
-    And   I should see incident with status "fixed" for CI build "William/app4"
+    And   I should see incident with status "Fixed" for CI build "William/app4"

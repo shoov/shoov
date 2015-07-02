@@ -339,6 +339,8 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       '@status' => $status
     );
 
+    $status = strtolower($status);
+
     // Get ID of CI build.
     if (!$ci_build_node = $this->getNodeByTitleAndBundle($ci_build, 'ci_build')) {
       throw new \Exception(format_string('CI build "@title" was not found.', $params));
@@ -375,7 +377,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    *
    * @return object
    *    The Node object.
-   * 
+   *
    * @throws \Exception
    *    The error if node not found.
    */
