@@ -12,20 +12,32 @@ include_once 'shoov_ci_incident.features.inc';
  *
  * @param stdClass $node
  *   The CI build node object.
+ * @param bool $only_error
+ *   Determines if the last incident should be limited to status "error".
+ *   Defaults to TRUE.
  *
- * @return stdClass | null
+ * @return stdClass | NULL
  *   The CI incident node object if found, or NULL.
  */
-function shoov_ci_incident_get_latest_error_incident($node) {
+function shoov_ci_incident_get_latest_error_incident($node, $only_error = TRUE) {
+  // Use the node author's account for the query, so in case it is ran as
+  // anonymous user, it still can access the nodes.
+  $account = user_load($node->uid);
+
   $query = new EntityFieldQuery();
-  $result = $query
+  $query
     ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'ci_incident')
     ->fieldCondition('field_ci_build', 'target_id', $node->nid)
-    ->fieldCondition('field_ci_build_error', 'value', TRUE)
     ->propertyCondition('status', NODE_PUBLISHED)
-    ->range(0, 1)
-    ->execute();
+    ->addMetaData('account', $account)
+    ->range(0, 1);
+
+  if ($only_error) {
+    $query->fieldCondition('field_ci_build_error', 'value', TRUE);
+  }
+
+  $result = $query->execute();
 
   if (empty($result['node'])) {
     return;

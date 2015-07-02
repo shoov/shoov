@@ -87,6 +87,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       ->propertyCondition('status', NODE_PUBLISHED)
       ->range(0, 1)
       ->execute();
+
     if (empty($result['node'])) {
       $params = array(
         '@title' => $title,
@@ -94,10 +95,13 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       );
       throw new \Exception(format_string("Node @title of @type not found.", $params));
     }
+
     $nid = key($result['node']);
     if (node_access('update', node_load($nid), user_load_by_name($this->user->name))) {
+      // User has access.
       return;
     }
+
     $params = array(
       '@title' => $title,
       '@type' => $type,
@@ -127,7 +131,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   /**
    * @When I create :title node of type :type
    */
-  public function iCreateNodeOfType($title, $type) {
+  public function iCreateNodeOfType($title, $type, $repository = NULL) {
     $account = user_load_by_name($this->user->name);
     $values = array(
       'type' => $type,
@@ -136,7 +140,25 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     $entity = entity_create('node', $values);
     $wrapper = entity_metadata_wrapper('node', $entity);
     $wrapper->title->set($title);
-    $wrapper->field_github_id->set(123456);
+    if ($type == 'repository') {
+      $wrapper->field_github_id->set(123456);
+    }
+    elseif ($type == 'ci_build') {
+      if (!$repository) {
+        $params = array('@title' => $title);
+        throw new \Exception(format_string('Failed to create a new CI build @title because repository is undefined.', $params));
+      }
+
+      $query = new EntityFieldQuery();
+      $result = $query->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'repository')
+        ->propertyCondition('title', $repository)
+        ->range(0,1)
+        ->execute();
+
+      $repository_id = key($result['node']);
+      $wrapper->og_repo->set($repository_id);
+    }
     $wrapper->save();
   }
 
@@ -210,5 +232,174 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       '@type' => $type,
     );
     throw new \Exception(format_string("Node @title of @type was found.", $params));
+  }
+
+  /**
+   * @When I create repository and CI build :title
+   */
+  public function iCreateRepositoryAndCiBuild($title) {
+    // Create a new repository.
+    $this->iCreateNodeOfType($title, 'repository');
+    // Create a new CI build.
+    $this->iCreateNodeOfType($title, 'ci_build', $title);
+  }
+
+  /**
+   * Update the status of existing CI build items
+   *
+   * As we are setting the status to "done" or "error" new CI build items are
+   * automatically created.
+   *
+   * @When /^"([0-9]+)" CI build items? for CI build "([^"].+)" are set to status "([^"].+)"$/
+   */
+  public function iSetStatusForCiBuildItemsTimes($times, $ci_build_title, $status) {
+    if ($times <= 0) {
+      return;
+    }
+
+    $params = array('@title' => $ci_build_title);
+
+    // Get the CI build.
+    if (!$ci_build_node = $this->getNodeByTitleAndBundle($ci_build_title, 'ci_build')) {
+      throw new \Exception(format_string('Failed to get ID of CI build @title', $params));
+    }
+
+    // Find the last CI build item.
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'message')
+      ->fieldCondition('field_ci_build_status', 'value', 'queue')
+      ->fieldCondition('field_ci_build', 'target_id', $ci_build_node->vid)
+      ->execute();
+
+    if (count($result['message']) > 1) {
+      throw new \Exception(format_string('There can be only one CI build in "queue" status for the CI build @title.', $params));
+    }
+
+    $wrapper = entity_metadata_wrapper('message', key($result['message']));
+    $wrapper->field_ci_build_status->set(strtolower($status));
+    $wrapper->save();
+
+    $this->iSetStatusForCiBuildItemsTimes($times - 1, $ci_build_title, $status);
+  }
+
+  /**
+   * @Then I should see status :status for CI build :ci_build
+   */
+  public function iShouldSeeStatusForCiBuildEqualTo($ci_build, $status) {
+    $statuses = array(
+      'Ok' => NULL,
+      'Error' => 'error',
+      'Unconfirmed error' => 'unconfirmed_error'
+    );
+
+    $machine_status = $statuses[$status];
+
+    // Get CI build.
+    $ci_build_node = $this->getNodeByTitleAndBundle($ci_build, 'ci_build');
+    $wrapper = entity_metadata_wrapper('node', $ci_build_node);
+
+    $ci_build_status = $wrapper->field_ci_build_incident_status->value();
+    if ($ci_build_status != $machine_status) {
+      $params = array(
+        '@title' => $ci_build,
+        '@ci_build_status' => $ci_build_status,
+        '@status' => $status
+      );
+      throw new \Exception(format_string("CI build @ci_build has status @ci_build_status instead of @status", $params));
+    }
+
+  }
+
+  /**
+   * @Then I should see failed count :count for CI build :ci_build
+   */
+  public function iShouldSeeFailedCountForCiBuildEqualTo($ci_build, $count) {
+    $ci_build_node = $this->getNodeByTitleAndBundle($ci_build, 'ci_build');
+    $wrapper = entity_metadata_wrapper('node', $ci_build_node);
+    $failed_count = $wrapper->field_ci_build_failed_count->value();
+    if ($failed_count == $count) {
+      return;
+    }
+
+    $params = array(
+      '@title' => $ci_build,
+      '@failed_count' => $failed_count,
+      '@count' => $count
+    );
+    throw new \Exception(format_string('CI build @title have failed count equal to @failed_count instead of @count', $params));
+  }
+
+  /**
+   * @Then I should see incident with status :status for CI build :ci_build
+   */
+  public function iShouldSeeIncidentForCiBuild($status, $ci_build) {
+    $params = array(
+      '@title' => $ci_build,
+      '@status' => $status
+    );
+
+    $status = strtolower($status);
+
+    // Get ID of CI build.
+    if (!$ci_build_node = $this->getNodeByTitleAndBundle($ci_build, 'ci_build')) {
+      throw new \Exception(format_string('CI build "@title" was not found.', $params));
+    }
+
+    // Get the last incident of the CI build.
+    if (!$ci_incident = shoov_ci_incident_get_latest_error_incident($ci_build_node, FALSE)) {
+      throw new \Exception(format_string('CI incident for @title was not found', $params));
+    }
+
+    $wrapper = entity_metadata_wrapper('node', $ci_incident);
+
+    $error_message = format_string('The CI Incident for CI build "@title" is not set to "@status" status.', $params);
+
+    if ($status == 'error') {
+      if (!$failing_build = $wrapper->field_failing_build->value()) {
+        throw new \Exception($error_message);
+      }
+    }
+    elseif ($status == 'fixed') {
+      if (!$fixed_build = $wrapper->field_fixed_build->value()) {
+        throw new \Exception($error_message);
+      }
+    }
+  }
+
+  /**
+   * Find a node by title and bundle.
+   *
+   * @param string $title
+   *    The title of node searching for.
+   * @param string $bundle
+   *    The name of bundle (type) of node searching for.
+   *
+   * @return object
+   *    The Node object.
+   *
+   * @throws \Exception
+   *    The error if node not found.
+   */
+  protected function getNodeByTitleAndBundle($title, $bundle) {
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', $bundle)
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->propertyOrderBy('vid', 'DESC')
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+        '@bundle' => $bundle
+      );
+      throw new \Exception(format_string('Node with title @title and bundle @bundle was not found.', $params));
+    }
+
+    return node_load(key($result['node']));
   }
 }
