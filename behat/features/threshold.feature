@@ -25,7 +25,7 @@ Feature: Check threshold functionally
     Then  I should see status "Error" for CI build "William/app3"
     And   I should see incident with status "Error" for CI build "William/app3"
 
-  @api @foo
+  @api
   Scenario: Create fix CI build item and check status, failed count and incident created for CI build.
     Given I login with user "William"
     When  I create repository and CI build "William/app4"
