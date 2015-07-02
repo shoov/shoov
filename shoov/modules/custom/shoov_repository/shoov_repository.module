@@ -50,5 +50,5 @@ function shoov_repository_node_insert($node) {
     return;
   }
 
-  shoov_pusher_trigger_user_event($node->uid, 'new_repo', array('nid' => $node->nid));
+  shoov_pusher_trigger_user_event($node->uid, 'new_repo', array('id' => $node->nid));
 }

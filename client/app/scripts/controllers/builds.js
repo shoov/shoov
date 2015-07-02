@@ -38,7 +38,7 @@ angular.module('clientApp')
       // Listen for new repository was created event.
       channel.bind('new_repo', function(data) {
         // Add new chanel.
-        channelManager.addChannel(data.nid);
+        channelManager.addChannel(data.id);
         channels = channelManager.getChannels();
         // Listen to new build event also on the new channel.
         $scope.addNewBuilds(channels);
