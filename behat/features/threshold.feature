@@ -28,9 +28,9 @@ Feature: Check threshold functionally
   @api @foo
   Scenario: Create fix CI build item and check status, failed count and incident created for CI build.
     Given I login with user "William"
-#    When  I create repository and CI build "William/app4"
-#    And  "3" CI build item for CI build "William/app4" are set to status "Error"
-#    And  "1" CI build item for CI build "William/app4" are set to status "Done"
-#    Then  I should see status "Ok" for CI build "William/app4"
-#    And   I should see failed count "0" for CI build "William/app4"
+    When  I create repository and CI build "William/app4"
+    And  "3" CI build item for CI build "William/app4" are set to status "Error"
+    And  "1" CI build item for CI build "William/app4" are set to status "Done"
+    Then  I should see status "Ok" for CI build "William/app4"
+    And   I should see failed count "0" for CI build "William/app4"
     And   I should see incident with status "fixed" for CI build "William/app4"

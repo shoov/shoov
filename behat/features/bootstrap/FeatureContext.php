@@ -341,7 +341,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     }
 
     // Get last incident for CI build.
-    if (!$ci_incident = shoov_ci_incident_get_latest_error_incident($ci_build_node)) {
+    if (!$ci_incident = shoov_ci_incident_get_latest_error_incident($ci_build_node, FALSE)) {
       throw new \Exception(format_string('CI incident for @title was not found', $params));
     }
 
