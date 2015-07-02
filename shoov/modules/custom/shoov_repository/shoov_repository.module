@@ -41,3 +41,14 @@ function shoov_repository_node_presave($node) {
     $wrapper->field_github_id->set($data['id']);
   }
 }
+
+/**
+ * Implements hook_node_insert().
+ */
+function shoov_repository_node_insert($node) {
+  if ($node->type != 'repository') {
+    return;
+  }
+
+  shoov_pusher_trigger_user_event($node->uid, 'new_repo', array('nid' => $node->nid));
+}

@@ -26,6 +26,16 @@ angular.module('clientApp')
       return channels[repoId];
     };
 
+    this.addUserChannel = function (userId) {
+      if (!!channels['uid' + userId]) {
+        // Already subscribed to channel.
+        return;
+      }
+      var pusher = $pusher(this.getClient());
+      channels['uid' + userId] = pusher.subscribe('private-uid-' + userId);
+      return channels['uid' + userId];
+    };
+
     this.getClient = function() {
       var pusherConf = {
         authEndpoint: Config.backend + '/api/v1.0/pusher_auth',

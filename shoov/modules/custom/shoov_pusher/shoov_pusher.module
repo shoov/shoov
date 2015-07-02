@@ -23,6 +23,23 @@ function shoov_pusher_trigger_event($repo_id, $event_name, $data = array()) {
 }
 
 /**
+ * Trigger a Pusher event on user's channel.
+ *
+ * @param $uid
+ * @param $event_name
+ * @param array $data
+ *
+ * @throws \PusherException
+ * @throws \RestfulServerConfigurationException
+ *
+ * @return bool
+ */
+function shoov_pusher_trigger_user_event($uid, $event_name, $data = array()) {
+  $pusher = shoov_pusher_get_pusher();
+  return $pusher->trigger('private-uid-' . $uid, $event_name, $data);
+}
+
+/**
  * Get a Pusher instance.
  *
  * @return \Pusher
