@@ -43,8 +43,9 @@ angular.module('clientApp')
         // Listen to new build event also on the new channel.
         $scope.addNewBuilds(channels);
 
-        // Get new builds. Using timeout 'cause after calling mocha builds are
-        // created next second after new repository - it's too early.
+        // Get new builds. Cause after creating new repo build are created too
+        // fast - setting timeout to get all build in order to find new ones
+        // if exist and set listener for future created builds.
         $timeout(function() {
           // Get all builds.
           Builds.get(null, 'ui_build').then(function(newBuilds) {
@@ -62,7 +63,7 @@ angular.module('clientApp')
               $scope.builds.unshift(build);
             });
           });
-        } ,1000);
+        } ,2000);
       });
     });
 
