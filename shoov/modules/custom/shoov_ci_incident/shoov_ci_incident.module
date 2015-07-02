@@ -17,6 +17,8 @@ include_once 'shoov_ci_incident.features.inc';
  *   The CI incident node object if found, or NULL.
  */
 function shoov_ci_incident_get_latest_error_incident($node) {
+  $account = user_load($node->uid);
+
   $query = new EntityFieldQuery();
   $result = $query
     ->entityCondition('entity_type', 'node')
@@ -25,6 +27,9 @@ function shoov_ci_incident_get_latest_error_incident($node) {
     ->fieldCondition('field_ci_build_error', 'value', TRUE)
     ->propertyCondition('status', NODE_PUBLISHED)
     ->range(0, 1)
+    // Set the user account as the node author, to prevent node access from
+    // hiding the result.
+    ->addMetaData('account', $account)
     ->execute();
 
   if (empty($result['node'])) {

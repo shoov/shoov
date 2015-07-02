@@ -330,23 +330,24 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    * @Then I should see incident with status :status for CI build :ci_build
    */
   public function iShouldSeeIncidentForCiBuild($status, $ci_build) {
-    // Get ID of CI build.
-    $ci_build_node = $this->getNodeByTitleAndBundle($ci_build, 'ci_build');
-    if (!$ci_build_node->vid) {
-      $params = array('@title' => $ci_build);
-      throw new \Exception(format_string('Failed to get ID of CI build @title', $params));
-    }
-
-    // Get last incident for CI build.
-    $ci_incident = shoov_ci_incident_get_latest_error_incident($ci_build_node);
-    $wrapper = entity_metadata_wrapper('node', $ci_incident);
-
-    // Predefine properties for exception.
     $params = array(
       '@title' => $ci_build,
       '@status' => $status
     );
-    $error_message = format_string('The incident for CI build @title doesn\'t contain "@status" item', $params);
+
+    // Get ID of CI build.
+    if (!$ci_build_node = $this->getNodeByTitleAndBundle($ci_build, 'ci_build')) {
+      throw new \Exception(format_string('CI build "@title" was not found.', $params));
+    }
+
+    // Get last incident for CI build.
+    if (!$ci_incident = shoov_ci_incident_get_latest_error_incident($ci_build_node)) {
+      throw new \Exception('CI incident for @title was not found', $params);
+    }
+
+    $wrapper = entity_metadata_wrapper('node', $ci_incident);
+
+    $error_message = format_string('The CI Incident for CI build "@title" is not set to "@status" status.', $params);
 
     if ($status == 'error') {
       if (!$failing_build = $wrapper->field_failing_build->value()) {
