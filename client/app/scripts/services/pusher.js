@@ -16,6 +16,10 @@ angular.module('clientApp')
       return channels;
     };
 
+    this.getChannel =  function (repoId) {
+      return (repoId in channels) ? channels[repoId] : null;
+    };
+
     this.addChannel = function (repoId) {
       if (!!channels[repoId]) {
         // Already subscribed to channel.
