@@ -342,7 +342,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
 
     // Get last incident for CI build.
     if (!$ci_incident = shoov_ci_incident_get_latest_error_incident($ci_build_node)) {
-      throw new \Exception('CI incident for @title was not found', $params);
+      throw new \Exception(format_string('CI incident for @title was not found', $params));
     }
 
     $wrapper = entity_metadata_wrapper('node', $ci_incident);
@@ -376,7 +376,8 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    */
   protected function getNodeByTitleAndBundle($title, $bundle) {
     $query = new EntityFieldQuery();
-    $result = $query->entityCondition('entity_type', 'node')
+    $result = $query
+      ->entityCondition('entity_type', 'node')
       ->entityCondition('bundle', $bundle)
       ->propertyCondition('title', $title)
       ->propertyCondition('status', NODE_PUBLISHED)
