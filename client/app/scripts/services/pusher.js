@@ -16,6 +16,10 @@ angular.module('clientApp')
       return channels;
     };
 
+    this.getChannel =  function (repoId) {
+      return (repoId in channels) ? channels[repoId] : null;
+    };
+
     this.addChannel = function (repoId) {
       if (!!channels[repoId]) {
         // Already subscribed to channel.
@@ -24,6 +28,16 @@ angular.module('clientApp')
       var pusher = $pusher(this.getClient());
       channels[repoId] = pusher.subscribe('private-repo-' + repoId);
       return channels[repoId];
+    };
+
+    this.addUserChannel = function (userId) {
+      if (!!channels['uid' + userId]) {
+        // Already subscribed to channel.
+        return;
+      }
+      var pusher = $pusher(this.getClient());
+      channels['uid' + userId] = pusher.subscribe('private-uid-' + userId);
+      return channels['uid' + userId];
     };
 
     this.getClient = function() {
