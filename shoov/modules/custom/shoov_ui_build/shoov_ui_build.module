@@ -73,6 +73,8 @@ function shoov_ui_build_create_pr($node) {
 }
 
 /**
+ * Trigger "New build" event when bew ui_build is created.
+ *
  * Implements hook_node_insert().
  */
 function shoov_ui_build_node_insert($node) {
@@ -83,7 +85,13 @@ function shoov_ui_build_node_insert($node) {
   $wrapper = entity_metadata_wrapper('node', $node);
   $repo_id = $wrapper->og_repo->value(array('identifier' => TRUE));
 
-  $data = array('type' => $node->type, 'nid' => $node->nid);
+  // todo: Discover how to check actual user's access, not admin.
+  $account = user_load(1);
+  $handler = restful_get_restful_handler('builds');
+  $handler->setAccount($account);
+  $result = $handler->get($node->nid);
+
+  $data = array($result[0]);
   shoov_pusher_trigger_event($repo_id, 'new_ui_build', $data);
 
 }
