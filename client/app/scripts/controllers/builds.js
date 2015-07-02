@@ -44,11 +44,7 @@ angular.module('clientApp')
         channelManager.addChannel(data.id);
         var newChannel = channelManager.getChannel(data.id);
 
-        newChannel.bind('new_ui_build', function(data) {
-          // Put new item in the begginning of the list.
-          $scope.builds.unshift(data[0]);
-        });
-
+        $scope.addNewBuilds([newChannel]);
 
         // Get new builds. Cause after creating new repo build are created too
         // fast - setting timeout to get new build.
@@ -56,8 +52,8 @@ angular.module('clientApp')
           // Get new builds and add them to the list.
           Builds.getByRepo(null, 'ui_build', data.id).then(function(val) {
             angular.forEach(val, function(build) {
+
               $scope.builds.unshift(build);
-              console.log(build);
             });
           });
         } ,2000);
