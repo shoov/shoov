@@ -245,8 +245,10 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * Update status for exist CI build item. If $times greater then one then update
-   * next CI build items in recursive.
+   * Update the status of existing CI build items
+   *
+   * As we are setting the status to "done" or "error" new CI build items are
+   * automatically created.
    *
    * @When /^"([0-9]+)" CI build items? for CI build "([^"].+)" are set to status "([^"].+)"$/
    */
@@ -255,26 +257,26 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       return;
     }
 
-    // Get CI build.
-    $ci_build_node = $this->getNodeByTitleAndBundle($ci_build_title, 'ci_build');
-    if (!$ci_build_node->vid) {
-      $params = array('@title' => $ci_build_title);
+    $params = array('@title' => $ci_build_title);
+
+    // Get the CI build.
+    if (!$ci_build_node = $this->getNodeByTitleAndBundle($ci_build_title, 'ci_build')) {
       throw new \Exception(format_string('Failed to get ID of CI build @title', $params));
     }
 
-    // Find a last CI build item.
+    // Find the last CI build item.
     $query = new EntityFieldQuery();
-    $result = $query->entityCondition('entity_type', 'message')
+    $result = $query
+      ->entityCondition('entity_type', 'message')
       ->fieldCondition('field_ci_build_status', 'value', 'queue')
       ->fieldCondition('field_ci_build', 'target_id', $ci_build_node->vid)
       ->execute();
 
     if (count($result['message']) > 1) {
-      throw new \Exception(format_string('Possible only one CI build in "queue" status on the same time'));
+      throw new \Exception(format_string('There can be only one CI build in "queue" status for the CI build @title.', $params));
     }
 
-    $message = message_load(key($result['message']));
-    $wrapper = entity_metadata_wrapper('message', $message);
+    $wrapper = entity_metadata_wrapper('message', key($result['message']));
     $wrapper->field_ci_build_status->set(strtolower($status));
     $wrapper->save();
 
@@ -304,7 +306,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
         '@ci_build_status' => $ci_build_status,
         '@status' => $status
       );
-      throw new \Exception(format_string("CI build @ci_build have status @ci_build_status instead of @status", $params));
+      throw new \Exception(format_string("CI build @ci_build has status @ci_build_status instead of @status", $params));
     }
 
   }
@@ -316,14 +318,16 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     $ci_build_node = $this->getNodeByTitleAndBundle($ci_build, 'ci_build');
     $wrapper = entity_metadata_wrapper('node', $ci_build_node);
     $failed_count = $wrapper->field_ci_build_failed_count->value();
-    if ($failed_count != $count) {
-      $params = array(
-        '@title' => $ci_build,
-        '@failed_count' => $failed_count,
-        '@count' => $count
-      );
-      throw new \Exception(format_string('CI build @title have failed count equal to @failed_count instead of @count', $params));
+    if ($failed_count == $count) {
+      return;
     }
+
+    $params = array(
+      '@title' => $ci_build,
+      '@failed_count' => $failed_count,
+      '@count' => $count
+    );
+    throw new \Exception(format_string('CI build @title have failed count equal to @failed_count instead of @count', $params));
   }
 
   /**
@@ -340,7 +344,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       throw new \Exception(format_string('CI build "@title" was not found.', $params));
     }
 
-    // Get last incident for CI build.
+    // Get the last incident of the CI build.
     if (!$ci_incident = shoov_ci_incident_get_latest_error_incident($ci_build_node, FALSE)) {
       throw new \Exception(format_string('CI incident for @title was not found', $params));
     }
@@ -362,15 +366,16 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * Find node by title and bundle.
+   * Find a node by title and bundle.
    *
-   * @param $title
+   * @param string $title
    *    The title of node searching for.
-   * @param $bundle
+   * @param string $bundle
    *    The name of bundle (type) of node searching for.
    *
    * @return object
    *    The Node object.
+   * 
    * @throws \Exception
    *    The error if node not found.
    */
