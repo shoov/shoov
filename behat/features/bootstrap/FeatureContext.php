@@ -87,6 +87,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       ->propertyCondition('status', NODE_PUBLISHED)
       ->range(0, 1)
       ->execute();
+
     if (empty($result['node'])) {
       $params = array(
         '@title' => $title,
@@ -94,10 +95,13 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       );
       throw new \Exception(format_string("Node @title of @type not found.", $params));
     }
+
     $nid = key($result['node']);
     if (node_access('update', node_load($nid), user_load_by_name($this->user->name))) {
+      // User has access.
       return;
     }
+
     $params = array(
       '@title' => $title,
       '@type' => $type,
@@ -141,9 +145,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     }
     elseif ($type == 'ci_build') {
       if (!$repository) {
-        $params = array(
-          '@title' => $title
-        );
+        $params = array('@title' => $title);
         throw new \Exception(format_string('Failed to create a new CI build @title because repository is undefined.', $params));
       }
 
@@ -248,17 +250,15 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    *
    * @When /^"([0-9]+)" CI build items? for CI build "([^"].+)" are set to status "([^"].+)"$/
    */
-  public function iSetStatusForCiBuildItemsTimes($times, $ci_build, $status) {
+  public function iSetStatusForCiBuildItemsTimes($times, $ci_build_title, $status) {
     if ($times <= 0) {
       return;
     }
 
     // Get CI build.
-    $ci_build_node = $this->getNodeByTitleAndBundle($ci_build, 'ci_build');
+    $ci_build_node = $this->getNodeByTitleAndBundle($ci_build_title, 'ci_build');
     if (!$ci_build_node->vid) {
-      $params = array(
-        '@title' => $ci_build
-      );
+      $params = array('@title' => $ci_build_title);
       throw new \Exception(format_string('Failed to get ID of CI build @title', $params));
     }
 
@@ -278,7 +278,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     $wrapper->field_ci_build_status->set(strtolower($status));
     $wrapper->save();
 
-    $this->iSetStatusForCiBuildItemsTimes($times - 1, $ci_build, $status);
+    $this->iSetStatusForCiBuildItemsTimes($times - 1, $ci_build_title, $status);
   }
 
   /**
@@ -299,11 +299,11 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
 
     $ci_build_status = $wrapper->field_ci_build_incident_status->value();
     if ($ci_build_status != $machine_status) {
-      $params = [
+      $params = array(
         '@title' => $ci_build,
         '@ci_build_status' => $ci_build_status,
         '@status' => $status
-      ];
+      );
       throw new \Exception(format_string("CI build @ci_build have status @ci_build_status instead of @status", $params));
     }
 
@@ -317,11 +317,11 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     $wrapper = entity_metadata_wrapper('node', $ci_build_node);
     $failed_count = $wrapper->field_ci_build_failed_count->value();
     if ($failed_count != $count) {
-      $params = [
+      $params = array(
         '@title' => $ci_build,
         '@failed_count' => $failed_count,
         '@count' => $count
-      ];
+      );
       throw new \Exception(format_string('CI build @title have failed count equal to @failed_count instead of @count', $params));
     }
   }
@@ -333,13 +333,9 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     // Get ID of CI build.
     $ci_build_node = $this->getNodeByTitleAndBundle($ci_build, 'ci_build');
     if (!$ci_build_node->vid) {
-      $params = [
-        '@title' => $ci_build
-      ];
+      $params = array('@title' => $ci_build);
       throw new \Exception(format_string('Failed to get ID of CI build @title', $params));
     }
-
-    var_dump($ci_build_node);
 
     // Get last incident for CI build.
     $ci_incident = shoov_ci_incident_get_latest_error_incident($ci_build_node);
@@ -351,8 +347,6 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       '@status' => $status
     );
     $error_message = format_string('The incident for CI build @title doesn\'t contain "@status" item', $params);
-
-    var_dump($ci_incident);
 
     if ($status == 'error') {
       if (!$failing_build = $wrapper->field_failing_build->value()) {
@@ -389,12 +383,12 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       ->range(0, 1)
       ->execute();
 
-    if (!$result) {
+    if (empty($result['node'])) {
       $params = array(
         '@title' => $title,
         '@bundle' => $bundle
       );
-      throw new \Exception('Can\t get node by title @title and bundle @bundle', $params);
+      throw new \Exception(format_string('Node with title @title and bundle @bundle was not found.', $params));
     }
 
     return node_load(key($result['node']));
