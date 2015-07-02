@@ -284,7 +284,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * @Then I should see status for CI build :ci_build equal to :status
+   * @Then I should see status :status for CI build :ci_build
    */
   public function iShouldSeeStatusForCiBuildEqualTo($ci_build, $status) {
     $status = (strtolower($status) == 'ok') ? NULL : strtolower($status);
@@ -312,7 +312,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * @Then I should see failed count for CI build :ci_build equal to :count
+   * @Then I should see failed count :count for CI build :ci_build
    */
   public function iShouldSeeFailedCountForCiBuildEqualTo($ci_build, $count) {
     $query = new EntityFieldQuery();
@@ -357,13 +357,20 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       throw new \Exception(format_string('Failed to get ID of CI build @title', $params));
     }
 
-    // Get incident.
+    // Get last incident for CI build.
     $query = new EntityFieldQuery();
     $entity = $query->entityCondition('entity_type', 'node')
       ->propertyCondition('type', 'ci_incident')
       ->fieldCondition('field_ci_build', 'target_id', $ci_build_id)
       ->range(0, 1)
       ->execute();
+
+    var_dump($ci_build_id);
+    var_dump($entity);
+    die;
+
+    $ci_incident = node_load(array_keys($entity['node'])[0]);
+    $wrapper = entity_metadata_wrapper('node', $ci_incident);
 
     // Predefine properties for exception.
     $params = [
@@ -372,8 +379,6 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     ];
     $error_message = format_string('The incident for CI build @title doesn\'t contain "@status" item', $params);
 
-    $ci_incident = node_load(array_keys($entity['node'])[0]);
-    $wrapper = entity_metadata_wrapper('node', $ci_incident);
     if ($status == 'error') {
       $failing_build = $wrapper->field_failing_build->value();
       if (!$failing_build) {
