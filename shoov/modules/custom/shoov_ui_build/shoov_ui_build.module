@@ -86,12 +86,35 @@ function shoov_ui_build_node_insert($node) {
   $repo_id = $wrapper->og_repo->value(array('identifier' => TRUE));
 
   // todo: Discover how to check actual user's access, not admin.
-  $account = user_load(1);
+  $account = user_load($node->uid);
   $handler = restful_get_restful_handler('builds');
   $handler->setAccount($account);
   $result = $handler->get($node->nid);
 
   $data = array($result[0]);
   shoov_pusher_trigger_event($repo_id, 'new_ui_build', $data);
+}
 
+/**
+ * Implements hook_node_access().
+ *
+ * Grant a user to see their own published node. This trivial access is needed
+ * for shoov_ui_build_node_insert(), as upon hook_node_insert() node_access()
+ * is being called on the newly created node, however since the node grants are
+ * set only after hook_node_insert(), we have to explicitly allow access.
+ */
+function shoov_ui_build_node_access($node, $op, $account) {
+  if ($op != 'view') {
+    return;
+  }
+
+  if ($node->status != NODE_PUBLISHED) {
+    return;
+  }
+
+  if ($node->uid != $account->uid) {
+    return;
+  }
+
+  return NODE_ACCESS_ALLOW;
 }
