@@ -13,13 +13,15 @@ angular
     'ngAnimate',
     'ngCookies',
     'ngSanitize',
+
+    'angular-loading-bar',
     'config',
     'frapontillo.bootstrap-switch',
     'LocalStorageModule',
+    'pusher-angular',
     'ui.bootstrap',
     'ui.checkbox',
-    'ui.router',
-    'angular-loading-bar'
+    'ui.router'
   ])
   .config(function($stateProvider, $urlRouterProvider, $httpProvider, cfpLoadingBarProvider) {
 

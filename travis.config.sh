@@ -68,7 +68,19 @@ MYSQL_DB_NAME="drupal"
 ##
 
 # Post install script.
-# function post_install {}
+function post_install {
+  chmod 777 www/sites/default/settings.php
+
+  # Github integration.
+  echo "\$conf['shoov_github_client_id'] = '<your-client-id>';" >> www/sites/default/settings.php
+  echo "\$conf['shoov_github_client_secret'] = '<your-client-secret>';"  >> www/sites/default/settings.php
+  echo "\$conf['shoov_user_github_dummy'] = '<github-user-access-token>';"  >> www/sites/default/settings.php
+
+  # Pusher integration.
+  echo "\$conf['shoov_pusher_app_key'] = '<your-app-key>';"  >> www/sites/default/settings.php
+  echo "\$conf['shoov_pusher_app_secret'] = '<your-app-secret>';"  >> www/sites/default/settings.php
+  echo "\$conf['shoov_pusher_app_id'] = '<your-app-id>';"  >> www/sites/default/settings.php
+}
 
 # Post upgrade script.
 # function post_upgrade {}

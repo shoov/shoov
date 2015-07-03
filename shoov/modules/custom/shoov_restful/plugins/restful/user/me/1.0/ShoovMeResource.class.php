@@ -24,6 +24,15 @@ class ShoovMeResource extends \RestfulEntityBaseUser {
 
     unset($public_fields['self']);
 
+    $public_fields['repository'] = array(
+      'property' => 'og_user_node',
+      'resource' => array(
+        'repository' => array(
+          'name' => 'repositories',
+          'full_view' => FALSE,
+        ),
+      ),
+    );
 
     $public_fields['github_access_token'] = array(
       'property' => 'field_github_access_token',
