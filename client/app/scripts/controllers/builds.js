@@ -59,7 +59,4 @@ angular.module('clientApp')
         } ,2000);
       });
     });
-
-
-
   });
