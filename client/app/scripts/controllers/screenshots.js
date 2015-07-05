@@ -104,7 +104,7 @@ angular.module('clientApp')
       Github
         .createPullRequest(build[0].id, selectedScreenshots, $scope.prName)
         .then(function(data) {
-          $scope.prUrl = data.data[0].pull_request;
+          $scope.prUrl = data.data.data[0].pull_request;
           $scope.prProgress = false;
         });
     };
