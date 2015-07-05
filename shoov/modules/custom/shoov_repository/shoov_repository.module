@@ -50,5 +50,12 @@ function shoov_repository_node_insert($node) {
     return;
   }
 
-  shoov_pusher_trigger_user_event($node->uid, 'new_repo', array('id' => $node->nid));
+  $account = user_load($node->uid);
+  $handler = restful_get_restful_handler('repositories');
+  $handler->setAccount($account);
+  $result = $handler->get($node->nid);
+
+  $data = array($result[0]);
+
+  shoov_pusher_trigger_user_event($node->uid, 'new_repo', $data);
 }

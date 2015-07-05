@@ -26,8 +26,11 @@ function shoov_pusher_trigger_event($repo_id, $event_name, $data = array()) {
  * Trigger a Pusher event on user's channel.
  *
  * @param $uid
+ *  User id.
  * @param $event_name
+ *  Event name
  * @param array $data
+ *  Data to send on event.
  *
  * @throws \PusherException
  * @throws \RestfulServerConfigurationException

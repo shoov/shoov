@@ -41,8 +41,8 @@ angular.module('clientApp')
       // Listen for new repository was created event.
       channel.bind('new_repo', function(data) {
         // Add new chanel.
-        channelManager.addChannel(data.id);
-        var newChannel = channelManager.getChannel(data.id);
+        channelManager.addChannel(data[0].id);
+        var newChannel = channelManager.getChannel(data[0].id);
 
         $scope.addNewBuilds([newChannel]);
 
@@ -50,7 +50,7 @@ angular.module('clientApp')
         // fast - setting timeout to get new build.
         $timeout(function() {
           // Get new builds and add them to the list.
-          Builds.getByRepo(null, 'ui_build', data.id).then(function(val) {
+          Builds.getByRepo(null, 'ui_build', data[0].id).then(function(val) {
             angular.forEach(val, function(build) {
 
               $scope.builds.unshift(build);
