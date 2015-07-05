@@ -15,6 +15,17 @@ angular.module('clientApp')
     $scope.screenshots = screenshots;
     $scope.accessToken = Auth.getAccessToken();
 
+    $scope.filteredScreenshots = [];
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = 5;
+
+    $scope.$watch('currentPage + numPerPage', function() {
+      var begin = (($scope.currentPage - 1) * $scope.itemsPerPage);
+      var end = begin + $scope.itemsPerPage;
+
+      $scope.filteredScreenshots = $scope.screenshots.slice(begin, end);
+    });
+
     // @todo: Change repo name to be taken from build.
     $scope.repoName = screenshots[0].repository.label;
     $scope.gitBranch = build[0].git_branch;

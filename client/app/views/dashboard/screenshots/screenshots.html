@@ -44,7 +44,7 @@
 
 
     <ul class="screenshots">
-      <li ng-repeat="screenshot in screenshots" class="screenshot-item">
+      <li ng-repeat="screenshot in filteredScreenshots" class="screenshot-item">
 
         <div class="name">
           <checkbox large name="selectedScreenshots[]" ng-model="screenshot.selected"></checkbox> {{ screenshot.label }}
@@ -66,6 +66,15 @@
 
       </li>
     </ul>
+    <pagination
+      ng-model="currentPage"
+      total-items="screenshots.length"
+      max-size="maxSize"
+      rotate="false"
+      boundary-links="true"
+      items-per-page="itemsPerPage">
+    </pagination>
+
   </div>
 </div>
 
