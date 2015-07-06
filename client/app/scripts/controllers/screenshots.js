@@ -17,7 +17,7 @@ angular.module('clientApp')
 
     $scope.filteredScreenshots = [];
     $scope.currentPage = 1;
-    $scope.itemsPerPage = 5;
+    $scope.itemsPerPage = 50;
 
     $scope.$watch('currentPage + numPerPage', function() {
       var begin = (($scope.currentPage - 1) * $scope.itemsPerPage);
