@@ -66,6 +66,15 @@ angular.module('clientApp')
     };
 
     /**
+     * Select/deselect all screenshots
+     */
+    $scope.selectAll = function() {
+      angular.forEach($scope.screenshots, function(screenshot) {
+        screenshot.selected = !$scope.allSelected;
+      });
+    };
+
+    /**
      * Create a zip file.
      */
     $scope.zip = function() {
