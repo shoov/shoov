@@ -19,6 +19,8 @@ angular.module('clientApp')
     $scope.currentPage = 1;
     $scope.itemsPerPage = 50;
 
+    $scope.imageStyle = "self";
+
     $scope.$watch('currentPage + numPerPage', function() {
       var begin = (($scope.currentPage - 1) * $scope.itemsPerPage);
       var end = begin + $scope.itemsPerPage;

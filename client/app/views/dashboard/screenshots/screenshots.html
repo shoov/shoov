@@ -45,10 +45,11 @@
     <div class="row">
       <div class="col-md-4">
         <label for="image-style">Image style:</label>
-        <select id="image-style">
+        <select id="image-style" ng-model="imageStyle">
+          <option value="self">Original</option>
           <option value="large">Large</option>
           <option value="medium">Medium</option>
-          <option value="small">Small</option>
+          <option value="thumbnail">Small</option>
         </select>
       </div>
       <div class="col-md-4"></div>
@@ -70,9 +71,15 @@
 
         <div ng-style="{'height' : screenshot.maxHeight }">
 
-          <img class="diff-image" ng-show="showDiff" ng-src="{{ screenshot.diff.self }}?access_token={{ accessToken }}" />
+          <img class="diff-image" ng-show="showDiff" ng-src="{{imageStyle == 'self'?(screenshot.diff.self + '?access_token=' + accessToken):(screenshot.diff.styles[imageStyle] + '&access_token=' + accessToken)}}" />
 
-          <before-after-image-slider ng-hide="showDiff" baseline-img-src="{{ screenshot.baseline.self }}?access_token={{ accessToken }}" regression-img-src="{{ screenshot.regression.self }}?access_token={{ accessToken }}" max-width="{{ screenshot.maxWidth }}" max-height="{{ screenshot.maxHeight }}"></before-after-image-slider>
+
+          <before-after-image-slider ng-hide="showDiff"
+                                     baseline-img-src="{{ imageStyle == 'self'?(screenshot.baseline.self + '?access_token=' + accessToken):(screenshot.baseline.styles[imageStyle] + '&access_token=' + accessToken)}}"
+                                     regression-img-src="{{ imageStyle == 'self'?(screenshot.regression.self + '?access_token=' + accessToken):(screenshot.regression.styles[imageStyle] + '&access_token=' + accessToken)}}"
+                                     max-width="{{ screenshot.maxWidth }}"
+                                     max-height="{{ screenshot.maxHeight }}">
+          </before-after-image-slider>
         </div>
 
       </li>
