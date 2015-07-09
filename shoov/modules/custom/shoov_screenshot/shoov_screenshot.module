@@ -22,6 +22,13 @@ function shoov_screenshot_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['shoov/images/styles/%image_style'] = array(
+    'title' => 'Generate image style',
+    'page callback' => 'image_style_deliver',
+    'page arguments' => array(3),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
