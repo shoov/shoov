@@ -56,7 +56,12 @@
     </div>
 
     <ul class="screenshots">
-      <li ng-repeat="screenshot in filteredScreenshots" class="screenshot-item">
+
+      <li class="screenshot-item">
+        <checkbox large name="selectAll" ng-model="allSelected" ng-click="selectAll()"></checkbox> Select all
+      </li>
+
+      <li ng-repeat="screenshot in screenshots" class="screenshot-item">
 
         <div class="name">
           <checkbox large name="selectedScreenshots[]" ng-model="screenshot.selected"></checkbox> {{ screenshot.label }}
