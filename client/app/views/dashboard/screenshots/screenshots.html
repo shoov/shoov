@@ -46,7 +46,7 @@
       <div class="col-md-4">
         <label for="image-style">Image size:</label>
         <select id="image-style" ng-model="imageStyle">
-          <option ng-repeat="(value, style) in imageStyles track by $index" value="{{value}}" ng-selected="{{value == imageStyle}}">{{style}}</option>
+          <option ng-repeat="(value, style) in imageStyles" value="{{value}}" ng-selected="{{value == imageStyle}}">{{style}}</option>
         </select>
       </div>
       <div class="col-md-4"></div>
