@@ -19,7 +19,14 @@ angular.module('clientApp')
     $scope.currentPage = 1;
     $scope.itemsPerPage = 50;
 
-    $scope.imageStyle = "self";
+
+    $scope.imageStyles = {'self': 'Original'};
+
+    // Image styles for select list.
+    angular.forEach(screenshots[0].regression.styles, function(style, key) {
+      $scope.imageStyles[key] = style.label;
+    });
+    $scope.imageStyle = 'self';
 
     $scope.$watch('currentPage + numPerPage', function() {
       var begin = (($scope.currentPage - 1) * $scope.itemsPerPage);
@@ -39,9 +46,20 @@ angular.module('clientApp')
 
     angular.forEach($scope.screenshots, function(value, key) {
       $scope.screenshots[key].selected = false;
-      // Find the highest image.
-      $scope.screenshots[key].maxHeight = value.regression.height > value.baseline.height ? value.regression.height : value.baseline.height;
-      $scope.screenshots[key].maxWidth = value.regression.width > value.baseline.width ? value.regression.width : value.baseline.width;
+
+      // Set max values for image width and height for original images size.
+      $scope.screenshots[key].maxHeight = {'self' : value.regression.height > value.baseline.height ? parseInt(value.regression.height) : parseInt(value.baseline.height)};
+      $scope.screenshots[key].maxWidth = {'self': value.regression.width > value.baseline.width ? parseInt(value.regression.width) : parseInt(value.baseline.width)};
+      // Set max values for image width and height for different image styles.
+      angular.forEach($scope.imageStyles, function(style, styleKey){
+        if (styleKey == 'self') {
+          return;
+        }
+        else {
+          $scope.screenshots[key].maxWidth[styleKey] = parseInt(value.regression['styles'][styleKey].width);
+          $scope.screenshots[key].maxHeight[styleKey] = $scope.screenshots[key].maxWidth[styleKey] * $scope.screenshots[key].maxHeight['self'] / $scope.screenshots[key].maxWidth['self'];
+        }
+      });
     });
 
     // Selected screenshots.
