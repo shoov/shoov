@@ -59,6 +59,8 @@ class ShoovScreenshotsUploadResource extends RestfulFilesUpload {
 
     $wrapper->field_baseline_name->set($request['baseline_name']);
 
+    $wrapper->field_screenshot_tags->set($request['tags']);
+
     $wrapper->field_build->set($build_node);
 
     // Set the repo node.
