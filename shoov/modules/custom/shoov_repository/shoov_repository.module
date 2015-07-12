@@ -17,29 +17,13 @@ function shoov_repository_node_presave($node) {
     return;
   }
 
+  // Check that vocabulary for screenshot tags exists otherwise create it.
+  shoov_repository_check_screenshots_tags_vocabulary($node);
+
   $wrapper = entity_metadata_wrapper('node', $node);
   if ($wrapper->field_github_id->value()) {
     // GitHub Id already populated.
     return;
-  }
-
-  // Check that the vocabulary "screenshots_tags" exist for this repository.
-  $vocabularies = og_vocab_relation_get_by_group('node', $node->id);
-  $vocabulary_exist = false;
-  foreach ($vocabularies as $vocabulary) {
-    if (taxonomy_vocabulary_load($vocabulary->vid)->name == 'screenshots_tags') {
-      $vocabulary_exist = true;
-      break;
-    }
-  }
-
-  if (!$vocabulary_exist) {
-    // Creating the new vocabulary.
-    $vocabulary = new stdClass();
-    $vocabulary->name = "screenshots_tags";
-    $vocabulary->machine_name = "screenshots_tags_" . $node->id;
-    taxonomy_vocabulary_save($vocabulary);
-    og_vocab_relation_save($vocabulary->vid, 'node', $node->id);
   }
 
   list($owner, $repo) = explode('/', $node->title);
@@ -56,7 +40,38 @@ function shoov_repository_node_presave($node) {
   $data = shoov_github_http_request("repos/$owner/$repo", $options);
 
   // @todo: Throw exception on error?
+  // or try again or set state invalid to this repo.
   if (!empty($data['id'])) {
     $wrapper->field_github_id->set($data['id']);
   }
+}
+
+/**
+ * Check that vocabulary with name "screenshots_tags" exist for this repository
+ * otherwise create one and assign with repository.
+ *
+ * @param $node
+ *    Repository object.
+ */
+function shoov_repository_check_screenshots_tags_vocabulary($node) {
+  // Check that the vocabulary "screenshots_tags" exist for this repository.
+  $vocabularies = og_vocab_relation_get_by_group('node', $node->nid);
+  $vocabulary_exist = false;
+  foreach ($vocabularies as $vocabulary) {
+    if (taxonomy_vocabulary_load($vocabulary->vid)->name == 'screenshots_tags') {
+      $vocabulary_exist = true;
+      break;
+    }
+  }
+
+  if ($vocabulary_exist) {
+    return;
+  }
+
+  // Creating the new vocabulary.
+  $vocabulary = new stdClass();
+  $vocabulary->name = "screenshots_tags";
+  $vocabulary->machine_name = "screenshots_tags_" . $node->nid;
+  taxonomy_vocabulary_save($vocabulary);
+  og_vocab_relation_save($vocabulary->vid, 'node', $node->nid);
 }
