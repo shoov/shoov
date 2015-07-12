@@ -23,6 +23,25 @@ function shoov_repository_node_presave($node) {
     return;
   }
 
+  // Check that the vocabulary "screenshots_tags" exist for this repository.
+  $vocabularies = og_vocab_relation_get_by_group('node', $node->id);
+  $vocabulary_exist = false;
+  foreach ($vocabularies as $vocabulary) {
+    if (taxonomy_vocabulary_load($vocabulary->vid)->name == 'screenshots_tags') {
+      $vocabulary_exist = true;
+      break;
+    }
+  }
+
+  if (!$vocabulary_exist) {
+    // Creating the new vocabulary.
+    $vocabulary = new stdClass();
+    $vocabulary->name = "screenshots_tags";
+    $vocabulary->machine_name = "screenshots_tags_" . $node->id;
+    taxonomy_vocabulary_save($vocabulary);
+    og_vocab_relation_save($vocabulary->vid, 'node', $node->id);
+  }
+
   list($owner, $repo) = explode('/', $node->title);
 
   $user_wrapper = entity_metadata_wrapper('user', $node->uid);
