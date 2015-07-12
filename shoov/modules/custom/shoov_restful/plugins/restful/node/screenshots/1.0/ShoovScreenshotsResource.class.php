@@ -21,7 +21,7 @@ class ShoovScreenshotsResource extends \ShoovEntityBaseNode {
     $public_fields['baseline'] = array(
       'property' => 'field_baseline_image',
       // This will add 3 image variants in the output.
-      'image_styles' => array('thumbnail', 'medium', 'large'),
+      'image_styles' => array('screenshot_medium', 'screenshot_small'),
       'process_callbacks' => array(
         array($this, 'imageProcess'),
       ),
@@ -30,7 +30,7 @@ class ShoovScreenshotsResource extends \ShoovEntityBaseNode {
     $public_fields['regression'] = array(
       'property' => 'field_regression_image',
       // This will add 3 image variants in the output.
-      'image_styles' => array('thumbnail', 'medium', 'large'),
+      'image_styles' => array('screenshot_medium', 'screenshot_small'),
       'process_callbacks' => array(
         array($this, 'imageProcess'),
       ),
@@ -39,7 +39,7 @@ class ShoovScreenshotsResource extends \ShoovEntityBaseNode {
     $public_fields['diff'] = array(
       'property' => 'field_diff_image',
       // This will add 3 image variants in the output.
-      'image_styles' => array('thumbnail', 'medium', 'large'),
+      'image_styles' => array('screenshot_medium', 'screenshot_small'),
       'process_callbacks' => array(
         array($this, 'imageProcess'),
       ),
