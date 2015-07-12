@@ -18,29 +18,7 @@ angular.module('clientApp')
 
 
     /**
-     * Return the promise with the events list, from cache or the server.
-     *
-     * @param int id
-     *   The UI build or CI build item ID.
-     * @param string type
-     *   The type of the ID Allowed values are "ci_build" and "ui_build".
-     *   Defaults to "ui_build".
-     *
-     * @returns {*}
-     */
-    this.get = function(id, type) {
-      type = type || 'ui_build';
-      var identifier = id + ':' + type;
-
-      if (cache && cache[identifier]) {
-        return $q.when(cache[identifier].data);
-      }
-
-      return getDataFromBackend(id, type);
-    };
-
-    /**
-     * Return the promise with the events list, from cache or the server.
+     * Return builds array, from cache or the server.
      *
      * @param int id
      *   The UI build or CI build item ID.
@@ -48,11 +26,11 @@ angular.module('clientApp')
      *   The type of the ID Allowed values are "ci_build" and "ui_build".
      *   Defaults to "ui_build".
      * @param int repoId
-     *   The repository ID.
+     *   (optional) The repository ID.
      *
      * @returns {*}
      */
-    this.getByRepo = function(id, type, repoId) {
+    this.get = function(id, type, repoId) {
       type = type || 'ui_build';
       var identifier = id + ':' + type;
 
@@ -138,6 +116,8 @@ angular.module('clientApp')
      * @param string type
      *   The type of the ID Allowed values are "ci_build" and "ui_build".
      *   Defaults to "ui_build".
+     * @param int repoId
+     *   (optional) The repository ID.
      *
      * @returns {$q.promise}
      */

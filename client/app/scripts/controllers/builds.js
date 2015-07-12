@@ -46,11 +46,11 @@ angular.module('clientApp')
 
         $scope.addNewBuilds([newChannel]);
 
-        // Get new builds. Cause after creating new repo build are created too
-        // fast - setting timeout to get new build.
+        // Get new builds. Because after creating a new repository build are
+        // created too fast - setting timeout to get new build.
         $timeout(function() {
           // Get new builds and add them to the list.
-          Builds.getByRepo(null, 'ui_build', data[0].id).then(function(val) {
+          Builds.get(null, 'ui_build', data[0].id).then(function(val) {
             angular.forEach(val, function(build) {
 
               $scope.builds.unshift(build);

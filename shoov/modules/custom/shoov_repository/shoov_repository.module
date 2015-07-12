@@ -44,6 +44,9 @@ function shoov_repository_node_presave($node) {
 
 /**
  * Implements hook_node_insert().
+ *
+ * Trigger event when new repository is created. Send new repository's data to
+ * the client.
  */
 function shoov_repository_node_insert($node) {
   if ($node->type != 'repository') {
