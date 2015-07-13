@@ -18,17 +18,19 @@ angular.module('clientApp')
 
 
     /**
-     * Return the promise with the events list, from cache or the server.
+     * Return builds array, from cache or the server.
      *
      * @param int id
-     *   The repository or CI build item ID.
+     *   The UI build or CI build item ID.
      * @param string type
      *   The type of the ID Allowed values are "ci_build" and "ui_build".
      *   Defaults to "ui_build".
+     * @param int repoId
+     *   (optional) The repository ID.
      *
      * @returns {*}
      */
-    this.get = function(id, type) {
+    this.get = function(id, type, repoId) {
       type = type || 'ui_build';
       var identifier = id + ':' + type;
 
@@ -36,7 +38,7 @@ angular.module('clientApp')
         return $q.when(cache[identifier].data);
       }
 
-      return getDataFromBackend(id, type);
+      return getDataFromBackend(id, type, repoId);
     };
 
     /**
@@ -110,14 +112,16 @@ angular.module('clientApp')
      * Return builds array from the server.
      *
      * @param int id
-     *   The repository or CI build item ID.
+     *   The UI build or CI build item ID.
      * @param string type
      *   The type of the ID Allowed values are "ci_build" and "ui_build".
      *   Defaults to "ui_build".
+     * @param int repoId
+     *   (optional) The repository ID.
      *
      * @returns {$q.promise}
      */
-    function getDataFromBackend(id, type) {
+    function getDataFromBackend(id, type, repoId) {
       var deferred = $q.defer();
       var resource = type == 'ui_build' ? 'builds' : 'ci-builds';
 
@@ -130,6 +134,9 @@ angular.module('clientApp')
       var params = {};
       if (type == 'ui_build') {
         params.sort = '-id';
+        if (repoId) {
+          params['filter'] = {'repository' : repoId};
+        }
       }
 
       $http({
@@ -138,6 +145,7 @@ angular.module('clientApp')
         params: params
       }).success(function(response) {
         var identifier = id + ':' + type;
+        identifier = repoId ? identifier + ':' + repoId : identifier;
         setCache(identifier, response.data);
         deferred.resolve(response.data);
       });

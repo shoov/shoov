@@ -85,7 +85,6 @@ function shoov_ui_build_node_insert($node) {
   $wrapper = entity_metadata_wrapper('node', $node);
   $repo_id = $wrapper->og_repo->value(array('identifier' => TRUE));
 
-  // todo: Discover how to check actual user's access, not admin.
   $account = user_load($node->uid);
   $handler = restful_get_restful_handler('builds');
   $handler->setAccount($account);
