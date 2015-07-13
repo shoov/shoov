@@ -46,7 +46,7 @@ function shoov_repository_node_presave($node) {
 /**
  * Implements hook_node_insert().
  *
- * Check that vocabulary with name "screenshots_tags" exist for this repository
+ * Check that vocabulary with name "Screenshots tags" exist for this repository
  * otherwise create one and assign with repository.
  *
  * @param $node
@@ -58,7 +58,7 @@ function shoov_repository_node_insert($node) {
     return;
   }
 
-  if (shoov_repository_vocabulary_exist('screenshots_tags', $node)) {
+  if (shoov_repository_vocabulary_exist('Screenshots tags', $node)) {
     // Vocabulary for screenshots tags already exist.
     return;
   }
@@ -108,7 +108,7 @@ function shoov_repository_vocabulary_exist($vocabulary, $repository) {
 function shoov_repository_create_screenshot_tags_vocabulary($node) {
   // Creating the new vocabulary.
   $vocabulary = new stdClass();
-  $vocabulary->name = "screenshots_tags";
+  $vocabulary->name = "Screenshots tags";
   $vocabulary->machine_name = "screenshots_tags_" . $node->nid;
   $vocabulary->description = "The vocabulary contains tags for screenshots.";
   taxonomy_vocabulary_save($vocabulary);

@@ -94,7 +94,7 @@ class ShoovScreenshotsMigrate extends \ShoovMigrateNode {
     $wrapper = entity_metadata_wrapper('node', $node);
 
     // Check the vocabulary 'screenshots_tags' exist for this repository.
-    if (!$vocabulary_id = shoov_repository_vocabulary_exist('screenshots_tags', $wrapper->og_repo->value())) {
+    if (!$vocabulary_id = shoov_repository_vocabulary_exist('Screenshots tags', $wrapper->og_repo->value())) {
       $vocabulary_id = shoov_repository_create_screenshot_tags_vocabulary($node);
     }
 
