@@ -19,7 +19,7 @@ function shoov_repository_node_presave($node) {
 
   $wrapper = entity_metadata_wrapper('node', $node);
   if ($wrapper->field_github_id->value()) {
-    shoov_repository_check_github_id_unique($wrapper->field_github_id->value(), $node->nid);
+    shoov_repository_check_github_id_unique($wrapper->field_github_id->value(), isset($node->nid) ? $node->nid : FALSE);
     // GitHub Id already populated.
     return;
   }
@@ -49,8 +49,8 @@ function shoov_repository_node_presave($node) {
  *
  * @param int $github_id
  *  Repository GitHub id.
- * @param int|null $nid
- *  Repository node id or null (for new repo).
+ * @param int|bool $nid
+ *  Repository node id or FALSE (for new repo).
  *
  * @throws Exception
  *  Throw exception is this GitHub id is already used.
