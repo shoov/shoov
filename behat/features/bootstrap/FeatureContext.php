@@ -164,9 +164,10 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     try {
       $wrapper->save();
       return TRUE;
-    } catch (\Exception $ex) {
+    }
+    catch (\Exception $e) {
       if (!$check_saving) {
-        throw new \Exception(format_string("@type with title \"@title \"can't be created.", array('@type' => $type, '@title' => $title)));
+        throw $e;
       }
       return FALSE;
     }
@@ -185,7 +186,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   public function iShouldNotBeAbleToCreateRepositoryWithGithubId($github_id) {
     $saved = $this->iCreateNodeOfType('Test repository ' . $github_id, 'repository', NULL, $github_id, TRUE);
     if ($saved) {
-      throw new \Exception(format_string("Group with used GitHub ID @githubid was created!", array('@githubid' => $github_id)));
+      throw new \Exception(format_string("GitHub ID @githubid was duplicated.", array('@githubid' => $github_id)));
     }
   }
 

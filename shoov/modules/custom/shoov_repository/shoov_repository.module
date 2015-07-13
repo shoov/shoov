@@ -74,7 +74,7 @@ function shoov_repository_check_github_id_unique($github_id, $node) {
     return;
   }
 
-  throw new Exception(format_string('Error saving node: Repository with GitHub ID @githubid already exists.', array('@githubid' => $github_id)));
+  throw new Exception(format_string('GitHub ID @githubid was duplicated.', array('@githubid' => $github_id)));
 }
 
 /**
