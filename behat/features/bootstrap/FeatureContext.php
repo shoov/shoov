@@ -141,7 +141,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     $wrapper = entity_metadata_wrapper('node', $entity);
     $wrapper->title->set($title);
     if ($type == 'repository') {
-      $github_id = $github_id ? $github_id : rand(0, 1000000);
+      $github_id = $github_id ? $github_id : rand(99999, 1000000);
       $wrapper->field_github_id->set($github_id);
     }
     elseif ($type == 'ci_build') {
