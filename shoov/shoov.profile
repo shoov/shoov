@@ -79,6 +79,23 @@ function shoov_setup_variables() {
  * created.
  */
 function shoov_setup_og_permissions() {
+  $group_content_bundles = og_get_all_group_content_bundle();
+  if (empty($group_content_bundles['node'])) {
+    return;
+  }
+  $permissions = array();
+  foreach ($group_content_bundles['node'] as $bundle) {
+    $permissions = array_merge($permissions, array(
+      "create $bundle content",
+      "update own $bundle content",
+      "delete own $bundle content",
+    ));
+  }
+  $roles = og_roles('node', 'group');
+  $auth_rid = array_search(OG_AUTHENTICATED_ROLE, $roles);
+  $admin_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
+  og_role_grant_permissions($auth_rid, $permissions);
+  og_role_grant_permissions($admin_rid, $permissions);
 }
 
 /**
