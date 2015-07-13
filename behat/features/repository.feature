@@ -56,7 +56,7 @@ Feature: Repository
     Given I login with user "emma"
     Then   I should not be able to add content to "drupal/drupal" repository
 
-  @api @wip
+  @api
   Scenario: Check user can't create more than 1 repository with one github id.
     Given I login with user "emma"
     Then  I should not be able to create repository with github id "123456"
