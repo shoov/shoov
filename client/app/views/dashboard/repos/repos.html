@@ -20,7 +20,13 @@
   <ul class="repos portlet">
     <li ng-repeat="repo in repos" class="repo-item">
 
-      <input type="checkbox" ng-checked="repo.build.enabled" ng-click="toggleRepo(repo)" ng-disabled="repo._inProgress"/>
+      <div class="repos-checkbox">
+        <div class="checker">
+          <span ng-class="{'checked': repo.build.enabled}">
+            <input type="checkbox" ng-checked="repo.build.enabled" ng-click="toggleRepo(repo)" ng-disabled="repo._inProgress"/>
+          </span>
+        </div>
+      </div>
 
       <span ng-hide="repo.build" class="name">{{ repo.label }}</span>
 

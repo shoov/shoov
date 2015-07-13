@@ -246,6 +246,9 @@ angular
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 
+    // Get year for the footer.
+    $rootScope.year = new Date().getFullYear();
+
     if (!!Config.debugUiRouter) {
       $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){
         $log.log('$stateChangeStart to ' + toState.to + '- fired when the transition begins. toState,toParams : \n', toState, toParams);
