@@ -1,4 +1,20 @@
 <div class="row">
+  <div class="col-md-12">
+    <div class="page-bar">
+      <ul class="page-breadcrumb">
+        <li>
+          <i class="fa fa-home"></i>
+          <a ui-sref="dashboard.homepage">Dashboard</a>
+          <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+          My account
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="row">
   <div class="col-md-offset-3 col-md-5">
     <div>
       Name: {{ account.label }}
@@ -8,7 +24,7 @@
       Mail: {{ account.mail }}
     </div>
 
-    <div class="jumbotron">
+    <div class="portlet">
       Create or update your <code>~/.shoov.json</code> file by copy pasting the following code into your terminal:
 
       <div class="config">
