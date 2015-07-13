@@ -18,7 +18,7 @@ Feature: Repository
   @api
   Scenario: Check authenticated user can create a repository
     Given I login with user "emma"
-    When  I create "Test repository" node of type "repository"
+    When  I create repository "Test repository" with github id "555555"
     And   I visit "Test repository" node of type "repository"
     Then  I should have access to the page
 
@@ -59,4 +59,5 @@ Feature: Repository
   @api
   Scenario: Check user can't create more than 1 repository with one github id.
     Given I login with user "emma"
-    Then  I should not be able to create repository with github id "123456"
+    When  I create repository "Test repository" with github id "666666"
+    Then  I should not be able to create repository with github id "666666"

@@ -146,7 +146,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     elseif ($type == 'ci_build') {
       if (!$repository) {
         $params = array('@title' => $title);
-        throw new \Exception(format_string('Failed to create a new CI build @title because repository is undefined.', $params));
+        throw new \Exception(format_string('Failed to create a new CI build "@title" because repository is undefined.', $params));
       }
 
       $query = new EntityFieldQuery();
@@ -165,10 +165,17 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       return TRUE;
     } catch (\Exception $ex) {
       if (!$check_saving) {
-        throw new \Exception(format_string("@type with @title can't be created.", array('@type' => $type, '@title' => $title)));
+        throw new \Exception(format_string("@type with title \"@title \"can't be created.", array('@type' => $type, '@title' => $title)));
       }
       return FALSE;
     }
+  }
+
+  /**
+   * @When I create repository :title with github id :id
+   */
+  public function iCreateNodeRepositoryWithGithubId($title, $github_id) {
+    $this->iCreateNodeOfType($title, 'repository', NULL, $github_id);
   }
 
   /**
@@ -255,11 +262,11 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * @When I create repository and CI build :title
+   * @When I create repository and CI build :title with github id :id
    */
-  public function iCreateRepositoryAndCiBuild($title) {
+  public function iCreateRepositoryAndCiBuild($title, $github_id) {
     // Create a new repository.
-    $this->iCreateNodeOfType($title, 'repository');
+    $this->iCreateNodeOfType($title, 'repository', NULL, $github_id);
     // Create a new CI build.
     $this->iCreateNodeOfType($title, 'ci_build', $title);
   }
