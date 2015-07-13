@@ -41,3 +41,24 @@ function shoov_repository_node_presave($node) {
     $wrapper->field_github_id->set($data['id']);
   }
 }
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Trigger event when new repository is created. Send new repository's data to
+ * the client.
+ */
+function shoov_repository_node_insert($node) {
+  if ($node->type != 'repository') {
+    return;
+  }
+
+  $account = user_load($node->uid);
+  $handler = restful_get_restful_handler('repositories');
+  $handler->setAccount($account);
+  $result = $handler->get($node->nid);
+
+  $data = array($result[0]);
+
+  shoov_pusher_trigger_user_event($node->uid, 'new_repo', $data);
+}

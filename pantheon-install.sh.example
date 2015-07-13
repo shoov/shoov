@@ -12,6 +12,9 @@ PANTHEON_DIR=/var/www/pantheon-shoov
 rm -rf $PANTHEON_DIR/profiles/$PROFILE
 cp -R $MAKE_DIR/$PROFILE $PANTHEON_DIR/profiles/$PROFILE
 
+rm -rf $PANTHEON_DIR/sites/all
+cp -R $MAKE_DIR/www/sites/all $PANTHEON_DIR/sites/all
+
 cd $PANTHEON_DIR
 git pull
 git add --all
