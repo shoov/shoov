@@ -53,6 +53,11 @@ function shoov_repository_node_presave($node) {
  *    Repository object.
  */
 function shoov_repository_node_insert($node) {
+  if ($node->type != 'repository') {
+    // Not a repository node.
+    return;
+  }
+
   if (shoov_repository_vocabulary_exist('screenshots_tags', $node)) {
     // Vocabulary for screenshots tags already exist.
     return;
