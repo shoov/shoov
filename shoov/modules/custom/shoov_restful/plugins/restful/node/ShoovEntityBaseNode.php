@@ -60,7 +60,8 @@ abstract class ShoovEntityBaseNode extends \RestfulEntityBaseNode {
       $styles[$style] = array();
       $styles[$style]['url'] = $url;
       $styles[$style]['label'] = $defaultStyles[$style]['label'];
-      $styles[$style]['width'] = (string)reset($defaultStyles[$style]['effects'])['data']['width'];
+      $effect = reset($defaultStyles[$style]['effects']);
+      $styles[$style]['width'] = strval($effect['data']['width']);
     }
     return array(
       'id' => $value['fid'],
