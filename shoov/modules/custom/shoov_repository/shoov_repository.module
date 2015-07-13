@@ -67,9 +67,6 @@ function shoov_repository_check_github_id_unique($github_id, $nid = NULL) {
     ->fieldCondition('field_github_id', 'value', $github_id)
     ->execute();
 
-  print_r('nid=' . $nid . ' github=' . $github_id);
-  print_r($result);
-
   if (empty($result['node'])) {
     return;
   }

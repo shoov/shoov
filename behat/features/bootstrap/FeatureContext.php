@@ -131,7 +131,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   /**
    * @When I create :title node of type :type
    */
-  public function iCreateNodeOfType($title, $type, $repository = NULL, $github_id = 123456) {
+  public function iCreateNodeOfType($title, $type, $repository = NULL, $github_id = 123456, $check_saving = FALSE) {
     $account = user_load_by_name($this->user->name);
     $values = array(
       'type' => $type,
@@ -159,14 +159,26 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       $repository_id = key($result['node']);
       $wrapper->og_repo->set($repository_id);
     }
-    $wrapper->save();
+
+    try {
+      $wrapper->save();
+      return TRUE;
+    } catch (\Exception $ex) {
+      if (!$check_saving) {
+        throw new \Exception(format_string("@type with @title can't be created.", array('@type' => $type, '@title' => $title)));
+      }
+      return FALSE;
+    }
   }
 
   /**
    * @Then I should not be able to create repository with github id :github_id
    */
   public function iShouldNotBeAbleToCreateRepositoryWithGithubId($github_id) {
-    $this->iCreateNodeOfType('Test repository ' . $github_id, 'repository', NULL, $github_id);
+    $saved = $this->iCreateNodeOfType('Test repository ' . $github_id, 'repository', NULL, $github_id, TRUE);
+    if ($saved) {
+      throw new \Exception(format_string("Group with used GitHub ID @githubid was created!", array('@githubid' => $github_id)));
+    }
   }
 
 
