@@ -44,6 +44,8 @@ function shoov_repository_node_presave($node) {
 }
 
 /**
+ * Implements hook_node_insert().
+ *
  * Check that vocabulary with name "screenshots_tags" exist for this repository
  * otherwise create one and assign with repository.
  *
@@ -69,6 +71,7 @@ function shoov_repository_node_insert($node) {
   $vocabulary = new stdClass();
   $vocabulary->name = "screenshots_tags";
   $vocabulary->machine_name = "screenshots_tags_" . $node->nid;
+  $vocabulary->description = "The vocabulary contains tags for screenshots.";
   taxonomy_vocabulary_save($vocabulary);
   og_vocab_relation_save($vocabulary->vid, 'node', $node->nid);
 }
