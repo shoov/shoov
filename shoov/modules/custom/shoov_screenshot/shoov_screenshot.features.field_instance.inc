@@ -300,11 +300,50 @@ function shoov_screenshot_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-screenshot-og_vocabulary'
+  $field_instances['node-screenshot-og_vocabulary'] = array(
+    'bundle' => 'screenshot',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'og_vocab',
+        'settings' => array(
+          'concatenate' => FALSE,
+        ),
+        'type' => 'og_vocab',
+        'weight' => 13,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'og_vocabulary',
+    'label' => 'OG vocabulary',
+    'required' => FALSE,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'og_vocab',
+      'settings' => array(),
+      'type' => 'og_vocab_complex',
+      'weight' => 12,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Baseline Image');
   t('Baseline name');
   t('Diff Image');
+  t('OG vocabulary');
   t('Regression Image');
   t('Repository');
   t('ui_build');
