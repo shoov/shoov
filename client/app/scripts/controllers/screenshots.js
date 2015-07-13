@@ -21,6 +21,8 @@ angular.module('clientApp')
 
 
     $scope.imageStyles = {'self': 'Original'};
+    // We use "self" key because link to the original image is under"self" key
+    // in the screenshot object.
     $scope.imageStyle = 'self';
 
     if (screenshots.length) {
@@ -31,7 +33,7 @@ angular.module('clientApp')
     }
 
 
-    $scope.$watch('currentPage + numPerPage', function() {
+    $scope.$watch('currentPage', function() {
       var begin = (($scope.currentPage - 1) * $scope.itemsPerPage);
       var end = begin + $scope.itemsPerPage;
 
