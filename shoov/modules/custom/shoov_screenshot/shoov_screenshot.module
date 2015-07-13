@@ -82,3 +82,38 @@ function shoov_screenshot_stream_wrappers() {
   return $wrappers;
 }
 
+/**
+ * Function checks if tag already exist or creates new tag.
+ * And it adds this tag to vocabulary.
+ *
+ * @param $tag
+ *    The name of tag
+ * @param $vocabulary
+ *    The id of vocabulary
+ *
+ * @return int
+ *    The tid of tag
+ */
+function shoov_screenshot_add_tag_to_vocabulary($tag, $vocabulary) {
+  $query  = new EntityFieldQuery();
+
+  $results = $query
+    ->entityCondition('entity_type', 'taxonomy_term')
+    ->propertyCondition('name', $tag)
+    ->propertyCondition('vid', $vocabulary)
+    ->execute();
+
+  if (empty($results['taxonomy_term'])) {
+    $term = new stdClass();
+    $term->name = $tag;
+    $term->vid = $vocabulary;
+    taxonomy_term_save($term);
+    $tid = $term->tid;
+  }
+  else {
+    $keys = array_keys($results['taxonomy_term']);
+    $tid = reset($keys);
+  }
+
+  return $tid;
+}

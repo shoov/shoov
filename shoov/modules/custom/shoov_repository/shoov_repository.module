@@ -53,20 +53,54 @@ function shoov_repository_node_presave($node) {
  *    Repository object.
  */
 function shoov_repository_node_insert($node) {
-  // Check that the vocabulary "screenshots_tags" exist for this repository.
-  $vocabularies = og_vocab_relation_get_by_group('node', $node->nid);
-  $vocabulary_exist = false;
-  foreach ($vocabularies as $vocabulary) {
-    if (taxonomy_vocabulary_load($vocabulary->vid)->name == 'screenshots_tags') {
-      $vocabulary_exist = true;
-      break;
-    }
-  }
-
-  if ($vocabulary_exist) {
+  if (shoov_repository_vocabulary_exist('screenshots_tags', $node)) {
+    // Vocabulary for screenshots tags already exist.
     return;
   }
 
+  shoov_repository_create_screenshot_tags_vocabulary($node);
+}
+
+/**
+ * Determine the vocabulary exist in repository.
+ *
+ * @param $vocabulary
+ *    The name of a vocabulary.
+ * @param $node
+ *    The repository object or the id of repository.
+ *
+ * @return int|false
+ *    The vid of vocabulary or false if vocabulary doesn't exist.
+ */
+function shoov_repository_vocabulary_exist($vocabulary, $repository) {
+  if ($repository_id = is_int($repository)) {
+    $repository = node_load($repository_id);
+    if (!$repository) {
+      throw Exception("The repository ID {$repository_id} doesn't exists");
+    }
+  }
+
+  // Check that the vocabulary exist for this repository.
+  $vocabularies = og_vocab_relation_get_by_group('node', $repository->nid);
+  foreach ($vocabularies as $voc) {
+    if (taxonomy_vocabulary_load($voc->vid)->name == $vocabulary) {
+      return $voc->vid;
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Create vocabulary for screenshot tags in repository.
+ *
+ * @param $node
+ *    The repository id.
+ *
+ * @return int
+ *    The id of newly created vocabulary.
+ */
+function shoov_repository_create_screenshot_tags_vocabulary($node) {
   // Creating the new vocabulary.
   $vocabulary = new stdClass();
   $vocabulary->name = "screenshots_tags";
@@ -74,4 +108,6 @@ function shoov_repository_node_insert($node) {
   $vocabulary->description = "The vocabulary contains tags for screenshots.";
   taxonomy_vocabulary_save($vocabulary);
   og_vocab_relation_save($vocabulary->vid, 'node', $node->nid);
+
+  return $vocabulary->vid;
 }
