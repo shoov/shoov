@@ -17,9 +17,6 @@ function shoov_repository_node_presave($node) {
     return;
   }
 
-  // Check that vocabulary for screenshot tags exists otherwise create it.
-  shoov_repository_check_screenshots_tags_vocabulary($node);
-
   $wrapper = entity_metadata_wrapper('node', $node);
   if ($wrapper->field_github_id->value()) {
     // GitHub Id already populated.
@@ -53,7 +50,7 @@ function shoov_repository_node_presave($node) {
  * @param $node
  *    Repository object.
  */
-function shoov_repository_check_screenshots_tags_vocabulary($node) {
+function shoov_repository_node_insert($node) {
   // Check that the vocabulary "screenshots_tags" exist for this repository.
   $vocabularies = og_vocab_relation_get_by_group('node', $node->nid);
   $vocabulary_exist = false;
