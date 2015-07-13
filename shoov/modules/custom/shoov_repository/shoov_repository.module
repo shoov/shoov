@@ -49,13 +49,13 @@ function shoov_repository_node_presave($node) {
  *
  * @param int $github_id
  *  Repository GitHub id.
- * @param int|bool $nid
- *  Repository node id or FALSE (for new repo).
+ * @param int|NULL $nid
+ *  Optional; Repository node ID for an existing node to exclude.
  *
  * @throws Exception
  *  Throw exception is this GitHub id is already used.
  */
-function shoov_repository_check_github_id_unique($github_id, $nid) {
+function shoov_repository_check_github_id_unique($github_id, $nid = NULL) {
   $query = new EntityFieldQuery();
   $query
     ->entityCondition('entity_type', 'node')
@@ -67,10 +67,15 @@ function shoov_repository_check_github_id_unique($github_id, $nid) {
     ->fieldCondition('field_github_id', 'value', $github_id)
     ->execute();
 
+  print_r('nid=' . $nid . ' github=' . $github_id);
+  print_r($result);
+
   if (empty($result['node'])) {
     return;
   }
 
-  throw new Exception('Error saving node: Repository with id "' . $github_id . '" already exists.');
+
+
+  throw new Exception(format_string('Error saving node: Repository with GitHub ID @githubid already exists.', array('@githubid' => $github_id)));
 }
 

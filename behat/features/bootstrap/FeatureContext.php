@@ -131,7 +131,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   /**
    * @When I create :title node of type :type
    */
-  public function iCreateNodeOfType($title, $type, $repository = NULL) {
+  public function iCreateNodeOfType($title, $type, $repository = NULL, $github_id = 123456) {
     $account = user_load_by_name($this->user->name);
     $values = array(
       'type' => $type,
@@ -141,7 +141,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     $wrapper = entity_metadata_wrapper('node', $entity);
     $wrapper->title->set($title);
     if ($type == 'repository') {
-      $wrapper->field_github_id->set(123456);
+      $wrapper->field_github_id->set($github_id);
     }
     elseif ($type == 'ci_build') {
       if (!$repository) {
@@ -161,6 +161,14 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     }
     $wrapper->save();
   }
+
+  /**
+   * @Then I should not be able to create repository with github id :github_id
+   */
+  public function iShouldNotBeAbleToCreateRepositoryWithGithubId($github_id) {
+    $this->iCreateNodeOfType('Test repository ' . $github_id, 'repository', NULL, $github_id);
+  }
+
 
   /**
    * @When I delete :title node of type :type
