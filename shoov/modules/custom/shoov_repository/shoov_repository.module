@@ -19,6 +19,7 @@ function shoov_repository_node_presave($node) {
 
   $wrapper = entity_metadata_wrapper('node', $node);
   if ($wrapper->field_github_id->value()) {
+    shoov_repository_check_github_id_unique($wrapper->field_github_id->value(), $node->nid);
     // GitHub Id already populated.
     return;
   }
@@ -38,6 +39,38 @@ function shoov_repository_node_presave($node) {
 
   // @todo: Throw exception on error?
   if (!empty($data['id'])) {
+    shoov_repository_check_github_id_unique($wrapper->field_github_id->value(), $node->nid);
     $wrapper->field_github_id->set($data['id']);
   }
 }
+
+/**
+ * Check repository GitHub id is unique.
+ *
+ * @param int $github_id
+ *  Repository GitHub id.
+ * @param int|null $nid
+ *  Repository node id or null (for new repo).
+ *
+ * @throws Exception
+ *  Throw exception is this GitHub id is already used.
+ */
+function shoov_repository_check_github_id_unique($github_id, $nid) {
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'repository');
+  if ($nid) {
+    $query->propertyCondition('nid', $nid, '<>');
+  }
+  $result = $query
+    ->fieldCondition('field_github_id', 'value', $github_id)
+    ->execute();
+
+  if (empty($result['node'])) {
+    return;
+  }
+
+  throw new Exception('Error saving node: Repository with id "' . $github_id . '" already exists.');
+}
+
