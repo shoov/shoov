@@ -22,7 +22,7 @@
       background-color: $brand-danger;
 
       &:hover {
-        background-color: $state-danger-text;
+        background-color: $state-danger-hover;
       }
     }
 
@@ -30,7 +30,7 @@
       background-color: $brand-primary;
 
       &:hover {
-        background-color: $state-info-text;
+        background-color: $state-primary-hover;
       }
     }
 

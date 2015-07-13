@@ -60,7 +60,7 @@ body {
     letter-spacing: -1px;
     line-height: 24px;
     display: block;
-    color: $input-md-checkbox-box-color;
+    color: $page-title-color;
     margin: 0 0 20px 0;
     font-weight: 300;
     font-family: "Open Sans", sans-serif;
@@ -80,12 +80,12 @@ body {
 
       li {
         display: inline-block;
-        color: $input-icon-color;
+        color: $breadcrumb-color;
         font-size: 16px;
         text-shadow: none;
 
         > a {
-          color: $input-icon-color;
+          color: $breadcrumb-color;
         }
 
         > i {
@@ -208,8 +208,8 @@ body {
     bottom: 0;
     left: 0;
     padding: 20px 10px;
-    background: #3b434c;
-    color: #a2abb7;
+    background: $footer-bg;
+    color: $footer-color;
     width: 100%;
     text-align: center;
   }
