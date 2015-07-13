@@ -112,8 +112,8 @@ function shoov_repository_create_screenshot_tags_vocabulary($node) {
   $vocabulary->machine_name = "screenshots_tags_" . $node->nid;
   $vocabulary->description = "The vocabulary contains tags for screenshots.";
   taxonomy_vocabulary_save($vocabulary);
-  og_vocab_create_og_vocab($vocabulary->vid, 'node', 'screenshot')->save();
   og_vocab_relation_save($vocabulary->vid, 'node', $node->nid);
+  og_vocab_create_og_vocab($vocabulary->vid, 'node', 'screenshot')->save();
 
   return $vocabulary->vid;
 }
