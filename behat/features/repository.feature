@@ -18,7 +18,7 @@ Feature: Repository
   @api
   Scenario: Check authenticated user can create a repository
     Given I login with user "emma"
-    When  I create repository "Test repository" with github id "555555"
+    When  I create repository "Test repository" with GitHub ID "555555"
     And   I visit "Test repository" node of type "repository"
     Then  I should have access to the page
 
@@ -57,7 +57,7 @@ Feature: Repository
     Then   I should not be able to add content to "drupal/drupal" repository
 
   @api
-  Scenario: Check user can't create more than 1 repository with one github id.
+  Scenario: Check user can't create more than 1 repository with one GitHub ID.
     Given I login with user "emma"
-    When  I create repository "Test repository" with github id "666666"
-    Then  I should not be able to create repository with github id "666666"
+    When  I create repository "Test repository" with GitHub ID "666666"
+    Then  I should not be able to create repository with GitHub ID "666666"

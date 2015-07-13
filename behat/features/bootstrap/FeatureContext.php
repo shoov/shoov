@@ -131,7 +131,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   /**
    * @When I create :title node of type :type
    */
-  public function iCreateNodeOfType($title, $type, $repository = NULL, $github_id = 123456, $check_saving = FALSE) {
+  public function iCreateNodeOfType($title, $type, $repository = NULL, $github_id = NULL, $check_saving = FALSE) {
     $account = user_load_by_name($this->user->name);
     $values = array(
       'type' => $type,
@@ -141,6 +141,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     $wrapper = entity_metadata_wrapper('node', $entity);
     $wrapper->title->set($title);
     if ($type == 'repository') {
+      $github_id = $github_id ? $github_id : rand(0, 1000000);
       $wrapper->field_github_id->set($github_id);
     }
     elseif ($type == 'ci_build') {
@@ -172,14 +173,14 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * @When I create repository :title with github id :id
+   * @When I create repository :title with GitHub ID :id
    */
   public function iCreateNodeRepositoryWithGithubId($title, $github_id) {
     $this->iCreateNodeOfType($title, 'repository', NULL, $github_id);
   }
 
   /**
-   * @Then I should not be able to create repository with github id :github_id
+   * @Then I should not be able to create repository with GitHub ID :github_id
    */
   public function iShouldNotBeAbleToCreateRepositoryWithGithubId($github_id) {
     $saved = $this->iCreateNodeOfType('Test repository ' . $github_id, 'repository', NULL, $github_id, TRUE);
@@ -262,13 +263,20 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * @When I create repository and CI build :title with github id :id
+   * @When I create repository and CI build :title
    */
-  public function iCreateRepositoryAndCiBuild($title, $github_id) {
+  public function iCreateRepositoryAndCiBuild($title, $github_id = NULL) {
     // Create a new repository.
     $this->iCreateNodeOfType($title, 'repository', NULL, $github_id);
     // Create a new CI build.
     $this->iCreateNodeOfType($title, 'ci_build', $title);
+  }
+
+  /**
+   * @When I create repository and CI build :title with GitHub ID :id
+   */
+  public function iCreateRepositoryAndCiBuildWithGithubId($title, $github_id) {
+    $this->iCreateRepositoryAndCiBuild($title, $github_id);
   }
 
   /**
