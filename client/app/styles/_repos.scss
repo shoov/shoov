@@ -1,4 +1,5 @@
 ul.repos {
+  background: white;
 
   li {
     margin-bottom: 10px;
@@ -6,8 +7,5 @@ ul.repos {
 }
 
 .repos-docs {
-  background-color: #f2f2f2;
-  padding: 10px 20px;
-  @include border-radius(20px);
   font-size: 14px;
 }

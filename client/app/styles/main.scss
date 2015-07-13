@@ -17,12 +17,23 @@
 @import 'spinner';
 @import 'encrypt-form';
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   background-color: $brand-default;
 
+  ul,
+  ol {
+    list-style: none;
+    padding: 0;
+  }
+
   .container {
-    background: $bg-color;
+    background: $main-bg-color;
     padding: 25px 20px 10px 20px;
+    min-height: 600px;
   }
 
   .navbar {
@@ -34,6 +45,7 @@ body {
       background: white;
       box-shadow: 0 1px 10px 0 rgba(50, 50, 50, 0.2);
       padding: 15px 20px 5px 20px;
+      min-height: 0;
     }
   }
 
@@ -43,14 +55,55 @@ body {
 
   .page-title {
     padding: 0;
-    font-size: 26px;
+    font-size: 24px;
     letter-spacing: -1px;
-    line-height: 26px;
+    line-height: 24px;
     display: block;
-    color: #666;
-    margin: 0px 0px 20px 0px;
+    color: $input-md-checkbox-box-color;
+    margin: 0 0 20px 0;
     font-weight: 300;
     font-family: "Open Sans", sans-serif;
+  }
+
+  .page-bar {
+    padding: 0;
+    background-color: white;
+    margin-bottom: 20px;
+    width: 100%;
+
+    .page-breadcrumb {
+      display: inline-block;
+      padding: 10px 6px;
+      margin: 0;
+      list-style: none;
+
+      li {
+        display: inline-block;
+        color: $input-icon-color;
+        font-size: 16px;
+        text-shadow: none;
+
+        > a {
+          color: $input-icon-color;
+        }
+
+        > i {
+          color: $gray-bg-color;
+          font-size: 18px;
+          text-shadow: none;
+
+          &.fa-angle-right {
+            width: 28px;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+
+  .portlet {
+    padding: 12px 20px 15px 20px;
+    background-color: white;
   }
 
   // @todo: This should be taken care of by the bootstrap-social lib.

@@ -1,39 +1,60 @@
-<div class="row" xmlns="http://www.w3.org/1999/html">
+<div class="row">
+  <div class="col-md-12">
+    <div class="page-bar">
+      <ul class="page-breadcrumb">
+        <li>
+          <i class="fa fa-home"></i>
+          <a ui-sref="dashboard.homepage">Dashboard</a>
+          <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+          <a ui-sref="dashboard.repos">Live Monitor Repositories</a>
+          <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+          {{ build.label }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="portlet">
   <h2>Live Monitor: <a ng-href="https://github.com/{{ build.label }}" target="_blank">{{ build.label }}</a></h2>
 
-  <div class="col-md-6">
+  <div class="row">
+    <div class="col-md-6">
 
-    <a ui-sref="dashboard.encrypt({ buildId: parseInt(build.id) })">Encrypt keys</a>
+      <a ui-sref="dashboard.encrypt({ buildId: parseInt(build.id) })">Encrypt keys</a>
 
-    <h3>Build History</h3>
+      <h3>Build History</h3>
 
-    <div ng-hide="ciBuildItems.length">
-      Here you will see a log of every live monitor build.
-    </div>
+      <div ng-hide="ciBuildItems.length">
+        Here you will see a log of every live monitor build.
+      </div>
 
-    <ul class="ci-build-items">
-      <li ng-repeat="ciBuildItem in ciBuildItems" class="ci-build-item">
-        <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: ciBuildItem.id })">#{{ ciBuildItem.id }} (status: {{ ciBuildItem.status }})</a>
-      </li>
-    </ul>
-  </div>
-
-  <div class="col-md-6">
-    <h3>Incidents</h3>
-
-    <div ng-hide="incidents.length">
-      Yay, no incidents!
-    </div>
-
-    <div ng-show="incidents.length">
-      Below you will find all the reported incidents.
-      <ul class="ci-incidents">
-        <li ng-repeat="incident in incidents" class="incident-item">
-          <a ui-sref="dashboard.ciIncident({ incidentId: incident.id })">{{ incident.label }}</a>
+      <ul class="ci-build-items">
+        <li ng-repeat="ciBuildItem in ciBuildItems" class="ci-build-item">
+          <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: ciBuildItem.id })">#{{ ciBuildItem.id }} (status: {{ ciBuildItem.status }})</a>
         </li>
       </ul>
     </div>
 
+    <div class="col-md-6">
+      <h3>Incidents</h3>
+
+      <div ng-hide="incidents.length">
+        Yay, no incidents!
+      </div>
+
+      <div ng-show="incidents.length">
+        Below you will find all the reported incidents.
+        <ul class="ci-incidents">
+          <li ng-repeat="incident in incidents" class="incident-item">
+            <a ui-sref="dashboard.ciIncident({ incidentId: incident.id })">{{ incident.label }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
 

@@ -1,22 +1,38 @@
-<div class="row" xmlns="http://www.w3.org/1999/html">
-  <h2>Live Monitor Repositories</h2>
-  <div class="col-md-4 repos-list">
-
-    <ul class="repos">
-      <li ng-repeat="repo in repos" class="repo-item">
-
-        <input type="checkbox" ng-checked="repo.build.enabled" ng-click="toggleRepo(repo)" ng-disabled="repo._inProgress"/>
-
-        <span ng-hide="repo.build" class="name">{{ repo.label }}</span>
-
-        <span ng-show="repo.build" class="name">
-          <a ui-sref="dashboard.ciBuild({ buildId: parseInt(repo.build.id) })">{{ repo.label }}</a>
-        </span>
-      </li>
-    </ul>
+<div class="row">
+  <div class="col-md-12">
+    <div class="page-bar">
+      <ul class="page-breadcrumb">
+        <li>
+          <i class="fa fa-home"></i>
+          <a ui-sref="dashboard.homepage">Dashboard</a>
+          <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+          Live Monitor Repositories
+        </li>
+      </ul>
+    </div>
   </div>
+</div>
+<h2 class="page-title">Live Monitor Repositories</h2>
+<div class="col-md-4 repos-list">
 
-  <div class="col-md-8 repos-docs">
+  <ul class="repos portlet">
+    <li ng-repeat="repo in repos" class="repo-item">
+
+      <input type="checkbox" ng-checked="repo.build.enabled" ng-click="toggleRepo(repo)" ng-disabled="repo._inProgress"/>
+
+      <span ng-hide="repo.build" class="name">{{ repo.label }}</span>
+
+      <span ng-show="repo.build" class="name">
+        <a ui-sref="dashboard.ciBuild({ buildId: parseInt(repo.build.id) })">{{ repo.label }}</a>
+      </span>
+    </li>
+  </ul>
+</div>
+
+<div class="col-md-8 repos-docs">
+  <div class="portlet">
     <h3>What is it?</h3>
     <div>
       <p>
