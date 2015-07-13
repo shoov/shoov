@@ -7,6 +7,7 @@
 
 @import "compass/css3";
 
+@import "variables";
 @import 'account';
 @import 'before_after_image_slider';
 @import 'homepage';
@@ -16,67 +17,96 @@
 @import 'spinner';
 @import 'encrypt-form';
 
-.navbar {
-  margin-bottom: 0;
-}
+body {
+  background-color: $brand-default;
 
-.navbar-nav {
-  float: right;
-}
-
-
-// @todo: This should be taken care of by the bootstrap-social lib.
-.btn.btn-github:hover {
-  color: white;
-}
-
-#dashboard-login,
-#dashboard-github-auth {
-  background: {
-    image: image-url("fish.jpg");
-    repeat: no-repeat;
-    position: top left;
-  };
-  width: 100%;
-  height: 100%;
-  position: absolute;
-
-  @include background-size(cover);
-
-  .jumbotron {
-    margin-top: 80px;
-    background-color: white;
+  .container {
+    background: $bg-color;
+    padding: 25px 20px 10px 20px;
   }
 
-  .github-private {
+  .navbar {
+    margin-bottom: 0;
+    background: none;
+    border: 0 none;
+
+    .container {
+      background: white;
+      box-shadow: 0 1px 10px 0 rgba(50, 50, 50, 0.2);
+      padding: 15px 20px 5px 20px;
+    }
+  }
+
+  .navbar-nav {
+    float: right;
+  }
+
+  .page-title {
+    padding: 0;
+    font-size: 26px;
+    letter-spacing: -1px;
+    line-height: 26px;
+    display: block;
+    color: #666;
+    margin: 0px 0px 20px 0px;
+    font-weight: 300;
+    font-family: "Open Sans", sans-serif;
+  }
+
+  // @todo: This should be taken care of by the bootstrap-social lib.
+  .btn.btn-github:hover {
+    color: white;
+  }
+
+  #dashboard-login,
+  #dashboard-github-auth {
+    background: {
+      image: image-url("fish.jpg");
+      repeat: no-repeat;
+      position: top left;
+    }
+  ;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+    @include background-size(cover);
+
+    .jumbotron {
+      margin-top: 80px;
+      background-color: white;
+    }
+
+    .github-private {
+      margin-top: 20px;
+    }
+  }
+
+  .builds {
     margin-top: 20px;
   }
-}
 
-.builds {
-  margin-top: 20px;
-}
-
-.config {
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-
-.dev-tip {
-  margin-top: 10px;
-
-  .fa {
-    font-size: 20px;
-    color: green;
-    cursor: pointer;
+  .config {
+    margin-top: 10px;
+    margin-bottom: 20px;
   }
 
-  &.message {
-    margin-top: 40px;
-    background-color: #ffffe0;
-    border: 1px solid black;
-    padding: 10px 20px;
-    @include border-radius(5px);
-    font-size: 18px;
+  .dev-tip {
+    margin-top: 10px;
+
+    .fa {
+      font-size: 20px;
+      color: green;
+      cursor: pointer;
+    }
+
+    &.message {
+      margin-top: 40px;
+      background-color: #ffffe0;
+      border: 1px solid black;
+      padding: 10px 20px;
+      @include border-radius(5px);
+      font-size: 18px;
+    }
   }
 }

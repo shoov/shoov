@@ -1,28 +1,73 @@
 .live-monitor-wrapper,
 .visual-regression-wrapper {
-  width: 50%;
-  position: absolute;
-  height: 100%;
+  text-align: center;
+  min-height: 600px;
+  padding-top: 30px;
 
-  // Align vertical and horizontal.
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  .dashboard-stat {
+    display: block;
+    margin-bottom: 25px;
+    overflow: hidden;
 
-  a {
-    color: white;
-    font-size: 44px;
-    font-weight: bold;
+    &:before {
+      content: " ";
+      display: table;
+    }
+
+    &.dashboard-stat-light {
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+
+    &.red-soft {
+      background-color: $brand-danger;
+
+      &:hover {
+        background-color: $state-danger-text;
+      }
+    }
+
+    &.blue-soft {
+      background-color: $brand-primary;
+
+      &:hover {
+        background-color: $state-info-text;
+      }
+    }
+
+    .visual {
+      width: 80px;
+      height: 80px;
+      display: block;
+      float: left;
+      padding-top: 10px;
+      padding-left: 15px;
+      margin-bottom: 15px;
+      font-size: 35px;
+      line-height: 35px;
+
+      > i {
+        margin-left: -35px;
+        font-size: 110px;
+        line-height: 110px;
+        color: white;
+        opacity: 0.1;
+      }
+    }
+
+    .details {
+      position: absolute;
+      right: 15px;
+      padding-right: 15px;
+      margin-bottom: 5px;
+
+      .desc {
+        color: white;
+        padding-top: 25px;
+        text-align: right;
+        font-size: 34px;
+        line-height: 36px;
+      }
+    }
   }
-}
-
-.live-monitor-wrapper {
-  left: 0px;
-  background-color: salmon;
-}
-
-
-.visual-regression-wrapper {
-  right: 0px;
-  background-color: blue;
 }
