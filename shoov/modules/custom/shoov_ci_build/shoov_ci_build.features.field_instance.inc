@@ -522,12 +522,13 @@ function shoov_ci_build_field_default_field_instances() {
   t('Failed count');
   t('Git Branch');
   t('Git Commit');
+  t('Incident Status');
   t('Indicate if the CI build is enabled, and should be queued.');
   t('Log');
   t('Private Key');
   t('Repository');
   t('Start time');
-  t('Incident Status');
+  t('Status');
   t('The count of failed CI build items before set state of CI build to error. ');
   t('The current status of processing CI Build.');
 
