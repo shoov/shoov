@@ -26,13 +26,19 @@ class ShoovConfigResource extends \RestfulEntityBaseUser {
       'callback' => array($this, 'getAccessToken'),
     );
 
+    $public_fields['browserstack_username'] = array(
+      'property' => 'field_browserstack_username',
+    );
+
+    $public_fields['browserstack_key'] = array(
+      'property' => 'field_browserstack_key',
+    );
+
     unset($public_fields['id']);
     unset($public_fields['self']);
     unset($public_fields['label']);
     unset($public_fields['url']);
     unset($public_fields['mail']);
-    unset($public_fields['browserstack_username']);
-    unset($public_fields['browserstack_key']);
 
     return $public_fields;
   }
