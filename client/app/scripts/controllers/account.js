@@ -19,9 +19,14 @@ angular.module('clientApp')
       $scope.account.browserstack_key = val.browserstack_key;
     });
 
-    $scope.setBrowserStackData = function(key, data) {
-      var obj = {};
-      obj[key] = data;
-      Account.setBrowserStackData(obj);
+    $scope.saveBrowserStackData = function() {
+      var data = {
+        'browserstack_username': $scope.account.browserstack_username,
+        'browserstack_key': $scope.account.browserstack_key,
+      };
+
+      Account.setBrowserStackData(data);
+      console.log($scope.account.browserstack_username);
+      console.log($scope.account.browserstack_key);
     };
   });
