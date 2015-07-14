@@ -21,7 +21,8 @@ angular
     'pusher-angular',
     'ui.bootstrap',
     'ui.checkbox',
-    'ui.router'
+    'ui.router',
+    'xeditable'
   ])
   .config(function($stateProvider, $urlRouterProvider, $httpProvider, cfpLoadingBarProvider) {
 

@@ -8,6 +8,17 @@
       Mail: {{ account.mail }}
     </div>
 
+    <div>
+      BrowserStack Username:
+      <a href="#" editable-text="account.browserstack_username" onbeforesave="setBrowserStackData('browserstack_username', $data)">{{ account.browserstack_username || 'empty' }}</a>
+    </div>
+
+    <div>
+      BrowserStack Key:
+      <a href="#" editable-text="account.browserstack_key" onbeforesave="setBrowserStackData('browserstack_key', $data)">{{ account.browserstack_key || 'empty' }}</a>
+    </div>
+
+
     <div class="jumbotron">
       Create or update your <code>~/.shoov.json</code> file by copy pasting the following code into your terminal:
 
