@@ -40,10 +40,7 @@ angular.module('clientApp')
       $scope.filteredScreenshots = $scope.screenshots.slice(begin, end);
     });
 
-    Repos.get(build[0].repository).then(function(val){
-      $scope.repoName = val[0].label;
-    });
-
+    $scope.repoName = build[0].label;
     $scope.gitBranch = build[0].git_branch;
     $scope.gitCommit = build[0].git_commit.substring(0, 6);
 
