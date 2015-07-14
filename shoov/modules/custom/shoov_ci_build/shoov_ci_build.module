@@ -373,11 +373,11 @@ function shoov_ci_build_process_ci_build_item(Message $message) {
  * @throws \Exception
  */
 function shoov_ci_build_get_nodejs_server_url(Message $message) {
-  if ($primary_server = variable_get('shoov_nodejs_server', 'http://localhost:3000')) {
+  if (!$primary_server = variable_get('shoov_nodejs_server', 'http://localhost:3000')) {
     throw new \Exception('Primary nodejs server is not defined.');
   }
 
-  if ($secondary_server = variable_get('shoov_nodejs_server', 'http://localhost:3001')) {
+  if (!$secondary_server = variable_get('shoov_nodejs_server', 'http://localhost:3001')) {
     throw new \Exception('Secondary nodejs server is not defined.');
   }
 
