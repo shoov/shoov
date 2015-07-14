@@ -233,8 +233,13 @@ function shoov_ci_build_get_timestamp_for_next_ci_build_item(Message $message) {
     return NULL;
   }
 
-  // @todo: Make configurable.
-  return strtotime('+3 minutes');
+  // Determine the time for next execution. Intervals are in seconds.
+  $interval = $node->field_ci_build_interval->value();
+  if ($interval == 'manual') {
+    return;
+  }
+
+  return strtotime('+' . $interval . ' seconds');
 }
 
 /**
