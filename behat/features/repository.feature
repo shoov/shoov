@@ -55,3 +55,9 @@ Feature: Repository
   Scenario: Check authenticated user can't create nodes in not his groups.
     Given I login with user "emma"
     Then   I should not be able to add content to "drupal/drupal" repository
+
+  @api
+  Scenario: Check user can't create more than 1 repository with one GitHub ID.
+    Given I login with user "emma"
+    When  I create repository "Test repository" with GitHub ID "12345"
+    Then  I should not be able to create repository with GitHub ID "12345"
