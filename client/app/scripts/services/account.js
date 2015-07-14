@@ -50,6 +50,23 @@ angular.module('clientApp')
     }
 
     /**
+     * Set data for account.
+     *
+     * @param data
+     *  The data to set
+     *
+     * @returns {$q.promise}
+     */
+    this.set = function(data) {
+      var url = Config.backend + '/api/me/';
+      return $http({
+        method: 'PATCH',
+        url: url,
+        data: data
+      });
+    };
+
+    /**
      * Cache the account data.
      *
      * @param data
