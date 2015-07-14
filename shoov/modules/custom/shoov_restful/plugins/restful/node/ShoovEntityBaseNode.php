@@ -54,15 +54,16 @@ abstract class ShoovEntityBaseNode extends \RestfulEntityBaseNode {
       return $output;
     }
 
-    $defaultStyles = shoov_screenshot_image_default_styles();
     $styles = array();
     foreach ($value['image_styles'] as $style => $url) {
+      $style_info = image_style_load($style);
       $styles[$style] = array();
       $styles[$style]['url'] = $url;
-      $styles[$style]['label'] = $defaultStyles[$style]['label'];
-      $effect = reset($defaultStyles[$style]['effects']);
+      $styles[$style]['label'] = $style_info['label'];
+      $effect = reset($style_info['effects']);
       $styles[$style]['width'] = strval($effect['data']['width']);
     }
+
     return array(
       'id' => $value['fid'],
       'self' => file_create_url($value['uri']),
