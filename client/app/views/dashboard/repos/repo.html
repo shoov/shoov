@@ -19,12 +19,17 @@
   </div>
 </div>
 <div class="portlet">
-  <h2>Live Monitor: <a ng-href="https://github.com/{{ build.label }}" target="_blank">{{ build.label }}</a></h2>
-
-  <div class="row">
-    <div class="col-md-6">
-
+  <div class="portlet-title">
+    <div class="caption font-red-sunglo">
+      <i class="fa fa-heartbeat"></i>
+      <span class="caption-subject">Live Monitor: <a ng-href="https://github.com/{{ build.label }}" target="_blank">{{ build.label }}</a></span>
+    </div>
+    <div class="actions">
       <a ui-sref="dashboard.encrypt({ buildId: parseInt(build.id) })">Encrypt keys</a>
+    </div>
+  </div>
+  <div class="row portlet-body">
+    <div class="col-md-5 col-list">
 
       <h3>Build History</h3>
 
@@ -39,7 +44,7 @@
       </ul>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-offset-1 col-md-5 col-list">
       <h3>Incidents</h3>
 
       <div ng-hide="incidents.length">

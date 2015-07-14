@@ -14,33 +14,45 @@
     </div>
   </div>
 </div>
-<h2 class="page-title">Live Monitor Repositories</h2>
 <div class="col-md-4 repos-list">
 
   <ul class="repos portlet">
-    <li ng-repeat="repo in repos" class="repo-item">
+    <div class="portlet-title">
+      <div class="caption font-red-sunglo">
+        <i class="fa fa-heartbeat"></i>
+        <span class="caption-subject">Live Monitor Repositories</span>
+      </div>
+    </div>
+    <div class="portlet-body">
+      <li ng-repeat="repo in repos" class="repo-item">
 
-      <div class="repos-checkbox">
-        <div class="checker">
+        <div class="repos-checkbox">
+          <div class="checker">
           <span ng-class="{'checked': repo.build.enabled}">
             <input type="checkbox" ng-checked="repo.build.enabled" ng-click="toggleRepo(repo)" ng-disabled="repo._inProgress"/>
           </span>
+          </div>
         </div>
-      </div>
 
-      <span ng-hide="repo.build" class="name">{{ repo.label }}</span>
+        <span ng-hide="repo.build" class="name">{{ repo.label }}</span>
 
       <span ng-show="repo.build" class="name">
         <a ui-sref="dashboard.ciBuild({ buildId: parseInt(repo.build.id) })">{{ repo.label }}</a>
       </span>
-    </li>
+      </li>
+    </div>
   </ul>
 </div>
 
 <div class="col-md-8 repos-docs">
   <div class="portlet">
-    <h3>What is it?</h3>
-    <div>
+    <div class="portlet-title">
+      <div class="caption font-green-sharp">
+        <i class="fa fa-question-circle"></i>
+        <span class="caption-subject">What is it?</span>
+      </div>
+    </div>
+    <div class="portlet-body">
       <p>
         With Shoov you can easily run your functional tests on your live site(s), in order to better monitor them.
       </p>

@@ -23,26 +23,31 @@
   </div>
 </div>
 <div class="portlet">
-  <h2 class="page-title">Encrypt</h2>
-  <div class="row">
+  <div class="portlet-title">
+    <div class="caption font-purple-intense">
+      <i class="fa fa-file-code-o"></i>
+      <span class="caption-subject">Encrypt</span>
+    </div>
+  </div>
+  <div class="row portlet-body">
     <div class="col-md-6">
 
       <form class="encrypt-key-form" ng-submit="getKey(data)">
-        <div class="form-item">
+        <div class="form-item form-group">
           <label>Key <i class="red">*</i></label>
-          <input type="text" required id="key-name" ng-model="data.keyName">
+          <input type="text" class="form-control" required id="key-name" ng-model="data.keyName">
         </div>
-        <div class="form-item">
+        <div class="form-item form-group">
           <label>Value <i class="red">*</i></label>
-          <input type="text" required id="key-value" ng-model="data.keyValue">
+          <input type="text" class="form-control" required id="key-value" ng-model="data.keyValue">
         </div>
-        <div class="form-item">
+        <div class="form-item form-group">
           <label>Description</label>
-          <textarea id="key-description" ng-model="data.description"></textarea>
+          <textarea class="form-control" id="key-description" ng-model="data.description"></textarea>
         </div>
 
         <div class="form-actions">
-          <button type="submit">Submit</button>
+          <button class="btn btn-info" type="submit">Submit</button>
         </div>
 
       </form>
