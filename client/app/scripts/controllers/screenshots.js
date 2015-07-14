@@ -8,7 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('ScreenshotsCtrl', function ($scope, screenshots, build, Auth, filterFilter, Zip, Github, Screenshots, Repos, $log) {
+  .controller('ScreenshotsCtrl', function ($scope, screenshots, build, Auth, filterFilter, Zip, Github, Screenshots, $log) {
 
     // Initialize values.
     $scope.showDiff = false;
@@ -40,7 +40,9 @@ angular.module('clientApp')
       $scope.filteredScreenshots = $scope.screenshots.slice(begin, end);
     });
 
-    $scope.repoName = build[0].label;
+
+    // @todo: Get repo label from service.
+    $scope.repoName = screenshots.length ? screenshots[0].repository.label : '-';
     $scope.gitBranch = build[0].git_branch;
     $scope.gitCommit = build[0].git_commit.substring(0, 6);
 
