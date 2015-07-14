@@ -50,45 +50,20 @@ angular.module('clientApp')
     }
 
     /**
-     * Set BrowserStack data for account.
+     * Set data for account.
      *
      * @param data
      *  The data to set
      *
      * @returns {$q.promise}
      */
-    this.setBrowserStackData = function(data) {
-      var deferred = $q.defer();
-      var url = Config.backend + '/api/config/';
-      this.getAccountConfigData().then(function(val) {
-        var csrfToken = val.csrfToken;
-        $http({
-          method: 'PATCH',
-          url: url,
-          data: data,
-          headers: {
-            "X-CSRF-Token": csrfToken
-          }
-        }).success(function(response) {
-          deferred.resolve(response);
-        });
-
-        return deferred.promise;
+    this.set = function(data) {
+      var url = Config.backend + '/api/me/';
+      return $http({
+        method: 'PATCH',
+        url: url,
+        data: data
       });
-    };
-
-    this.getAccountConfigData = function() {
-      var deferred = $q.defer();
-      var url = Config.backend + '/api/config/';
-
-      $http({
-        method: 'GET',
-        url: url
-      }).success(function(response) {
-        deferred.resolve(response);
-      });
-
-      return deferred.promise;
     };
 
     /**

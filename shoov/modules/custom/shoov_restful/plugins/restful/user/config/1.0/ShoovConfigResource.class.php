@@ -13,7 +13,6 @@ class ShoovConfigResource extends \RestfulEntityBaseUser {
   protected $controllers = array(
     '' => array(
       \RestfulInterface::GET => 'viewEntity',
-      \RestfulInterface::PATCH => 'patchEntity',
     ),
   );
 
@@ -27,23 +26,13 @@ class ShoovConfigResource extends \RestfulEntityBaseUser {
       'callback' => array($this, 'getAccessToken'),
     );
 
-    $public_fields['csrfToken'] = array(
-      'callback' => array($this, 'getCsrfToken'),
-    );
-
-    $public_fields['browserstack_username'] = array(
-      'property' => 'field_browserstack_username',
-    );
-
-    $public_fields['browserstack_key'] = array(
-      'property' => 'field_browserstack_key',
-    );
-
     unset($public_fields['id']);
     unset($public_fields['self']);
     unset($public_fields['label']);
     unset($public_fields['url']);
     unset($public_fields['mail']);
+    unset($public_fields['browserstack_username']);
+    unset($public_fields['browserstack_key']);
 
     return $public_fields;
   }
@@ -58,22 +47,8 @@ class ShoovConfigResource extends \RestfulEntityBaseUser {
     return parent::viewEntity($account->uid);
   }
 
-  /**
-   * Overrides \RestfulEntityBase::patchEntity().
-   *
-   * Always return the current user.
-   */
-  public function patchEntity($entity_id) {
-    $account = $this->getAccount();
-    return parent::patchEntity($account->uid);
-  }
-
   protected function getAccessToken() {
     $account = $this->getAccount();
     return shoov_restful_get_user_token($account);
-  }
-
-  protected function getCsrfToken() {
-    return drupal_get_token(\RestfulInterface::TOKEN_VALUE);
   }
 }

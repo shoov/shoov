@@ -14,7 +14,7 @@ angular.module('clientApp')
     $scope.backend = Config.backend;
     $scope.showForm = false;
 
-    Account.getAccountConfigData().then(function(val) {
+    Account.get().then(function(val) {
       $scope.account.browserstack_username = val.browserstack_username;
       $scope.account.browserstack_key = val.browserstack_key;
     });
@@ -25,8 +25,6 @@ angular.module('clientApp')
         'browserstack_key': $scope.account.browserstack_key,
       };
 
-      Account.setBrowserStackData(data);
-      console.log($scope.account.browserstack_username);
-      console.log($scope.account.browserstack_key);
+      Account.set(data);
     };
   });
