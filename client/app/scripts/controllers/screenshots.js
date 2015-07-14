@@ -8,15 +8,42 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('ScreenshotsCtrl', function ($scope, screenshots, build, Auth, filterFilter, Zip, Github, Screenshots, $log) {
+  .controller('ScreenshotsCtrl', function ($scope, screenshots, build, Auth, filterFilter, Zip, Github, Screenshots, Repos, $log) {
 
     // Initialize values.
     $scope.showDiff = false;
     $scope.screenshots = screenshots;
     $scope.accessToken = Auth.getAccessToken();
 
-    // @todo: Change repo name to be taken from build.
-    $scope.repoName = screenshots[0].repository.label;
+    $scope.filteredScreenshots = [];
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = 50;
+
+
+    $scope.imageStyles = {'self': 'Original'};
+    // We use "self" key because link to the original image is under"self" key
+    // in the screenshot object.
+    $scope.imageStyle = 'self';
+
+    if (screenshots.length) {
+      // Image styles for select list.
+      angular.forEach(screenshots[0].regression.styles, function(style, key) {
+        $scope.imageStyles[key] = style.label;
+      });
+    }
+
+
+    $scope.$watch('currentPage', function() {
+      var begin = (($scope.currentPage - 1) * $scope.itemsPerPage);
+      var end = begin + $scope.itemsPerPage;
+
+      $scope.filteredScreenshots = $scope.screenshots.slice(begin, end);
+    });
+
+    Repos.get(build[0].repository).then(function(val){
+      $scope.repoName = val[0].label;
+    });
+
     $scope.gitBranch = build[0].git_branch;
     $scope.gitCommit = build[0].git_commit.substring(0, 6);
 
@@ -26,9 +53,23 @@ angular.module('clientApp')
 
     angular.forEach($scope.screenshots, function(value, key) {
       $scope.screenshots[key].selected = false;
-      // Find the highest image.
-      $scope.screenshots[key].maxHeight = value.regression.height > value.baseline.height ? value.regression.height : value.baseline.height;
-      $scope.screenshots[key].maxWidth = value.regression.width > value.baseline.width ? value.regression.width : value.baseline.width;
+
+      // Set max values for image width and height for original images size.
+      $scope.screenshots[key].maxHeight = {};
+      $scope.screenshots[key].maxWidth = {};
+
+      $scope.screenshots[key].maxHeight['self'] = value.regression.height > value.baseline.height ? parseInt(value.regression.height) : parseInt(value.baseline.height);
+      $scope.screenshots[key].maxWidth['self'] = value.regression.width > value.baseline.width ? parseInt(value.regression.width) : parseInt(value.baseline.width);
+      // Set max values for image width and height for different image styles.
+      angular.forEach($scope.imageStyles, function(style, styleKey){
+        if (styleKey == 'self') {
+          // Self value is already in object.
+          return;
+        }
+
+        $scope.screenshots[key].maxWidth[styleKey] = parseInt(value.regression['styles'][styleKey].width);
+        $scope.screenshots[key].maxHeight[styleKey] = $scope.screenshots[key].maxWidth[styleKey] * $scope.screenshots[key].maxHeight['self'] / $scope.screenshots[key].maxWidth['self'];
+      });
     });
 
     // Selected screenshots.
@@ -113,7 +154,7 @@ angular.module('clientApp')
       Github
         .createPullRequest(build[0].id, selectedScreenshots, $scope.prName)
         .then(function(data) {
-          $scope.prUrl = data.data[0].pull_request;
+          $scope.prUrl = data.data.data[0].pull_request;
           $scope.prProgress = false;
         });
     };

@@ -83,7 +83,6 @@ angular
       })
       .state('dashboard', {
         abstract: true,
-        url: '',
         templateUrl: 'views/dashboard/main.html',
         controller: 'DashboardCtrl',
         onEnter: page403,
@@ -97,7 +96,7 @@ angular
         }
       })
       .state('dashboard.homepage', {
-        url: 'homepage',
+        url: '/homepage',
         templateUrl: 'views/dashboard/homepage.html',
         onEnter: page403,
         resolve: {
