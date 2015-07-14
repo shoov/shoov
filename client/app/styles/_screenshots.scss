@@ -1,31 +1,62 @@
-.show-diff {
-  text-align: right;
-}
-
-.info {
-  font-size: 18px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border: 1px solid black;
-  background: lightyellow;
-  margin-bottom: 20px;
-}
-
 .screenshots-list {
 
-  ul.screenshots {
+  .show-diff {
+    text-align: right;
+  }
 
-    display: inline;
+  .info {
+    margin: 0 0 20px 0;
+    padding: 15px 30px 15px 15px;
+    border-left: 5px solid $brand-info-message-border;
+    background-color: $brand-info-message-bg;
+    color: $brand-info-message-color;
+    position: relative;
 
-    li.screenshot-item {
+    .background {
+      position: absolute;
+      right: 10px;
+      bottom: 0;
+      font-size: 65px;
+      opacity: 0.4;
+    }
+  }
 
-      list-style-type: none;
-      margin-bottom: 30px;
+  .pr-wrapper {
+
+    .form-group {
+      margin: 0;
+
+      input {
+        width: 40%;
+        display: inline-block;
+        margin-right: 3px;
+        float: left;
+      }
+    }
+  }
+
+  .screenshot-header {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid $brand-main-color;
+    margin-top: 40px;
+
+    .download-wrapper {
+      float: right;
+      margin-top: 10px;
+    }
+  }
+
+  .screenshot-wrapper {
+    margin-bottom: 30px;
+
+    .screenshot-item {
 
       .name {
         margin-bottom: 20px;
         font-size: 60px;
         font-weight: lighter;
+        line-height: 22px;
 
         input {
           vertical-align: middle;
@@ -50,7 +81,5 @@
       }
     }
   }
-
-
 }
 

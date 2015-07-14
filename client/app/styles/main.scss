@@ -285,9 +285,23 @@ body {
     }
   }
 
-  // @todo: This should be taken care of by the bootstrap-social lib.
-  .btn.btn-github:hover {
-    color: white;
+  // Override bootstrap default buttons and inputs.
+  input.form-control,
+  textarea.form-control {
+    @include border-radius(0);
+  }
+
+  .btn {
+    outline: none;
+    background-image: none;
+    filter: none;
+    @include box-shadow(none);
+    @include border-radius(0);
+    text-shadow: none;
+
+    &.btn-github:hover {
+      color: white;
+    }
   }
 
   #dashboard-login,
