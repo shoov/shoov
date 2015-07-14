@@ -80,9 +80,6 @@ function shoov_setup_variables() {
  */
 function shoov_setup_og_permissions() {
   $group_content_bundles = og_get_all_group_content_bundle();
-  if (empty($group_content_bundles['node'])) {
-    return;
-  }
   $permissions = array();
   foreach ($group_content_bundles['node'] as $bundle) {
     $permissions = array_merge($permissions, array(
