@@ -51,7 +51,7 @@ function shoov_ui_build_create_pr($node) {
   }
 
   // Send a request.
-  $url = variable_get('shoov_ui_build_pr_server', 'http://localhost:3000');
+  $url = variable_get('shoov_nodejs_server', 'http://localhost:3000');
   if (!$url) {
     throw new Exception('Shoov UI build PR server is not setup.');
   }

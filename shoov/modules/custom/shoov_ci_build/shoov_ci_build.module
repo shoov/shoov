@@ -356,3 +356,34 @@ function shoov_ci_build_process_ci_build_item(Message $message) {
   );
   message_subscribe_send_message('node', $ci_build_node, $incident_message, array(), $subscribe_options);
 }
+
+/**
+ * Return the URL of the nodejs server.
+ *
+ * If the CI build is in an "unconfirmed error" status, we pipe the request to
+ * the secondary nodejs server, in order to try and avoid a false positive in
+ * the result.
+ *
+ * @param \Message $message
+ *   The CI build item message.
+ *
+ * @return string
+ *   The URL of the nodejs server.
+ *
+ * @throws \Exception
+ */
+function shoov_ci_build_get_nodejs_server_url(Message $message) {
+  if ($primary_server = variable_get('shoov_nodejs_server', 'http://localhost:3000')) {
+    throw new \Exception('Primary nodejs server is not defined.');
+  }
+
+  if ($secondary_server = variable_get('shoov_nodejs_server', 'http://localhost:3001')) {
+    throw new \Exception('Secondary nodejs server is not defined.');
+  }
+
+  // Get the status of the CI build.
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $node = $wrapper->field_ci_build->value();
+  return shoov_ci_build_get_ci_build_status($node) == SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_ERROR ? $secondary_server : $primary_server;
+}
