@@ -67,9 +67,6 @@ projects[message][version] = "1.10"
 projects[message_notify][subdir] = "contrib"
 projects[message_notify][version] = "2.5"
 
-#projects[message_subscribe][subdir] = "contrib"
-#projects[message_subscribe][version] = "1.x-dev"
-
 projects[message_subscribe][subdir] = "contrib"
 projects[message_subscribe][type] = module
 projects[message_subscribe][download][type] = git
@@ -90,9 +87,6 @@ projects[og][version] = 2.x
 
 projects[og_vocab][subdir] = "contrib"
 projects[og_vocab][version] = "1.2"
-
-#projects[restful][subdir] = "contrib"
-#projects[restful][version] = "1.x-dev"
 
 projects[restful][subdir] = "contrib"
 projects[restful][type] = module
