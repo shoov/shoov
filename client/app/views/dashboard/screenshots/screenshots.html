@@ -42,6 +42,15 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-md-4">
+        <label for="image-style">Image size:</label>
+        <select id="image-style" ng-model="imageStyle">
+          <option ng-repeat="(value, style) in imageStyles" value="{{value}}" ng-selected="{{value == imageStyle}}">{{style}}</option>
+        </select>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
 
     <ul class="screenshots">
 
@@ -62,15 +71,29 @@
 
         </div>
 
-        <div ng-style="{'height' : screenshot.maxHeight }">
+        <div ng-style="{'height' : screenshot.maxHeight[imageStyle] }">
 
-          <img class="diff-image" ng-show="showDiff" ng-src="{{ screenshot.diff.self }}?access_token={{ accessToken }}" />
+          <img class="diff-image" ng-show="showDiff" ng-src="{{ imageStyle == 'self' ? (screenshot.diff.self + '?access_token=' + accessToken) : (screenshot.diff.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}" />
 
-          <before-after-image-slider ng-hide="showDiff" baseline-img-src="{{ screenshot.baseline.self }}?access_token={{ accessToken }}" regression-img-src="{{ screenshot.regression.self }}?access_token={{ accessToken }}" max-width="{{ screenshot.maxWidth }}" max-height="{{ screenshot.maxHeight }}"></before-after-image-slider>
+          <before-after-image-slider ng-hide="showDiff"
+             baseline-img-src="{{ imageStyle == 'self' ? (screenshot.baseline.self + '?access_token=' + accessToken) : (screenshot.baseline.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}"
+             regression-img-src="{{ imageStyle == 'self' ? (screenshot.regression.self + '?access_token=' + accessToken) : (screenshot.regression.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}"
+             max-width="{{ screenshot.maxWidth[imageStyle] }}"
+             max-height="{{ screenshot.maxHeight[imageStyle] }}">
+          </before-after-image-slider>
         </div>
 
       </li>
     </ul>
+    <pagination
+      ng-model="currentPage"
+      total-items="screenshots.length"
+      max-size="maxSize"
+      rotate="false"
+      boundary-links="true"
+      items-per-page="itemsPerPage">
+    </pagination>
+
   </div>
 </div>
 

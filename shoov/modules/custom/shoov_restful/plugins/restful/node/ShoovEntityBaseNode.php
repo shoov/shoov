@@ -53,6 +53,17 @@ abstract class ShoovEntityBaseNode extends \RestfulEntityBaseNode {
       }
       return $output;
     }
+
+    $styles = array();
+    foreach ($value['image_styles'] as $style => $url) {
+      $style_info = image_style_load($style);
+      $styles[$style] = array();
+      $styles[$style]['url'] = $url;
+      $styles[$style]['label'] = $style_info['label'];
+      $effect = reset($style_info['effects']);
+      $styles[$style]['width'] = strval($effect['data']['width']);
+    }
+
     return array(
       'id' => $value['fid'],
       'self' => file_create_url($value['uri']),
@@ -60,7 +71,7 @@ abstract class ShoovEntityBaseNode extends \RestfulEntityBaseNode {
       'filesize' => $value['filesize'],
       'width' => $value['width'],
       'height' => $value['height'],
-      'styles' => $value['image_styles'],
+      'styles' => $styles,
     );
   }
 }
