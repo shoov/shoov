@@ -4,3 +4,20 @@
     font-size: 16px;
   }
 }
+
+.browser-stack-form {
+  font-size: 16px;
+
+  .row {
+    margin-bottom: 4px;
+
+    .editable {
+      cursor: pointer;
+    }
+  }
+
+  .form-actions {
+    margin-bottom: 10px;
+    text-align: center;
+  }
+}

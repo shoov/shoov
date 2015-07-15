@@ -35,11 +35,19 @@
     }
   }
 
+  .image-size {
+    margin-top: 30px;
+
+    label {
+      display: inline-block;
+    }
+  }
+
   .screenshot-header {
-    padding-bottom: 20px;
-    margin-bottom: 20px;
     border-bottom: 1px solid $brand-main-color;
-    margin-top: 40px;
+    margin-top: 5px;
+    background-color: white;
+    padding: 0 15px 20px;
 
     .download-wrapper {
       float: right;
@@ -49,6 +57,8 @@
 
   .screenshot-wrapper {
     margin-bottom: 30px;
+    background-color: white;
+    padding: 20px 15px 60px;
 
     .screenshot-item {
 
@@ -81,5 +91,9 @@
       }
     }
   }
+}
+
+.pagination {
+  text-align: center;
 }
 

@@ -18,6 +18,7 @@
     </div>
   </div>
 </div>
+
 <div class="row">
   <div class="col-md-12 screenshots-list">
     <div class="portlet">
@@ -64,17 +65,17 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row image-size">
       <div class="col-md-4">
         <label for="image-style">Image size:</label>
         <select id="image-style" ng-model="imageStyle">
           <option ng-repeat="(value, style) in imageStyles" value="{{value}}" ng-selected="{{value == imageStyle}}">{{style}}</option>
         </select>
       </div>
-      <div class="col-md-4"></div>
     </div>
 
-      <div class="row screenshot-header">
+    <div class="screenshot-header">
+      <div class="row">
         <div class="col-md-1">
           <div class="screenshot-item-selector">
             Select all
@@ -85,44 +86,46 @@
           <div class="download-wrapper">
             <button class="btn btn-primary" ng-disabled="!selection.length" ng-click="zip()">Download</button>
 
-          <span class="dev-tip">
-            <i class="fa fa-info-circle" popover-placement="right" popover-template="'zip.html'" popover-title="Dev Tip"></i>
-          </span>
+        <span class="dev-tip">
+          <i class="fa fa-info-circle" popover-placement="right" popover-template="'zip.html'" popover-title="Dev Tip"></i>
+        </span>
           </div>
         </div>
       </div>
+    </div>
 
-      <div ng-repeat="screenshot in screenshots" class="row screenshot-wrapper">
+    <div ng-repeat="screenshot in screenshots" class="screenshot-wrapper">
+      <div class="row">
         <div class="col-md-1 checkbox-wrapper">
           <checkbox large name="selectedScreenshots[]" ng-model="screenshot.selected"></checkbox>
         </div>
         <div class="col-md-11 screenshot-item">
           <div class="name">
             {{ screenshot.label }}
-            <span class="delete">
-              <a href ng-click="delete(screenshot.id)">
-                (<i class="glyphicon glyphicon-remove"> </i> Delete)
-              </a>
-            </span>
+          <span class="delete">
+            <a href ng-click="delete(screenshot.id)">
+              (<i class="glyphicon glyphicon-remove"> </i> Delete)
+            </a>
+          </span>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div ng-style="{'height' : screenshot.maxHeight[imageStyle] }">
+        <div class="col-md-12">
+          <div ng-style="{'height' : screenshot.maxHeight[imageStyle] }">
 
-              <img class="diff-image" ng-show="showDiff" ng-src="{{ imageStyle == 'self' ? (screenshot.diff.self + '?access_token=' + accessToken) : (screenshot.diff.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}" />
+            <img class="diff-image" ng-show="showDiff" ng-src="{{ imageStyle == 'self' ? (screenshot.diff.self + '?access_token=' + accessToken) : (screenshot.diff.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}" />
 
-              <before-after-image-slider ng-hide="showDiff"
-                                         baseline-img-src="{{ imageStyle == 'self' ? (screenshot.baseline.self + '?access_token=' + accessToken) : (screenshot.baseline.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}"
-                                         regression-img-src="{{ imageStyle == 'self' ? (screenshot.regression.self + '?access_token=' + accessToken) : (screenshot.regression.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}"
-                                         max-width="{{ screenshot.maxWidth[imageStyle] }}"
-                                         max-height="{{ screenshot.maxHeight[imageStyle] }}">
-              </before-after-image-slider>
-            </div>
+            <before-after-image-slider ng-hide="showDiff"
+             baseline-img-src="{{ imageStyle == 'self' ? (screenshot.baseline.self + '?access_token=' + accessToken) : (screenshot.baseline.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}"
+             regression-img-src="{{ imageStyle == 'self' ? (screenshot.regression.self + '?access_token=' + accessToken) : (screenshot.regression.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}"
+             max-width="{{ screenshot.maxWidth[imageStyle] }}"
+             max-height="{{ screenshot.maxHeight[imageStyle] }}">
+            </before-after-image-slider>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <div class="col-md-12 pagination">
     <pagination
       ng-model="currentPage"
       total-items="screenshots.length"
@@ -131,7 +134,6 @@
       boundary-links="true"
       items-per-page="itemsPerPage">
     </pagination>
-
   </div>
 </div>
 
