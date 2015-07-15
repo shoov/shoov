@@ -22,7 +22,7 @@ function shoov_ci_build_drush_command() {
 /**
  * Implements drush_hook_command().
  *
- * Command callback for csv2sql.
+ * Command callback for "create-ci-build-item".
  */
 function drush_shoov_ci_build_create_ci_build_item() {
   drush_shoov_ci_build_release_stuck_items();
@@ -35,19 +35,16 @@ function drush_shoov_ci_build_create_ci_build_item() {
   $count = count($messages);
   drush_log(dt('Found @count items for processing', array('@count' => $count)));
 
-  $server_url = variable_get('shoov_ui_build_pr_server', 'http://localhost:3000');
-  if (!$server_url) {
-    throw new Exception('Shoov build server is not setup.');
-  }
-
 
   // Send requests.
   $delta = 1;
   foreach ($messages as $message) {
+    $nodejs_server_url = shoov_ci_build_get_nodejs_server_url($message);
+
     $account = user_load($message->uid);
 
     $url = array(
-      $server_url,
+      $nodejs_server_url,
       'ci',
       $message->mid,
       shoov_restful_get_user_token($account),

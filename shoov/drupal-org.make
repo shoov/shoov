@@ -68,7 +68,10 @@ projects[message_notify][subdir] = "contrib"
 projects[message_notify][version] = "2.5"
 
 projects[message_subscribe][subdir] = "contrib"
-projects[message_subscribe][version] = "1.x-dev"
+projects[message_subscribe][type] = module
+projects[message_subscribe][download][type] = git
+projects[message_subscribe][download][branch] = 7.x-1.x
+projects[message_subscribe][download][revision] = 4e1791d33d2daa5605de1d1a88b81ad7b1f781ff
 
 projects[message_ui][subdir] = "contrib"
 projects[message_ui][version] = "1.4"
@@ -86,7 +89,10 @@ projects[og_vocab][subdir] = "contrib"
 projects[og_vocab][version] = "1.2"
 
 projects[restful][subdir] = "contrib"
-projects[restful][version] = "1.x-dev"
+projects[restful][type] = module
+projects[restful][download][type] = git
+projects[restful][download][branch] = 7.x-1.x
+projects[restful][download][revision] = 9dae54204eef0925081abcfaaa20faa6191a3a4c
 
 projects[search_api][subdir] = "contrib"
 projects[search_api][version] = "1.12"

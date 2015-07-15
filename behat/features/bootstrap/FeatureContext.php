@@ -131,7 +131,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   /**
    * @When I create :title node of type :type
    */
-  public function iCreateNodeOfType($title, $type, $repository = NULL) {
+  public function iCreateNodeOfType($title, $type, $repository = NULL, $github_id = NULL, $check_saving = FALSE) {
     $account = user_load_by_name($this->user->name);
     $values = array(
       'type' => $type,
@@ -141,12 +141,13 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     $wrapper = entity_metadata_wrapper('node', $entity);
     $wrapper->title->set($title);
     if ($type == 'repository') {
-      $wrapper->field_github_id->set(123456);
+      $github_id = $github_id ? $github_id : rand(99999, 1000000);
+      $wrapper->field_github_id->set($github_id);
     }
     elseif ($type == 'ci_build') {
       if (!$repository) {
         $params = array('@title' => $title);
-        throw new \Exception(format_string('Failed to create a new CI build @title because repository is undefined.', $params));
+        throw new \Exception(format_string('Failed to create a new CI build "@title" because repository is undefined.', $params));
       }
 
       $query = new EntityFieldQuery();
@@ -159,8 +160,36 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       $repository_id = key($result['node']);
       $wrapper->og_repo->set($repository_id);
     }
-    $wrapper->save();
+
+    try {
+      $wrapper->save();
+      return TRUE;
+    }
+    catch (\Exception $e) {
+      if (!$check_saving) {
+        throw $e;
+      }
+      return FALSE;
+    }
   }
+
+  /**
+   * @When I create repository :title with GitHub ID :id
+   */
+  public function iCreateNodeRepositoryWithGithubId($title, $github_id) {
+    $this->iCreateNodeOfType($title, 'repository', NULL, $github_id);
+  }
+
+  /**
+   * @Then I should not be able to create repository with GitHub ID :github_id
+   */
+  public function iShouldNotBeAbleToCreateRepositoryWithGithubId($github_id) {
+    $saved = $this->iCreateNodeOfType('Test repository ' . $github_id, 'repository', NULL, $github_id, TRUE);
+    if ($saved) {
+      throw new \Exception(format_string("GitHub ID @githubid was duplicated.", array('@githubid' => $github_id)));
+    }
+  }
+
 
   /**
    * @When I delete :title node of type :type
@@ -237,11 +266,18 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   /**
    * @When I create repository and CI build :title
    */
-  public function iCreateRepositoryAndCiBuild($title) {
+  public function iCreateRepositoryAndCiBuild($title, $github_id = NULL) {
     // Create a new repository.
-    $this->iCreateNodeOfType($title, 'repository');
+    $this->iCreateNodeOfType($title, 'repository', NULL, $github_id);
     // Create a new CI build.
     $this->iCreateNodeOfType($title, 'ci_build', $title);
+  }
+
+  /**
+   * @When I create repository and CI build :title with GitHub ID :id
+   */
+  public function iCreateRepositoryAndCiBuildWithGithubId($title, $github_id) {
+    $this->iCreateRepositoryAndCiBuild($title, $github_id);
   }
 
   /**

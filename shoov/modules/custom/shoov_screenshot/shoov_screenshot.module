@@ -12,6 +12,8 @@ include_once 'shoov_screenshot.features.inc';
  * Add a piped public files download.
  * This is a temporary hack as Pantheon doesn't allow sending CORS on public
  * files.
+ *
+ * @see image_menu().
  */
 function shoov_screenshot_menu() {
   $items['shoov/images'] = array(
@@ -22,6 +24,14 @@ function shoov_screenshot_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  // Copied from image_menu().
+  $items['shoov/images/styles/%image_style'] = array(
+    'title' => 'Generate image style',
+    'page callback' => 'image_style_deliver',
+    'page arguments' => array(3),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 

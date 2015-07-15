@@ -40,6 +40,7 @@ angular.module('clientApp')
       }).success(function(response) {
         var data = response.data[0];
         setCache(data);
+        setUserChannel(data.id);
         // Subscribe user to Pusher channel.
         setChannels(data.repository);
         deferred.resolve(data);
@@ -47,6 +48,23 @@ angular.module('clientApp')
 
       return deferred.promise;
     }
+
+    /**
+     * Set data for account.
+     *
+     * @param data
+     *  The data to set
+     *
+     * @returns {$q.promise}
+     */
+    this.set = function(data) {
+      var url = Config.backend + '/api/me/';
+      return $http({
+        method: 'PATCH',
+        url: url,
+        data: data
+      });
+    };
 
     /**
      * Cache the account data.
@@ -83,8 +101,22 @@ angular.module('clientApp')
       }
 
       repositories.forEach(function(repoId) {
+        if (!repoId) {
+          // repoId is null.
+          return;
+        }
         channelManager.addChannel(repoId);
       });
+    };
+
+    /**
+     * Subscribe user to user's Pusher channel.
+     *
+     * @param int userId
+     *   The user id.
+     */
+    var setUserChannel = function(userId) {
+      channelManager.addUserChannel(userId);
     };
 
     $rootScope.$on('clearCache', function() {

@@ -19,6 +19,7 @@ function shoov_repository_node_presave($node) {
 
   $wrapper = entity_metadata_wrapper('node', $node);
   if ($wrapper->field_github_id->value()) {
+    shoov_repository_check_github_id_unique($wrapper->field_github_id->value(), $node);
     // GitHub Id already populated.
     return;
   }
@@ -39,11 +40,13 @@ function shoov_repository_node_presave($node) {
   // @todo: Throw exception on error?
   // or try again or set state invalid to this repo.
   if (!empty($data['id'])) {
+    shoov_repository_check_github_id_unique($wrapper->field_github_id->value(), $node);
     $wrapper->field_github_id->set($data['id']);
   }
 }
 
 /**
+<<<<<<< HEAD
  * Implements hook_node_insert().
  *
  * Check that vocabulary with name "Screenshots tags" exist for this repository
@@ -117,4 +120,57 @@ function shoov_repository_create_screenshot_tags_vocabulary($node) {
   og_vocab_create_og_vocab($vocabulary->vid, 'node', 'screenshot')->save();
 
   return $vocabulary->vid;
+=======
+ * Check repository GitHub id is unique.
+ *
+ * @param int $github_id
+ *  Repository GitHub id.
+ * @param $node
+ *  Repository node object.
+ *
+ * @throws Exception
+ *  Throw exception is this GitHub id is already used.
+ */
+function shoov_repository_check_github_id_unique($github_id, $node) {
+  $account = user_load($node->uid);
+
+  $query = new EntityFieldQuery();
+  $query
+    ->addMetaData('account', $account)
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'repository');
+  if (!empty($node->nid)) {
+    $query->propertyCondition('nid', $node->nid, '<>');
+  }
+  $result = $query
+    ->fieldCondition('field_github_id', 'value', $github_id)
+    ->execute();
+
+  if (empty($result['node'])) {
+    return;
+  }
+
+  throw new Exception(format_string('GitHub ID @githubid was duplicated.', array('@githubid' => $github_id)));
+}
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Trigger event when new repository is created. Send new repository's data to
+ * the client.
+ */
+function shoov_repository_node_insert($node) {
+  if ($node->type != 'repository') {
+    return;
+  }
+
+  $account = user_load($node->uid);
+  $handler = restful_get_restful_handler('repositories');
+  $handler->setAccount($account);
+  $result = $handler->get($node->nid);
+
+  $data = array($result[0]);
+
+  shoov_pusher_trigger_user_event($node->uid, 'new_repo', $data);
+>>>>>>> master
 }
