@@ -1,23 +1,21 @@
 .account {
   > div {
     margin-bottom: 8px;
-    font-size: 16px;
+    font-size: 18px;
   }
-}
 
-.browser-stack-form {
-  font-size: 16px;
+  &.browser-stack-form {
 
-  .row {
-    margin-bottom: 4px;
+    .row {
+      margin-bottom: 4px;
 
-    .editable {
-      cursor: pointer;
+      .editable {
+        cursor: pointer;
+      }
     }
-  }
 
-  .form-actions {
-    margin-bottom: 10px;
-    text-align: center;
+    .form-actions {
+      margin-bottom: 10px;
+    }
   }
 }

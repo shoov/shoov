@@ -125,6 +125,8 @@ body {
   .portlet {
     padding: 12px 20px 15px 20px;
     background-color: white;
+    float: left;
+    width: 100%;
 
     .portlet-title {
       border-bottom: 1px solid #eee;
