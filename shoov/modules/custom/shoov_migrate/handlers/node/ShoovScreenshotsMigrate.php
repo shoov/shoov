@@ -79,7 +79,7 @@ class ShoovScreenshotsMigrate extends \ShoovMigrateNode {
    * Implements MigrateDestination::complete().
    *
    * Assign this screenshot with Ui Build that its have. Because they depend
-   * from each other. And handle tags.
+   * from each other.
    *
    * @param $entity
    * @param $row
@@ -89,14 +89,21 @@ class ShoovScreenshotsMigrate extends \ShoovMigrateNode {
     $wrapper = entity_metadata_wrapper('node', $ui_build_id);
     $wrapper->field_pr_screenshot_ids->set($entity->nid);
     $wrapper->save();
+  }
 
-    $node = node_load($entity->nid);
-    $wrapper = entity_metadata_wrapper('node', $node);
+  /**
+   * Implements MigrateDestination::prepare().
+   *
+   * Handle tags.
+   *
+   * @param $entity
+   * @param $row
+   */
+  function prepare($entity, $row) {
+    $wrapper = entity_metadata_wrapper('node', $entity);
 
     // Check the vocabulary 'screenshots_tags' exist for this repository.
-    if (!$vocabulary_id = shoov_repository_get_vocabulary_by_repo('Screenshots tags', $wrapper->og_repo->value())) {
-      $vocabulary_id = shoov_repository_create_screenshot_tags_vocabulary($node);
-    }
+    $vocabulary_id = shoov_repository_get_vocabulary_by_repo('Screenshots tags', $wrapper->og_repo->value());
 
     // If a screenshot have tags handle it.
     if ($row->_tags) {
@@ -104,7 +111,7 @@ class ShoovScreenshotsMigrate extends \ShoovMigrateNode {
       $tids = array();
       foreach($tags as $tag) {
         $tid = shoov_screenshot_add_tag_to_vocabulary($tag, $vocabulary_id);
-        array_push($tids, $tid);
+        $tids[] = $tid;
       }
       $wrapper->og_vocabulary->set($tids);
     }
