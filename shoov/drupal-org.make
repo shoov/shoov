@@ -6,7 +6,7 @@ projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc5"
 
 projects[admin_views][subdir] = "contrib"
-projects[admin_views][version] = "1.4"
+projects[admin_views][version] = "1.5"
 
 projects[composer_manager][subdir] = "contrib"
 projects[composer_manager][version] = "1.7"
@@ -41,7 +41,7 @@ projects[facetapi][subdir] = "contrib"
 projects[facetapi][version] = "1.5"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.5"
+projects[features][version] = "2.6"
 
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.6"
@@ -113,14 +113,14 @@ projects[views][subdir] = "contrib"
 projects[views][version] = "3.11"
 
 projects[views_bulk_operations][subdir] = "contrib"
-projects[views_bulk_operations][version] = "3.2"
+projects[views_bulk_operations][version] = "3.3"
 
 ; Development
 projects[devel][subdir] = "development"
 projects[devel][version] = "1.5"
 
 projects[migrate][subdir] = "development"
-projects[migrate][version] = 2.5
+projects[migrate][version] = 2.8
 
 projects[migrate_extras][subdir] = "development"
 projects[migrate_extras][version] = 2.5
