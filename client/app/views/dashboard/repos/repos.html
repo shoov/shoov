@@ -1,55 +1,93 @@
-<div class="row" xmlns="http://www.w3.org/1999/html">
-  <h2>Live Monitor Repositories</h2>
+<div class="row">
+  <div class="col-md-12">
+    <div class="page-bar">
+      <ul class="page-breadcrumb">
+        <li>
+          <i class="fa fa-home"></i>
+          <a ui-sref="dashboard.homepage">Dashboard</a>
+          <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+          Live Monitor Repositories
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="row">
   <div class="col-md-4 repos-list">
+    <ul class="repos portlet">
+      <div class="portlet-title">
+        <div class="caption font-red-sunglo">
+          <i class="fa fa-heartbeat"></i>
+          <span class="caption-subject">Live Monitor Repositories</span>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <li ng-repeat="repo in repos" class="repo-item">
 
-    <ul class="repos">
-      <li ng-repeat="repo in repos" class="repo-item">
+          <div class="repos-checkbox">
+            <div class="checker">
+          <span ng-class="{'checked': repo.build.enabled}">
+            <input type="checkbox" ng-checked="repo.build.enabled" ng-click="toggleRepo(repo)" ng-disabled="repo._inProgress"/>
+          </span>
+            </div>
+          </div>
 
-        <input type="checkbox" ng-checked="repo.build.enabled" ng-click="toggleRepo(repo)" ng-disabled="repo._inProgress"/>
+          <span ng-hide="repo.build" class="name">{{ repo.label }}</span>
 
-        <span ng-hide="repo.build" class="name">{{ repo.label }}</span>
-
-        <span ng-show="repo.build" class="name">
-          <a ui-sref="dashboard.ciBuild({ buildId: parseInt(repo.build.id) })">{{ repo.label }}</a>
-        </span>
-      </li>
+      <span ng-show="repo.build" class="name">
+        <a ui-sref="dashboard.ciBuild({ buildId: parseInt(repo.build.id) })">{{ repo.label }}</a>
+      </span>
+        </li>
+      </div>
     </ul>
   </div>
 
   <div class="col-md-8 repos-docs">
-    <h3>What is it?</h3>
-    <div>
-      <p>
-        With Shoov you can easily run your functional tests on your live site(s), in order to better monitor them.
-      </p>
-      <p>
-        You can for example use Behat to check critical functionally such as the login to your site, add to cart, and recent blog posts blog are working properly. <br/>
-        Once you enable a repository, Shoov will look for a <code>.shoov.yml</code> file in the root of that
-        repository and execute the commands it has.
-      </p>
-      <p>
-        Every enabled repository is automatically picked up by Shoov, and executed every 3 minutes.
-      </p>
-
-      <div>
-        Go ahead and try it for yourself. You have two options: <br/>
-        <h4>New repository</h4>
+    <div class="portlet">
+      <div class="portlet-title">
+        <div class="caption font-green-sharp">
+          <i class="fa fa-question-circle"></i>
+          <span class="caption-subject">What is it?</span>
+        </div>
+      </div>
+      <div class="portlet-body">
         <p>
-          Fork <a href="https://github.com/amitaibu/gizra-behat" target="_blank">this</a> repository which has all the configuration already in place. <br/>
-          After forking, refresh this page and enable the repository.
+          With Shoov you can easily run your functional tests on your live site(s), in order to better monitor them.
+        </p>
+        <p>
+          You can for example use Behat to check critical functionally such as the login to your site, add to cart, and recent blog posts blog are working properly. <br/>
+          Once you enable a repository, Shoov will look for a <code>.shoov.yml</code> file in the root of that
+          repository and execute the commands it has.
+        </p>
+        <p>
+          Every enabled repository is automatically picked up by Shoov, and executed every 3 minutes.
         </p>
 
-        <h4>Existing repository</h4>
-        <p>
-          If you already have a repository you can use the following command in order to <em>Shoovify</em> it:<br/>
-          <code>curl -s http://shoov.io/shoovify.sh | sh</code> <br/>
-          After pushing your changes to the <code>master</code> branch, refresh this page and enable the repository.
-        </p>
+        <div>
+          Go ahead and try it for yourself. You have two options: <br/>
+          <div class="well well-sm">
+            <h4>New repository</h4>
+            <p>
+              Fork <a href="https://github.com/amitaibu/gizra-behat" target="_blank">this</a> repository which has all the configuration already in place. <br/>
+              After forking, refresh this page and enable the repository.
+            </p>
+          </div>
 
-        <p>
-          The command will add a pre-configured <code>.shoov.yml</code> file along with an example <code>Behat</code> directory you can later on modify
-          to fit your live monitoring needs.
-        </p>
+          <div class="well well-sm">
+            <h4>Existing repository</h4>
+            <p>
+              If you already have a repository you can use the following command in order to <em>Shoovify</em> it:<br/>
+              <code>curl -s http://shoov.io/shoovify.sh | sh</code> <br/>
+              After pushing your changes to the <code>master</code> branch, refresh this page and enable the repository.
+            </p>
+            <p>
+              The command will add a pre-configured <code>.shoov.yml</code> file along with an example <code>Behat</code> directory you can later on modify
+              to fit your live monitoring needs.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

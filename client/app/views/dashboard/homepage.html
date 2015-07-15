@@ -1,9 +1,38 @@
 <div class="row">
-  <div class="live-monitor-wrapper">
-    <a ui-sref="dashboard.repos">Live Monitor</a>
+  <div class="col-md-12">
+    <div class="page-bar">
+      <ul class="page-breadcrumb">
+        <li>
+          <i class="fa fa-home"></i>
+          Dashboard
+        </li>
+      </ul>
+    </div>
   </div>
-
-  <div class="visual-regression-wrapper">
-    <a ui-sref="dashboard.builds">Visual Regression</a>
+</div>
+<div class="row">
+  <div class="col-md-6 live-monitor-wrapper">
+    <a class="dashboard-stat dashboard-stat-light red-soft" ui-sref="dashboard.repos">
+      <div class="visual">
+        <i class="fa fa-heartbeat"></i>
+      </div>
+      <div class="details">
+        <div class="desc">
+          Live Monitor
+        </div>
+      </div>
+    </a>
+  </div>
+  <div class="col-md-6 visual-regression-wrapper">
+    <a class="dashboard-stat dashboard-stat-light blue-soft" ui-sref="dashboard.builds">
+      <div class="visual">
+        <i class="fa fa-history"></i>
+      </div>
+      <div class="details">
+        <div class="desc">
+          Visual Regression
+        </div>
+      </div>
+    </a>
   </div>
 </div>
