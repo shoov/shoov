@@ -116,7 +116,7 @@ function shoov_repository_get_vocabulary_by_repo($vocabulary, $repository_id) {
  *    The id of newly created vocabulary.
  */
 function shoov_repository_create_screenshot_tags_vocabulary($node) {
-  if (shoov_repository_get_vocabulary_by_repo('Screenshots tags', $node)) {
+  if (shoov_repository_get_vocabulary_by_repo('Screenshots tags', $node->nid)) {
     // Vocabulary for screenshots tags already exist.
     return;
   }
