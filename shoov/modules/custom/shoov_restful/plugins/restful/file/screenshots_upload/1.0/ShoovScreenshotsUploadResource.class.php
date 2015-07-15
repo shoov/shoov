@@ -68,7 +68,7 @@ class ShoovScreenshotsUploadResource extends RestfulFilesUpload {
         $tid = shoov_screenshot_add_tag_to_vocabulary($tag, $vocabulary_id);
         $tids[] = $tid;
       }
-      $wrapper->og_vocabulary->set($tids);
+      $wrapper->{OG_VOCAB_FIELD}->set($tids);
     }
 
     $wrapper->field_build->set($build_node);
