@@ -119,6 +119,33 @@ function shoov_ci_build_field_default_field_bases() {
     'type' => 'list_text',
   );
 
+  // Exported field_base: 'field_ci_build_interval'
+  $field_bases['field_ci_build_interval'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_ci_build_interval',
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        180 => '3 Min',
+        3600 => '1 Hour',
+        86400 => '1 Day',
+        'manual' => 'Manual',
+      ),
+      'allowed_values_function' => '',
+    ),
+    'translatable' => 0,
+    'type' => 'list_text',
+  );
+
   // Exported field_base: 'field_ci_build_log'
   $field_bases['field_ci_build_log'] = array(
     'active' => 1,
@@ -128,11 +155,11 @@ function shoov_ci_build_field_default_field_bases() {
     'field_name' => 'field_ci_build_log',
     'foreign keys' => array(
       'format' => array(
-        'columns' => array(
-          'format' => 'format',
+          'columns' => array(
+              'format' => 'format',
+            ),
+          'table' => 'filter_format',
         ),
-        'table' => 'filter_format',
-      ),
     ),
     'indexes' => array(
       'format' => array(
