@@ -42,7 +42,7 @@ angular.module('clientApp')
     this.delete = function(id) {
       return $http({
         method: 'DELETE',
-        url: Config.backend + '/api/screenshots/' + id,
+        url: Config.backend + '/api/screenshots/' + id
       });
     };
 

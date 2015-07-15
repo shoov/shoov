@@ -13,6 +13,7 @@ class ShoovMeResource extends \RestfulEntityBaseUser {
   protected $controllers = array(
     '' => array(
       \RestfulInterface::GET => 'viewEntity',
+      \RestfulInterface::PATCH => 'patchEntity',
     ),
   );
 
@@ -41,6 +42,14 @@ class ShoovMeResource extends \RestfulEntityBaseUser {
       ),
     );
 
+    $public_fields['browserstack_username'] = array(
+      'property' => 'field_browserstack_username',
+    );
+
+    $public_fields['browserstack_key'] = array(
+      'property' => 'field_browserstack_key',
+    );
+
     return $public_fields;
   }
 
@@ -52,6 +61,16 @@ class ShoovMeResource extends \RestfulEntityBaseUser {
   public function viewEntity($entity_id) {
     $account = $this->getAccount();
     return array(parent::viewEntity($account->uid));
+  }
+
+  /**
+   * Overrides \RestfulEntityBase::patchEntity().
+   *
+   * Always return the current user.
+   */
+  public function patchEntity($entity_id) {
+    $account = $this->getAccount();
+    return parent::patchEntity($account->uid);
   }
 
   /**

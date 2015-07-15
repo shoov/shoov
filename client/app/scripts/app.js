@@ -21,7 +21,8 @@ angular
     'pusher-angular',
     'ui.bootstrap',
     'ui.checkbox',
-    'ui.router'
+    'ui.router',
+    'xeditable'
   ])
   .config(function($stateProvider, $urlRouterProvider, $httpProvider, cfpLoadingBarProvider) {
 
@@ -83,7 +84,6 @@ angular
       })
       .state('dashboard', {
         abstract: true,
-        url: '',
         templateUrl: 'views/dashboard/main.html',
         controller: 'DashboardCtrl',
         onEnter: page403,
@@ -97,7 +97,7 @@ angular
         }
       })
       .state('dashboard.homepage', {
-        url: 'homepage',
+        url: '/homepage',
         templateUrl: 'views/dashboard/homepage.html',
         onEnter: page403,
         resolve: {
