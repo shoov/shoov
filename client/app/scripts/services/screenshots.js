@@ -28,10 +28,9 @@ angular.module('clientApp')
     this.get = function(buildId, page) {
       page = typeof page !== 'undefined' ? page : 1;
       if (cache && cache[buildId + '-' + page]) {
-        console.log(cache[buildId + '-' + page]);
         return $q.when(cache[buildId + '-' + page].data);
       }
-      
+
       return getDataFromBackend(buildId, page);
     };
 
