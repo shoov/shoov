@@ -89,21 +89,14 @@ function shoov_repository_trigger_new_repo_event($node) {
  * @param $vocabulary
  *    The name of a vocabulary.
  * @param $node
- *    The repository object or the id of repository.
+ *    The repository ID.
  *
  * @return int|FALSE
  *    The vid of vocabulary or false if vocabulary doesn't exist.
  */
-function shoov_repository_get_vocabulary_by_repo($vocabulary, $repository) {
-  if ($repository_id = is_int($repository)) {
-    $repository = node_load($repository_id);
-    if (!$repository) {
-      throw Exception("The repository ID {$repository_id} doesn't exists");
-    }
-  }
-
+function shoov_repository_get_vocabulary_by_repo($vocabulary, $repository_id) {
   // Check that the vocabulary exist for this repository.
-  $vocabularies = og_vocab_relation_get_by_group('node', $repository->nid);
+  $vocabularies = og_vocab_relation_get_by_group('node', $repository_id);
   foreach ($vocabularies as $vocab) {
     if (taxonomy_vocabulary_load($vocab->vid)->name == $vocabulary) {
       return $vocab->vid;
