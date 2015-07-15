@@ -236,7 +236,8 @@ function shoov_ci_build_get_timestamp_for_next_ci_build_item(Message $message) {
   // Determine the time for next execution. Intervals are in seconds.
   $interval = shoov_ci_build_get_ci_build_interval($node);
   if ($interval == 'manual') {
-    return;
+    // TODO: NULL means run immediately. Need rewrite to stop executions.
+    return NULL;
   }
 
   return strtotime('+' . $interval . ' seconds');
