@@ -27,12 +27,9 @@ features[field_instance][] = node-screenshot-field_build
 features[field_instance][] = node-screenshot-field_diff_image
 features[field_instance][] = node-screenshot-field_regression_image
 features[field_instance][] = node-screenshot-og_repo
-<<<<<<< HEAD
 features[field_instance][] = node-screenshot-og_vocabulary
-=======
 features[image][] = screenshot_medium
 features[image][] = screenshot_small
->>>>>>> master
 features[node][] = screenshot
 features[variable][] = comment_anonymous_screenshot
 features[variable][] = comment_default_mode_screenshot

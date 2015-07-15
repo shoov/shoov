@@ -46,7 +46,6 @@ function shoov_repository_node_presave($node) {
 }
 
 /**
-<<<<<<< HEAD
  * Implements hook_node_insert().
  *
  * Check that vocabulary with name "Screenshots tags" exist for this repository
@@ -61,12 +60,27 @@ function shoov_repository_node_insert($node) {
     return;
   }
 
-  if (shoov_repository_get_vocabulary_by_repo('Screenshots tags', $node)) {
-    // Vocabulary for screenshots tags already exist.
-    return;
-  }
-
+  shoov_repository_trigger_new_repo_event($node);
   shoov_repository_create_screenshot_tags_vocabulary($node);
+}
+
+/**
+ * Trigger event when new repository is created.
+ *
+ * Send new repository's data to the client.
+ *
+ * @param stdClass $node
+ *   The repositorynode object.
+ */
+function shoov_repository_trigger_new_repo_event($node) {
+  $account = user_load($node->uid);
+  $handler = restful_get_restful_handler('repositories');
+  $handler->setAccount($account);
+  $result = $handler->get($node->nid);
+
+  $data = array($result[0]);
+
+  shoov_pusher_trigger_user_event($node->uid, 'new_repo', $data);
 }
 
 /**
@@ -109,6 +123,11 @@ function shoov_repository_get_vocabulary_by_repo($vocabulary, $repository) {
  *    The id of newly created vocabulary.
  */
 function shoov_repository_create_screenshot_tags_vocabulary($node) {
+  if (shoov_repository_get_vocabulary_by_repo('Screenshots tags', $node)) {
+    // Vocabulary for screenshots tags already exist.
+    return;
+  }
+
   // Creating the new vocabulary.
   $vocabulary = new stdClass();
   $vocabulary->name = "Screenshots tags";
@@ -120,7 +139,9 @@ function shoov_repository_create_screenshot_tags_vocabulary($node) {
   og_vocab_create_og_vocab($vocabulary->vid, 'node', 'screenshot')->save();
 
   return $vocabulary->vid;
-=======
+}
+
+ /**
  * Check repository GitHub id is unique.
  *
  * @param int $github_id
@@ -151,26 +172,4 @@ function shoov_repository_check_github_id_unique($github_id, $node) {
   }
 
   throw new Exception(format_string('GitHub ID @githubid was duplicated.', array('@githubid' => $github_id)));
-}
-
-/**
- * Implements hook_node_insert().
- *
- * Trigger event when new repository is created. Send new repository's data to
- * the client.
- */
-function shoov_repository_node_insert($node) {
-  if ($node->type != 'repository') {
-    return;
-  }
-
-  $account = user_load($node->uid);
-  $handler = restful_get_restful_handler('repositories');
-  $handler->setAccount($account);
-  $result = $handler->get($node->nid);
-
-  $data = array($result[0]);
-
-  shoov_pusher_trigger_user_event($node->uid, 'new_repo', $data);
->>>>>>> master
 }

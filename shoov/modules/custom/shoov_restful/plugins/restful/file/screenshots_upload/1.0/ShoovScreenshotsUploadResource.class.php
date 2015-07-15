@@ -59,9 +59,7 @@ class ShoovScreenshotsUploadResource extends RestfulFilesUpload {
 
     $wrapper->field_baseline_name->set($request['baseline_name']);
 
-    if (!$vocabulary_id = shoov_repository_get_vocabulary_by_repo('screenshots_tags', $repo_node)) {
-      $vocabulary_id = shoov_repository_create_screenshot_tags_vocabulary($node);
-    }
+    $vocabulary_id = shoov_repository_get_vocabulary_by_repo('screenshots_tags', $repo_node);
 
     if ($request['tags']) {
       $tags = explode(',', $request['tags']);
