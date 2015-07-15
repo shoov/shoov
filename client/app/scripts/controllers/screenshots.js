@@ -12,37 +12,28 @@ angular.module('clientApp')
 
     // Initialize values.
     $scope.showDiff = false;
-    $scope.screenshots = screenshots;
+    $scope.screenshots = screenshots.data;
     $scope.accessToken = Auth.getAccessToken();
 
-    $scope.filteredScreenshots = [];
     $scope.currentPage = 1;
     $scope.itemsPerPage = 50;
-
+    $scope.totalScreenshotsCount = screenshots.count;
+    $scope.pager = typeof screenshots.next !== 'undefined';
 
     $scope.imageStyles = {'self': 'Original'};
     // We use "self" key because link to the original image is under"self" key
     // in the screenshot object.
     $scope.imageStyle = 'self';
 
-    if (screenshots.length) {
+    if (screenshots.data.length) {
       // Image styles for select list.
-      angular.forEach(screenshots[0].regression.styles, function(style, key) {
+      angular.forEach(screenshots.data[0].regression.styles, function(style, key) {
         $scope.imageStyles[key] = style.label;
       });
     }
 
-
-    $scope.$watch('currentPage', function() {
-      var begin = (($scope.currentPage - 1) * $scope.itemsPerPage);
-      var end = begin + $scope.itemsPerPage;
-
-      $scope.filteredScreenshots = $scope.screenshots.slice(begin, end);
-    });
-
-
     // @todo: Get repo label from service.
-    $scope.repoName = screenshots.length ? screenshots[0].repository.label : '-';
+    $scope.repoName = screenshots.data.length ? screenshots.data[0].repository.label : '-';
     $scope.gitBranch = build[0].git_branch;
     $scope.gitCommit = build[0].git_commit.substring(0, 6);
 
@@ -50,24 +41,34 @@ angular.module('clientApp')
     $scope.prName = 'shoov-' + $scope.gitBranch;
     $scope.prUrl = build[0].pull_request;
 
-    angular.forEach($scope.screenshots, function(value, key) {
-      $scope.screenshots[key].selected = false;
+    $scope.addImageStyles = function(values) {
+      angular.forEach(values, function(value, key) {
+        values[key].selected = false;
 
-      // Set max values for image width and height for original images size.
-      $scope.screenshots[key].maxHeight = {};
-      $scope.screenshots[key].maxWidth = {};
+        // Set max values for image width and height for original images size.
+        values[key].maxHeight = {};
+        values[key].maxWidth = {};
 
-      $scope.screenshots[key].maxHeight['self'] = value.regression.height > value.baseline.height ? parseInt(value.regression.height) : parseInt(value.baseline.height);
-      $scope.screenshots[key].maxWidth['self'] = value.regression.width > value.baseline.width ? parseInt(value.regression.width) : parseInt(value.baseline.width);
-      // Set max values for image width and height for different image styles.
-      angular.forEach($scope.imageStyles, function(style, styleKey){
-        if (styleKey == 'self') {
-          // Self value is already in object.
-          return;
-        }
+        values[key].maxHeight['self'] = value.regression.height > value.baseline.height ? parseInt(value.regression.height) : parseInt(value.baseline.height);
+        values[key].maxWidth['self'] = value.regression.width > value.baseline.width ? parseInt(value.regression.width) : parseInt(value.baseline.width);
+        // Set max values for image width and height for different image styles.
+        angular.forEach($scope.imageStyles, function(style, styleKey){
+          if (styleKey == 'self') {
+            // Self value is already in object.
+            return;
+          }
 
-        $scope.screenshots[key].maxWidth[styleKey] = parseInt(value.regression['styles'][styleKey].width);
-        $scope.screenshots[key].maxHeight[styleKey] = $scope.screenshots[key].maxWidth[styleKey] * $scope.screenshots[key].maxHeight['self'] / $scope.screenshots[key].maxWidth['self'];
+          values[key].maxWidth[styleKey] = parseInt(value.regression['styles'][styleKey].width);
+          values[key].maxHeight[styleKey] = values[key].maxWidth[styleKey] * values[key].maxHeight['self'] / values[key].maxWidth['self'];
+        });
+      });
+      return values;
+    };
+
+    $scope.$watch('currentPage', function() {
+      Screenshots.get(build[0].id, $scope.currentPage).then(function(response) {
+        $scope.screenshots = $scope.addImageStyles(response.data);
+        $scope.allSelected = false;
       });
     });
 

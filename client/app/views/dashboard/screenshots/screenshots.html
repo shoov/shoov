@@ -49,7 +49,6 @@
           <option ng-repeat="(value, style) in imageStyles" value="{{value}}" ng-selected="{{value == imageStyle}}">{{style}}</option>
         </select>
       </div>
-      <div class="col-md-4"></div>
     </div>
 
     <ul class="screenshots">
@@ -58,7 +57,7 @@
         <checkbox large name="selectAll" ng-model="allSelected" ng-click="selectAll()"></checkbox> Select all
       </li>
 
-      <li ng-repeat="screenshot in filteredScreenshots" class="screenshot-item">
+      <li ng-repeat="screenshot in screenshots" class="screenshot-item">
 
         <div class="name">
           <checkbox large name="selectedScreenshots[]" ng-model="screenshot.selected"></checkbox> {{ screenshot.label }}
@@ -87,12 +86,12 @@
     </ul>
     <pagination
       ng-model="currentPage"
-      total-items="screenshots.length"
+      total-items="totalScreenshotsCount"
       max-size="maxSize"
       rotate="false"
       boundary-links="true"
       items-per-page="itemsPerPage"
-      ng-show="screenshots.length > itemsPerPage">
+      ng-show="pager">
 
     </pagination>
 
