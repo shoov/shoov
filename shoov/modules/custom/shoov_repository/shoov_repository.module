@@ -58,7 +58,7 @@ function shoov_repository_node_insert($node) {
     return;
   }
 
-  if (shoov_repository_vocabulary_exist('Screenshots tags', $node)) {
+  if (shoov_repository_get_vocabulary_by_repo('Screenshots tags', $node)) {
     // Vocabulary for screenshots tags already exist.
     return;
   }
@@ -67,17 +67,17 @@ function shoov_repository_node_insert($node) {
 }
 
 /**
- * Determine the vocabulary exist in repository.
+ * Determine if a vocabulary exists in a repository.
  *
  * @param $vocabulary
  *    The name of a vocabulary.
  * @param $node
  *    The repository object or the id of repository.
  *
- * @return int|false
+ * @return int|FALSE
  *    The vid of vocabulary or false if vocabulary doesn't exist.
  */
-function shoov_repository_vocabulary_exist($vocabulary, $repository) {
+function shoov_repository_get_vocabulary_by_repo($vocabulary, $repository) {
   if ($repository_id = is_int($repository)) {
     $repository = node_load($repository_id);
     if (!$repository) {
@@ -87,13 +87,13 @@ function shoov_repository_vocabulary_exist($vocabulary, $repository) {
 
   // Check that the vocabulary exist for this repository.
   $vocabularies = og_vocab_relation_get_by_group('node', $repository->nid);
-  foreach ($vocabularies as $voc) {
-    if (taxonomy_vocabulary_load($voc->vid)->name == $vocabulary) {
-      return $voc->vid;
+  foreach ($vocabularies as $vocab) {
+    if (taxonomy_vocabulary_load($vocab->vid)->name == $vocabulary) {
+      return $vocab->vid;
     }
   }
 
-  return false;
+  return FALSE;
 }
 
 /**
@@ -113,6 +113,7 @@ function shoov_repository_create_screenshot_tags_vocabulary($node) {
   $vocabulary->description = "The vocabulary contains tags for screenshots.";
   taxonomy_vocabulary_save($vocabulary);
   og_vocab_relation_save($vocabulary->vid, 'node', $node->nid);
+  // Attach the new vocabulary to the group.
   og_vocab_create_og_vocab($vocabulary->vid, 'node', 'screenshot')->save();
 
   return $vocabulary->vid;
