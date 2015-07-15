@@ -19,5 +19,12 @@ foreach ($results['node'] as $node) {
   if (!$wrapper->field_ci_build_interval->value()) {
     // Set default value 3 Minutes.
     $wrapper->field_ci_build_interval->set('180');
+    $wrapper->save();
   }
+
+  drush_print("CI build ID !id updated.", array('!id' => $node->nid));
 }
+
+drush_print("Script have finished.");
+
+
