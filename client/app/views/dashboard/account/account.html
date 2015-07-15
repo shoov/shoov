@@ -34,6 +34,25 @@
         </div>
       </div>
 
+    <form editable-form name="editableForm" onaftersave="saveBrowserStackData()">
+      <div ng-click="editableForm.$show()">
+        BrowserStack Username:
+        <span class="like-a" href="#" editable-text="account.browserstack_username">{{ account.browserstack_username || 'empty' }}</span>
+      </div>
+      <div ng-show="editableForm.$visible">
+        BrowserStack Key:
+        <span href="#" editable-text="account.browserstack_key">{{ account.browserstack_key || 'empty' }}</span>
+      </div>
+      <div class="form-actions" ng-show="editableForm.$visible">
+        <button type="submit" class="btn btn-primary" ng-disabled="editableForm.$waiting">
+          Save
+        </button>
+        <button type="button" class="btn btn-default" ng-disabled="editableForm.$waiting" ng-click="editableForm.$cancel()">
+          Cancel
+        </button>
+      </div>
+    </form>
+
       <div class="dashboard-stat dashboard-stat-light white-soft">
         <div class="col-md-12 code-box">
           Create or update your <code>~/.shoov.json</code> file by copy pasting the following code into your terminal:

@@ -59,7 +59,7 @@ class ShoovEncryptResource extends \RestfulEntityBase {
       throw new \RestfulBadRequestException("Request should contain a value.");
     }
 
-    $node_js_url = variable_get('shoov_ui_build_pr_server', 'http://localhost:3000');
+    $node_js_url = variable_get('shoov_nodejs_server', 'http://localhost:3000');
     $url = $node_js_url . '/encrypt';
 
     $data = array(
