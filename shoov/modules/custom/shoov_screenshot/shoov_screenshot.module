@@ -92,3 +92,37 @@ function shoov_screenshot_stream_wrappers() {
   return $wrappers;
 }
 
+/**
+ * Adds an existing tag or create a new one and adds to a repository vocabulary.
+ *
+ * @param $tag
+ *    The name of tag.
+ * @param $vocabulary
+ *    The id of vocabulary.
+ *
+ * @return int
+ *    The term ID.
+ */
+function shoov_screenshot_add_tag_to_vocabulary($term_name, $vocabulary_id) {
+  $query  = new EntityFieldQuery();
+
+  $result = $query
+    ->entityCondition('entity_type', 'taxonomy_term')
+    ->propertyCondition('name', $term_name)
+    ->propertyCondition('vid', $vocabulary_id)
+    ->execute();
+
+  if (empty($result['taxonomy_term'])) {
+    // Create a new term.
+    $term = new stdClass();
+    $term->name = $term_name;
+    $term->vid = $vocabulary_id;
+    taxonomy_term_save($term);
+    $tid = $term->tid;
+  }
+  else {
+    $tid = key($result['taxonomy_term']);
+  }
+
+  return $tid;
+}

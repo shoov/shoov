@@ -38,6 +38,7 @@ function shoov_repository_node_presave($node) {
   $data = shoov_github_http_request("repos/$owner/$repo", $options);
 
   // @todo: Throw exception on error?
+  // or try again or set state invalid to this repo.
   if (!empty($data['id'])) {
     shoov_repository_check_github_id_unique($wrapper->field_github_id->value(), $node);
     $wrapper->field_github_id->set($data['id']);
@@ -45,6 +46,95 @@ function shoov_repository_node_presave($node) {
 }
 
 /**
+ * Implements hook_node_insert().
+ *
+ * Check that vocabulary with name "Screenshots tags" exist for this repository
+ * otherwise create one and assign with repository.
+ *
+ * @param $node
+ *    Repository object.
+ */
+function shoov_repository_node_insert($node) {
+  if ($node->type != 'repository') {
+    // Not a repository node.
+    return;
+  }
+
+  shoov_repository_trigger_new_repo_event($node);
+  shoov_repository_create_screenshot_tags_vocabulary($node);
+}
+
+/**
+ * Trigger event when new repository is created.
+ *
+ * Send new repository's data to the client.
+ *
+ * @param stdClass $node
+ *   The repositorynode object.
+ */
+function shoov_repository_trigger_new_repo_event($node) {
+  $account = user_load($node->uid);
+  $handler = restful_get_restful_handler('repositories');
+  $handler->setAccount($account);
+  $result = $handler->get($node->nid);
+
+  $data = array($result[0]);
+
+  shoov_pusher_trigger_user_event($node->uid, 'new_repo', $data);
+}
+
+/**
+ * Determine if a vocabulary exists in a repository.
+ *
+ * @param $vocabulary
+ *    The name of a vocabulary.
+ * @param $node
+ *    The repository ID.
+ *
+ * @return int|FALSE
+ *    The vid of vocabulary or false if vocabulary doesn't exist.
+ */
+function shoov_repository_get_vocabulary_by_repo($vocabulary, $repository_id) {
+  // Check that the vocabulary exist for this repository.
+  $vocabularies = og_vocab_relation_get_by_group('node', $repository_id);
+  foreach ($vocabularies as $vocab) {
+    if (taxonomy_vocabulary_load($vocab->vid)->name == $vocabulary) {
+      return $vocab->vid;
+    }
+  }
+
+  return FALSE;
+}
+
+/**
+ * Create vocabulary for screenshot tags in repository.
+ *
+ * @param $node
+ *    The repository id.
+ *
+ * @return int
+ *    The id of newly created vocabulary.
+ */
+function shoov_repository_create_screenshot_tags_vocabulary($node) {
+  if ($vocabulary_id = shoov_repository_get_vocabulary_by_repo('Screenshots tags', $node->nid)) {
+    // Vocabulary for screenshots tags already exist.
+    return $vocabulary_id;
+  }
+
+  // Creating the new vocabulary.
+  $vocabulary = new stdClass();
+  $vocabulary->name = "Screenshots tags";
+  $vocabulary->machine_name = "screenshots_tags_" . $node->nid;
+  $vocabulary->description = "The vocabulary contains tags for screenshots.";
+  taxonomy_vocabulary_save($vocabulary);
+  // Attach the new vocabulary to the group.
+  og_vocab_relation_save($vocabulary->vid, 'node', $node->nid);
+  og_vocab_create_og_vocab($vocabulary->vid, 'node', 'screenshot')->save();
+
+  return $vocabulary->vid;
+}
+
+ /**
  * Check repository GitHub id is unique.
  *
  * @param int $github_id
@@ -75,25 +165,4 @@ function shoov_repository_check_github_id_unique($github_id, $node) {
   }
 
   throw new Exception(format_string('GitHub ID @githubid was duplicated.', array('@githubid' => $github_id)));
-}
-
-/**
- * Implements hook_node_insert().
- *
- * Trigger event when new repository is created. Send new repository's data to
- * the client.
- */
-function shoov_repository_node_insert($node) {
-  if ($node->type != 'repository') {
-    return;
-  }
-
-  $account = user_load($node->uid);
-  $handler = restful_get_restful_handler('repositories');
-  $handler->setAccount($account);
-  $result = $handler->get($node->nid);
-
-  $data = array($result[0]);
-
-  shoov_pusher_trigger_user_event($node->uid, 'new_repo', $data);
 }
