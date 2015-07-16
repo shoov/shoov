@@ -80,6 +80,15 @@ function shoov_ci_incident_create_error_incident(Message $message) {
   $wrapper->field_ci_build_error->set(TRUE);
   $wrapper->save();
 
+  $account = user_load($node->uid);
+  $handler = restful_get_restful_handler('ci-incidents');
+  $handler->setAccount($account);
+  $result = $handler->get($node->nid);
+  $data = array($result[0]);
+
+  $repo_id = $wrapper->og_repo->value(array('identifier' => TRUE));
+  shoov_pusher_trigger_event($repo_id, 'new_incident', $data);
+
   return $node;
 }
 

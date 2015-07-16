@@ -45,9 +45,9 @@
 
   .screenshot-header {
     border-bottom: 1px solid $brand-main-color;
-    margin-top: 5px;
+    margin-top: 20px;
     background-color: white;
-    padding: 0 15px 20px;
+    padding: 20px;
 
     .download-wrapper {
       float: right;
@@ -91,9 +91,12 @@
       border: 2px solid #222;
     }
   }
+
+  .portlet {
+    float: none;
+  }
 }
 
 .pagination {
   text-align: center;
 }
-
