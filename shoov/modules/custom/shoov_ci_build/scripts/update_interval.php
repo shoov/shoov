@@ -14,7 +14,7 @@ $results = $query
   ->execute();
 
 foreach ($results['node'] as $node) {
-  $wrapper = entity_metadata_wrapper('message', $node->nid);
+  $wrapper = entity_metadata_wrapper('node', $node->nid);
 
   if (!$wrapper->field_ci_build_interval->value()) {
     // Set default value 3 Minutes.
@@ -22,7 +22,7 @@ foreach ($results['node'] as $node) {
     $wrapper->save();
   }
 
-  drush_print("CI build ID !id updated.", array('!id' => $node->nid));
+  drush_print(sprintf('- CI build ID %d updated.',$node->nid), 1);
 }
 
 drush_print("Script have finished.");
