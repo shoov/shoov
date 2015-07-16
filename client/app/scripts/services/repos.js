@@ -48,7 +48,7 @@ angular.module('clientApp')
      */
     function getDataFromBackend(repoId) {
       var deferred = $q.defer();
-      var url = Config.backend + '/api/repositories';
+      var url = Config.backend + '/api/github_repos';
 
       if (repoId) {
         url += '/' + repoId;
