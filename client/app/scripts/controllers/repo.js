@@ -24,7 +24,6 @@ angular.module('clientApp')
       });
 
       channel.bind('new_ci_build', function(data) {
-        console.log(data);
         // Put new item in the begginning of the list.
         $scope.ciBuildItems.unshift(data[0]);
       });
@@ -33,8 +32,6 @@ angular.module('clientApp')
         var id = data[0].id;
         // Update the existing item.
         angular.forEach($scope.ciBuildItems, function(item, itemId) {
-          console.log(item.id);
-          console.log(item.id == id);
           if (item.id != id) {
             return;
           }
