@@ -1,0 +1,12 @@
+{
+  "name": "shoov",
+  "version": "0.1.0",
+  "description": "Shoov - Gizra's testing toolkit.",
+  "license": "MIT",
+  "repository": "shoov/shoov",
+  "author": {
+    "name": "Gizra",
+    "email": "info@gizra.com",
+    "url": "https://github.com/shoov"
+  },
+}
