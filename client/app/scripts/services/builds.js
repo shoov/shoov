@@ -8,7 +8,7 @@
  * Service in the clientApp.
  */
 angular.module('clientApp')
-  .service('Builds', function ($q, $http, $timeout, Config, Repos, $rootScope, $log) {
+  .service('Builds', function ($q, $http, $timeout, Config, Repos, $rootScope, channelManager, $log) {
 
     // A private cache key.
     var cache = {};
@@ -68,7 +68,7 @@ angular.module('clientApp')
         return Repos.create(githubRepo.label)
           .then(function(response) {
             var repo = response.data.data[0];
-
+            channelManager.addChannel(repo.id);
             params = {
               label: repo.label,
               branch: githubRepo.branch,

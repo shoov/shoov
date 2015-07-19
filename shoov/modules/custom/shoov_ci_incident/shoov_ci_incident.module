@@ -87,7 +87,7 @@ function shoov_ci_incident_create_error_incident(Message $message) {
   $data = array($result[0]);
 
   $repo_id = $wrapper->og_repo->value(array('identifier' => TRUE));
-  shoov_pusher_trigger_event($repo_id, 'new_incident', $data);
+  shoov_pusher_trigger_event($repo_id, 'ci_incident_new', $data);
 
   return $node;
 }

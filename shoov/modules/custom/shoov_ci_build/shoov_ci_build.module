@@ -178,7 +178,7 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
   flag('flag', 'subscribe_ci_builds', $node->nid, $account);
 
   // Trigger Pusher event when new CI Build is created.
-  shoov_ci_build_trigger_event(message_load($message->mid), 'new_ci_build');
+  shoov_ci_build_trigger_event(message_load($message->mid), 'ci_build_new');
 
   return $message;
 }
@@ -209,7 +209,7 @@ function shoov_ci_build_message_update(Message $message) {
   shoov_ci_build_process_ci_build_item($message);
 
   // Trigger Pusher event when CI Build status changes.
-  shoov_ci_build_trigger_event($message, 'update_ci_build');
+  shoov_ci_build_trigger_event($message, 'ci_build_update');
 }
 
 /**
@@ -410,10 +410,5 @@ function shoov_ci_build_trigger_event(Message $message, $event) {
   $handler->setAccount($account);
   $result = $handler->get($message->mid);
   $data = array($result[0]);
-  if (isset($wrapper->field_ci_build->og_repo)) {
-    shoov_pusher_trigger_event($wrapper->field_ci_build->og_repo->getIdentifier(), $event, $data);
-  }
-  else {
-    shoov_pusher_trigger_user_event($message->uid, $event, $data);
-  }
+  shoov_pusher_trigger_event($wrapper->field_ci_build->og_repo->getIdentifier(), $event, $data);
 }

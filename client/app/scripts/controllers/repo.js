@@ -16,23 +16,24 @@ angular.module('clientApp')
     $scope.parseInt = parseInt;
 
     var channels = channelManager.getChannels();
-    console.log(channels);
     angular.forEach(channels, function(channel) {
-      channel.bind('new_incident', function(data) {
+      channel.bind('ci_incident_new', function(data) {
         // Put new item in the begginning of the list.
         $scope.incidents.unshift(data[0]);
       });
 
-      channel.bind('new_ci_build', function(data) {
+      channel.bind('ci_build_new', function(data) {
         // Put new item in the begginning of the list.
         $scope.ciBuildItems.unshift(data[0]);
       });
 
-      channel.bind('update_ci_build', function(data) {
-        var id = data[0].id;
+      channel.bind('ci_build_update', function(data) {
+        var id = parseInt(data[0].id);
+        var updated = false;
         // Update the existing item.
         angular.forEach($scope.ciBuildItems, function(item, itemId) {
           if (item.id != id) {
+            // This is not the item that should be updated.
             return;
           }
           $scope.ciBuildItems[itemId] = data[0];
