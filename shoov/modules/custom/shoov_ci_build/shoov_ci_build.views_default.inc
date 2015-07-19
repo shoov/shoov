@@ -33,6 +33,7 @@ function shoov_ci_build_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '30';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
     'timestamp' => 'timestamp',
@@ -119,6 +120,14 @@ function shoov_ci_build_views_default_views() {
   $handler->display->display_options['sorts']['timestamp']['table'] = 'message';
   $handler->display->display_options['sorts']['timestamp']['field'] = 'timestamp';
   $handler->display->display_options['sorts']['timestamp']['order'] = 'DESC';
+  /* Contextual filter: Field: CI build (field_ci_build) */
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['id'] = 'field_ci_build_target_id';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['table'] = 'field_data_field_ci_build';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['field'] = 'field_ci_build_target_id';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['summary_options']['items_per_page'] = '25';
   /* Filter criterion: Message: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'message';
@@ -152,6 +161,7 @@ function shoov_ci_build_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page_1');
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
   $handler->display->display_options['path'] = 'admin/content/ci-build-items';
   $handler->display->display_options['menu']['type'] = 'tab';
   $handler->display->display_options['menu']['title'] = 'CI build items';
@@ -160,6 +170,66 @@ function shoov_ci_build_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
+
+  /* Display: Block */
+  $handler = $view->new_display('block', 'Block', 'block_1');
+  $handler->display->display_options['defaults']['access'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'role';
+  $handler->display->display_options['access']['role'] = array(
+    3 => '3',
+    2 => '2',
+  );
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '25';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relationship: Message: User uid */
+  $handler->display->display_options['relationships']['user']['id'] = 'user';
+  $handler->display->display_options['relationships']['user']['table'] = 'message';
+  $handler->display->display_options['relationships']['user']['field'] = 'user';
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Field: CI build (field_ci_build) */
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['id'] = 'field_ci_build_target_id';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['table'] = 'field_data_field_ci_build';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['field'] = 'field_ci_build_target_id';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['default_argument_type'] = 'node';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Message: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'message';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'ci_build' => 'ci_build',
+  );
+  $handler->display->display_options['filters']['type']['expose']['operator_id'] = 'type_op';
+  $handler->display->display_options['filters']['type']['expose']['label'] = 'Message type';
+  $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
+  $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
+  $handler->display->display_options['filters']['type']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+  );
+  /* Filter criterion: Message: Status (field_ci_build_status) */
+  $handler->display->display_options['filters']['field_ci_build_status_value']['id'] = 'field_ci_build_status_value';
+  $handler->display->display_options['filters']['field_ci_build_status_value']['table'] = 'field_data_field_ci_build_status';
+  $handler->display->display_options['filters']['field_ci_build_status_value']['field'] = 'field_ci_build_status_value';
+  $handler->display->display_options['filters']['field_ci_build_status_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_ci_build_status_value']['expose']['operator_id'] = 'field_ci_build_status_value_op';
+  $handler->display->display_options['filters']['field_ci_build_status_value']['expose']['label'] = 'Status';
+  $handler->display->display_options['filters']['field_ci_build_status_value']['expose']['operator'] = 'field_ci_build_status_value_op';
+  $handler->display->display_options['filters']['field_ci_build_status_value']['expose']['identifier'] = 'field_ci_build_status_value';
+  $handler->display->display_options['filters']['field_ci_build_status_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+  );
   $export['ci_items'] = $view;
 
   return $export;
