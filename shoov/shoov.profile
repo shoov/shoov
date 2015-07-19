@@ -30,8 +30,13 @@ function shoov_install_tasks() {
     'display' => FALSE,
   );
 
-  $tasks['shoov_setup_og_permissions'] = array(
+  $tasks['shoov_setup_blocks'] = array(
     'display_name' => st('Set Blocks'),
+    'display' => FALSE,
+  );
+
+  $tasks['shoov_setup_og_permissions'] = array(
+    'display_name' => st('Set OG Permissions'),
     'display' => FALSE,
   );
 
@@ -128,6 +133,17 @@ function shoov_setup_blocks() {
       'title' => '<none>',
       'cache' => DRUPAL_NO_CACHE,
     ),
+    array(
+      'module' => 'views',
+      'delta' => 'ci_items-block_1',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'content',
+      'pages' => '',
+      'title' => '<none>',
+      'cache' => DRUPAL_NO_CACHE,
+    ),
   );
 
   drupal_static_reset();
@@ -143,6 +159,12 @@ function shoov_setup_blocks() {
       ->condition('theme', $theme)
       ->execute();
   }
+  db_insert('block_node_type')
+    ->fields(array(
+      'module' => 'content',
+      'delta' => 'ci_items-block_1',
+      'type' => 'ci_build'))
+    ->execute();
 }
 
 /**
