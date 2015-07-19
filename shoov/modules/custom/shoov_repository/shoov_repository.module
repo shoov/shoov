@@ -146,7 +146,9 @@ function shoov_repository_create_screenshot_tags_vocabulary($node) {
  *  Throw exception is this GitHub id is already used.
  */
 function shoov_repository_check_github_id_unique($github_id, $node) {
-  $account = user_load($node->uid);
+  // Set user to admin in order to check if there is no duplicate of repository
+  // regardless of the author.
+  $account = user_load(1);
 
   $query = new EntityFieldQuery();
   $query
