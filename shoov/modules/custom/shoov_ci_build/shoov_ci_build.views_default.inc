@@ -15,7 +15,7 @@ function shoov_ci_build_views_default_views() {
   $view->description = 'Show all existing messages.';
   $view->tag = 'Message';
   $view->base_table = 'message';
-  $view->human_name = 'CI items';
+  $view->human_name = 'CI build items';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -152,10 +152,10 @@ function shoov_ci_build_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page_1');
-  $handler->display->display_options['path'] = 'admin/content/message-ci-items';
+  $handler->display->display_options['path'] = 'admin/content/ci-build-items';
   $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'CI items';
-  $handler->display->display_options['menu']['description'] = 'A list of all CI items';
+  $handler->display->display_options['menu']['title'] = 'CI build items';
+  $handler->display->display_options['menu']['description'] = 'A list of all CI build items';
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
