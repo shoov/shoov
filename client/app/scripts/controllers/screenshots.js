@@ -18,6 +18,7 @@ angular.module('clientApp')
     $scope.currentPage = 1;
     $scope.itemsPerPage = 50;
     $scope.totalScreenshotsCount = screenshots.count;
+    // Determine if pager is needed.
     $scope.pager = typeof screenshots.next !== 'undefined';
 
     $scope.imageStyles = {'self': 'Original'};

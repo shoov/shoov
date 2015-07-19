@@ -25,10 +25,11 @@ angular.module('clientApp')
      *
      * @returns {*}
      */
-    this.get = function(buildId, page) {
-      page = typeof page !== 'undefined' ? page : 1;
-      if (cache && cache[buildId + '-' + page]) {
-        return $q.when(cache[buildId + '-' + page].data);
+    this.get = function(buildId, pageNum) {
+      pageNum = pageNum ? pageNum : 1;
+      var identifier = buildId + ':' + pageNum;
+      if (cache && cache[identifier]) {
+        return $q.when(cache[identifier].data);
       }
 
       return getDataFromBackend(buildId, page);
@@ -58,7 +59,7 @@ angular.module('clientApp')
      *
      * @returns {$q.promise}
      */
-    function getDataFromBackend(buildId, page) {
+    function getDataFromBackend(buildId, pageNum) {
       var deferred = $q.defer();
       var url = Config.backend + '/api/screenshots';
 
@@ -66,7 +67,7 @@ angular.module('clientApp')
         'filter[build]': buildId,
         // Sort desc.
         sort: '-id',
-        page: page
+        page: pageNum
       };
 
       $http({
@@ -74,7 +75,7 @@ angular.module('clientApp')
         url: url,
         params: params
       }).success(function(response) {
-        setCache(buildId + '-' + page, response);
+        setCache(buildId + ':' + pageNum, response);
         deferred.resolve(response);
       });
 
