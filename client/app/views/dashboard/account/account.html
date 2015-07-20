@@ -43,7 +43,7 @@
           </div>
         </div>
 
-        <form class="browser-stack-form account" editable-form name="editableForm" onaftersave="saveBrowserStackData()">
+        <form class="browser-stack-form account" editable-form name="editableForm" onaftersave="saveAccountData()">
           <div ng-click="editableForm.$show()">
             <div class="row">
               <div class="col-md-3">
@@ -63,6 +63,28 @@
               </div>
               <div class="col-md-9">
                 <span href="#" editable-text="account.browserstack_key">{{ account.browserstack_key || 'empty' }}</span>
+              </div>
+            </div>
+          </div>
+          <div ng-click="editableForm.$show()">
+            <div class="row">
+              <div class="col-md-3">
+                <i class="fa fa-flask"></i>
+                Sauce Labs Username:
+              </div>
+              <div class="col-md-9">
+                <span class="like-a" href="#" editable-text="account.saucelabs_username">{{ account.saucelabs_username || 'empty' }}</span>
+              </div>
+            </div>
+          </div>
+          <div ng-show="editableForm.$visible">
+            <div class="row">
+              <div class="col-md-3">
+                <i class="fa fa-flask"></i>
+                Sauce Labs Key:
+              </div>
+              <div class="col-md-9">
+                <span href="#" editable-text="account.saucelabs_key">{{ account.saucelabs_key || 'empty' }}</span>
               </div>
             </div>
           </div>
