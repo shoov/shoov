@@ -15,3 +15,14 @@ Feature: Screenshot
     | browserstack-ie11 wiki     |
     | default duckduck           |
 
+  @api
+  Scenario Outline: Check tags for the Screenshot
+    Given I login with user "admin"
+    When  I visit "<title>" node of type "screenshot"
+    Then  I should see "<tag>"
+
+  Examples:
+    | title                      | tag |
+    | browserstack-chrome google | foo |
+    | browserstack-ie11 wiki     | bar |
+    | chrome pendant             | zoo |
