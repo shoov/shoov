@@ -50,11 +50,11 @@ class ShoovMeResource extends \RestfulEntityBaseUser {
       'property' => 'field_browserstack_key',
     );
 
-    $public_fields['saucelabs_username'] = array(
+    $public_fields['sauce_username'] = array(
       'property' => 'field_saucelabs_username',
     );
 
-    $public_fields['saucelabs_key'] = array(
+    $public_fields['sauce_access_key'] = array(
       'property' => 'field_saucelabs_key',
     );
 

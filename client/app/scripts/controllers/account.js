@@ -17,8 +17,8 @@ angular.module('clientApp')
     Account.get().then(function(val) {
       $scope.account.browserstack_username = val.browserstack_username;
       $scope.account.browserstack_key = val.browserstack_key;
-      $scope.account.saucelabs_username = val.saucelabs_username;
-      $scope.account.saucelabs_key = val.saucelabs_key;
+      $scope.account.sauce_username = val.sauce_username;
+      $scope.account.sauce_access_key = val.sauce_access_key;
     });
 
     /**
@@ -31,8 +31,8 @@ angular.module('clientApp')
       var data = {
         'browserstack_username': $scope.account.browserstack_username,
         'browserstack_key': $scope.account.browserstack_key,
-        'saucelabs_username': $scope.account.saucelabs_username,
-        'saucelabs_key': $scope.account.saucelabs_key
+        'sauce_username': $scope.account.sauce_username,
+        'sauce_access_key': $scope.account.sauce_access_key
       };
 
       Account.set(data);
