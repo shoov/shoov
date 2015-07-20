@@ -7,8 +7,10 @@
 
 @import "compass/css3";
 
+@import "variables";
 @import 'account';
 @import 'before_after_image_slider';
+@import 'builds';
 @import 'homepage';
 @import 'loadingbar';
 @import 'repos';
@@ -16,67 +18,357 @@
 @import 'spinner';
 @import 'encrypt-form';
 
-.navbar {
-  margin-bottom: 0;
+* {
+  box-sizing: border-box;
 }
 
-.navbar-nav {
-  float: right;
-}
+body {
+  background-color: $brand-default;
+  color: $brand-main-color;
 
+  ul,
+  ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 
-// @todo: This should be taken care of by the bootstrap-social lib.
-.btn.btn-github:hover {
-  color: white;
-}
+  .container {
+    background: $main-bg-color;
+    padding: 25px 20px 75px 20px;
+    min-height: 500px;
+    position: relative;
+  }
 
-#dashboard-login,
-#dashboard-github-auth {
-  background: {
-    image: image-url("fish.jpg");
-    repeat: no-repeat;
-    position: top left;
-  };
-  width: 100%;
-  height: 100%;
-  position: absolute;
+  .navbar {
+    margin-bottom: 0;
+    background: none;
+    border: 0 none;
 
-  @include background-size(cover);
+    .container {
+      background: white;
+      box-shadow: 0 1px 10px 0 rgba(50, 50, 50, 0.2);
+      padding: 15px 20px 5px 20px;
+      min-height: 0;
+      z-index: 1;
+    }
+  }
 
-  .jumbotron {
-    margin-top: 80px;
+  .navbar-nav {
+    float: right;
+  }
+
+  .page-title {
+    padding: 0;
+    font-size: 24px;
+    letter-spacing: -1px;
+    line-height: 24px;
+    display: block;
+    color: $page-title-color;
+    margin: 0 0 20px 0;
+    font-weight: 300;
+    font-family: "Open Sans", sans-serif;
+  }
+
+  .page-bar {
+    padding: 0;
     background-color: white;
+    margin-bottom: 20px;
+    width: 100%;
+
+    .page-breadcrumb {
+      display: inline-block;
+      padding: 10px 6px;
+      margin: 0;
+      list-style: none;
+
+      li {
+        display: inline-block;
+        color: $breadcrumb-color;
+        font-size: 16px;
+        text-shadow: none;
+
+        > a {
+          color: $breadcrumb-color;
+        }
+
+        > i {
+          color: $gray-bg-color;
+          font-size: 18px;
+          text-shadow: none;
+
+          &.fa-angle-right {
+            width: 28px;
+            text-align: center;
+          }
+        }
+      }
+    }
   }
 
-  .github-private {
-    margin-top: 20px;
-  }
-}
-
-.builds {
-  margin-top: 20px;
-}
-
-.config {
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-
-.dev-tip {
-  margin-top: 10px;
-
-  .fa {
-    font-size: 20px;
-    color: green;
-    cursor: pointer;
+  .font-red-sunglo {
+    color: $brand-danger;
   }
 
-  &.message {
-    margin-top: 40px;
-    background-color: #ffffe0;
-    border: 1px solid black;
-    padding: 10px 20px;
-    @include border-radius(5px);
-    font-size: 18px;
+  .font-green-sharp {
+    color: $brand-success;
+  }
+
+  .font-blue-sharp {
+    color: $brand-primary;
+  }
+
+  .font-purple-intense {
+    color: $brand-title-purple;
+  }
+
+  .portlet {
+    padding: 12px 20px 15px 20px;
+    background-color: white;
+    float: left;
+    width: 100%;
+
+    .portlet-title {
+      border-bottom: 1px solid #eee;
+      padding: 0;
+      margin-bottom: 10px;
+      min-height: 48px;
+
+      > .caption {
+        float: left;
+        display: inline-block;
+        font-size: 18px;
+        line-height: 18px;
+        padding: 10px 0;
+
+        > i {
+          font-size: 15px;
+          font-weight: 300;
+          margin-top: 3px;
+        }
+
+        > .caption-subject {
+          font-size: 16px;
+          font-weight: bold;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+      }
+
+      > .actions {
+        padding: 6px 0 14px 0;
+        float: right;
+        display: inline-block;
+      }
+    }
+
+    .portlet-body {
+      padding-top: 8px;
+
+      .description {
+        margin-bottom: 15px;
+      }
+
+      .col-list {
+        background-color: $main-bg-color;
+        padding: 0 20px 20px;
+      }
+    }
+  }
+
+  .dashboard-stat {
+    display: block;
+    margin-bottom: 25px;
+    position: relative;
+    height: auto;
+    float: left;
+    width: 100%;
+
+    &:before {
+      content: " ";
+      display: table;
+    }
+
+    &.dashboard-stat-light {
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+
+    &.red-soft {
+      background-color: $brand-danger;
+
+      &:hover {
+        background-color: $state-danger-hover;
+      }
+    }
+
+    &.blue-soft {
+      background-color: $brand-primary;
+
+      &:hover {
+        background-color: $state-primary-hover;
+      }
+    }
+
+    &.green-soft {
+      background-color: $brand-success;
+
+      &:hover {
+        background-color: $brand-success-hover;
+      }
+    }
+
+    &.white-soft {
+      padding-top: 10px;
+      background-color: $main-bg-color;
+
+      .config {
+
+        input {
+          width: 75%;
+        }
+      }
+
+      .visual {
+
+        > i {
+          color: black;
+        }
+      }
+
+      &:hover {
+        background-color: $main-bg-color;
+      }
+    }
+
+    .visual {
+      width: 80px;
+      height: 80px;
+      display: block;
+      float: left;
+      padding-top: 10px;
+      padding-left: 15px;
+      margin-bottom: 15px;
+      font-size: 35px;
+      line-height: 35px;
+
+      &.background {
+        position: absolute;
+        bottom: 20px;
+        right: 55px;
+      }
+
+      > i {
+        margin-left: 0;
+        font-size: 110px;
+        line-height: 110px;
+        color: white;
+        opacity: 0.1;
+      }
+    }
+
+    .details {
+      position: absolute;
+      right: 15px;
+      padding-right: 15px;
+      margin-bottom: 5px;
+
+      .desc {
+        color: white;
+        padding-top: 25px;
+        text-align: right;
+        font-size: 34px;
+        line-height: 36px;
+
+        @media (max-width: 320px) {
+          font-size: 32px;
+          line-height: 34px;
+        }
+      }
+    }
+  }
+
+  // Override bootstrap default buttons and inputs.
+  input.form-control,
+  textarea.form-control {
+    @include border-radius(0);
+  }
+
+  .btn {
+    outline: none;
+    background-image: none;
+    filter: none;
+    @include box-shadow(none);
+    @include border-radius(0);
+    text-shadow: none;
+
+    &.btn-github:hover {
+      color: white;
+    }
+  }
+
+  #dashboard-login,
+  #dashboard-github-auth {
+    background: {
+      image: image-url("fish.jpg");
+      repeat: no-repeat;
+      position: top left;
+    }
+  ;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+    @include background-size(cover);
+
+    .container {
+      background-color: transparent;
+      min-height: 0;
+      padding: 0;
+    }
+
+    .jumbotron {
+      margin-top: 80px;
+      background-color: white;
+    }
+
+    .github-private {
+      margin-top: 20px;
+    }
+  }
+
+  .config {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+
+  .dev-tip {
+    display: inline-block;
+
+    .fa {
+      font-size: 20px;
+      color: green;
+      cursor: pointer;
+    }
+
+    &.message {
+      margin-top: 40px;
+      background-color: #ffffe0;
+      border: 1px solid black;
+      padding: 10px 20px;
+      @include border-radius(5px);
+      font-size: 18px;
+    }
+  }
+
+  footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 20px 10px;
+    background: $footer-bg;
+    color: $footer-color;
+    width: 100%;
+    text-align: center;
   }
 }

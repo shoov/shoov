@@ -341,6 +341,47 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-ci_build-field_ci_build_interval'
+  $field_instances['node-ci_build-field_ci_build_interval'] = array(
+    'bundle' => 'ci_build',
+    'default_value' => array(
+      0 => array(
+        'value' => 180,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'The interval between executions. ',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 7,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ci_build_interval',
+    'label' => 'Interval',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 9,
+    ),
+  );
+
   // Exported field_instance: 'node-ci_build-field_git_branch'
   $field_instances['node-ci_build-field_git_branch'] = array(
     'bundle' => 'ci_build',
@@ -522,14 +563,17 @@ function shoov_ci_build_field_default_field_instances() {
   t('Failed count');
   t('Git Branch');
   t('Git Commit');
+  t('Incident Status');
   t('Indicate if the CI build is enabled, and should be queued.');
+  t('Interval');
   t('Log');
   t('Private Key');
   t('Repository');
   t('Start time');
-  t('Incident Status');
+  t('Status');
   t('The count of failed CI build items before set state of CI build to error. ');
   t('The current status of processing CI Build.');
+  t('The interval between executions. ');
 
   return $field_instances;
 }

@@ -233,8 +233,14 @@ function shoov_ci_build_get_timestamp_for_next_ci_build_item(Message $message) {
     return NULL;
   }
 
-  // @todo: Make configurable.
-  return strtotime('+3 minutes');
+  // Determine the time for next execution. Intervals are in seconds.
+  $interval = shoov_ci_build_get_ci_build_interval($node);
+  if ($interval == 'manual') {
+    // TODO: NULL means run immediately. Need rewrite to stop executions.
+    return NULL;
+  }
+
+  return strtotime('+' . $interval . ' seconds');
 }
 
 /**
@@ -259,6 +265,21 @@ function shoov_ci_build_get_ci_build_status($node) {
   }
 
   return SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_ERROR;
+}
+
+/**
+ * Return the interval for CI build.
+ *
+ * @param $node
+ *  The CI build object.
+ *
+ * @return int|string
+ *  The count of seconds or the string 'manual'.
+ */
+function shoov_ci_build_get_ci_build_interval($node) {
+  $wrapper = entity_metadata_wrapper('node', $node);
+
+  return $wrapper->field_ci_build_interval->value();
 }
 
 /**

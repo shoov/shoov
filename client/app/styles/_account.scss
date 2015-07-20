@@ -1,1 +1,21 @@
+.account {
+  > div {
+    margin-bottom: 8px;
+    font-size: 18px;
+  }
 
+  &.browser-stack-form {
+
+    .row {
+      margin-bottom: 4px;
+
+      .editable {
+        cursor: pointer;
+      }
+    }
+
+    .form-actions {
+      margin-bottom: 10px;
+    }
+  }
+}

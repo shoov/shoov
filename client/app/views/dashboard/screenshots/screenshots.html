@@ -1,48 +1,71 @@
 <div class="row">
+  <div class="col-md-12">
+    <div class="page-bar">
+      <ul class="page-breadcrumb">
+        <li>
+          <i class="fa fa-home"></i>
+          <a ui-sref="dashboard.homepage">Dashboard</a>
+          <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+          <a ui-sref="dashboard.builds">Visual Regression</a>
+          <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+          Screenshot
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row">
   <div class="col-md-12 screenshots-list">
-
-    <ul class="info">
-      <li>Repository: <a ng-href="https://github.com/{{ repoName }}">{{ repoName }}</a></li>
-      <li>Branch: <a ng-href="https://github.com/{{ repoName }}/tree/{{ gitCommit }}">{{ gitBranch }}</a></li>
-      <li>Commit: <a ng-href="https://github.com/{{ repoName }}/commit/{{ gitCommit }}">{{ gitCommit }}</a></li>
-    </ul>
-
-    <div class="row">
-
-    <div>
-        <div class="col-md-6">
-
-          <!--<div class="pr-wrapper">-->
-
-            <!--<div>-->
-              <!--<input type="text" ng-disabled="prProgress" ng-model="prName">-->
-              <!--<button class="btn btn-primary" ng-disabled="!selection.length || prProgress" ng-click="pullRequest()">Create Pull Request </button>-->
-              <!--<span class="dev-tip">-->
-                <!--<i class="fa fa-info-circle" popover-placement="right" popover-template="'prDocker.html'" popover-title="Dev Tip"></i>-->
-              <!--</span>-->
-            <!--</div>-->
-
-            <!--<div>-->
-              <!--<a ng-href="{{ prUrl }}" ng-show="prUrl">{{ prUrl }}</a>-->
-            <!--</div>-->
-          <!--</div>-->
-
-          <div class="download-wrapper">
-            <button class="btn btn-primary" ng-disabled="!selection.length" ng-click="zip()">Download</button>
-
-            <span class="dev-tip">
-              <i class="fa fa-info-circle" popover-placement="right" popover-template="'zip.html'" popover-title="Dev Tip"></i>
-            </span>
-          </div>
+    <div class="portlet">
+      <div class="portlet-title">
+        <div class="caption font-blue-sharp">
+          <i class="fa fa-desktop"></i>
+          <span class="caption-subject">Screenshot</span>
         </div>
+      </div>
 
-        <div class="col-md-6 show-diff">
-          Show diff <input bs-switch type="checkbox" ng-model="showDiff">
+      <ul class="info">
+        <li>Repository: <a ng-href="https://github.com/{{ repoName }}">{{ repoName }}</a></li>
+        <li>Branch: <a ng-href="https://github.com/{{ repoName }}/tree/{{ gitCommit }}">{{ gitBranch }}</a></li>
+        <li>Commit: <a ng-href="https://github.com/{{ repoName }}/commit/{{ gitCommit }}">{{ gitCommit }}</a></li>
+        <li class="background">
+          <i class="fa fa-github"></i>
+        </li>
+      </ul>
+
+      <div class="row">
+
+        <div>
+          <div class="col-md-6">
+
+            <div class="pr-wrapper">
+              <div class="form-group">
+                <input type="text" class="form-control" ng-disabled="prProgress" ng-model="prName">
+                <button class="btn btn-primary" ng-disabled="!selection.length || prProgress" ng-click="pullRequest()">Create Pull Request </button>
+              <span class="dev-tip">
+                <i class="fa fa-info-circle" popover-placement="right" popover-template="'prDocker.html'" popover-title="Dev Tip"></i>
+              </span>
+              </div>
+
+              <div>
+                <a ng-href="{{ prUrl }}" ng-show="prUrl">{{ prUrl }}</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 show-diff">
+            Show diff <input bs-switch type="checkbox" ng-model="showDiff">
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="row">
+    <div class="row image-size">
       <div class="col-md-4">
         <label for="image-style">Image size:</label>
         <select id="image-style" ng-model="imageStyle">
@@ -51,39 +74,58 @@
       </div>
     </div>
 
-    <ul class="screenshots">
+    <div class="screenshot-header">
+      <div class="row">
+        <div class="col-md-1">
+          <div class="screenshot-item-selector">
+            Select all
+            <checkbox large name="selectAll" ng-model="allSelected" ng-click="selectAll()"></checkbox>
+          </div>
+        </div>
+        <div class="col-md-11">
+          <div class="download-wrapper">
+            <button class="btn btn-primary" ng-disabled="!selection.length" ng-click="zip()">Download</button>
 
-      <li class="screenshot-item">
-        <checkbox large name="selectAll" ng-model="allSelected" ng-click="selectAll()"></checkbox> Select all
-      </li>
+        <span class="dev-tip">
+          <i class="fa fa-info-circle" popover-placement="right" popover-template="'zip.html'" popover-title="Dev Tip"></i>
+        </span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      <li ng-repeat="screenshot in screenshots" class="screenshot-item">
-
-        <div class="name">
-          <checkbox large name="selectedScreenshots[]" ng-model="screenshot.selected"></checkbox> {{ screenshot.label }}
-
+    <div ng-repeat="screenshot in screenshots" class="screenshot-wrapper">
+      <div class="row">
+        <div class="col-md-1 checkbox-wrapper">
+          <checkbox large name="selectedScreenshots[]" ng-model="screenshot.selected"></checkbox>
+        </div>
+        <div class="col-md-11 screenshot-item">
+          <div class="name">
+            {{ screenshot.label }}
           <span class="delete">
             <a href ng-click="delete(screenshot.id)">
               (<i class="glyphicon glyphicon-remove"> </i> Delete)
             </a>
           </span>
-
+          </div>
         </div>
+        <div class="col-md-12">
+          <div ng-style="{'height' : screenshot.maxHeight[imageStyle] }">
 
-        <div ng-style="{'height' : screenshot.maxHeight[imageStyle] }">
+            <img class="diff-image" ng-show="showDiff" ng-src="{{ imageStyle == 'self' ? (screenshot.diff.self + '?access_token=' + accessToken) : (screenshot.diff.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}" />
 
-          <img class="diff-image" ng-show="showDiff" ng-src="{{ imageStyle == 'self' ? (screenshot.diff.self + '?access_token=' + accessToken) : (screenshot.diff.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}" />
-
-          <before-after-image-slider ng-hide="showDiff"
+            <before-after-image-slider ng-hide="showDiff"
              baseline-img-src="{{ imageStyle == 'self' ? (screenshot.baseline.self + '?access_token=' + accessToken) : (screenshot.baseline.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}"
              regression-img-src="{{ imageStyle == 'self' ? (screenshot.regression.self + '?access_token=' + accessToken) : (screenshot.regression.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}"
              max-width="{{ screenshot.maxWidth[imageStyle] }}"
              max-height="{{ screenshot.maxHeight[imageStyle] }}">
-          </before-after-image-slider>
+            </before-after-image-slider>
+          </div>
         </div>
-
-      </li>
-    </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 pagination">
     <pagination
       ng-model="currentPage"
       total-items="totalScreenshotsCount"
@@ -94,7 +136,6 @@
       ng-show="pager">
 
     </pagination>
-
   </div>
 </div>
 
