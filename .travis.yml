@@ -19,15 +19,15 @@ addons:
 
 before_install:
   - composer self-update
-  - npm install -g npm@2
+  # - npm install -g npm@2
 
   # Install Bower, Grunt
-  - npm install -g bower grunt-cli
+  # - npm install -g bower grunt-cli
 
   # Install Sass and Compass for Grunt to work.
-  - gem install compass
+  # - gem install compass
 install:
-  # install drush
+  # Install drush
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - composer global require drush/drush:6.*
   - phpenv rehash
@@ -47,7 +47,7 @@ before_script:
 
   # start a web server on port 8080, run in the background; wait for initialization
   - drush @site runserver 127.0.0.1:8080  > ~/php-server.log 2>&1 &
-  - until netstat -an 2>/dev/null | grep '8080.*LISTEN'; do true; done
+  - until netstat -an 2>/dev/null | grep '8080.*LISTEN'; sleep 1; curl -I http://127.0.0.1:8080 ; do true; done
 
 script:
   # Run behat tests.
