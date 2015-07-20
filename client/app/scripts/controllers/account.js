@@ -29,10 +29,10 @@ angular.module('clientApp')
      */
     $scope.saveAccountData = function() {
       var data = {
-        'browserstack_key': $scope.account.browserstack_key,
         'browserstack_username': $scope.account.browserstack_username,
-        'saucelabs_key': $scope.account.saucelabs_key,
-        'saucelabs_username': $scope.account.saucelabs_username
+        'browserstack_key': $scope.account.browserstack_key,
+        'saucelabs_username': $scope.account.saucelabs_username,
+        'saucelabs_key': $scope.account.saucelabs_key
       };
 
       Account.set(data);
