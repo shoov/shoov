@@ -34,6 +34,14 @@ class ShoovConfigResource extends \RestfulEntityBaseUser {
       'property' => 'field_browserstack_key',
     );
 
+    $public_fields['sauce_username'] = array(
+      'property' => 'field_saucelabs_username',
+    );
+
+    $public_fields['sauce_access_key'] = array(
+      'property' => 'field_saucelabs_key',
+    );
+
     unset($public_fields['id']);
     unset($public_fields['self']);
     unset($public_fields['label']);
