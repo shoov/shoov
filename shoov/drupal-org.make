@@ -88,6 +88,9 @@ projects[og][version] = 2.x
 projects[og_vocab][subdir] = "contrib"
 projects[og_vocab][version] = "1.2"
 
+projects[panels][subdir] = "contrib"
+projects[panels][version] = "3.5"
+
 projects[restful][subdir] = "contrib"
 projects[restful][type] = module
 projects[restful][download][type] = git

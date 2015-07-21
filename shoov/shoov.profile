@@ -31,7 +31,7 @@ function shoov_install_tasks() {
   );
 
   $tasks['shoov_setup_og_permissions'] = array(
-    'display_name' => st('Set Blocks'),
+    'display_name' => st('Set OG Permissions'),
     'display' => FALSE,
   );
 

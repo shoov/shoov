@@ -43,12 +43,15 @@ dependencies[] = og
 dependencies[] = og_access
 dependencies[] = og_ui
 dependencies[] = og_vocab
+dependencies[] = panels
+dependencies[] = page_manager
 dependencies[] = restful
 dependencies[] = restful_token_auth
 dependencies[] = strongarm
 dependencies[] = token
 dependencies[] = views
 dependencies[] = views_bulk_operations
+dependencies[] = views_content
 
 ; Shoov
 dependencies[] = shoov_ci_build
