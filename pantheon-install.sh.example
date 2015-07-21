@@ -9,14 +9,15 @@ PROFILE=shoov
 MAKE_DIR=/var/www/shoov
 PANTHEON_DIR=/var/www/pantheon-shoov
 
+cd $PANTHEON_DIR
+git pull
+
 rm -rf $PANTHEON_DIR/profiles/$PROFILE
 cp -R $MAKE_DIR/$PROFILE $PANTHEON_DIR/profiles/$PROFILE
 
 rm -rf $PANTHEON_DIR/sites/all
 cp -R $MAKE_DIR/www/sites/all $PANTHEON_DIR/sites/all
 
-cd $PANTHEON_DIR
-git pull
 git add --all
 git commit -am "Site update"
 git push

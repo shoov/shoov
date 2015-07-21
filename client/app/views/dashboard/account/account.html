@@ -43,8 +43,8 @@
           </div>
         </div>
 
-        <form class="browser-stack-form account" editable-form name="editableForm" onaftersave="saveBrowserStackData()">
-          <div ng-click="editableForm.$show()">
+        <form class="browser-stack-form account" editable-form name="stackEditableForm" onaftersave="saveAccountData()">
+          <div ng-click="stackEditableForm.$show()">
             <div class="row">
               <div class="col-md-3">
                 <i class="fa fa-database"></i>
@@ -55,7 +55,7 @@
               </div>
             </div>
           </div>
-          <div ng-show="editableForm.$visible">
+          <div ng-show="stackEditableForm.$visible">
             <div class="row">
               <div class="col-md-3">
                 <i class="fa fa-database"></i>
@@ -66,11 +66,45 @@
               </div>
             </div>
           </div>
-          <div class="form-actions" ng-show="editableForm.$visible">
-            <button type="submit" class="btn btn-primary" ng-disabled="editableForm.$waiting">
+          <div class="form-actions" ng-show="stackEditableForm.$visible">
+            <button type="submit" class="btn btn-primary" ng-disabled="stackEditableForm.$waiting">
               Save
             </button>
-            <button type="button" class="btn btn-default" ng-disabled="editableForm.$waiting" ng-click="editableForm.$cancel()">
+            <button type="button" class="btn btn-default" ng-disabled="stackEditableForm.$waiting" ng-click="stackEditableForm.$cancel()">
+              Cancel
+            </button>
+          </div>
+        </form>
+
+
+        <form class="sauce-labs-form account" editable-form name="sauceEditableForm" onaftersave="saveAccountData()">
+          <div ng-click="sauceEditableForm.$show()">
+            <div class="row">
+              <div class="col-md-3">
+                <i class="fa fa-flask"></i>
+                Sauce Labs Username:
+              </div>
+              <div class="col-md-9">
+                <span class="like-a" href="#" editable-text="account.sauce_username">{{ account.sauce_username || 'empty' }}</span>
+              </div>
+            </div>
+          </div>
+          <div ng-show="sauceEditableForm.$visible">
+            <div class="row">
+              <div class="col-md-3">
+                <i class="fa fa-flask"></i>
+                Sauce Labs Key:
+              </div>
+              <div class="col-md-9">
+                <span href="#" editable-text="account.sauce_access_key">{{ account.sauce_access_key || 'empty' }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions" ng-show="sauceEditableForm.$visible">
+            <button type="submit" class="btn btn-primary" ng-disabled="sauceEditableForm.$waiting">
+              Save
+            </button>
+            <button type="button" class="btn btn-default" ng-disabled="sauceEditableForm.$waiting" ng-click="sauceEditableForm.$cancel()">
               Cancel
             </button>
           </div>

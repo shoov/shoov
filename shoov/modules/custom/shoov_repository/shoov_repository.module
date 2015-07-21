@@ -146,11 +146,8 @@ function shoov_repository_create_screenshot_tags_vocabulary($node) {
  *  Throw exception is this GitHub id is already used.
  */
 function shoov_repository_check_github_id_unique($github_id, $node) {
-  $account = user_load($node->uid);
-
   $query = new EntityFieldQuery();
   $query
-    ->addMetaData('account', $account)
     ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'repository');
   if (!empty($node->nid)) {
@@ -158,6 +155,9 @@ function shoov_repository_check_github_id_unique($github_id, $node) {
   }
   $result = $query
     ->fieldCondition('field_github_id', 'value', $github_id)
+    // Skip node access check in order to check if there is no duplicate of
+    // repository regardless of the author.
+    ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT')
     ->execute();
 
   if (empty($result['node'])) {

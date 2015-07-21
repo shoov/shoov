@@ -63,14 +63,13 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="row image-size">
-      <div class="col-md-4">
-        <label for="image-style">Image size:</label>
-        <select id="image-style" ng-model="imageStyle">
-          <option ng-repeat="(value, style) in imageStyles" value="{{value}}" ng-selected="{{value == imageStyle}}">{{style}}</option>
-        </select>
+      <div class="row image-size">
+        <div class="col-md-4">
+          <label for="image-style">Image size:</label>
+          <select id="image-style" class="form-control" ng-model="imageStyle">
+            <option ng-repeat="(value, style) in imageStyles" value="{{value}}" ng-selected="{{value == imageStyle}}">{{style}}</option>
+          </select>
+        </div>
       </div>
     </div>
 
@@ -128,11 +127,13 @@
   <div class="col-md-12 pagination">
     <pagination
       ng-model="currentPage"
-      total-items="screenshots.length"
+      total-items="totalScreenshotsCount"
       max-size="maxSize"
       rotate="false"
       boundary-links="true"
-      items-per-page="itemsPerPage">
+      items-per-page="itemsPerPage"
+      ng-show="pager">
+
     </pagination>
   </div>
 </div>
