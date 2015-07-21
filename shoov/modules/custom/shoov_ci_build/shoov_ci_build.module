@@ -177,6 +177,9 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
   $account = user_load($node->uid);
   flag('flag', 'subscribe_ci_builds', $node->nid, $account);
 
+  // Trigger Pusher event when new CI Build is created.
+  shoov_ci_build_trigger_event(message_load($message->mid), 'ci_build_new');
+
   return $message;
 }
 
@@ -204,6 +207,9 @@ function shoov_ci_build_message_update(Message $message) {
 
   shoov_ci_build_create_build_item($node, $timestamp);
   shoov_ci_build_process_ci_build_item($message);
+
+  // Trigger Pusher event when CI Build status changes.
+  shoov_ci_build_trigger_event($message, 'ci_build_update');
 }
 
 /**
@@ -407,4 +413,23 @@ function shoov_ci_build_get_nodejs_server_url(Message $message) {
 
   $node = $wrapper->field_ci_build->value();
   return shoov_ci_build_get_ci_build_status($node) == SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_ERROR ? $secondary_server : $primary_server;
+}
+
+/**
+ * Trigger Pusher event when new CI build is created or updated.
+ *
+ * @param Message $message
+ *  Message object.
+ * @param string $event
+ *   Event name.
+ */
+function shoov_ci_build_trigger_event(Message $message, $event) {
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $account = user_load($message->uid);
+  $handler = restful_get_restful_handler('ci-build-items');
+  $handler->setAccount($account);
+  $result = $handler->get($message->mid);
+  $data = array($result[0]);
+  shoov_pusher_trigger_event($wrapper->field_ci_build->og_repo->getIdentifier(), $event, $data);
 }
