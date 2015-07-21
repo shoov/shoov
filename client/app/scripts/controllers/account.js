@@ -24,16 +24,19 @@ angular.module('clientApp')
     /**
      * Saves additional data to the account.
      *
-     * Sets username and key of two external services, BrowserStack and Sauce
-     * Labs to the "Account" service.
+     * Sets username and key of external providers to the "Account" service,
+     * Receives the type of service that needs to be saved/updated.
+     *
+     * @param type
+     *  The type of the provider credentials to save.
      */
-    $scope.saveAccountData = function() {
-      var data = {
-        'browserstack_username': $scope.account.browserstack_username,
-        'browserstack_key': $scope.account.browserstack_key,
-        'sauce_username': $scope.account.sauce_username,
-        'sauce_access_key': $scope.account.sauce_access_key
-      };
+    $scope.saveAccountData = function(type) {
+      var username = type + '_username';
+      var access_key = type == 'sauce' ? type + '_access_key' : type + '_key';
+
+      var data = {};
+      data[username] = $scope.account[username];
+      data[access_key] = $scope.account[access_key];
 
       Account.set(data);
     };
