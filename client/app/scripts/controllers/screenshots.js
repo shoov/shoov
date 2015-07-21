@@ -16,13 +16,13 @@ angular.module('clientApp')
     $scope.accessToken = Auth.getAccessToken();
 
     $scope.currentPage = 1;
-    $scope.itemsPerPage = 50;
+    $scope.itemsPerPage = $scope.screenshots.length;
     $scope.totalScreenshotsCount = screenshots.count;
     // Determine if pager is needed.
     $scope.pager = typeof screenshots.next !== 'undefined';
 
     $scope.imageStyles = {'self': 'Original'};
-    // We use "self" key because link to the original image is under"self" key
+    // We use "self" key because link to the original image is under "self" key
     // in the screenshot object.
     $scope.imageStyle = 'self';
 

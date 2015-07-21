@@ -32,7 +32,7 @@ angular.module('clientApp')
         return $q.when(cache[identifier].data);
       }
 
-      return getDataFromBackend(buildId, page);
+      return getDataFromBackend(buildId, pageNum);
     };
 
     /**
