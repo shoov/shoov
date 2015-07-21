@@ -127,11 +127,13 @@
   <div class="col-md-12 pagination">
     <pagination
       ng-model="currentPage"
-      total-items="screenshots.length"
+      total-items="totalScreenshotsCount"
       max-size="maxSize"
       rotate="false"
       boundary-links="true"
-      items-per-page="itemsPerPage">
+      items-per-page="itemsPerPage"
+      ng-show="pager">
+
     </pagination>
   </div>
 </div>
