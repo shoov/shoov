@@ -19,7 +19,7 @@ function shoov_repository_node_presave($node) {
 
   $wrapper = entity_metadata_wrapper('node', $node);
   if ($wrapper->field_github_id->value()) {
-    shoov_repository_check_github_id_unique($wrapper->field_github_id->value(), $node);
+    shoov_repository_check_repository_unique($wrapper->field_github_id->value(), $node);
     // GitHub Id already populated.
     return;
   }
@@ -40,7 +40,7 @@ function shoov_repository_node_presave($node) {
   // @todo: Throw exception on error?
   // or try again or set state invalid to this repo.
   if (!empty($data['id'])) {
-    shoov_repository_check_github_id_unique($wrapper->field_github_id->value(), $node);
+    shoov_repository_check_repository_unique($wrapper->field_github_id->value(), $node);
     $wrapper->field_github_id->set($data['id']);
   }
 }
@@ -145,16 +145,20 @@ function shoov_repository_create_screenshot_tags_vocabulary($node) {
  * @throws Exception
  *  Throw exception is this GitHub id is already used.
  */
-function shoov_repository_check_github_id_unique($github_id, $node) {
+function shoov_repository_check_repository_unique($github_id, $node) {
   $query = new EntityFieldQuery();
   $query
     ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'repository');
+  $query
+    // Add OR condition to query to check github_id or title is not duplicating.
+    ->addMetaData('github_id', $github_id)
+    ->addMetaData('title', $node->title)
+    ->addTag('unique');
   if (!empty($node->nid)) {
     $query->propertyCondition('nid', $node->nid, '<>');
   }
   $result = $query
-    ->fieldCondition('field_github_id', 'value', $github_id)
     // Skip node access check in order to check if there is no duplicate of
     // repository regardless of the author.
     ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT')
@@ -164,5 +168,18 @@ function shoov_repository_check_github_id_unique($github_id, $node) {
     return;
   }
 
-  throw new Exception(format_string('GitHub ID @githubid was duplicated.', array('@githubid' => $github_id)));
+  throw new Exception(format_string('GitHub repository was duplicated.'));
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function shoov_repository_query_unique_alter(QueryAlterableInterface $query){
+  $github_id = $query->getMetaData('github_id');
+  $title = $query->getMetaData('title');
+  $query->leftJoin('field_data_field_github_id', 'g', 'node.nid = g.entity_id');
+  $or = db_or()
+    ->condition('g.field_github_id_value', $github_id)
+    ->condition('title', $title);
+  $query->condition($or);
 }
