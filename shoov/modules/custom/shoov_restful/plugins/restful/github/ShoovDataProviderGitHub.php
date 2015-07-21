@@ -33,7 +33,10 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       ),
     );
 
-    $data = shoov_github_http_request('user/repos', $options);
+    $repos = shoov_github_http_request('user/repos', $options);
+    $user_repos = shoov_github_http_request('users/' . $wrapper->name->value() . '/repos', $options);
+
+    $data = array_unique(array_merge($repos, $user_repos), SORT_REGULAR);
 
     $this->repos = $this->getReposKeyedById($data);
 
