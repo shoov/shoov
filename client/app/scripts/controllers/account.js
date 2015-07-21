@@ -25,7 +25,7 @@ angular.module('clientApp')
      * Saves additional data to the account.
      *
      * Sets username and key of external providers to the "Account" service,
-     * Receives the type of service that needs to be saved/updated.
+     * Receives the type of providers that needs to be saved/updated.
      *
      * @param type
      *  The type of the provider credentials to save.
