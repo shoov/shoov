@@ -22,15 +22,15 @@ angular.module('clientApp')
     });
 
     /**
-     * Saves additional data to the account.
+     * Saves Selenium's providers data to the user's account.
      *
-     * Sets username and key of external providers to the "Account" service,
+     * Sets username and key of Selenium's providers to the "Account" service,
      * Receives the type of providers that needs to be saved/updated.
      *
      * @param type
      *  The type of the provider credentials to save.
      */
-    $scope.saveAccountData = function(type) {
+    $scope.saveSeleniumProvidersData = function(type) {
       var username = type + '_username';
       var access_key = type == 'sauce' ? type + '_access_key' : type + '_key';
 
