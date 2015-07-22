@@ -15,7 +15,7 @@ function shoov_ci_build_views_default_views() {
   $view->description = 'Show all existing messages.';
   $view->tag = 'Message';
   $view->base_table = 'message';
-  $view->human_name = 'CI items';
+  $view->human_name = 'CI build items';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -23,8 +23,11 @@ function shoov_ci_build_views_default_views() {
   /* Display: Defaults */
   $handler = $view->new_display('default', 'Defaults', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'perm';
-  $handler->display->display_options['access']['perm'] = 'administer message types';
+  $handler->display->display_options['access']['type'] = 'role';
+  $handler->display->display_options['access']['role'] = array(
+    3 => '3',
+    2 => '2',
+  );
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
@@ -33,6 +36,7 @@ function shoov_ci_build_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '30';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
     'timestamp' => 'timestamp',
@@ -119,6 +123,15 @@ function shoov_ci_build_views_default_views() {
   $handler->display->display_options['sorts']['timestamp']['table'] = 'message';
   $handler->display->display_options['sorts']['timestamp']['field'] = 'timestamp';
   $handler->display->display_options['sorts']['timestamp']['order'] = 'DESC';
+  /* Contextual filter: Field: CI build (field_ci_build) */
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['id'] = 'field_ci_build_target_id';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['table'] = 'field_data_field_ci_build';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['field'] = 'field_ci_build_target_id';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['default_argument_type'] = 'node';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_ci_build_target_id']['summary_options']['items_per_page'] = '25';
   /* Filter criterion: Message: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'message';
@@ -152,14 +165,22 @@ function shoov_ci_build_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page_1');
-  $handler->display->display_options['path'] = 'admin/content/message-ci-items';
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  $handler->display->display_options['path'] = 'admin/content/ci-build-items';
   $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'CI items';
-  $handler->display->display_options['menu']['description'] = 'A list of all CI items';
+  $handler->display->display_options['menu']['title'] = 'CI build items';
+  $handler->display->display_options['menu']['description'] = 'A list of all CI build items';
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
+
+  /* Display: Content pane */
+  $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '25';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $export['ci_items'] = $view;
 
   return $export;
