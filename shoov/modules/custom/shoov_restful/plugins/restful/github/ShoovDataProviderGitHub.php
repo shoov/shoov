@@ -65,7 +65,12 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       ),
     );
 
-    $data = shoov_github_http_request('user/orgs', $options);
+    $orgs = shoov_github_http_request('user/orgs', $options);
+    // Add user to organization list as user can be the owner of the repository
+    // like an organization.
+    $user = shoov_github_http_request('user', $options);
+
+    $data = array_unique(array_merge($orgs, array($user)), SORT_REGULAR);
 
     $this->orgs = $this->getKeyedById($data);
 
@@ -160,7 +165,6 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
 
       $repo = &$this->repos[$github_id];
       $repo['shoov_id'] = $node->nid;
-      $repo['organization'] = $repo['owner']['login'];
 
       // Get the build info.
       $repo['shoov_build'] = !empty($node->_ci_build) ? $node->_ci_build : NULL;
@@ -385,7 +389,7 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
   }
 
   protected function organizationProcess($value) {
-    return array('login' => $value['login'], 'id' => $value['id']);
+    return $value['login'];
   }
 }
 

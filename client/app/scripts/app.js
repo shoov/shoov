@@ -113,6 +113,9 @@ angular
         resolve: {
           repos: function(Repos) {
             return Repos.get();
+          },
+          orgs: function(Orgs) {
+            return Orgs.get();
           }
         }
       })

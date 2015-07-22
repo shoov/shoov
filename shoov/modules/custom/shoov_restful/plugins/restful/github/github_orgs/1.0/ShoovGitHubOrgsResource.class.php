@@ -11,7 +11,7 @@ class ShoovGitHubOrgsResource extends \ShoovDataProviderGitHub {
    * {@inheritdoc}
    */
   public function publicFieldsInfo() {
-    $public_fields['label'] = array(
+    $public_fields['login'] = array(
       'property' => 'login',
     );
 

@@ -22,9 +22,17 @@
           <i class="fa fa-heartbeat"></i>
           <span class="caption-subject">Live Monitor Repositories</span>
         </div>
+
+        <div>
+          <label for="organizations">Organisation:</label>
+          <select id="organizations" class="form-control" ng-model="search.organization">
+            <option ng-repeat="value in orgs" value="{{value.login == 'All' ? value.id : value.login}}" ng-selected="{{value.login == search.organization}}">{{value.login + (value.user ? ' (my)' : '')}} </option>
+          </select>
+        </div>
+
       </div>
       <div class="portlet-body">
-        <li ng-repeat="repo in repos" class="repo-item">
+        <li ng-repeat="repo in repos | filter:search" class="repo-item">
 
           <div class="repos-checkbox">
             <div class="checker">

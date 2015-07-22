@@ -8,8 +8,27 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('ReposCtrl', function ($scope, repos, Builds, Repos, $log) {
+  .controller('ReposCtrl', function ($scope, repos, orgs, Orgs, Builds, Repos, Account, $log) {
     $scope.repos = repos;
+
+    $scope.orgs = orgs;
+
+    // Mark User as user, not as organization.
+    Account.get().then(function(response) {
+      $scope.username = response.label;
+
+      angular.forEach($scope.orgs, function(organization, key) {
+        if (organization.login != $scope.username) {
+          // This is not user.
+          return;
+        }
+        $scope.orgs[key]['user'] = true;
+      })
+    });
+    // Add value 'All'.
+    $scope.orgs.unshift({'login': 'All', 'id': ''});
+    // Set default filter value to 'All'.
+    $scope.search = {'organization': ''};
 
     // Allow parseInt an expression.
     // @todo: Service should be responsible of this.
