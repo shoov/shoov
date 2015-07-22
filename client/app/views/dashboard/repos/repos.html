@@ -32,7 +32,7 @@
 
       </div>
       <div class="portlet-body">
-        <li ng-repeat="repo in repos | filter:search" class="repo-item">
+        <li ng-repeat="repo in currentRepos" class="repo-item">
 
           <div class="repos-checkbox">
             <div class="checker">
@@ -50,6 +50,17 @@
         </li>
       </div>
     </ul>
+
+    <pagination
+      ng-model="currentPage"
+      total-items="totalReposCount"
+      max-size="maxSize"
+      rotate="false"
+      boundary-links="true"
+      items-per-page="itemsPerPage"
+      ng-show="pager">
+
+    </pagination>
   </div>
 
   <div class="col-md-8 repos-docs">

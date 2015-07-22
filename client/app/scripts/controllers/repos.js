@@ -8,11 +8,10 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('ReposCtrl', function ($scope, repos, orgs, Orgs, Builds, Repos, Account, $log) {
+  .controller('ReposCtrl', function ($scope, repos, orgs, Orgs, Builds, Repos, Account, $filter, $log) {
     $scope.repos = repos;
 
     $scope.orgs = orgs;
-
     // Mark User as user, not as organization.
     Account.get().then(function(response) {
       $scope.username = response.label;
@@ -29,6 +28,8 @@ angular.module('clientApp')
     $scope.orgs.unshift({'login': 'All', 'id': ''});
     // Set default filter value to 'All'.
     $scope.search = {'organization': ''};
+
+    $scope.itemsPerPage = 20;
 
     // Allow parseInt an expression.
     // @todo: Service should be responsible of this.
@@ -84,4 +85,22 @@ angular.module('clientApp')
       }
     };
 
+
+
+    $scope.$watch('search.organization', function() {
+      // Filter repositories by selected organization.
+      $scope.filteredRepos = $filter('filter')($scope.repos, $scope.search);
+      // Set total number of repositories (filtered).
+      $scope.totalReposCount = $scope.filteredRepos.length;
+      $scope.currentPage = 1;
+      // Determine if pager is needed.
+      $scope.pager = $scope.totalReposCount > $scope.itemsPerPage;
+      // Set new piece of repositories for 1st page.
+      $scope.currentRepos = $scope.filteredRepos.slice($scope.itemsPerPage*($scope.currentPage - 1), $scope.itemsPerPage * $scope.currentPage);
+    });
+
+    $scope.$watch('currentPage', function() {
+      // Set new piece of repositories for the current page.
+      $scope.currentRepos = $scope.filteredRepos.slice($scope.itemsPerPage*($scope.currentPage - 1), $scope.itemsPerPage * $scope.currentPage);
+    });
   });
