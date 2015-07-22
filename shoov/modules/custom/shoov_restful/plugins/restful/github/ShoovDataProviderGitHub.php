@@ -13,6 +13,7 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
    * @var array
    */
   protected $repos = array();
+  protected $orgs = array();
 
   /**
    * Return the plugins.
@@ -38,7 +39,7 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
 
     $data = array_unique(array_merge($repos, $user_repos), SORT_REGULAR);
 
-    $this->repos = $this->getReposKeyedById($data);
+    $this->repos = $this->getKeyedById($data);
 
     // @todo: Make this configurable by the plugin.
     $this->syncLocalRepos();
@@ -46,21 +47,48 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
   }
 
   /**
-   * Return the repos list, keyed by ID.
-   *
-   * We also take advantage of having the data, in order to update the repo name
-   * of local repos.
-   *
-   * @param array $repo_list
-   *   The repo list.
+   * Return the plugins.
    *
    * @return array
-   *   Array keyed by the repo ID.
    */
-  protected function getReposKeyedById(array $repo_list) {
+  public function getOrgs() {
+    if ($this->orgs) {
+      return $this->orgs;
+    }
+
+    $wrapper = entity_metadata_wrapper('user', $this->getAccount());
+    $access_token = $wrapper->field_github_access_token->value();
+
+    $options = array(
+      'headers' => array(
+        'Authorization' => 'token ' . $access_token,
+      ),
+    );
+
+    $data = shoov_github_http_request('user/orgs', $options);
+
+    $this->orgs = $this->getKeyedById($data);
+
+    // @todo: Make this configurable by the plugin.
+    return $this->orgs;
+  }
+
+  /**
+   * Return the plugins list, keyed by ID.
+   *
+   * We also take advantage of having the data, in order to update the plugin name
+   * of local plugin.
+   *
+   * @param array $plugins
+   *   The plugins list.
+   *
+   * @return array
+   *   Array keyed by the plugin ID.
+   */
+  protected function getKeyedById(array $plugins) {
     $return = array();
-    foreach ($repo_list as $repo) {
-      $return[$repo['id']] = $repo;
+    foreach ($plugins as $plugin) {
+      $return[$plugin['id']] = $plugin;
     }
 
     return $return;
@@ -129,8 +157,10 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
         continue;
       }
 
+
       $repo = &$this->repos[$github_id];
       $repo['shoov_id'] = $node->nid;
+      $repo['organization'] = $repo['owner']['login'];
 
       // Get the build info.
       $repo['shoov_build'] = !empty($node->_ci_build) ? $node->_ci_build : NULL;
@@ -140,11 +170,13 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
   /**
    * Gets the plugins filtered and sorted by the request.
    *
+   * @param array $plugins
+   *  Array of plugins.
+   *
    * @return array
    *   Array of plugins.
    */
-  public function getReposSortedAndFiltered() {
-    $plugins = $this->getRepos();
+  public function getSortedAndFiltered($plugins) {
     $public_fields = $this->getPublicFields();
 
     foreach ($this->parseRequestForListFilter() as $filter) {
@@ -278,14 +310,26 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
    * {@inheritdoc}
    */
   public function getTotalCount() {
-    return count($this->getReposSortedAndFiltered());
+    if ($this->plugin['resource'] == 'github_orgs') {
+      return count($this->getSortedAndFiltered($this->getOrgs()));
+    }
+    else {
+      return count($this->getSortedAndFiltered($this->getRepos()));
+    }
   }
 
   public function index() {
     $return = array();
 
-    foreach (array_keys($this->getReposSortedAndFiltered()) as $plugin_name) {
-      $return[] = $this->view($plugin_name);
+    if ($this->plugin['resource'] == 'github_orgs') {
+      foreach (array_keys($this->getSortedAndFiltered($this->getOrgs())) as $plugin_name) {
+        $return[] = $this->view($plugin_name);
+      }
+    }
+    else {
+      foreach (array_keys($this->getSortedAndFiltered($this->getRepos())) as $plugin_name) {
+        $return[] = $this->view($plugin_name);
+      }
     }
 
     return $return;
@@ -305,7 +349,7 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       return $cached_data->data;
     }
 
-    $repo = $this->repos[$id];
+    $item = $this->plugin['resource'] == 'github_orgs' ? $this->orgs[$id] : $this->repos[$id];
 
     // Loop over all the defined public fields.
     foreach ($this->getPublicFields() as $public_field_name => $info) {
@@ -319,11 +363,11 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
 
       // If there is a callback defined execute it instead of a direct mapping.
       if ($info['callback']) {
-        $value = static::executeCallback($info['callback'], array($repo));
+        $value = static::executeCallback($info['callback'], array($item));
       }
       // Map row names to public properties.
       elseif ($info['property']) {
-        $value = !empty($repo[$info['property']]) ? $repo[$info['property']] : NULL;
+        $value = !empty($item[$info['property']]) ? $item[$info['property']] : NULL;
       }
 
       // Execute the process callbacks.
@@ -339,4 +383,9 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
     $this->setRenderedCache($output, $cache_id);
     return $output;
   }
+
+  protected function organizationProcess($value) {
+    return array('login' => $value['login'], 'id' => $value['id']);
+  }
 }
+
