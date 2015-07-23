@@ -14,25 +14,18 @@ const SHOOV_CI_BUILD_CI_BUILD_STATUS_ERROR = 2;
 const SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_ERROR = 3;
 
 /**
- * Implements hook_menu().
- *
- * Add ci-build status image.
+ * Implements hook_theme().
  */
-function shoov_ci_build_menu() {
-  $items = array();
-
-  $items['ci-build/%node/status'] = array(
-    'page callback' => 'shoov_ci_build_status',
-    'page arguments' => array(1),
-    'access callback' => TRUE,
-    'type' => MENU_CALLBACK,
+function shoov_ci_build_theme() {
+  $theme['build_status'] = array(
+    'variables' => array(),
   );
 
-  return $items;
+  return $theme;
 }
 
 /**
- * Page callback; Prints the CI-Build status label.
+ * Theme function; Prints the CI-Build status label.
  *
  * Creates the HTML of CI-Build status, A small icon, color indicating the
  * status of the build.
@@ -40,34 +33,15 @@ function shoov_ci_build_menu() {
  * - Yellow: Unconfirmed error.
  * - Red: Error.
  *
- * @param $node
- *  The CI Build requested.
+ * @param $variables
+ *  The CI Build status color and text.
  *
  * @return null
- *  Prints the HTML, returns NULL to avoid rendering the template.
+ *  Returns the HTML.
  */
-function shoov_ci_build_status($node) {
-  $wrapper = entity_metadata_wrapper('node', $node);
-  $ci_build_status = $wrapper->field_ci_build_incident_status->value();
-  switch($ci_build_status) {
-    case 'unconfirmed_error':
-      $text = 'Unconfirmed Error';
-      $color = '#af8c38';
-      break;
-    case 'error':
-      $text = 'Error';
-      $color = '#f1353d';
-      break;
-    default:
-      $text = 'Passing';
-      $color = '#3fa75f';
-      break;
-  }
-
-  print '
-  <body style="padding: 0;margin: 0">
-  <div style="color: white;
-              background-color: ' . $color . ';
+function theme_build_status($variables) {
+  return '<div style="color: white;
+              background-color: ' . $variables['color'] . ';
               font-family: arial;
               display: inline-block;
               padding: 0 6px 0 0;
@@ -80,14 +54,9 @@ function shoov_ci_build_status($node) {
               vertical-align: middle;
               border-radius: 2px;
               outline: none;
-              box-shadow: 0px 2px 10px 0px rgba(50, 50, 50, 0.4);
-              ">
-  <span style="background-color: #515151;display: inline-block;padding: 4px 4px 4px 6px;">Status</span>
-  '. $text . '</div>
-  </body>
-  ';
-
-  return NULL;
+              box-shadow: 0px 2px 10px 0px rgba(50, 50, 50, 0.4);">
+          <span style="background-color: #515151;display: inline-block;border-radius: 2px;padding: 4px 4px 4px 6px;">Status</span>
+  ' . $variables['text'] . '</div>';
 }
 
 /**
