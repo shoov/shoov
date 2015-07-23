@@ -37,7 +37,6 @@
               <input type="text" size="50" name="config" value='curl -o ~/.shoov.json {{backend}}/api/v1.0/config?access_token={{ accessToken }}'>
             </div>
 
-
             See <a href="https://github.com/shoov/test-example" target="_blank">this</a> repo for an example.
 
             <div class="dev-tip">
@@ -50,7 +49,7 @@
         </div>
         <div ng-show="builds.length">
           <ul class="builds">
-            <li ng-repeat="build in builds" class="build-item">
+            <li class="build-item animate" ng-repeat="build in builds">
               <i class="fa fa-server"></i>
               <a ng-href="#/screenshots/{{ build.id }}" >{{ build.label }}</a>
             </li>
