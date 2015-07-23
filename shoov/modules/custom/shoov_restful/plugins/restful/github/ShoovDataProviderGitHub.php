@@ -15,6 +15,9 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
   protected $repos = array();
   protected $orgs = array();
 
+  protected $range = 50;
+  protected $links = array();
+
   /**
    * Return the plugins.
    *
@@ -24,6 +27,11 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
     if ($this->repos) {
       return $this->repos;
     }
+    $this->overrideRange();
+    $params = $this->parseRequestForListPagination();
+    // $offset = ($page - 1) * $range;
+    $range = intval($params[1]);
+    $page = ($params[0] / $range) + 1;
 
     $wrapper = entity_metadata_wrapper('user', $this->getAccount());
     $access_token = $wrapper->field_github_access_token->value();
@@ -34,10 +42,10 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       ),
     );
 
-    $repos = shoov_github_http_request('user/repos', $options);
-    $user_repos = shoov_github_http_request('users/' . $wrapper->name->value() . '/repos', $options);
+    $response = shoov_github_http_request("user/repos?per_page=$range&page=$page", $options);
+    $data = $response['data'];
 
-    $data = array_unique(array_merge($repos, $user_repos), SORT_REGULAR);
+    $this->links = $response['links'];
 
     $this->repos = $this->getKeyedById($data);
 

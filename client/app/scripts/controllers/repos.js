@@ -24,8 +24,12 @@ angular.module('clientApp')
         $scope.orgs[key]['user'] = true;
       })
     });
-    // Add value 'All'.
-    $scope.orgs.unshift({'login': 'All', 'id': ''});
+
+    if ($scope.orgs[0].login != 'All') {
+      // Add value 'All'.
+      $scope.orgs.unshift({'login': 'All', 'id': ''});
+    }
+
     // Set default filter value to 'All'.
     $scope.search = {'organization': ''};
 
