@@ -95,10 +95,10 @@
 
     <div ng-repeat="screenshot in screenshots" class="screenshot-wrapper">
       <div class="row">
-        <div class="col-md-1 checkbox-wrapper">
+        <div class="col-xs-2 col-sm-1 checkbox-wrapper">
           <checkbox large name="selectedScreenshots[]" ng-model="screenshot.selected"></checkbox>
         </div>
-        <div class="col-md-11 screenshot-item">
+        <div class="col-xs-10 col-sm-11 screenshot-item">
           <div class="name">
             {{ screenshot.label }}
           <span class="delete">
@@ -108,7 +108,7 @@
           </span>
           </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-xs-12">
           <div ng-style="{'height' : screenshot.maxHeight[imageStyle] }">
 
             <img class="diff-image" ng-show="showDiff" ng-src="{{ imageStyle == 'self' ? (screenshot.diff.self + '?access_token=' + accessToken) : (screenshot.diff.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}" />
