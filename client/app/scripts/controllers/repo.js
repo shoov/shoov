@@ -28,7 +28,6 @@ angular.module('clientApp')
 
     channel.bind('ci_build_update', function(data) {
       var id = parseInt(data[0].id);
-      var updated = false;
       // Update the existing item.
       angular.forEach($scope.ciBuildItems, function(item, itemId) {
         if (item.id != id) {
