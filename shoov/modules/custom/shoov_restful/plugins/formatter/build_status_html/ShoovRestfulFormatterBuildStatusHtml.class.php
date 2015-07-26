@@ -12,7 +12,7 @@ class ShoovRestfulFormatterBuildStatusHtml extends \RestfulFormatterBase impleme
    *
    * @var string
    */
-  protected $contentType = 'html; charset=utf-8';
+  protected $contentType = 'text/html; charset=utf-8';
 
   /**
    * {@inheritdoc}
@@ -38,6 +38,14 @@ class ShoovRestfulFormatterBuildStatusHtml extends \RestfulFormatterBase impleme
     }
 
     return $structured_data[0]['status'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getContentTypeHeader() {
+    // Default to the most general content type.
+    return $this->contentType;
   }
 }
 

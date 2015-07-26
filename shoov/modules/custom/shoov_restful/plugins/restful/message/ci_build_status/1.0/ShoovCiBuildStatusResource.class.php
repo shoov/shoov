@@ -25,18 +25,16 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
     $variables = array();
     switch($ci_build_status) {
       case 'unconfirmed_error':
-        $variables['text'] = 'Unconfirmed Error';
-        $variables['color'] = '#af8c38';
+        $variables['file'] = 'unconfirmed_error.png';
         break;
       case 'error':
-        $variables['text'] = 'Error';
-        $variables['color'] = '#f1353d';
+        $variables['file'] = 'error.png';
         break;
       default:
-        $variables['text'] = 'Passing';
-        $variables['color'] = '#3fa75f';
+        $variables['file'] = 'passing.png';
         break;
     }
-    return theme('build_status', $variables);
+
+    return theme('image', array('path' => drupal_get_path('module', 'shoov_ci_build') . '/images/statuses/' . $variables['file']));
   }
 }
