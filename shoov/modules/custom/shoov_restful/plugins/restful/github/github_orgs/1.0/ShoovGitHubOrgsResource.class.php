@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains ShoovGitHubReposResource.
+ * Contains ShoovGitHubOrgsResource.
  */
 
 class ShoovGitHubOrgsResource extends \ShoovDataProviderGitHub {

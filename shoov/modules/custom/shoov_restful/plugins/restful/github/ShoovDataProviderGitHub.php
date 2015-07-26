@@ -51,7 +51,8 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
     // 'value' - get organization's repositories, user is member of;
     // NULL - get all user's repositories.
     $url = !empty($request['organization']) ?
-      ( $org == 'me' ? "users/$user/repos?per_page=$range&page=$page" : "orgs/$org/repos?type=member&per_page=$range&page=$page" )
+      ( $org == 'me' ? "users/$user/repos?per_page=$range&page=$page"
+        : "orgs/$org/repos?type=member&per_page=$range&page=$page" )
       : "user/repos?per_page=$range&page=$page";
 
     $response = shoov_github_http_request($url, $options);
@@ -87,11 +88,11 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       ),
     );
 
-    $orgs = shoov_github_http_request('user/orgs', $options);
+    $orgs = shoov_github_http_request("user/orgs?per_page=$this->range", $options);
+
     // Add user to organization list as user can be the owner of the repository
     // like an organization.
     $user = shoov_github_http_request('user', $options);
-
     $data = array_unique(array_merge($orgs['data'], array($user['data'])), SORT_REGULAR);
 
     $this->orgs = $this->getKeyedById($data);
@@ -336,11 +337,13 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
    * {@inheritdoc}
    */
   public function getTotalCount() {
-    if ($this->plugin['resource'] == 'github_orgs') {
-      return count($this->getSortedAndFiltered($this->getOrgs()));
-    }
-    else {
-      return count($this->getSortedAndFiltered($this->getRepos()));
+
+    switch ($this->plugin['resource']) {
+      case 'github_orgs':
+        return count($this->getSortedAndFiltered($this->getOrgs()));
+        break;
+      default:
+        return count($this->getSortedAndFiltered($this->getRepos()));
     }
   }
 
@@ -373,17 +376,17 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
   public function index() {
     $return = array();
 
-    if ($this->plugin['resource'] == 'github_orgs') {
-      foreach (array_keys($this->getSortedAndFiltered($this->getOrgs())) as $plugin_name) {
-        $return[] = $this->view($plugin_name);
-      }
-    }
-    else {
-      foreach (array_keys($this->getSortedAndFiltered($this->getRepos())) as $plugin_name) {
-        $return[] = $this->view($plugin_name);
-      }
+    switch ($this->plugin['resource']) {
+      case 'github_orgs':
+        $function = 'getOrgs';
+        break;
+      default:
+        $function = 'getRepos';
     }
 
+    foreach (array_keys($this->getSortedAndFiltered($this->$function())) as $plugin_name) {
+      $return[] = $this->view($plugin_name);
+    }
     return $return;
   }
 
@@ -436,6 +439,15 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
     return $output;
   }
 
+  /**
+   * Put in the field only owner name.
+   *
+   * @param $value
+   *  The owner value.
+   *
+   * @return string
+   *  Return owner name - organization or user name
+   */
   protected function organizationProcess($value) {
     return $value['login'];
   }

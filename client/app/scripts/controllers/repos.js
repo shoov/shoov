@@ -102,7 +102,6 @@ angular.module('clientApp')
 
     $scope.$watch('search.organization', function() {
       // Organization changed.
-
       Repos.get(null, $scope.search.organization.toLowerCase()).then(function(result) {
         // Get repos from backend.
         $scope.currentRepos = result.data;
@@ -120,8 +119,6 @@ angular.module('clientApp')
         // Determine if pager is still needed.
         $scope.pager = typeof result.next !== 'undefined';
       });
-
-
     });
 
     $scope.$watch('currentPage', function() {

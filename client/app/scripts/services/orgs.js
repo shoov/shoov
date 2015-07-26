@@ -20,7 +20,6 @@ angular.module('clientApp')
       return $http.post(Config.backend + '/api/orgs', {label: label});
     };
 
-
     /**
      * Return the promise with the events list, from cache or the server.
      *
@@ -37,12 +36,11 @@ angular.module('clientApp')
       return getDataFromBackend(orgId);
     };
 
-
     /**
-     * Return builds array from the server.
+     * Return organizations from the server.
      *
-     * @param int buildId
-     *   The build ID.
+     * @param int orgId
+     *   The Organization ID.
      *
      * @returns {$q.promise}
      */
