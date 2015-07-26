@@ -29,12 +29,14 @@ angular.module('clientApp')
      *
      * @returns {*}
      */
-    this.get = function(repoId) {
-      if (cache && cache[repoId]) {
-        return $q.when(cache[repoId].data);
+    this.get = function(repoId, org, pageNum) {
+      pageNum = pageNum ? pageNum : 1;
+      var identifier = repoId + ':' + org + ':' + pageNum;
+      if (cache && cache[identifier]) {
+        return $q.when(cache[identifier].data);
       }
 
-      return getDataFromBackend(repoId);
+      return getDataFromBackend(repoId, org, pageNum);
     };
 
 
@@ -46,7 +48,7 @@ angular.module('clientApp')
      *
      * @returns {$q.promise}
      */
-    function getDataFromBackend(repoId) {
+    function getDataFromBackend(repoId, org, pageNum) {
       var deferred = $q.defer();
       var url = Config.backend + '/api/github_repos';
 
@@ -54,17 +56,22 @@ angular.module('clientApp')
         url += '/' + repoId;
       }
 
-      var params = {
-        sort: '-id'
-      };
+      if (org) {
+        url += '?organization=' + org;
+      }
 
+      var params = {
+        sort: '-id',
+        page: pageNum
+      };
       $http({
         method: 'GET',
         url: url,
         params: params
       }).success(function(response) {
-        setCache(repoId, response.data);
-        deferred.resolve(response.data);
+        var identifier = repoId + ':' + org + ':' + pageNum;
+        setCache(identifier, response);
+        deferred.resolve(response);
       });
 
       return deferred.promise;

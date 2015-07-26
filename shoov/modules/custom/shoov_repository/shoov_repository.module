@@ -36,6 +36,7 @@ function shoov_repository_node_presave($node) {
   );
 
   $data = shoov_github_http_request("repos/$owner/$repo", $options);
+  $data = $data['data'];
 
   // @todo: Throw exception on error?
   // or try again or set state invalid to this repo.

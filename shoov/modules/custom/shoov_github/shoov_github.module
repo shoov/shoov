@@ -22,6 +22,9 @@
  */
 function shoov_github_http_request($url, array $options, $decode = TRUE) {
   $prefix = variable_get('shoov_github_api_base_url', 'https://api.github.com/');
+  if ($decode) {
+    $url .= strpos($url, '?') === FALSE ? '?callback=result' : '&callback=result';
+  }
   $result = drupal_http_request($prefix . $url, $options);
   shoov_github_check_response_http_error($url, $result);
 
@@ -29,15 +32,13 @@ function shoov_github_http_request($url, array $options, $decode = TRUE) {
     return $result;
   }
   else {
-    $links = explode(',', $result->headers['link']);
-    $pagination = array();
-    foreach($links as $link) {
-      $link = explode(';', $link);
-      $link[1] = substr($link[1], strpos($link[1], '=')+1);
-      $link[0] = str_replace(array('>', '<', $prefix), '', $link[0]);
-      $pagination[$link[1]] = $link[0];
-    }
-    return array('data' => drupal_json_decode($result->data), 'links' => $pagination);
+    preg_match('/\((.*?)\)/i', $result->data, $match);
+    $result = drupal_json_decode($match[1]);
+
+    $meta = $result['meta'];
+    $data = $result['data'];
+
+    return array('data' => $data, 'meta' => $meta);
   }
 }
 

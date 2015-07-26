@@ -9,9 +9,10 @@
  */
 angular.module('clientApp')
   .controller('ReposCtrl', function ($scope, repos, orgs, Orgs, Builds, Repos, Account, $filter, $log) {
-    $scope.repos = repos;
+    $scope.repos = repos.data;
+    $scope.currentRepos = $scope.repos;
 
-    $scope.orgs = orgs;
+      $scope.orgs = orgs.data;
     // Mark User as user, not as organization.
     Account.get().then(function(response) {
       $scope.username = response.label;
@@ -33,7 +34,18 @@ angular.module('clientApp')
     // Set default filter value to 'All'.
     $scope.search = {'organization': ''};
 
-    $scope.itemsPerPage = 20;
+    $scope.itemsPerPage = repos.count;
+
+    if (repos.last) {
+      var params = repos.last.href.substr(repos.last.href.indexOf("?")+1);
+      $scope.totalReposCount = getQueryVar(params, 'page') * repos.count;
+    }
+    else {
+      $scope.totalReposCount = repos.count;
+    }
+
+    $scope.pager = typeof repos.next !== 'undefined';
+
 
     // Allow parseInt an expression.
     // @todo: Service should be responsible of this.
@@ -92,19 +104,46 @@ angular.module('clientApp')
 
 
     $scope.$watch('search.organization', function() {
-      // Filter repositories by selected organization.
-      $scope.filteredRepos = $filter('filter')($scope.repos, $scope.search);
-      // Set total number of repositories (filtered).
-      $scope.totalReposCount = $scope.filteredRepos.length;
-      $scope.currentPage = 1;
-      // Determine if pager is needed.
-      $scope.pager = $scope.totalReposCount > $scope.itemsPerPage;
-      // Set new piece of repositories for 1st page.
-      $scope.currentRepos = $scope.filteredRepos.slice($scope.itemsPerPage*($scope.currentPage - 1), $scope.itemsPerPage * $scope.currentPage);
+      // Organization changed.
+
+      Repos.get(null, $scope.search.organization.toLowerCase()).then(function(result) {
+        $scope.currentRepos = result.data;
+
+        if (result.last) {
+          var params = result.last.href.substr(result.last.href.indexOf("?")+1);
+          $scope.totalReposCount = getQueryVar(params, 'page') * result.count;
+        }
+        else {
+          $scope.totalReposCount = result.count;
+        }
+        $scope.currentPage = 1;
+
+        $scope.pager = typeof result.next !== 'undefined';
+      });
+
+
     });
 
     $scope.$watch('currentPage', function() {
-      // Set new piece of repositories for the current page.
-      $scope.currentRepos = $scope.filteredRepos.slice($scope.itemsPerPage*($scope.currentPage - 1), $scope.itemsPerPage * $scope.currentPage);
+      // Page number changed.
+      Repos.get(null, $scope.search.organization.toLowerCase(), $scope.currentPage).then(function(result) {
+        $scope.currentRepos = result.data;
+      });
     });
+
+
+    function getQueryVar(url, varName){
+      // Grab and unescape the query string - appending an '&' keeps the RegExp simple
+      // for the sake of this example.
+      var queryStr = unescape(url) + '&';
+
+      // Dynamic replacement RegExp
+      var regex = new RegExp('.*?[&\\?]' + varName + '=(.*?)&.*');
+
+      // Apply RegExp to the query string
+      var val = queryStr.replace(regex, "$1");
+
+      // If the string is the same, we didn't find a match - return false
+      return val == queryStr ? false : val;
+    }
   });

@@ -63,8 +63,8 @@ angular.module('clientApp')
         url: url,
         params: params
       }).success(function(response) {
-        setCache(orgId, response.data);
-        deferred.resolve(response.data);
+        setCache(orgId, response);
+        deferred.resolve(response);
       });
 
       return deferred.promise;

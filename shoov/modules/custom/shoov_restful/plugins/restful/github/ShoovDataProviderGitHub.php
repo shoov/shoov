@@ -29,11 +29,12 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
     }
     $this->overrideRange();
     $params = $this->parseRequestForListPagination();
-    // $offset = ($page - 1) * $range;
+
     $range = intval($params[1]);
     $page = ($params[0] / $range) + 1;
 
     $wrapper = entity_metadata_wrapper('user', $this->getAccount());
+    $user = $wrapper->label();
     $access_token = $wrapper->field_github_access_token->value();
 
     $options = array(
@@ -42,10 +43,16 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       ),
     );
 
-    $response = shoov_github_http_request("user/repos?per_page=$range&page=$page", $options);
+    $request = $this->getRequest();
+    $org = $request['organization'];
+    $url = !empty($request['organization']) ?
+      ( $org == 'me' ? "users/$user/repos?per_page=$range&page=$page" : "orgs/$org/repos?type=member&per_page=$range&page=$page" )
+      : "user/repos?per_page=$range&page=$page";
+    $response = shoov_github_http_request($url, $options);
     $data = $response['data'];
 
-    $this->links = $response['links'];
+    $this->links = $response['meta']['Link'];
+    $this->formatNavigationLinks();
 
     $this->repos = $this->getKeyedById($data);
 
@@ -78,7 +85,7 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
     // like an organization.
     $user = shoov_github_http_request('user', $options);
 
-    $data = array_unique(array_merge($orgs, array($user)), SORT_REGULAR);
+    $data = array_unique(array_merge($orgs['data'], array($user['data'])), SORT_REGULAR);
 
     $this->orgs = $this->getKeyedById($data);
 
@@ -328,6 +335,32 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
     else {
       return count($this->getSortedAndFiltered($this->getRepos()));
     }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function additionalHateoas() {
+    return $this->links;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function formatNavigationLinks() {
+    $links = $this->links;
+    $formated_links = array();
+    foreach ($links as $link) {
+      $href = $link[0];
+      $name = $link[1]['rel'];
+
+      $href = parse_url($href);
+      $href = $this->versionedUrl($this->getPath()) . '?' . $href['query'];
+
+      $formated_links[$name] = array('title' => $name, 'href' => $href);
+    }
+    $this->links = $formated_links;
+    return $formated_links;
   }
 
   public function index() {

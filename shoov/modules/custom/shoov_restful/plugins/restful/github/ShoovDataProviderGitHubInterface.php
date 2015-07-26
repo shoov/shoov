@@ -15,4 +15,12 @@ interface ShoovDataProviderGitHubInterface extends RestfulDataProviderInterface 
    *   The total number of results without including pagination.
    */
   public function getTotalCount();
+
+  /**
+   * Add navigation links (next, prev, first, last).
+   *
+   * @return mixed
+   *  The links with title and href if they exist.
+   */
+  public function additionalHateoas();
 }
