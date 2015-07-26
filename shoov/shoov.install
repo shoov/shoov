@@ -20,6 +20,7 @@ function shoov_install() {
 
   // Enable node view page override by Page manager module.
   variable_set('page_manager_node_view_disabled', FALSE);
+  variable_set('page_manager_user_view_disabled', FALSE);
 
   variable_set('node_admin_theme', TRUE);
 
