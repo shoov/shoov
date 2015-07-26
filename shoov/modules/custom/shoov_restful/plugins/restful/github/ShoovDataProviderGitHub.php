@@ -27,9 +27,9 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
     if ($this->repos) {
       return $this->repos;
     }
+    // Get range and page number either from url or default ones.
     $this->overrideRange();
     $params = $this->parseRequestForListPagination();
-
     $range = intval($params[1]);
     $page = ($params[0] / $range) + 1;
 
@@ -43,14 +43,21 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       ),
     );
 
+    // Get organization name if exist.
     $request = $this->getRequest();
     $org = $request['organization'];
+    // Set url according to organization:
+    // 'me' - get user's own repositories;
+    // 'value' - get organization's repositories, user is member of;
+    // NULL - get all user's repositories.
     $url = !empty($request['organization']) ?
       ( $org == 'me' ? "users/$user/repos?per_page=$range&page=$page" : "orgs/$org/repos?type=member&per_page=$range&page=$page" )
       : "user/repos?per_page=$range&page=$page";
+
     $response = shoov_github_http_request($url, $options);
     $data = $response['data'];
 
+    // Format navigation links.
     $this->links = $response['meta']['Link'];
     $this->formatNavigationLinks();
 

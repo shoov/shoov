@@ -24,8 +24,12 @@ angular.module('clientApp')
     /**
      * Return the promise with the events list, from cache or the server.
      *
-     * @param int companyId
-     *   The company ID.
+     * @param int repoId
+     *   Optional. The repository ID.
+     * @param string org
+     *   Optional. The organization name
+     * @param int pageNum
+     *   Optional. The page number.
      *
      * @returns {*}
      */
@@ -41,10 +45,14 @@ angular.module('clientApp')
 
 
     /**
-     * Return builds array from the server.
+     * Return repositories from the server.
      *
-     * @param int buildId
-     *   The build ID.
+     * @param int repoId
+     *   Optional. The repository ID.
+     * @param string org
+     *   Optional. The organization name
+     * @param int pageNum
+     *   The page number.
      *
      * @returns {$q.promise}
      */
