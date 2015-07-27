@@ -8,14 +8,24 @@
 abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDataProviderGitHubInterface {
 
   /**
-   * The loaded plugins.
+   * The loaded repositories.
    *
    * @var array
    */
   protected $repos = array();
+
+  /**
+   * The loaded organizations.
+   *
+   * @var array
+   */
   protected $orgs = array();
 
-  protected $range = 50;
+  /**
+   * The navigation links.
+   *
+   * @var array
+   */
   protected $links = array();
 
   /**
@@ -34,7 +44,7 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
     $page = ($params[0] / $range) + 1;
 
     $wrapper = entity_metadata_wrapper('user', $this->getAccount());
-    $user = $wrapper->label();
+    $user_name = $wrapper->label();
     $access_token = $wrapper->field_github_access_token->value();
 
     $options = array(
@@ -47,13 +57,21 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
     $request = $this->getRequest();
     $org = $request['organization'];
     // Set url according to organization:
+    // NULL - get all user's repositories;
     // 'me' - get user's own repositories;
-    // 'value' - get organization's repositories, user is member of;
-    // NULL - get all user's repositories.
-    $url = !empty($request['organization']) ?
-      ( $org == 'me' ? "users/$user/repos?per_page=$range&page=$page"
-        : "orgs/$org/repos?type=member&per_page=$range&page=$page" )
-      : "user/repos?per_page=$range&page=$page";
+    // 'value' - get organization's repositories, user is member of.
+    if (empty($request['organization'])) {
+      $url = "user/repos?";
+    }
+    else if ($org == 'me') {
+      $url = "users/$user_name/repos?";
+    }
+    else {
+      $url = "orgs/$org/repos?type=member&";
+    }
+
+    // Add range ang page parameters to the url.
+    $url .= "per_page=$range&page=$page";
 
     $response = shoov_github_http_request($url, $options);
     $data = $response['data'];
@@ -341,7 +359,6 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
     switch ($this->plugin['resource']) {
       case 'github_orgs':
         return count($this->getSortedAndFiltered($this->getOrgs()));
-        break;
       default:
         return count($this->getSortedAndFiltered($this->getRepos()));
     }

@@ -19,7 +19,7 @@ angular.module('clientApp')
 
       angular.forEach($scope.orgs, function(organization, key) {
         if (organization.login != $scope.username) {
-          // This is not user.
+          // This is not the current user.
           return;
         }
         $scope.orgs[key]['user'] = true;
@@ -108,7 +108,7 @@ angular.module('clientApp')
 
         // Set total count of item according to number of pages.
         if (result.last) {
-          var params = result.last.href.substr(result.last.href.indexOf("?")+1);
+          var params = result.last.href.substr(result.last.href.indexOf("?") + 1);
           $scope.totalReposCount = getQueryVar(params, 'page') * result.count;
         }
         else {
