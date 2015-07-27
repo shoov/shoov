@@ -10,8 +10,17 @@
 angular.module('clientApp')
   .controller('RepoCtrl', function ($scope, build, ciBuildItems, incidents, channelManager) {
     $scope.build = build[0];
-    $scope.ciBuildItems = ciBuildItems;
+    $scope.ciBuildItems = [];
     $scope.incidents = incidents;
+
+    angular.forEach(ciBuildItems, function(item) {
+      if (item.status != 'queue') {
+        $scope.ciBuildItems.push(item);
+      }
+      else {
+        $scope.ciBuildQueueItem = item;
+      }
+    });
 
     $scope.parseInt = parseInt;
 
