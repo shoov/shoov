@@ -8,6 +8,19 @@
 class ShoovCiBuildStatusResource extends \RestfulEntityBase {
 
   /**
+   * Overrides \RestfulDataProviderEFQ::controllersInfo().
+   *
+   * Accept only GET request with an id.
+   */
+  public static function controllersInfo() {
+    return array(
+      '^.*$' => array(
+        \RestfulInterface::GET => 'viewEntities',
+      ),
+    );
+  }
+
+  /**
    * Overrides \RestfulEntityBase::publicFieldsInfo().
    */
   public function publicFieldsInfo() {
