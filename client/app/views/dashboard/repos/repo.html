@@ -44,7 +44,7 @@
             Here you will see a log of every live monitor build.
           </div>
           <div class="table-scrollable">
-            <table class="table table-striped table-hover">
+            <table class="table table-hover">
               <thead>
               <tr>
                 <th>#ID</th>
@@ -53,7 +53,7 @@
               </tr>
               </thead>
               <tbody>
-              <tr ng-repeat="ciBuildItem in ciBuildItems | filter: { status: '!queue' }" class="ci-build-item">
+              <tr class="ci-build-item animate" ng-repeat="ciBuildItem in ciBuildItems | filter: { status: '!queue' }">
                 <td><a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: ciBuildItem.id })">#{{ ciBuildItem.id }}</a></td>
                 <td>{{ (ciBuildItem.start_timestamp*1000) | date : 'MMM d, y h:mm a' }}</td>
                 <td><span class="label label-sm label-{{ ciBuildItem.status }}">{{ ciBuildItem.status }}</span></td>
@@ -75,7 +75,7 @@
       <div ng-show="incidents.length">
         Below you will find all the reported incidents.
         <ul class="ci-incidents">
-          <li ng-repeat="incident in incidents" class="incident-item">
+          <li class="incident-item animate" ng-repeat="incident in incidents">
             <a ui-sref="dashboard.ciIncident({ incidentId: incident.id })">{{ incident.label }}</a>
           </li>
         </ul>

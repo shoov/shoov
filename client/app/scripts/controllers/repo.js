@@ -13,6 +13,7 @@ angular.module('clientApp')
     $scope.ciBuildItems = [];
     $scope.incidents = incidents;
 
+    // Separate the queue item from the list.
     angular.forEach(ciBuildItems, function(item) {
       if (item.status != 'queue') {
         $scope.ciBuildItems.push(item);
@@ -26,13 +27,14 @@ angular.module('clientApp')
 
     var channel = channelManager.getChannel($scope.build.repository)
     channel.bind('ci_incident_new', function(data) {
-      // Put new item in the begginning of the list.
+      // Put new item in the beginning of the list.
       $scope.incidents.unshift(data[0]);
     });
 
     channel.bind('ci_build_new', function(data) {
-      // Put new item in the begginning of the list.
-      $scope.ciBuildItems.unshift(data[0]);
+      // Put new item in the beginning of the list.
+      $scope.ciBuildItems.unshift($scope.ciBuildQueueItem);
+      $scope.ciBuildQueueItem = data[0];
     });
 
     channel.bind('ci_build_update', function(data) {
