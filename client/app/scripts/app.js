@@ -112,7 +112,7 @@ angular
         controller: 'ReposCtrl',
         resolve: {
           repos: function(Repos) {
-            return Repos.get(1, 'me');
+            return Repos.get('me');
           },
           orgs: function(Orgs) {
             return Orgs.get();

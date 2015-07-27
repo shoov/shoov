@@ -33,14 +33,14 @@ angular.module('clientApp')
      *
      * @returns {*}
      */
-    this.get = function(pageNum, org, repoId) {
+    this.get = function(org, repoId,  pageNum) {
       pageNum = pageNum ? pageNum : 1;
       var identifier = repoId + ':' + org + ':' + pageNum;
       if (cache && cache[identifier]) {
         return $q.when(cache[identifier].data);
       }
 
-      return getDataFromBackend(pageNum, org, repoId);
+      return getDataFromBackend(org, repoId,  pageNum);
     };
 
 
@@ -56,7 +56,7 @@ angular.module('clientApp')
      *
      * @returns {$q.promise}
      */
-    function getDataFromBackend(pageNum, org, repoId) {
+    function getDataFromBackend(org, repoId,  pageNum) {
       var deferred = $q.defer();
       var url = Config.backend + '/api/github_repos';
 
