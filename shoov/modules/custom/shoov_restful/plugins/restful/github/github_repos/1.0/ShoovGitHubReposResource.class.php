@@ -27,6 +27,13 @@ class ShoovGitHubReposResource extends \ShoovDataProviderGitHub {
       'property' => 'shoov_build',
     );
 
+    $public_fields['organization'] = array(
+      'property' => 'owner',
+      'process_callbacks' => array(
+        array($this, 'organizationProcess'),
+      ),
+    );
+
     return $public_fields;
   }
 }

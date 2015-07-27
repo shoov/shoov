@@ -64,6 +64,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
     );
 
     $data = shoov_github_http_request('user', $options);
+    $data = $data['data'];
     $name = $data['login'];
 
     // Get the username from Github and compare with ours.
@@ -145,7 +146,7 @@ class ShoovGithubAuthAuthentication extends \RestfulAccessTokenAuthentication {
    */
   protected function getEmailFromGithub($options) {
     $data = shoov_github_http_request('user/emails', $options);
-    foreach ($data as $row) {
+    foreach ($data['data'] as $row) {
       if (empty($row['primary'])) {
         // Not a primary email.
         continue;

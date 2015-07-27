@@ -8,8 +8,34 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('ReposCtrl', function ($scope, repos, Builds, Repos, $log) {
-    $scope.repos = repos;
+  .controller('ReposCtrl', function ($scope, repos, orgs, Orgs, Builds, Repos, Account, $filter, $log) {
+    $scope.repos = repos.data;
+    $scope.currentRepos = $scope.repos;
+
+    $scope.orgs = orgs.data;
+
+    // Set default filter value to 'me' - show all user's repositories.
+    $scope.organization ='me';
+
+    // Mark User as user, not as organization.
+    Account.get().then(function(response) {
+      $scope.username = response.label;
+
+      angular.forEach($scope.orgs, function(organization, key) {
+        if (organization.label != $scope.username) {
+          // This is not the current user.
+          return;
+        }
+        $scope.orgs[key]['user'] = true;
+      })
+    });
+
+    // Number of items per page.
+    $scope.itemsPerPage = repos.count;
+
+    // Set total count of item according to number of pages.
+    setUpPager(repos);
+
 
     // Allow parseInt an expression.
     // @todo: Service should be responsible of this.
@@ -65,4 +91,72 @@ angular.module('clientApp')
       }
     };
 
+
+
+    $scope.$watch('organization', function() {
+      // Organization changed.
+      Repos.get($scope.organization.toLowerCase()).then(function(result) {
+        // Get repos from backend.
+        $scope.currentRepos = result.data;
+        setUpPager(result);
+      });
+    });
+
+    $scope.$watch('currentPage', function() {
+      // Current page number changed.
+      Repos.get($scope.organization.toLowerCase(), null, $scope.currentPage).then(function(result) {
+        $scope.currentRepos = result.data;
+      });
+    });
+
+
+    /**
+     * Get query parameter value.
+     * @see http://stackoverflow.com/questions/2090551/parse-query-string-in-javascript#answer-8219439
+     *
+     * @param url
+     *  String with GET parameters.
+     *  e.g. 'param1=1&param2=2'
+     * @param varName
+     *  Name of the parameter to return.
+     *
+     * @returns {boolean}
+     *  Return value of the parameter or false if doesn't exist.
+     */
+    function getQueryVar(url, varName){
+      // Append an '&' to keep the RegExp simple.
+      var queryStr = url + '&';
+
+      // Dynamic replacement RegExp
+      var regex = new RegExp('.*?[&\\?]' + varName + '=(.*?)&.*');
+
+      // Apply RegExp to the query string
+      var val = queryStr.replace(regex, "$1");
+
+      // If the string is the same, we didn't find a match - return false
+      return val == queryStr ? false : val;
+    }
+
+    /**
+     * Set total count of items according to number of pages.
+     * Set current page to 1.
+     * Determine if pager is needed.
+     *
+     * @param data
+     *  Object with repositories data.
+     */
+    function setUpPager(data) {
+      // Set total count of item according to number of pages.
+      if (data.last) {
+        var params = data.last.href.substr(data.last.href.indexOf("?") + 1);
+        $scope.totalReposCount = getQueryVar(params, 'page') * data.count;
+      }
+      else {
+        $scope.totalReposCount = data.count;
+      }
+      // Set current page to 1.
+      $scope.currentPage = 1;
+      // Determine if pager is still needed.
+      $scope.pager = !!data.next;
+    }
   });

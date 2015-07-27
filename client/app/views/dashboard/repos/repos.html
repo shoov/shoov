@@ -22,9 +22,17 @@
           <i class="fa fa-heartbeat"></i>
           <span class="caption-subject">Live Monitor Repositories</span>
         </div>
+
+        <div>
+          <label for="organizations">Organization:</label>
+          <select id="organizations" class="form-control" ng-model="organization">
+            <option ng-repeat="value in orgs" value="{{value.user ? 'me' : value.label}}" ng-selected="{{value.label == organization}}">{{value.label + (value.user ? ' (me)' : '')}} </option>
+          </select>
+        </div>
+
       </div>
       <div class="portlet-body">
-        <li ng-repeat="repo in repos" class="repo-item">
+        <li ng-repeat="repo in currentRepos" class="repo-item">
 
           <div class="repos-checkbox">
             <div class="checker">
@@ -42,6 +50,17 @@
         </li>
       </div>
     </ul>
+
+    <pagination
+      ng-model="currentPage"
+      total-items="totalReposCount"
+      max-size="maxSize"
+      rotate="false"
+      boundary-links="true"
+      items-per-page="itemsPerPage"
+      ng-show="pager">
+
+    </pagination>
   </div>
 
   <div class="col-md-8 repos-docs">
