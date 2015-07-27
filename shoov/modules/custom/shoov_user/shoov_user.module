@@ -1,6 +1,12 @@
 <?php
 /**
  * @file
+ * Code for the Shoov User feature.
+ */
+
+include_once 'shoov_user.features.inc';
+/**
+ * @file
  * User functionality.
  */
 
