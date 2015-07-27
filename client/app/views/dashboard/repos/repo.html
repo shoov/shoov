@@ -30,7 +30,6 @@
   </div>
   <div class="row portlet-body">
     <div class="col-md-6">
-
       <div class="portlet">
         <div class="portlet-title">
           <div class="caption">Build History</div>
@@ -66,19 +65,33 @@
     </div>
 
     <div class="col-md-6">
-      <h3>Incidents</h3>
-
-      <div ng-hide="incidents.length">
-        Yay, no incidents!
-      </div>
-
-      <div ng-show="incidents.length">
-        Below you will find all the reported incidents.
-        <ul class="ci-incidents">
-          <li class="incident-item animate" ng-repeat="incident in incidents">
-            <a ui-sref="dashboard.ciIncident({ incidentId: incident.id })">{{ incident.label }}</a>
-          </li>
-        </ul>
+      <div class="portlet">
+        <div class="portlet-title">
+          <div class="caption">Incidents</div>
+        </div>
+        <div class="portlet-body">
+          <div ng-hide="incidents.length">
+            Yay, no incidents!
+          </div>
+          <div class="table-scrollable" ng-show="incidents.length">
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>#ID</th>
+                <th>Name</th>
+                <th>Incident time</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr class="incident-item animate" ng-repeat="incident in incidents">
+                <td><a ui-sref="dashboard.ciIncident({ incidentId: incident.id })">#{{ incident.id }}</a></td>
+                <td>{{ incident.label }}</td>
+                <td>{{ (incident.created*1000) | date : 'MMM d, y h:mm a' }}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
