@@ -14,52 +14,6 @@ const SHOOV_CI_BUILD_CI_BUILD_STATUS_ERROR = 2;
 const SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_ERROR = 3;
 
 /**
- * Implements hook_theme().
- */
-function shoov_ci_build_theme() {
-  $theme['build_status'] = array(
-    'variables' => array(),
-  );
-
-  return $theme;
-}
-
-/**
- * Theme function; Prints the CI-Build status label.
- *
- * Creates the HTML of CI-Build status, A small icon, color indicating the
- * status of the build.
- * - Green: Passing.
- * - Yellow: Unconfirmed error.
- * - Red: Error.
- *
- * @param $variables
- *  The CI Build status color and text.
- *
- * @return null
- *  Returns the HTML.
- */
-function theme_build_status($variables) {
-  return '<div style="color: white;
-              background-color: ' . $variables['color'] . ';
-              font-family: arial;
-              display: inline-block;
-              padding: 0 6px 0 0;
-              margin: 0;
-              font-size: 13px;
-              letter-spacing: 0.7px;
-              font-weight: normal;
-              line-height: 1.42857143;
-              text-align: center;
-              vertical-align: middle;
-              border-radius: 2px;
-              outline: none;
-              box-shadow: 0px 2px 10px 0px rgba(50, 50, 50, 0.4);">
-          <span style="background-color: #515151;display: inline-block;border-radius: 2px;padding: 4px 4px 4px 6px;">Status</span>
-  ' . $variables['text'] . '</div>';
-}
-
-/**
  * Return the CI builds that are waiting for processing.
  *
  * @param int $timestamp
