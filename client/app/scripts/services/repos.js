@@ -23,11 +23,10 @@ angular.module('clientApp')
 
     /**
      * Return the promise with the events list, from cache or the server.
-     *
-     * @param int repoId
-     *   Optional. The repository ID.
      * @param string org
      *   Optional. The organization name
+     * @param int repoId
+     *   Optional. The repository ID.
      * @param int pageNum
      *   Optional. The page number.
      *
@@ -47,10 +46,10 @@ angular.module('clientApp')
     /**
      * Return repositories from the server.
      *
-     * @param int pageNum
-     *   The page number.
      * @param string org
      *   Optional. The organization name
+     * @param int pageNum
+     *   The page number.
      * @param int repoId
      *   Optional. The repository ID.
      *
