@@ -22,19 +22,18 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
 
   protected function statusHtml(\EntityMetadataWrapper $wrapper) {
     $ci_build_status = $wrapper->field_ci_build_incident_status->value();
-    $variables = array();
     switch($ci_build_status) {
       case 'unconfirmed_error':
-        $variables['file'] = 'unconfirmed_error.png';
+        $file = 'unconfirmed_error.png';
         break;
       case 'error':
-        $variables['file'] = 'error.png';
+        $file = 'error.png';
         break;
       default:
-        $variables['file'] = 'passing.png';
+        $file = 'passing.png';
         break;
     }
 
-    return theme('image', array('path' => drupal_get_path('module', 'shoov_ci_build') . '/images/statuses/' . $variables['file']));
+    return theme('image', array('path' => drupal_get_path('module', 'shoov_ci_build') . '/images/statuses/' . $file));
   }
 }

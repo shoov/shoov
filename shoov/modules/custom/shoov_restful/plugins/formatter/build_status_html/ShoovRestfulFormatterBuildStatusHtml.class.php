@@ -44,7 +44,6 @@ class ShoovRestfulFormatterBuildStatusHtml extends \RestfulFormatterBase impleme
    * {@inheritdoc}
    */
   public function getContentTypeHeader() {
-    // Default to the most general content type.
     return $this->contentType;
   }
 }
