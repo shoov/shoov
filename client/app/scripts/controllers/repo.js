@@ -25,15 +25,17 @@ angular.module('clientApp')
 
     $scope.parseInt = parseInt;
 
-    var channel = channelManager.getChannel($scope.build.repository)
+    var channel = channelManager.getChannel($scope.build.repository);
     channel.bind('ci_incident_new', function(data) {
       // Put new item in the beginning of the list.
       $scope.incidents.unshift(data[0]);
     });
 
     channel.bind('ci_build_new', function(data) {
-      // Put new item in the beginning of the list.
+      // Put the current queue item in the beginning of the list because it
+      // needs it to be updated in the "ci_build_update" bind.
       $scope.ciBuildItems.unshift($scope.ciBuildQueueItem);
+      // Set the new item as the queue item.
       $scope.ciBuildQueueItem = data[0];
     });
 
