@@ -132,7 +132,7 @@ body {
   }
 
   .ng-enter-active {
-    background: $brand-highlight;
+    background-color: $brand-highlight;
   }
   /* End animation */
 
@@ -150,6 +150,30 @@ body {
 
   .font-purple-intense {
     color: $brand-title-purple;
+  }
+
+  .label {
+    text-transform: capitalize;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+
+    &.label-sm {
+      font-size: 12px;
+      padding: 0 4px 1px 4px;
+    }
+
+    &.label-error {
+      background-color: $brand-danger;
+    }
+
+    &.label-done {
+      background-color: $brand-success;
+    }
+
+    &.label-queue {
+      background-color: $brand-warning;
+    }
   }
 
   .portlet {
