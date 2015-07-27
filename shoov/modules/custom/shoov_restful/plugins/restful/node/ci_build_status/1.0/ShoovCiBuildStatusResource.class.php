@@ -37,16 +37,16 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
     $ci_build_status = $wrapper->field_ci_build_incident_status->value();
     switch($ci_build_status) {
       case 'unconfirmed_error':
-        $file = 'unconfirmed_error.png';
+        $file = 'unconfirmed_error';
         break;
       case 'error':
-        $file = 'error.png';
+        $file = 'error';
         break;
       default:
-        $file = 'passing.png';
+        $file = 'passing';
         break;
     }
 
-    return theme('image', array('path' => drupal_get_path('module', 'shoov_ci_build') . '/images/statuses/' . $file));
+    return theme('image', array('path' => drupal_get_path('module', 'shoov_ci_build') . '/images/statuses/' . $file . '.png'));
   }
 }
