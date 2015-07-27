@@ -108,7 +108,7 @@ body {
 
   /* Animation */
   .animate {
-    @include transition(0.7s linear all);
+    @include transition(0.7s ease-out all);
 
     &.ng-move,
     &.ng-enter,
@@ -129,6 +129,10 @@ body {
       opacity:1;
       max-height:40px;
     }
+  }
+
+  .ng-enter-active {
+    background: $brand-highlight;
   }
   /* End animation */
 
