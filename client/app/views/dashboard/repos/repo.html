@@ -38,7 +38,7 @@
       </div>
 
       <ul class="ci-build-items">
-        <li ng-repeat="ciBuildItem in ciBuildItems" class="ci-build-item">
+        <li class="ci-build-item animate" ng-repeat="ciBuildItem in ciBuildItems">
           <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: ciBuildItem.id })">#{{ ciBuildItem.id }} (status: {{ ciBuildItem.status }})</a>
         </li>
       </ul>
@@ -54,7 +54,7 @@
       <div ng-show="incidents.length">
         Below you will find all the reported incidents.
         <ul class="ci-incidents">
-          <li ng-repeat="incident in incidents" class="incident-item">
+          <li class="incident-item animate" ng-repeat="incident in incidents">
             <a ui-sref="dashboard.ciIncident({ incidentId: incident.id })">{{ incident.label }}</a>
           </li>
         </ul>
