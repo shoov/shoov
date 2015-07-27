@@ -33,6 +33,8 @@ angular.module('clientApp')
 
     // Set total count of item according to number of pages.
     if (repos.last) {
+      // "last" link example:
+      // "http://shoov.local/api/v1.0/github_repos?per_page=50&page=2&callback=result"
       var params = repos.last.href.substr(repos.last.href.indexOf("?")+1);
       $scope.totalReposCount = getQueryVar(params, 'page') * repos.count;
     }
