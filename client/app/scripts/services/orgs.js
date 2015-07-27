@@ -16,10 +16,6 @@ angular.module('clientApp')
     // Update event broadcast name.
     var broadcastUpdateEventName = 'ShoovOrgsChange';
 
-    this.create = function(label) {
-      return $http.post(Config.backend + '/api/orgs', {label: label});
-    };
-
     /**
      * Return the promise with the events list, from cache or the server.
      *

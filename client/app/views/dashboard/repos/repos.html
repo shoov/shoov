@@ -25,8 +25,8 @@
 
         <div>
           <label for="organizations">Organization:</label>
-          <select id="organizations" class="form-control" ng-model="search.organization">
-            <option ng-repeat="value in orgs" value="{{value.login == 'All' ? value.id : (value.user ? 'me' : value.login)}}" ng-selected="{{value.login == search.organization}}">{{value.login + (value.user ? ' (my)' : '')}} </option>
+          <select id="organizations" class="form-control" ng-model="organization">
+            <option ng-repeat="value in orgs" value="{{value.user ? 'me' : value.label}}" ng-selected="{{value.label == organization}}">{{value.label + (value.user ? ' (me)' : '')}} </option>
           </select>
         </div>
 

@@ -24,8 +24,10 @@ function shoov_github_http_request($url, array $options, $decode = TRUE) {
   $prefix = variable_get('shoov_github_api_base_url', 'https://api.github.com/');
   if ($decode) {
     // Get results wrapped in a JSON function, both data and headers.
+    // @see https://developer.github.com/v3/#json-p-callbacks
     $url .= strpos($url, '?') === FALSE ? '?callback=result' : '&callback=result';
   }
+
   $result = drupal_http_request($prefix . $url, $options);
   shoov_github_check_response_http_error($url, $result);
 
@@ -34,8 +36,11 @@ function shoov_github_http_request($url, array $options, $decode = TRUE) {
   }
   else {
     // Get the data from JSON.
-    preg_match('/\((.*?)\)/i', $result->data, $match);
-    $result = drupal_json_decode($match[1]);
+
+    $data = str_replace('/**/result(', '', $result->data);
+    $data = rtrim($data, ")");
+
+    $result = drupal_json_decode($data);
 
     $meta = $result['meta'];
     $data = $result['data'];

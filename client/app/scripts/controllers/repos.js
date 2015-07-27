@@ -12,19 +12,21 @@ angular.module('clientApp')
     $scope.repos = repos.data;
     $scope.currentRepos = $scope.repos;
 
-      $scope.orgs = orgs.data;
+    $scope.orgs = orgs.data;
+
+    // Set default filter value to 'me' - show all user's repositories.
+    $scope.organization ='me';
+
     // Mark User as user, not as organization.
     Account.get().then(function(response) {
       $scope.username = response.label;
 
       angular.forEach($scope.orgs, function(organization, key) {
-        if (organization.login != $scope.username) {
+        if (organization.label != $scope.username) {
           // This is not the current user.
           return;
         }
         $scope.orgs[key]['user'] = true;
-        // Set default filter value to 'me' - show all user's repositories.
-        $scope.search = {'organization': 'me'};
       })
     });
 
@@ -32,18 +34,7 @@ angular.module('clientApp')
     $scope.itemsPerPage = repos.count;
 
     // Set total count of item according to number of pages.
-    if (repos.last) {
-      // "last" link example:
-      // "http://shoov.local/api/v1.0/github_repos?per_page=50&page=2&callback=result"
-      var params = repos.last.href.substr(repos.last.href.indexOf("?")+1);
-      $scope.totalReposCount = getQueryVar(params, 'page') * repos.count;
-    }
-    else {
-      $scope.totalReposCount = repos.count;
-    }
-
-    // Determine if pager is needed.
-    $scope.pager = typeof repos.next !== 'undefined';
+    setUpPager(repos);
 
 
     // Allow parseInt an expression.
@@ -102,37 +93,26 @@ angular.module('clientApp')
 
 
 
-    $scope.$watch('search.organization', function() {
+    $scope.$watch('organization', function() {
       // Organization changed.
-      Repos.get(null, $scope.search.organization.toLowerCase()).then(function(result) {
+      Repos.get(1, $scope.organization.toLowerCase()).then(function(result) {
         // Get repos from backend.
         $scope.currentRepos = result.data;
-
-        // Set total count of item according to number of pages.
-        if (result.last) {
-          var params = result.last.href.substr(result.last.href.indexOf("?") + 1);
-          $scope.totalReposCount = getQueryVar(params, 'page') * result.count;
-        }
-        else {
-          $scope.totalReposCount = result.count;
-        }
-        // Set current page to 1.
-        $scope.currentPage = 1;
-        // Determine if pager is still needed.
-        $scope.pager = typeof result.next !== 'undefined';
+        setUpPager(result);
       });
     });
 
     $scope.$watch('currentPage', function() {
       // Current page number changed.
-      Repos.get(null, $scope.search.organization.toLowerCase(), $scope.currentPage).then(function(result) {
+      Repos.get($scope.currentPage, $scope.organization.toLowerCase()).then(function(result) {
         $scope.currentRepos = result.data;
       });
     });
 
 
     /**
-     * Get guery parameter value.
+     * Get query parameter value.
+     * @see http://stackoverflow.com/questions/2090551/parse-query-string-in-javascript#answer-8219439
      *
      * @param url
      *  String with GET parameters.
@@ -155,5 +135,28 @@ angular.module('clientApp')
 
       // If the string is the same, we didn't find a match - return false
       return val == queryStr ? false : val;
+    }
+
+    /**
+     * Set total count of items according to number of pages.
+     * Set current page to 1.
+     * Determine if pager is needed.
+     *
+     * @param data
+     *  Object with repositories data.
+     */
+    function setUpPager(data) {
+      // Set total count of item according to number of pages.
+      if (data.last) {
+        var params = data.last.href.substr(data.last.href.indexOf("?") + 1);
+        $scope.totalReposCount = getQueryVar(params, 'page') * data.count;
+      }
+      else {
+        $scope.totalReposCount = data.count;
+      }
+      // Set current page to 1.
+      $scope.currentPage = 1;
+      // Determine if pager is still needed.
+      $scope.pager = !!data.next;
     }
   });

@@ -38,7 +38,6 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       return $this->repos;
     }
     // Get range and page number either from url or default ones.
-    $this->overrideRange();
     $params = $this->parseRequestForListPagination();
     $range = intval($params[1]);
     $page = ($params[0] / $range) + 1;
@@ -48,6 +47,7 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
     $access_token = $wrapper->field_github_access_token->value();
 
     $options = array(
+      'method' => 'GET',
       'headers' => array(
         'Authorization' => 'token ' . $access_token,
       ),
@@ -55,25 +55,24 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
 
     // Get organization name if exist.
     $request = $this->getRequest();
-    $org = $request['organization'];
+    $org = !empty($request['organization']) ? $request['organization'] : FALSE;
+    $query = "?per_page=$range&page=$page";
     // Set url according to organization:
     // NULL - get all user's repositories;
     // 'me' - get user's own repositories;
     // 'value' - get organization's repositories, user is member of.
-    if (empty($request['organization'])) {
-      $url = "user/repos?";
+    if (!$org) {
+      $url = "user/repos";
     }
-    else if ($org == 'me') {
-      $url = "users/$user_name/repos?";
+    elseif ($org == 'me') {
+      $url = "users/$user_name/repos";
     }
     else {
-      $url = "orgs/$org/repos?type=member&";
+      $url = "orgs/$org/repos";
+      $query .= "&type=member";
     }
 
-    // Add range ang page parameters to the url.
-    $url .= "per_page=$range&page=$page";
-
-    $response = shoov_github_http_request($url, $options);
+    $response = shoov_github_http_request($url . $query, $options);
     $data = $response['data'];
 
     // Format navigation links.
@@ -110,20 +109,16 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
 
     // Add user to organization list as user can be the owner of the repository
     // like an organization.
-    $user = shoov_github_http_request('user', $options);
-    $data = array_unique(array_merge($orgs['data'], array($user['data'])), SORT_REGULAR);
+    $gihub_account = shoov_github_http_request('user', $options);
+    $data = array_merge($orgs['data'], array($gihub_account['data']));
 
     $this->orgs = $this->getKeyedById($data);
 
-    // @todo: Make this configurable by the plugin.
     return $this->orgs;
   }
 
   /**
    * Return the plugins list, keyed by ID.
-   *
-   * We also take advantage of having the data, in order to update the plugin name
-   * of local plugin.
    *
    * @param array $plugins
    *   The plugins list.
@@ -355,13 +350,8 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
    * {@inheritdoc}
    */
   public function getTotalCount() {
-
-    switch ($this->plugin['resource']) {
-      case 'github_orgs':
-        return count($this->getSortedAndFiltered($this->getOrgs()));
-      default:
-        return count($this->getSortedAndFiltered($this->getRepos()));
-    }
+    $source = $this->plugin['resource'] == 'github_orgs' ? $this->getOrgs() : $this->getRepos();
+    return count($this->getSortedAndFiltered($source));
   }
 
   /**
@@ -373,16 +363,35 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
 
   /**
    * {@inheritdoc}
+   *
+   * Links example:
+   * @code
+   * $links = array(
+   *  array(
+   *    'https://api.github.com/user/repos?per_page=50&page=2&callback=result',
+   *    array(
+   *      'rel' => 'next'
+   *    ),
+   *  ),
+   *  array(
+   *    'https://api.github.com/user/repos?per_page=50&page=2&callback=result',
+   *    array(
+   *      'rel' => 'last'
+   *    ),
+   *  ),
+   * );
+   * @endcode
    */
   public function formatNavigationLinks() {
     $links = $this->links;
+
     $formated_links = array();
     foreach ($links as $link) {
       $href = $link[0];
       $name = $link[1]['rel'];
 
       $href = parse_url($href);
-      $href = $this->versionedUrl($this->getPath()) . '?' . $href['query'];
+      $href = $this->versionedUrl($this->getPath()) . '?' . str_replace(array('&callback=result', 'callback=result'), '', $href['query']);
 
       $formated_links[$name] = array('title' => $name, 'href' => $href);
     }
@@ -392,16 +401,9 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
 
   public function index() {
     $return = array();
+    $method = $this->plugin['resource'] == 'github_orgs' ? 'getOrgs' : 'getRepos';
 
-    switch ($this->plugin['resource']) {
-      case 'github_orgs':
-        $function = 'getOrgs';
-        break;
-      default:
-        $function = 'getRepos';
-    }
-
-    foreach (array_keys($this->getSortedAndFiltered($this->$function())) as $plugin_name) {
+    foreach (array_keys($this->getSortedAndFiltered($this->$method())) as $plugin_name) {
       $return[] = $this->view($plugin_name);
     }
     return $return;
