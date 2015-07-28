@@ -1,0 +1,11 @@
+.ci-build-item {
+
+  .log-wrapper {
+
+    pre {
+      @include border-radius(0);
+      background: black;
+      color: white;
+    }
+  }
+}

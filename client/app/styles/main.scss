@@ -10,6 +10,7 @@
 @import "variables";
 @import 'account';
 @import 'before_after_image_slider';
+@import "build-item";
 @import 'builds';
 @import 'homepage';
 @import 'loadingbar';
@@ -136,20 +137,27 @@ body {
   }
   /* End animation */
 
-  .font-red-sunglo {
+  .font-red-sunglo,
+  .font-error {
     color: $brand-danger;
   }
 
-  .font-green-sharp {
+  .font-green-sharp,
+  .font-done {
     color: $brand-success;
   }
 
-  .font-blue-sharp {
+  .font-blue-sharp,
+  .font-in_progress {
     color: $brand-primary;
   }
 
   .font-purple-intense {
     color: $brand-title-purple;
+  }
+
+  .font-queue {
+    color: $brand-warning;
   }
 
   .label {
