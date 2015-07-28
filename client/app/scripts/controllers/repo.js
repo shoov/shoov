@@ -13,9 +13,17 @@ angular.module('clientApp')
     $scope.ciBuildItems = [];
     $scope.incidents = incidents;
 
+    // List of build statuses.
+    $scope.buildStatuses = {
+      'queue': 'Queue',
+      'in_progress': 'In progress',
+      'error': 'Error',
+      'done': 'Done'
+    };
+
     // Separate the queue item from the list.
     angular.forEach(ciBuildItems, function(item) {
-      if (item.status != 'queue') {
+      if (item.status != 'queue' && item.status != 'in_progress') {
         $scope.ciBuildItems.push(item);
       }
       else {

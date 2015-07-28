@@ -33,8 +33,8 @@
       <div class="portlet">
         <div class="portlet-title">
           <div class="caption">Build History</div>
-          <div class="actions">
-            <span class="label label-sm label-{{ ciBuildQueueItem.status }}">{{ ciBuildQueueItem.status }}</span>
+          <div class="actions" ng-show="ciBuildQueueItem">
+            <span class="label label-sm label-{{ ciBuildQueueItem.status }}">{{ buildStatuses[ciBuildQueueItem.status] }}</span>
             <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: ciBuildQueueItem.id })">#{{ciBuildQueueItem.id}}</a> - {{ (ciBuildQueueItem.start_timestamp*1000) | date : 'MMM d, y h:mm a' }}
           </div>
         </div>
@@ -42,7 +42,7 @@
           <div ng-hide="ciBuildItems.length">
             Here you will see a log of every live monitor build.
           </div>
-          <div class="table-scrollable">
+          <div class="table-scrollable" ng-show="ciBuildItems.length">
             <table class="table table-hover">
               <thead>
               <tr>
