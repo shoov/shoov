@@ -77,15 +77,13 @@
             <table class="table table-hover">
               <thead>
               <tr>
-                <th>#ID</th>
                 <th>Name</th>
                 <th>Incident time</th>
               </tr>
               </thead>
               <tbody>
               <tr class="incident-item animate" ng-repeat="incident in incidents">
-                <td><a ui-sref="dashboard.ciIncident({ incidentId: incident.id })">#{{ incident.id }}</a></td>
-                <td>{{ incident.label }}</td>
+                <td><a ui-sref="dashboard.ciIncident({ incidentId: incident.id })">{{ incident.label }}</a></td>
                 <td>{{ (incident.created*1000) | date : 'MMM d, y h:mm a' }}</td>
               </tr>
               </tbody>
