@@ -106,6 +106,36 @@ body {
     }
   }
 
+  /* Animation */
+  .animate {
+    @include transition(0.7s ease-out all);
+
+    &.ng-move,
+    &.ng-enter,
+    &.ng-leave {
+      @include transition(all linear 0.7s);
+    }
+
+    &.ng-leave.ng-leave-active,
+    &.ng-move,
+    &.ng-enter {
+      opacity:0;
+      max-height:0;
+    }
+
+    &.ng-leave,
+    &.ng-move.ng-move-active,
+    &.ng-enter.ng-enter-active {
+      opacity:1;
+      max-height:40px;
+    }
+  }
+
+  .ng-enter-active {
+    background-color: $brand-highlight;
+  }
+  /* End animation */
+
   .font-red-sunglo {
     color: $brand-danger;
   }
@@ -120,6 +150,30 @@ body {
 
   .font-purple-intense {
     color: $brand-title-purple;
+  }
+
+  .label {
+    text-transform: capitalize;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+
+    &.label-sm {
+      font-size: 12px;
+      padding: 0 4px 1px 4px;
+    }
+
+    &.label-error {
+      background-color: $brand-danger;
+    }
+
+    &.label-done {
+      background-color: $brand-success;
+    }
+
+    &.label-queue {
+      background-color: $brand-warning;
+    }
   }
 
   .portlet {
