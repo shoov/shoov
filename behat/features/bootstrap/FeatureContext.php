@@ -39,13 +39,24 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * @When /^I visit "([^"]*)" node of type "([^"]*)"$/
+   * Get node ID by bundle and title.
+   *
+   * @param string $bundle
+   *    The name of bundle (type) of node searching for.
+   * @param string $title
+   *    The title of node searching for.
+   *
+   * @return int
+   *    The Node ID.
+   *
+   * @throws \Exception
+   *    The error if node not found.
    */
-  public function iVisitNodePageOfType($title, $type) {
+  public function getNode($bundle, $title) {
     $query = new \entityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'node')
-      ->entityCondition('bundle', strtolower($type))
+      ->entityCondition('bundle', strtolower($bundle))
       ->propertyCondition('title', $title)
       ->propertyCondition('status', NODE_PUBLISHED)
       ->range(0, 1)
@@ -53,11 +64,19 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     if (empty($result['node'])) {
       $params = array(
         '@title' => $title,
-        '@type' => $type,
+        '@type' => $bundle,
       );
       throw new \Exception(format_string("Node @title of @type not found.", $params));
     }
     $nid = key($result['node']);
+    return $nid;
+  }
+
+  /**
+   * @When /^I visit "([^"]*)" node of type "([^"]*)"$/
+   */
+  public function iVisitNodePageOfType($title, $type) {
+    $nid = $this->getNode($type, $title);
     $this->getSession()->visit($this->locatePath('node/' . $nid));
   }
 
@@ -76,28 +95,15 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * @When I should be able to edit :title node of type :type
+   * @param $title
+   * @param $type
+   * @param $operation
+   * @throws Exception
    */
-  public function iShouldBeAbleToEditNodeOfType($title, $type) {
-    $query = new \entityFieldQuery();
-    $result = $query
-      ->entityCondition('entity_type', 'node')
-      ->entityCondition('bundle', strtolower($type))
-      ->propertyCondition('title', $title)
-      ->propertyCondition('status', NODE_PUBLISHED)
-      ->range(0, 1)
-      ->execute();
+  public function checkUserHasOgAccessForOperation($title, $type, $operation) {
+    $nid = $this->getNode($type, $title);
 
-    if (empty($result['node'])) {
-      $params = array(
-        '@title' => $title,
-        '@type' => $type,
-      );
-      throw new \Exception(format_string("Node @title of @type not found.", $params));
-    }
-
-    $nid = key($result['node']);
-    if (node_access('update', node_load($nid), user_load_by_name($this->user->name))) {
+    if (og_node_access(node_load($nid), $operation, user_load_by_name($this->user->name))) {
       // User has access.
       return;
     }
@@ -105,9 +111,79 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     $params = array(
       '@title' => $title,
       '@type' => $type,
+      '@user' => $this->user->name,
+      '@op' => $operation,
     );
-    throw new \Exception(format_string("You can't edit the node @title of @type not found.", $params));
+    throw new \Exception(format_string("User @user can't @op group content @title of type @type not found.", $params));
   }
+
+  /**
+   * Check node access for operation.
+   *
+   * @param string $title
+   *  Node title.
+   * @param string $type
+   *  Node bundle (type).
+   * @param string $operation
+   *  Operation name: 'view', 'update', 'delete'.
+   *
+   * @throws Exception
+   *  Throws exception when node not found.
+   */
+  public function checkUserHasAccessForOperation($title, $type, $operation) {
+    $nid = $this->getNode($type, $title);
+
+    if (node_access($operation, node_load($nid), user_load_by_name($this->user->name))) {
+      // User has access.
+      return;
+    }
+
+    $params = array(
+      '@title' => $title,
+      '@type' => $type,
+      '@user' => $this->user->name,
+      '@op' => $operation,
+    );
+    throw new \Exception(format_string("User @user can't @op group content @title of type @type not found.", $params));
+  }
+
+  /**
+   * @When I should be able to delete :title group content of type :type
+   */
+  public function iShouldBeAbleToDeleteGroupContentOfType($title, $type) {
+    $this->checkUserHasOgAccessForOperation($title, $type, 'delete');
+  }
+
+  /**
+   * @When I should be able to edit :title group content of type :type
+   */
+  public function iShouldBeAbleToEditGroupContentOfType($title, $type) {
+    $this->checkUserHasOgAccessForOperation($title, $type, 'update');
+  }
+
+  /**
+   * @When I should be able to edit :title node of type :type
+   */
+  public function iShouldBeAbleToEditNodeOfType($title, $type) {
+    $this->checkUserHasAccessForOperation($title, $type, 'update');
+  }
+
+  /**
+   * @Then I should be able to create group content of type :type
+   */
+  public function iShouldBeAbleToCreateGroupContentOfType($type) {
+    if (og_node_access($type, 'create', user_load_by_name($this->user->name))) {
+      // User has access.
+      return;
+    }
+
+    $params = array(
+      '@type' => $type,
+      '@user' => $this->user->name,
+    );
+    throw new \Exception(format_string("User @user can't create group content of type @type not found.", $params));
+  }
+
 
   /**
    * @When I should be able to create node of type :type
@@ -150,14 +226,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
         throw new \Exception(format_string('Failed to create a new CI build "@title" because repository is undefined.', $params));
       }
 
-      $query = new EntityFieldQuery();
-      $result = $query->entityCondition('entity_type', 'node')
-        ->entityCondition('bundle', 'repository')
-        ->propertyCondition('title', $repository)
-        ->range(0,1)
-        ->execute();
-
-      $repository_id = key($result['node']);
+      $repository_id = $this->getNode('repository', $repository);
       $wrapper->og_repo->set($repository_id);
     }
 
@@ -195,22 +264,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    * @When I delete :title node of type :type
    */
   public function iDeleteNodeOfType($title, $type) {
-    $query = new \entityFieldQuery();
-    $result = $query
-      ->entityCondition('entity_type', 'node')
-      ->entityCondition('bundle', strtolower($type))
-      ->propertyCondition('title', $title)
-      ->propertyCondition('status', NODE_PUBLISHED)
-      ->range(0, 1)
-      ->execute();
-    if (empty($result['node'])) {
-      $params = array(
-        '@title' => $title,
-        '@type' => $type,
-      );
-      throw new \Exception(format_string("Node @title of @type not found.", $params));
-    }
-    $nid = key($result['node']);
+    $nid = $this->getNode($type, $title);
     node_delete($nid);
   }
 
@@ -218,22 +272,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    * @Then I should not be able to add content to :title repository
    */
   public function iShouldNotBeAbleToAddContentToRepository($title) {
-    $query = new \entityFieldQuery();
-    $result = $query
-      ->entityCondition('entity_type', 'node')
-      ->entityCondition('bundle', 'repository')
-      ->propertyCondition('title', $title)
-      ->propertyCondition('status', NODE_PUBLISHED)
-      ->range(0, 1)
-      ->execute();
-    if (empty($result['node'])) {
-      $params = array(
-        '@title' => $title,
-        '@type' => 'repository',
-      );
-      throw new \Exception(format_string("Node @title of @type not found.", $params));
-    }
-    $gid = key($result['node']);
+    $gid = $this->getNode('repository', $title);
     $account = user_load_by_name($this->user->name);
     if (node_access('update', node_load($gid), $account)) {
       throw new \Exception(format_string("User @user can add content to @title group", array('@title' => $title, '@user' => $this->user->name)));
@@ -418,24 +457,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    *    The error if node not found.
    */
   protected function getNodeByTitleAndBundle($title, $bundle) {
-    $query = new EntityFieldQuery();
-    $result = $query
-      ->entityCondition('entity_type', 'node')
-      ->entityCondition('bundle', $bundle)
-      ->propertyCondition('title', $title)
-      ->propertyCondition('status', NODE_PUBLISHED)
-      ->propertyOrderBy('vid', 'DESC')
-      ->range(0, 1)
-      ->execute();
-
-    if (empty($result['node'])) {
-      $params = array(
-        '@title' => $title,
-        '@bundle' => $bundle
-      );
-      throw new \Exception(format_string('Node with title @title and bundle @bundle was not found.', $params));
-    }
-
-    return node_load(key($result['node']));
+    $nid = $this->getNode($bundle, $title);
+    return node_load($nid);
   }
 }
