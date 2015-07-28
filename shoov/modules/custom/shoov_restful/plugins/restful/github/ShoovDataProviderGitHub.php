@@ -142,6 +142,11 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
     // Get all the local repos by the GitHub repo ID.
     $ids = array_keys($this->repos);
 
+    if (!$ids) {
+      // No repositories were provided.
+      return;
+    }
+
     $query = new EntityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'node')
