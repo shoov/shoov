@@ -21,7 +21,7 @@ angular.module('clientApp')
       'done': 'Done'
     };
 
-    // Separate the queue item from the list.
+    // Separate the queue or in progress item from the history list.
     angular.forEach(ciBuildItems, function(item) {
       if (item.status != 'queue' && item.status != 'in_progress') {
         $scope.ciBuildItems.push(item);
