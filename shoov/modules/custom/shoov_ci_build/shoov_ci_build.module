@@ -191,12 +191,6 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
  */
 function shoov_ci_build_message_update(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
-  $status = $wrapper->field_ci_build_status->value();
-  if (!in_array($status, array('error', 'done'))) {
-    // Item still in progress or re-queued after being stuck.
-    return;
-  }
-
   if (!$wrapper->field_ci_build->field_ci_build_enabled->value()) {
     // CI build is disabled.
     return;
