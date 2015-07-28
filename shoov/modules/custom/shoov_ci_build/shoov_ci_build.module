@@ -137,19 +137,8 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
     // CI build is not enabled.
 
     // Find Queue items and delete them.
-    $query = new EntityFieldQuery();
-    $result = $query
-      ->entityCondition('entity_type', 'message')
-      ->entityCondition('bundle', 'ci_build')
-      ->fieldCondition('field_ci_build', 'target_id', $node->nid)
-      ->fieldCondition('field_ci_build_status', 'value', 'queue')
-      ->execute();
-
-    if (empty($result['message'])) {
-      return;
-    }
-
-    message_delete_multiple(array_keys($result['message']));
+    $items = shoov_ci_build_get_queue_items($node->nid);
+    message_delete_multiple($items);
 
     return;
   }
@@ -448,4 +437,28 @@ function shoov_ci_build_trigger_event(Message $message, $event) {
   $result = $handler->get($message->mid);
   $data = array($result[0]);
   shoov_pusher_trigger_event($wrapper->field_ci_build->og_repo->getIdentifier(), $event, $data);
+}
+
+/**
+ * Get all messages with Queue status of certain CI Build.
+ *
+ * @param $ci_build_id
+ *  CI Build node ID.
+ *
+ * @return array
+ *  Return array of messages ids.
+ */
+function shoov_ci_build_get_queue_items($ci_build_id) {
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'message')
+    ->entityCondition('bundle', 'ci_build')
+    ->fieldCondition('field_ci_build', 'target_id', $ci_build_id)
+    ->fieldCondition('field_ci_build_status', 'value', 'queue')
+    ->execute();
+
+  if (empty($result['message'])) {
+    return array();
+  }
+  return array_keys($result['message']);
 }
