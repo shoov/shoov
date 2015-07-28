@@ -10,7 +10,6 @@
 angular.module('clientApp')
   .controller('ReposCtrl', function ($scope, repos, orgs, Orgs, Builds, Repos, Account, $filter, $log) {
     $scope.repos = repos.data;
-    $scope.currentRepos = $scope.repos;
 
     $scope.orgs = orgs.data;
 
@@ -97,7 +96,7 @@ angular.module('clientApp')
       // Organization changed.
       Repos.get($scope.organization.toLowerCase()).then(function(result) {
         // Get repos from backend.
-        $scope.currentRepos = result.data;
+        $scope.repos = result.data;
         setUpPager(result);
       });
     });
@@ -105,7 +104,7 @@ angular.module('clientApp')
     $scope.$watch('currentPage', function() {
       // Current page number changed.
       Repos.get($scope.organization.toLowerCase(), null, $scope.currentPage).then(function(result) {
-        $scope.currentRepos = result.data;
+        $scope.repos = result.data;
       });
     });
 
