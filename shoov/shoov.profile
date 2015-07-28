@@ -81,14 +81,14 @@ function shoov_setup_variables() {
 function shoov_setup_og_permissions() {
   $group_content_bundles = og_get_all_group_content_bundle();
   $permissions = array();
-  foreach ($group_content_bundles['node'] as $bundle) {
+  foreach ($group_content_bundles['node'] as $bundle => $bundle_title) {
     $permissions = array_merge($permissions, array(
       "create $bundle content",
       "update own $bundle content",
       "delete own $bundle content",
     ));
   }
-  $roles = og_roles('node', 'group');
+  $roles = og_roles('node', 'repository');
   $auth_rid = array_search(OG_AUTHENTICATED_ROLE, $roles);
   $admin_rid = array_search(OG_ADMINISTRATOR_ROLE, $roles);
   og_role_grant_permissions($auth_rid, $permissions);
