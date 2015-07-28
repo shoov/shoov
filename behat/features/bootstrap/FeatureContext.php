@@ -52,7 +52,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    * @throws \Exception
    *    The error if node not found.
    */
-  public function getNode($bundle, $title) {
+  public function getNodeIdByTitleAndBundle($bundle, $title) {
     $query = new \entityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'node')
@@ -76,7 +76,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    * @When /^I visit "([^"]*)" node of type "([^"]*)"$/
    */
   public function iVisitNodePageOfType($title, $type) {
-    $nid = $this->getNode($type, $title);
+    $nid = $this->getNodeIdByTitleAndBundle($type, $title);
     $this->getSession()->visit($this->locatePath('node/' . $nid));
   }
 
@@ -101,7 +101,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    * @throws Exception
    */
   public function checkUserHasOgAccessForOperation($title, $type, $operation) {
-    $nid = $this->getNode($type, $title);
+    $nid = $this->getNodeIdByTitleAndBundle($type, $title);
 
     if (og_node_access(node_load($nid), $operation, user_load_by_name($this->user->name))) {
       // User has access.
@@ -131,7 +131,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    *  Throws exception when node not found.
    */
   public function checkUserHasAccessForOperation($title, $type, $operation) {
-    $nid = $this->getNode($type, $title);
+    $nid = $this->getNodeIdByTitleAndBundle($type, $title);
 
     if (node_access($operation, node_load($nid), user_load_by_name($this->user->name))) {
       // User has access.
@@ -226,7 +226,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
         throw new \Exception(format_string('Failed to create a new CI build "@title" because repository is undefined.', $params));
       }
 
-      $repository_id = $this->getNode('repository', $repository);
+      $repository_id = $this->getNodeIdByTitleAndBundle('repository', $repository);
       $wrapper->og_repo->set($repository_id);
     }
 
@@ -264,7 +264,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    * @When I delete :title node of type :type
    */
   public function iDeleteNodeOfType($title, $type) {
-    $nid = $this->getNode($type, $title);
+    $nid = $this->getNodeIdByTitleAndBundle($type, $title);
     node_delete($nid);
   }
 
@@ -272,7 +272,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    * @Then I should not be able to add content to :title repository
    */
   public function iShouldNotBeAbleToAddContentToRepository($title) {
-    $gid = $this->getNode('repository', $title);
+    $gid = $this->getNodeIdByTitleAndBundle('repository', $title);
     $account = user_load_by_name($this->user->name);
     if (node_access('update', node_load($gid), $account)) {
       throw new \Exception(format_string("User @user can add content to @title group", array('@title' => $title, '@user' => $this->user->name)));
@@ -457,7 +457,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    *    The error if node not found.
    */
   protected function getNodeByTitleAndBundle($title, $bundle) {
-    $nid = $this->getNode($bundle, $title);
+    $nid = $this->getNodeIdByTitleAndBundle($bundle, $title);
     return node_load($nid);
   }
 }
