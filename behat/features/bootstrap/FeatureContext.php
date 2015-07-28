@@ -53,6 +53,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    *    The error if node not found.
    */
   public function getNodeIdByTitleAndBundle($bundle, $title) {
+    $bundle = str_replace(array(' ', '-'), '_', $bundle);
     $query = new \entityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'node')
@@ -172,7 +173,8 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    * @Then I should be able to create group content of type :type
    */
   public function iShouldBeAbleToCreateGroupContentOfType($type) {
-    if (og_node_access($type, 'create', user_load_by_name($this->user->name))) {
+    $bundle = str_replace(array(' ', '-'), '_', $type);
+    if (og_node_access(strtolower($bundle), 'create', user_load_by_name($this->user->name))) {
       // User has access.
       return;
     }

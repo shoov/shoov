@@ -8,10 +8,10 @@ Feature: OG permissions
 
   Examples:
     | type        | title                      |
-    | ci_build    | DavidKohav/test-example    |
-    | ci_incident | incident 2                 |
-    | screenshot  | browserstack-chrome google |
-    | ui_build    | Fix error (356a19)         |
+    | CI Build    | DavidKohav/test-example    |
+    | CI Incident | incident 2                 |
+    | Screenshot  | browserstack-chrome google |
+    | UI Build    | Fix error (356a19)         |
 
   @api
   Scenario Outline: Check authenticated user can delete own group content
@@ -20,10 +20,10 @@ Feature: OG permissions
 
   Examples:
     | type        | title                      |
-    | ci_build    | DavidKohav/test-example    |
-    | ci_incident | incident 2                 |
-    | screenshot  | browserstack-chrome google |
-    | ui_build    | Fix error (356a19)         |
+    | CI Build    | DavidKohav/test-example    |
+    | CI Incident | incident 2                 |
+    | Screenshot  | browserstack-chrome google |
+    | UI Build    | Fix error (356a19)         |
 
   @api
   Scenario Outline: Check authenticated user can create group content
@@ -32,8 +32,8 @@ Feature: OG permissions
 
   Examples:
     | type        |
-    | ci_build    |
-    | ci_incident |
-    | screenshot  |
-    | ui_build    |
+    | CI Build    |
+    | CI Incident |
+    | Screenshot  |
+    | UI Build    |
 
