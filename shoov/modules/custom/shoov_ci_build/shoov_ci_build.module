@@ -149,10 +149,7 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
       return;
     }
 
-    foreach ($result['message'] as $message) {
-      message_delete_multiple(array($message->mid));
-    }
-
+    message_delete_multiple(array_keys($result['message']));
     return;
   }
 
