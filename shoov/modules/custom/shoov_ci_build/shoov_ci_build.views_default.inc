@@ -191,6 +191,7 @@ function shoov_ci_build_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '25';
   $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['inherit_panels_path'] = '1';
   $export['ci_items'] = $view;
 
   return $export;
