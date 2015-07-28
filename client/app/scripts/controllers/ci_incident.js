@@ -11,4 +11,22 @@ angular.module('clientApp')
   .controller('CiIncidentCtrl', function ($scope, incident) {
 
     $scope.incident = incident[0];
+
+    var incidentStart = $scope.incident.created;
+    var incidentEnd = $scope.incident.updated ? $scope.incident.updated : new Date();
+
+    var seconds = incidentEnd-incidentStart;
+    var minutes = seconds/60;
+    var hours = minutes/60;
+    var days = hours/24;
+
+    if (minutes > 1) {
+      $scope.downTime = minutes + ' Minutes';
+    }
+    else if (hours > 1) {
+      $scope.downTime = hours + ' Hours';
+    }
+    else if (days > 1) {
+      $scope.downTime = days + ' Days';
+    }
   });
