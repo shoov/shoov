@@ -161,7 +161,6 @@ body {
   }
 
   .label {
-    text-transform: capitalize;
     font-size: 16px;
     font-weight: bold;
     letter-spacing: 0.5px;
@@ -181,6 +180,10 @@ body {
 
     &.label-queue {
       background-color: $brand-warning;
+    }
+
+    &.label-in_progress {
+      background-color: $brand-sky;
     }
   }
 
