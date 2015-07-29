@@ -11,8 +11,8 @@
           <a ui-sref="dashboard.repos">Live Monitor Repositories</a>
           <i class="fa fa-angle-right"></i>
         </li>
-        <li>
-          <a ui-sref="dashboard.ciBuild({ buildId: {{ciBuildItem.build}} })">{{ build.label }}</a>
+        <li ng-if="build">
+          <a ui-sref="dashboard.ciBuild({ buildId: {{build.id}} })">{{ build.label }}</a>
           <i class="fa fa-angle-right"></i>
         </li>
         <li>
