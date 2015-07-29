@@ -11,10 +11,20 @@ angular.module('clientApp')
   .controller('BuildsCtrl', function ($scope, builds, Auth, Config, Builds, channelManager, $timeout) {
 
     $scope.builds = builds;
+    $scope.repositories = {};
+
+    // Get the repositories from the builds.
+    angular.forEach($scope.builds, function(build) {
+      if ($scope.repositories[build.repository.id]) {
+        // Don't add the same repository twice.
+        return;
+      }
+      $scope.repositories[build.repository.id] = build.repository.label;
+    });
 
     $scope.accessToken = Auth.getAccessToken();
     $scope.backend = Config.backend;
-    $scope.repositoryFilter = 0;
+    $scope.repositoryFilter = "0";
 
     /**
      * Listen to new build events and add new builds to the list.

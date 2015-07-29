@@ -47,6 +47,13 @@
             </div>
           </div>
         </div>
+        <div class="form-group">
+          <label for="repository">Filter by repository</label>
+          <select class="form-control" id="repository" ng-model="repositoryFilter">
+            <option value="0" selected="selected">-No filter-</option>
+            <option ng-value="id" ng-repeat="(id, label) in repositories">{{label}}</option>
+          </select>
+        </div>
         <div class="table-scrollable builds" ng-show="builds.length">
           <table class="table table-hover">
             <thead>
