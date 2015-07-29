@@ -10,7 +10,6 @@
 @import "variables";
 @import 'account';
 @import 'before_after_image_slider';
-@import "build-item";
 @import 'builds';
 @import 'homepage';
 @import 'loadingbar';
@@ -237,6 +236,15 @@ body {
       .col-list {
         background-color: $main-bg-color;
         padding: 0 20px 20px;
+      }
+
+      .log-wrapper {
+
+        pre {
+          @include border-radius(0);
+          background: black;
+          color: white;
+        }
       }
     }
   }
