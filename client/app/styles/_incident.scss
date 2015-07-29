@@ -10,4 +10,19 @@
       padding: 6px 8px;
     }
   }
+
+  .incident-builds {
+
+    li {
+
+      .build-type {
+        width: 110px;
+        display: inline-block;
+      }
+
+      a {
+        display: inline-block;
+      }
+    }
+  }
 }

@@ -191,6 +191,8 @@ body {
       padding: 0;
       margin-bottom: 10px;
       min-height: 48px;
+      float: left;
+      width: 100%;
 
       > .caption {
         float: left;
@@ -222,6 +224,8 @@ body {
 
     .portlet-body {
       padding-top: 8px;
+      float: left;
+      width: 100%;
 
       .description {
         margin-bottom: 15px;
@@ -230,6 +234,10 @@ body {
       .col-list {
         background-color: $main-bg-color;
         padding: 0 20px 20px;
+      }
+
+      .portlet {
+        padding: 0;
       }
     }
 
