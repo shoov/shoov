@@ -137,7 +137,7 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
     // CI build is not enabled.
 
     // Find Queue items and delete them.
-    $items = shoov_ci_build_get_queue_items($node, 'queue');
+    $items = shoov_ci_build_get_items_by_status($node, 'queue');
     message_delete_multiple($items);
 
     return;
@@ -149,16 +149,7 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
     'in_progress',
   );
 
-  $query = new EntityFieldQuery();
-  $count = $query
-    ->entityCondition('entity_type', 'message')
-    ->entityCondition('bundle', 'ci_build')
-    ->fieldCondition('field_ci_build', 'target_id', $node->nid)
-    ->fieldCondition('field_ci_build_status', 'value', $status, 'IN')
-    ->count()
-    ->execute();
-
-  if ($count) {
+  if (shoov_ci_build_get_items_count($node, $status)) {
     return;
   }
 
@@ -443,14 +434,14 @@ function shoov_ci_build_trigger_event(Message $message, $event) {
  * Get all messages with certain status of certain CI Build.
  *
  * @param $node
- *  CI Build node.
+ *  The CI Build node.
  * @param $status
  *  Status field value.
  *
  * @return array
  *  Return array of messages ids.
  */
-function shoov_ci_build_get_queue_items($node, $status ='queue') {
+function shoov_ci_build_get_items_by_status($node, $status ='queue') {
   $query = new EntityFieldQuery();
   $result = $query
     ->entityCondition('entity_type', 'message')
@@ -461,4 +452,26 @@ function shoov_ci_build_get_queue_items($node, $status ='queue') {
     ->execute();
 
   return empty($result['message']) ? array() : array_keys($result['message']);
+}
+
+/**
+ * @param $node
+ *  The CI Build node
+ * @param array $status
+ *  An array of statuses.
+ * @return int
+ *  Return count of found items.
+ */
+function shoov_ci_build_get_items_count($node, $status = array('queue')) {
+  $query = new EntityFieldQuery();
+  $count = $query
+    ->entityCondition('entity_type', 'message')
+    ->entityCondition('bundle', 'ci_build')
+    ->fieldCondition('field_ci_build', 'target_id', $node->nid)
+    ->fieldCondition('field_ci_build_status', 'value', $status, 'IN')
+    ->addMetaData('account', user_load($node->uid))
+    ->count()
+    ->execute();
+
+  return $count;
 }
