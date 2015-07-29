@@ -21,12 +21,12 @@ angular.module('clientApp')
     var days = hours/24;
 
     if (minutes > 1) {
-      $scope.downTime = minutes + ' Minutes';
+      $scope.downTime = Math.floor(minutes) + ' Minutes';
     }
     else if (hours > 1) {
-      $scope.downTime = hours + ' Hours';
+      $scope.downTime = Math.floor(hours) + ' Hours';
     }
     else if (days > 1) {
-      $scope.downTime = days + ' Days';
+      $scope.downTime = Math.floor(days) + ' Days';
     }
   });
