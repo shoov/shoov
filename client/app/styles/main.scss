@@ -89,6 +89,10 @@ body {
         font-size: 16px;
         text-shadow: none;
 
+        @media (max-width: 768px) {
+          font-size: 14px;
+        }
+
         > a {
           color: $breadcrumb-color;
         }
