@@ -31,6 +31,8 @@
     margin-top: 20px;
     background-color: white;
     padding: 20px;
+    float: left;
+    width: 100%;
 
     .download-wrapper {
       float: right;
@@ -42,6 +44,8 @@
     margin-bottom: 30px;
     background-color: white;
     padding: 20px 15px 60px;
+    float: left;
+    width: 100%;
 
     .screenshot-item {
 
@@ -86,12 +90,10 @@
       border: 2px solid #222;
     }
   }
-
-  .portlet {
-    float: none;
-  }
 }
 
 .pagination {
   text-align: center;
+  float: left;
+  width: 100%;
 }

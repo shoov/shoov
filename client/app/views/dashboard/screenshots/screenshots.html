@@ -29,41 +29,44 @@
         </div>
       </div>
 
-      <ul class="info">
-        <li>Repository: <a ng-href="https://github.com/{{ repoName }}">{{ repoName }}</a></li>
-        <li>Branch: <a ng-href="https://github.com/{{ repoName }}/tree/{{ gitCommit }}">{{ gitBranch }}</a></li>
-        <li>Commit: <a ng-href="https://github.com/{{ repoName }}/commit/{{ gitCommit }}">{{ gitCommit }}</a></li>
-        <li class="background">
-          <i class="fa fa-github"></i>
-        </li>
-      </ul>
+      <div class="portlet-body">
+        <ul class="info">
+          <li>Repository: <a ng-href="https://github.com/{{ repoName }}">{{ repoName }}</a></li>
+          <li>Branch: <a ng-href="https://github.com/{{ repoName }}/tree/{{ gitCommit }}">{{ gitBranch }}</a></li>
+          <li>Commit: <a ng-href="https://github.com/{{ repoName }}/commit/{{ gitCommit }}">{{ gitCommit }}</a></li>
+          <li class="background">
+            <i class="fa fa-github"></i>
+          </li>
+        </ul>
 
-      <div class="row">
+        <div class="row">
 
-        <div>
-          <div class="col-md-6">
+          <div>
+            <div class="col-md-6">
 
-            <div class="pr-wrapper">
-              <div class="form-group">
-                <input type="text" class="form-control" ng-disabled="prProgress" ng-model="prName">
-                <button class="btn btn-primary" ng-disabled="!selection.length || prProgress" ng-click="pullRequest()">Create Pull Request </button>
+              <div class="pr-wrapper">
+                <div class="form-group">
+                  <input type="text" class="form-control" ng-disabled="prProgress" ng-model="prName">
+                  <button class="btn btn-primary" ng-disabled="!selection.length || prProgress" ng-click="pullRequest()">Create Pull Request </button>
               <span class="dev-tip">
                 <i class="fa fa-info-circle" popover-placement="right" popover-template="'prDocker.html'" popover-title="Dev Tip"></i>
               </span>
-              </div>
+                </div>
 
-              <div>
-                <a ng-href="{{ prUrl }}" ng-show="prUrl">{{ prUrl }}</a>
+                <div>
+                  <a ng-href="{{ prUrl }}" ng-show="prUrl">{{ prUrl }}</a>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="col-md-6 show-diff">
-            Show diff <input bs-switch type="checkbox" ng-model="showDiff">
+            <div class="col-md-6 show-diff">
+              Show diff <input bs-switch type="checkbox" ng-model="showDiff">
+            </div>
           </div>
         </div>
-      </div>
-      <div class="row image-size">
+        <div class="row image-size">
+        </div>
+
         <div class="col-md-4">
           <label for="image-style">Image size:</label>
           <select id="image-style" class="form-control" ng-model="imageStyle">

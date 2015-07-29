@@ -141,20 +141,27 @@ body {
   }
   /* End animation */
 
-  .font-red-sunglo {
+  .font-red-sunglo,
+  .font-error {
     color: $brand-danger;
   }
 
-  .font-green-sharp {
+  .font-green-sharp,
+  .font-done {
     color: $brand-success;
   }
 
-  .font-blue-sharp {
+  .font-blue-sharp,
+  .font-in_progress {
     color: $brand-primary;
   }
 
   .font-purple-intense {
     color: $brand-title-purple;
+  }
+
+  .font-queue {
+    color: $brand-warning;
   }
 
   .label {
@@ -260,6 +267,15 @@ body {
         bottom: 0;
         font-size: 65px;
         opacity: 0.4;
+      }
+    }
+
+    .log-wrapper {
+
+      pre {
+        @include border-radius(0);
+        background: black;
+        color: white;
       }
     }
   }
