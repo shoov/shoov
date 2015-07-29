@@ -54,15 +54,13 @@
               <th>Name</th>
               <th>Repository</th>
               <th>Created</th>
-              <th>PR Status</th>
             </tr>
             </thead>
             <tbody>
-            <tr class="build-item animate" ng-repeat="build in builds | filter: {repository: filterRepository}">
+            <tr class="build-item animate" ng-repeat="build in builds | buildsFilter: repositoryFilter">
               <td><i class="fa fa-server"></i><a ui-sref="dashboard.screenshots({ buildId: build.id })">{{ build.label }}</a></td>
-              <td><a ui-sref="dashboard.screenshots({ buildId: build.id })">{{ build.repository }}</a></td>
+              <td>{{ build.repository.label }}</td>
               <td>{{ (build.created*1000) | date : 'MMM d, y h:mm a' }}</td>
-              <td><span class="label label-sm label-{{ build.pull_request_status }}">{{ build.pull_request_status }}</span></td>
             </tr>
             </tbody>
           </table>

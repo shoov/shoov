@@ -14,7 +14,7 @@ angular.module('clientApp')
 
     $scope.accessToken = Auth.getAccessToken();
     $scope.backend = Config.backend;
-    $scope.filterRepository = 25;
+    $scope.repositoryFilter = 0;
 
     /**
      * Listen to new build events and add new builds to the list.
