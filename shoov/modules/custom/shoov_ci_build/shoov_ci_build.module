@@ -436,7 +436,7 @@ function shoov_ci_build_trigger_event(Message $message, $event) {
  * @param $node
  *  The CI Build node.
  * @param $status
- *  Status field value.
+ *  Status field value. Default to queue.
  *
  * @return array
  *  Return array of messages ids.
@@ -455,20 +455,26 @@ function shoov_ci_build_get_items_by_status($node, $status ='queue') {
 }
 
 /**
+ * Get count of messages with certain statuses of certain CI Build.
+ *
  * @param $node
  *  The CI Build node
  * @param array $status
  *  An array of statuses.
+ *
  * @return int
  *  Return count of found items.
  */
-function shoov_ci_build_get_items_count($node, $status = array('queue')) {
+function shoov_ci_build_get_items_count($node, $status = array()) {
   $query = new EntityFieldQuery();
-  $count = $query
+  $query
     ->entityCondition('entity_type', 'message')
     ->entityCondition('bundle', 'ci_build')
-    ->fieldCondition('field_ci_build', 'target_id', $node->nid)
-    ->fieldCondition('field_ci_build_status', 'value', $status, 'IN')
+    ->fieldCondition('field_ci_build', 'target_id', $node->nid);
+  if ($status) {
+    $query->fieldCondition('field_ci_build_status', 'value', $status, 'IN');
+  }
+  $count = $query
     ->addMetaData('account', user_load($node->uid))
     ->count()
     ->execute();
