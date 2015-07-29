@@ -15,7 +15,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-12 screenshots-list">
+  <div class="col-md-12 builds-list">
     <div class="portlet">
       <div class="portlet-title">
         <div class="caption font-blue-sharp">
@@ -47,13 +47,25 @@
             </div>
           </div>
         </div>
-        <div ng-show="builds.length">
-          <ul class="builds">
-            <li class="build-item animate" ng-repeat="build in builds">
-              <i class="fa fa-server"></i>
-              <a ng-href="#/screenshots/{{ build.id }}" >{{ build.label }}</a>
-            </li>
-          </ul>
+        <div class="table-scrollable builds" ng-show="builds.length">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Repository</th>
+              <th>Created</th>
+              <th>PR Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="build-item animate" ng-repeat="build in builds | filter: {repository: filterRepository}">
+              <td><i class="fa fa-server"></i><a ui-sref="dashboard.screenshots({ buildId: build.id })">{{ build.label }}</a></td>
+              <td><a ui-sref="dashboard.screenshots({ buildId: build.id })">{{ build.repository }}</a></td>
+              <td>{{ (build.created*1000) | date : 'MMM d, y h:mm a' }}</td>
+              <td><span class="label label-sm label-{{ build.pull_request_status }}">{{ build.pull_request_status }}</span></td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

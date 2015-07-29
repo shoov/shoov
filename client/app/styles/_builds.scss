@@ -1,21 +1,15 @@
 .builds {
   margin-top: 20px;
 
-  > li {
-    background-color: $main-bg-color;
-    margin-bottom: 7px;
+  td {
 
-    > i {
+    i {
       display: inline-block;
       padding: 5px 4px 6px 5px;
       vertical-align: middle;
       text-align: center;
       background-color: $brand-success;
       color: white;
-    }
-
-    a {
-      padding: 5px;
     }
   }
 }
