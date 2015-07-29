@@ -24,13 +24,13 @@ angular.module('clientApp')
     var hours = minutes/60;
     var days = hours/24;
 
-    if (minutes >= 1) {
-      $scope.downTime = Math.floor(minutes) + ' Minutes';
+    if (days >= 1) {
+      $scope.downTime = days.toFixed(1) + ' Days';
     }
     else if (hours >= 1) {
-      $scope.downTime = Math.floor(hours) + ' Hours';
+      $scope.downTime = hours.toFixed(1) + ' Hours';
     }
-    else if (days >= 1) {
-      $scope.downTime = Math.floor(days) + ' Days';
+    else if (minutes >= 1) {
+      $scope.downTime = minutes.toFixed(0) + ' Minutes';
     }
   });

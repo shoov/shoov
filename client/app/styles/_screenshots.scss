@@ -4,23 +4,6 @@
     text-align: right;
   }
 
-  .info {
-    margin: 0 0 20px 0;
-    padding: 15px 30px 15px 15px;
-    border-left: 5px solid $brand-info-message-border;
-    background-color: $brand-info-message-bg;
-    color: $brand-info-message-color;
-    position: relative;
-
-    .background {
-      position: absolute;
-      right: 10px;
-      bottom: 0;
-      font-size: 65px;
-      opacity: 0.4;
-    }
-  }
-
   .pr-wrapper {
 
     .form-group {
