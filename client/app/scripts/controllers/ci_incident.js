@@ -33,4 +33,7 @@ angular.module('clientApp')
     else if (minutes >= 1) {
       $scope.downTime = minutes.toFixed(0) + ' Minutes';
     }
+    else {
+      $scope.downTime = seconds.toFixed(0) + ' Seconds';
+    }
   });

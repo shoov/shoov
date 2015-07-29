@@ -43,8 +43,8 @@
       </div>
       <div class="portlet-body">
         <ul class="info incident-builds">
-          <li>Fail build: <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: incident.failing_build.id })">Build #{{ incident.failing_build.id }}</a></li>
-          <li ng-if="incident.fixed_build">Fix build: <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: incident.fixed_build.id })">Build #{{ incident.fixed_build.id }}</a></li>
+          <li>1st failing build: <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: incident.failing_build.id })">Build #{{ incident.failing_build.id }}</a></li>
+          <li ng-if="incident.fixed_build">Fixed build: <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: incident.fixed_build.id })">Build #{{ incident.fixed_build.id }}</a></li>
           <li class="background">
             <i class="fa fa-slack"></i>
           </li>
