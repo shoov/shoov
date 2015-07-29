@@ -8,9 +8,17 @@
  * Service in the clientApp.
  */
 angular.module('clientApp')
-  .service('channelManager', function ($q, $http, $timeout, $pusher, $log, Config, Auth) {
+  .service('channelManager', function ($q, $http, $timeout, $pusher, $log, Config, $rootScope, Auth) {
 
     var channels = {};
+
+    // A private cache key.
+    var cache = {};
+
+    this.pusher = null;
+
+    // Update event broadcast name.
+    var broadcastUpdateEventName = 'ShoovNewPusherObject';
 
     /**
      * Get all pusher channels.
@@ -74,6 +82,10 @@ angular.module('clientApp')
     };
 
     this.getClient = function() {
+      return pusher ? pusher : createNewPusher();
+    };
+
+    function createNewPusher() {
       var pusherConf = {
         authEndpoint: Config.backend + '/api/v1.0/pusher_auth',
         auth: {
@@ -82,6 +94,8 @@ angular.module('clientApp')
           }
         }
       };
-      return new Pusher(Config.pusherKey, pusherConf);
-    }
+      this.pusher = new Pusher(Config.pusherKey, pusherConf);
+      return this.pusher;
+    };
+
   });
