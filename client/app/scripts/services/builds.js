@@ -78,7 +78,7 @@ angular.module('clientApp')
             return self.create(params);
           });
       }
-      else if (!(githubRepo.build && githubRepo.build.id)) {
+      else if (githubRepo.build && !githubRepo.build.id) {
         // Existing repo, but no existing build.
         params = {
           label: githubRepo.label,
