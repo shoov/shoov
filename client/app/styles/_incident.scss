@@ -1,0 +1,13 @@
+.incident {
+
+  .actions {
+    text-align: right;
+
+    > .incident-info {
+      font-size: 14px;
+      margin-right: 5px;
+      display: inline-block;
+      padding: 6px 8px;
+    }
+  }
+}

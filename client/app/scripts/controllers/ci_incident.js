@@ -17,7 +17,7 @@ angular.module('clientApp')
     });
 
     var incidentStart = $scope.incident.created;
-    var incidentEnd = $scope.incident.updated ? $scope.incident.updated : new Date();
+    var incidentEnd = $scope.incident.created != $scope.incident.updated ? $scope.incident.updated : (new Date().getTime())/1000;
 
     var seconds = incidentEnd-incidentStart;
     var minutes = seconds/60;

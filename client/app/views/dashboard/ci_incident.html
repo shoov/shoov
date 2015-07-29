@@ -23,22 +23,20 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-12 ci-build-item">
+  <div class="col-md-12 incident">
     <div class="portlet">
       <div class="portlet-title">
         <div class="caption">
           <span class="caption-subject">{{ incident.label }}</span>
         </div>
         <div class="actions">
-          <span>
+          <span class="label label-sm label-error incident-info">
             Started: {{ (incident.created*1000) | date : 'MMM d, y h:mm a' }}
           </span>
-          |
-          <span ng-if="incident.created != incident.updated">
+          <span ng-if="incident.created != incident.updated" class="label label-sm label-done incident-info">
             Terminated: {{ (incident.updated*1000) | date : 'MMM d, y h:mm a' }}
           </span>
-          |
-          <span>
+          <span class="label label-sm label-queue incident-info">
             Downtime: {{downTime}}
           </span>
         </div>
