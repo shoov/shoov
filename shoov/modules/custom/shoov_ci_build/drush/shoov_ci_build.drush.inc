@@ -16,10 +16,6 @@ function shoov_ci_build_drush_command() {
     'description' => 'Create a CI build item.',
   );
 
-  $items['update-ci-build-item-timestamp'] = array(
-    'description' => 'Update new fields start_timestamp and end_timestamp',
-  );
-
   return $items;
 }
 
@@ -102,43 +98,5 @@ function drush_shoov_ci_build_release_stuck_items() {
 
     drush_log(dt('@delta / @count) Re-queued message ID @id after being stuck.', $params));
     $delta++;
-  }
-}
-
-/**
- * Implements drush_hook_command().
- *
- * Command callback for "update-ci-build-item-timestamp".
- */
-function drush_shoov_ci_build_update_ci_build_item_timestamp() {
-  $messages = message_load_multiple(FALSE, array('type' => 'ci_build'));
-
-  foreach ($messages as $message) {
-    $wrapper = entity_metadata_wrapper('message', $message);
-    $params = array(
-      '@id' => $message->mid,
-    );
-    if (!$wrapper->field_ci_build_start_timestamp->value() && !$wrapper->field_ci_build_end_timestamp->value()) {
-      if (in_array($wrapper->field_ci_build_status->value(), array('in_progress', 'In progress'))) {
-        $wrapper->field_ci_build_start_timestamp->set($wrapper->field_ci_build_schedule->value());
-        $params += array('@start' => $wrapper->field_ci_build_start_timestamp->value());
-        $log = format_string('Message @id was updated with start timestamp @start', $params);
-      }
-      elseif (in_array(strtolower($wrapper->field_ci_build_status->value()), array('error', 'done'))) {
-        $wrapper->field_ci_build_start_timestamp->set($wrapper->field_ci_build_schedule->value());
-        $wrapper->field_ci_build_end_timestamp->set($wrapper->field_ci_build_schedule->value() + 60);
-        $params += array(
-          '@start' => $wrapper->field_ci_build_start_timestamp->value(),
-          '@end' => $wrapper->field_ci_build_end_timestamp->value(),
-        );
-        $log = format_string('Message @id was updated with start timestamp @start', $params);
-      }
-      $wrapper->save();
-
-      if ($log) {
-        // Log message update.
-        drush_log($log);
-      }
-    }
   }
 }
