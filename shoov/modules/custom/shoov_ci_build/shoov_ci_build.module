@@ -455,8 +455,11 @@ function shoov_ci_build_trigger_event(Message $message, $event) {
 }
 
 /**
- * @throws Exception
- * @throws FieldException
+ * Implements hook_update_N().
+ * 
+ * Update field machine name.
+ *
+ * @see http://drupal.stackexchange.com/a/123547
  */
 function shoov_ci_build_update_7001() {
   // Set variables
