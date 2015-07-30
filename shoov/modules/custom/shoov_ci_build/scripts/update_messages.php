@@ -9,7 +9,7 @@
 $mid = drush_get_option('mid', 0);
 
 // Get the nuber of messages to be processed.
-$batch = drush_get_option('batch', 250);
+$batch = drush_get_option('batch', 5);
 
 // Get allowed memory limit.
 $memory_limit = drush_get_option('memory_limit', 500);
@@ -20,9 +20,12 @@ $base_query = new EntityFieldQuery();
 $base_query
   ->entityCondition('entity_type', 'message')
   ->entityCondition('bundle', 'ci_build')
-  ->propertyCondition('mid', $mid, '>')
-  ->propertyOrderBy('mid', 'ASC')
-  ->range(0, $batch);
+  ->propertyOrderBy('mid', 'DESC');
+if ($mid) {
+  $base_query->propertyCondition('mid', $mid, '<');
+}
+
+
 
 $query_count = clone $base_query;
 $count = $query_count->count()->execute();
@@ -36,7 +39,13 @@ while ($i < $count) {
 // Free up memory.
   drupal_static_reset();
   $query = clone $base_query;
-  $result = $query->execute();
+  if ($mid) {
+    $query
+      ->propertyCondition('mid', $mid, '<');
+  }
+  $result = $query
+    ->range(0, $batch)
+    ->execute();
 
   if (empty($result['message'])) {
     return;
@@ -59,8 +68,8 @@ while ($i < $count) {
     }
   }
 
-  $i += 250;
-  $nid = end($ids);
+  $i += $batch;
+  $mid = end($ids);
 
   $params = array(
     '@start' => reset($ids),
