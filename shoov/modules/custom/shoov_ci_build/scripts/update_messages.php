@@ -58,11 +58,11 @@ while ($i < $count) {
     $wrapper = entity_metadata_wrapper('message', $message);
     if (!$wrapper->field_ci_build_start_timestamp->value() && !$wrapper->field_ci_build_end_timestamp->value()) {
       if (in_array($wrapper->field_ci_build_status->value(), array('in_progress', 'In progress'))) {
-        $wrapper->field_ci_build_start_timestamp->set($wrapper->field_ci_build_schedule->value());
+        $wrapper->field_ci_build_start_timestamp->set($wrapper->field_ci_build_timestamp->value());
       }
       elseif (in_array(strtolower($wrapper->field_ci_build_status->value()), array('error', 'done'))) {
-        $wrapper->field_ci_build_start_timestamp->set($wrapper->field_ci_build_schedule->value());
-        $wrapper->field_ci_build_end_timestamp->set($wrapper->field_ci_build_schedule->value() + 60);
+        $wrapper->field_ci_build_start_timestamp->set($wrapper->field_ci_build_timestamp->value());
+        $wrapper->field_ci_build_end_timestamp->set($wrapper->field_ci_build_timestamp->value() + 60);
       }
       $wrapper->save();
     }

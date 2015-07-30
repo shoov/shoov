@@ -164,8 +164,8 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-ci_build-field_ci_build_schedule'
-  $field_instances['message-ci_build-field_ci_build_schedule'] = array(
+  // Exported field_instance: 'message-ci_build-field_ci_build_timestamp'
+  $field_instances['message-ci_build-field_ci_build_timestamp'] = array(
     'bundle' => 'ci_build',
     'deleted' => 0,
     'description' => '',
@@ -197,7 +197,7 @@ function shoov_ci_build_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'message',
-    'field_name' => 'field_ci_build_schedule',
+    'field_name' => 'field_ci_build_timestamp',
     'label' => 'Schedule',
     'required' => 1,
     'settings' => array(

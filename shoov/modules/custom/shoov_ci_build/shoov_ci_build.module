@@ -31,7 +31,7 @@ function shoov_ci_build_get_ci_builds($timestamp = NULL, $range = 50) {
   $result = $query
     ->entityCondition('entity_type', 'message')
     ->entityCondition('bundle', 'ci_build')
-    ->fieldCondition('field_ci_build_schedule', 'value', $timestamp, '<=')
+    ->fieldCondition('field_ci_build_timestamp', 'value', $timestamp, '<=')
     ->fieldCondition('field_ci_build_status', 'value', 'queue')
     ->range(0, $range)
     ->propertyOrderBy('mid')
@@ -62,7 +62,7 @@ function shoov_ci_build_get_stuck_ci_builds($timestamp = NULL, $range = 50) {
   $result = $query
     ->entityCondition('entity_type', 'message')
     ->entityCondition('bundle', 'ci_build')
-    ->fieldCondition('field_ci_build_schedule', 'value', $timestamp, '<=')
+    ->fieldCondition('field_ci_build_timestamp', 'value', $timestamp, '<=')
     ->fieldCondition('field_ci_build_status', 'value', 'in_progress')
     ->range(0, $range)
     ->propertyOrderBy('mid')
@@ -169,7 +169,7 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
   $wrapper->field_ci_build->set($node);
   $wrapper->field_ci_build_status->set('queue');
   // Set to be invoked immediately.
-  $wrapper->field_ci_build_schedule->set($timestamp);
+  $wrapper->field_ci_build_timestamp->set($timestamp);
 
   $wrapper->save();
 
@@ -452,97 +452,4 @@ function shoov_ci_build_trigger_event(Message $message, $event) {
   $result = $handler->get($message->mid);
   $data = array($result[0]);
   shoov_pusher_trigger_event($wrapper->field_ci_build->og_repo->getIdentifier(), $event, $data);
-}
-
-/**
- * Implements hook_update_N().
- *
- * Update field machine name.
- *
- * @see http://drupal.stackexchange.com/a/123547
- */
-function shoov_ci_build_update_7001() {
-  // Set variables
-  $old_name = 'field_ci_build_timestamp';
-  $new_name = 'field_ci_build_schedule';
-  $entity_type = 'message';
-  $bundle = 'ci_build';
-
-// Get old field info
-  $old_field = field_info_field($old_name);
-
-// Create new field
-  $new_field = $old_field;
-  $new_field['field_name'] = $new_name;
-
-  if (!field_info_field($new_name)) {
-    field_create_field($new_field);
-  }
-  else {
-    field_update_field($new_field);
-  }
-
-// Get old field instance
-  $old_instance = field_info_instance($entity_type, $old_name, $bundle);
-  $new_instance = $old_instance;
-  $new_instance['field_name'] = $new_name;
-
-  if (!field_info_instance($entity_type, $new_name, $bundle)) {
-    field_create_instance($new_instance);
-  }
-  else {
-    field_update_instance($new_instance);
-  }
-
-// Migrate old fields' data to the new ones
-  $field_data = db_select('field_data_' . $old_name, 'old')
-    ->fields('old')
-    ->condition('entity_type', $entity_type)
-    ->condition('bundle', $bundle)
-    ->execute();
-
-  while ($data = $field_data->fetchAssoc()) {
-    $data_new = array();
-    foreach ($data as $column => $value) {
-      $column = str_replace($old_name, $new_name, $column);
-      $data_new[$column] = $value;
-    }
-    db_insert('field_data_' . $new_name)
-      ->fields($data_new)
-      ->execute();
-  }
-
-// Migrate old fields' revision data to the new ones
-  $field_revision = db_select('field_revision_' . $old_name, 'old')
-    ->fields('old')
-    ->condition('entity_type', $entity_type)
-    ->condition('bundle', $bundle)
-    ->execute();
-
-  while ($revision = $field_revision->fetchAssoc()) {
-    $revision_new = array();
-    foreach ($revision as $column => $value) {
-      $column = str_replace($old_name, $new_name, $column);
-      $revision_new[$column] = $value;
-    }
-    db_insert('field_revision_' . $new_name)
-      ->fields($revision_new)
-      ->execute();
-  }
-
-// Delete old instance
-  field_delete_instance($old_instance);
-  // Purge fields
-  field_purge_batch(1000);
-}
-
-/**
- * Implements hook_update_N().
- *
- * Update features
- */
-function shoov_ci_build_update_7002() {
-  $feature = features_get_features('shoov_ci_build');
-  $components = array_keys($feature->info['features']);
-  features_revert(array('shoov_ci_build' => $components));
 }
