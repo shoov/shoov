@@ -9,7 +9,7 @@
 $mid = drush_get_option('mid', 0);
 
 // Get the nuber of messages to be processed.
-$batch = drush_get_option('batch', 5);
+$batch = drush_get_option('batch', 50);
 
 // Get allowed memory limit.
 $memory_limit = drush_get_option('memory_limit', 500);
