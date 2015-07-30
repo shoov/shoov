@@ -82,7 +82,7 @@ function shoov_ci_build_views_default_views() {
   $handler->display->display_options['fields']['message_render']['label'] = 'Text';
   $handler->display->display_options['fields']['message_render']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['message_render']['hide_alter_empty'] = FALSE;
-  /* Field: Message: Start time */
+  /* Field: Message: Schedule */
   $handler->display->display_options['fields']['field_ci_build_timestamp']['id'] = 'field_ci_build_timestamp';
   $handler->display->display_options['fields']['field_ci_build_timestamp']['table'] = 'field_data_field_ci_build_timestamp';
   $handler->display->display_options['fields']['field_ci_build_timestamp']['field'] = 'field_ci_build_timestamp';
