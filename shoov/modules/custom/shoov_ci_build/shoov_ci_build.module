@@ -546,9 +546,14 @@ function shoov_ci_build_update_7002() {
 
   foreach ($messages as $message) {
     $wrapper = entity_metadata_wrapper('message', $message);
-    if (!$wrapper->field_ci_build_start_timestamp && !$wrapper->field_ci_build_end_timestamp) {
-      $wrapper->field_ci_build_start_timestamp->set($wrapper->field_ci_build_schedule->value());
-      $wrapper->field_ci_build_end_timestamp->set($wrapper->field_ci_build_schedule->value() + 60);
+    if (!$wrapper->field_ci_build_start_timestamp->value() && !$wrapper->field_ci_build_end_timestamp->value()) {
+      if (in_array($wrapper->field_ci_build_status->value(), array('in_progress', 'In progress'))) {
+        $wrapper->field_ci_build_start_timestamp->set($wrapper->field_ci_build_schedule->value());
+      }
+      if (in_array(strtolower($wrapper->field_ci_build_status->value()), array('error', 'done'))) {
+        $wrapper->field_ci_build_start_timestamp->set($wrapper->field_ci_build_schedule->value());
+        $wrapper->field_ci_build_end_timestamp->set($wrapper->field_ci_build_schedule->value() + 60);
+      }
       $wrapper->save();
     }
   }
