@@ -74,6 +74,9 @@ class ShoovEncryptResource extends \RestfulEntityBase {
       'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'),
     );
 
+    // @todo: Pantheon causes data not to be transmitted correctly.
+    $options['data'] = 'keyToConvert=' . $request['key'] . '&valueToConvert=' . $request['value'] . '&privateKey=' . $private_key;
+
     $response = drupal_http_request($url, $options);
 
     if ($response->code != 200) {
