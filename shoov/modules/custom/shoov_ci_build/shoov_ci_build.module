@@ -31,7 +31,7 @@ function shoov_ci_build_get_ci_builds($timestamp = NULL, $range = 50) {
   $result = $query
     ->entityCondition('entity_type', 'message')
     ->entityCondition('bundle', 'ci_build')
-    ->fieldCondition('field_ci_build_timestamp', 'value', $timestamp, '<=')
+    ->fieldCondition('field_ci_build_schedule', 'value', $timestamp, '<=')
     ->fieldCondition('field_ci_build_status', 'value', 'queue')
     ->range(0, $range)
     ->propertyOrderBy('mid')
@@ -62,7 +62,7 @@ function shoov_ci_build_get_stuck_ci_builds($timestamp = NULL, $range = 50) {
   $result = $query
     ->entityCondition('entity_type', 'message')
     ->entityCondition('bundle', 'ci_build')
-    ->fieldCondition('field_ci_build_timestamp', 'value', $timestamp, '<=')
+    ->fieldCondition('field_ci_build_schedule', 'value', $timestamp, '<=')
     ->fieldCondition('field_ci_build_status', 'value', 'in_progress')
     ->range(0, $range)
     ->propertyOrderBy('mid')
@@ -169,7 +169,7 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
   $wrapper->field_ci_build->set($node);
   $wrapper->field_ci_build_status->set('queue');
   // Set to be invoked immediately.
-  $wrapper->field_ci_build_timestamp->set($timestamp);
+  $wrapper->field_ci_build_schedule->set($timestamp);
 
   $wrapper->save();
 
@@ -464,7 +464,7 @@ function shoov_ci_build_trigger_event(Message $message, $event) {
 function shoov_ci_build_update_7001() {
   // Set variables
   $old_name = 'field_ci_build_timestamp';
-  $new_name = 'field_ci_build_schedule_timestamp';
+  $new_name = 'field_ci_build_schedule';
   $entity_type = 'message';
   $bundle = 'ci_build';
 
@@ -547,8 +547,8 @@ function shoov_ci_build_update_7002() {
   foreach ($messages as $message) {
     $wrapper = entity_metadata_wrapper('message', $message);
     if (!$wrapper->field_ci_build_start_timestamp && !$wrapper->field_ci_build_end_timestamp) {
-      $wrapper->field_ci_build_start_timestamp->set($wrapper->field_ci_build_schedule_timestamp->value());
-      $wrapper->field_ci_build_end_timestamp->set($wrapper->field_ci_build_schedule_timestamp->value() + 60);
+      $wrapper->field_ci_build_start_timestamp->set($wrapper->field_ci_build_schedule->value());
+      $wrapper->field_ci_build_end_timestamp->set($wrapper->field_ci_build_schedule->value() + 60);
       $wrapper->save();
     }
   }

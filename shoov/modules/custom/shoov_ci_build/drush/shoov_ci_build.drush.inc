@@ -87,7 +87,7 @@ function drush_shoov_ci_build_release_stuck_items() {
     $wrapper->field_ci_build_status->set('queue');
     // Set start time to "now", so it won't be processed again as a stuck
     // build item.
-    $wrapper->field_ci_build_timestamp->set(time());
+    $wrapper->field_ci_build_schedule->set(time());
     $wrapper->save();
 
     $params = array(

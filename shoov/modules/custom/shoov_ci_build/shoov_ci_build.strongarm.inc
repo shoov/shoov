@@ -71,19 +71,13 @@ function shoov_ci_build_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
-      'message_notify_email_subject' => array(
-        'custom_settings' => TRUE,
-      ),
-      'message_notify_email_body' => array(
-        'custom_settings' => TRUE,
-      ),
     ),
     'extra_fields' => array(
       'form' => array(),
       'display' => array(
         'message__message_text__0' => array(
           'default' => array(
-            'weight' => '1',
+            'weight' => '0',
             'visible' => TRUE,
           ),
         ),
