@@ -157,5 +157,7 @@ angular.module('clientApp')
       $scope.currentPage = 1;
       // Determine if pager is still needed.
       $scope.pager = !!data.next;
+
+      $scope.itemsPerPage = data.count;
     }
   });
