@@ -56,11 +56,12 @@ while ($i < $count) {
 
   foreach ($messages as $message) {
     $wrapper = entity_metadata_wrapper('message', $message);
+    $status = $wrapper->field_ci_build_status->value();
     if (!$wrapper->field_ci_build_start_timestamp->value() && !$wrapper->field_ci_build_end_timestamp->value()) {
-      if (in_array($wrapper->field_ci_build_status->value(), array('in_progress', 'In progress'))) {
+      if ($status == 'in_progress') {
         $wrapper->field_ci_build_start_timestamp->set($wrapper->field_ci_build_timestamp->value());
       }
-      elseif (in_array(strtolower($wrapper->field_ci_build_status->value()), array('error', 'done'))) {
+      elseif (in_array($status, array('error', 'done'))) {
         $wrapper->field_ci_build_start_timestamp->set($wrapper->field_ci_build_timestamp->value());
         $wrapper->field_ci_build_end_timestamp->set($wrapper->field_ci_build_timestamp->value() + 60);
       }
