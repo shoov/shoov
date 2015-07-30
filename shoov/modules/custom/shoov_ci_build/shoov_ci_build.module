@@ -535,3 +535,14 @@ function shoov_ci_build_update_7001() {
   // Purge fields
   field_purge_batch(1000);
 }
+
+/**
+ * Implements hook_update_N().
+ *
+ * Update features
+ */
+function shoov_ci_build_update_7002() {
+  $feature = features_get_features('shoov_ci_build');
+  $components = array_keys($feature->info['features']);
+  features_revert(array('shoov_ci_build' => $components));
+}
