@@ -542,6 +542,10 @@ function shoov_ci_build_update_7001() {
  * Fill the start and end timestamp for existing CI Build items.
  */
 function shoov_ci_build_update_7002() {
+  $feature = features_get_features('shoov_ci_build');
+  $components = array_keys($feature->info['features']);
+  features_revert(array('shoov_ci_build' => $components));
+
   $messages = message_load_multiple(FALSE, array('type' => 'ci_build'));
 
   foreach ($messages as $message) {
