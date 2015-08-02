@@ -19,7 +19,7 @@ function shoov_repository_node_presave($node) {
 
   $wrapper = entity_metadata_wrapper('node', $node);
   if ($wrapper->field_github_id->value()) {
-    shoov_repository_check_github_id_unique($wrapper->field_github_id->value(), $node);
+    shoov_repository_check_repository_unique($wrapper->field_github_id->value(), $node);
     // GitHub Id already populated.
     return;
   }
@@ -36,11 +36,12 @@ function shoov_repository_node_presave($node) {
   );
 
   $data = shoov_github_http_request("repos/$owner/$repo", $options);
+  $data = $data['data'];
 
   // @todo: Throw exception on error?
   // or try again or set state invalid to this repo.
   if (!empty($data['id'])) {
-    shoov_repository_check_github_id_unique($wrapper->field_github_id->value(), $node);
+    shoov_repository_check_repository_unique($data['id'], $node);
     $wrapper->field_github_id->set($data['id']);
   }
 }
@@ -145,7 +146,7 @@ function shoov_repository_create_screenshot_tags_vocabulary($node) {
  * @throws Exception
  *  Throw exception is this GitHub id is already used.
  */
-function shoov_repository_check_github_id_unique($github_id, $node) {
+function shoov_repository_check_repository_unique($github_id, $node) {
   $query = new EntityFieldQuery();
   $query
     ->entityCondition('entity_type', 'node')

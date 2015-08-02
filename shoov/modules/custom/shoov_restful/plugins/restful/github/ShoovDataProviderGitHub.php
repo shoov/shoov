@@ -8,11 +8,25 @@
 abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDataProviderGitHubInterface {
 
   /**
-   * The loaded plugins.
+   * The loaded repositories.
    *
    * @var array
    */
   protected $repos = array();
+
+  /**
+   * The loaded organizations.
+   *
+   * @var array
+   */
+  protected $orgs = array();
+
+  /**
+   * The navigation links.
+   *
+   * @var array
+   */
+  protected $links = array();
 
   /**
    * Return the plugins.
@@ -22,6 +36,64 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
   public function getRepos() {
     if ($this->repos) {
       return $this->repos;
+    }
+    // Get range and page number either from url or default ones.
+    $params = $this->parseRequestForListPagination();
+    $range = intval($params[1]);
+    $page = ($params[0] / $range) + 1;
+
+    $wrapper = entity_metadata_wrapper('user', $this->getAccount());
+    $user_name = $wrapper->label();
+    $access_token = $wrapper->field_github_access_token->value();
+
+    $options = array(
+      'method' => 'GET',
+      'headers' => array(
+        'Authorization' => 'token ' . $access_token,
+      ),
+    );
+
+    // Get organization name if exist.
+    $request = $this->getRequest();
+    $org = !empty($request['organization']) ? $request['organization'] : FALSE;
+    $query = "?per_page=$range&page=$page";
+    // Set url according to organization:
+    // NULL - get all user's repositories;
+    // 'me' - get user's own repositories;
+    // 'value' - get organization's repositories, user is member of.
+    if (!$org) {
+      $url = "user/repos";
+    }
+    elseif ($org == 'me') {
+      $url = "users/$user_name/repos";
+    }
+    else {
+      $url = "orgs/$org/repos";
+      $query .= "&type=member";
+    }
+
+    $response = shoov_github_http_request($url . $query, $options);
+    $data = $response['data'];
+
+    // Format navigation links.
+    $this->links = $response['meta']['Link'];
+    $this->formatNavigationLinks();
+
+    $this->repos = $this->getKeyedById($data);
+
+    // @todo: Make this configurable by the plugin.
+    $this->syncLocalRepos();
+    return $this->repos;
+  }
+
+  /**
+   * Return the plugins.
+   *
+   * @return array
+   */
+  public function getOrgs() {
+    if ($this->orgs) {
+      return $this->orgs;
     }
 
     $wrapper = entity_metadata_wrapper('user', $this->getAccount());
@@ -33,31 +105,31 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       ),
     );
 
-    $data = shoov_github_http_request('user/repos', $options);
+    $orgs = shoov_github_http_request("user/orgs?per_page=$this->range", $options);
 
-    $this->repos = $this->getReposKeyedById($data);
+    // Add user to organization list as user can be the owner of the repository
+    // like an organization.
+    $gihub_account = shoov_github_http_request('user', $options);
+    $data = array_merge($orgs['data'], array($gihub_account['data']));
 
-    // @todo: Make this configurable by the plugin.
-    $this->syncLocalRepos();
-    return $this->repos;
+    $this->orgs = $this->getKeyedById($data);
+
+    return $this->orgs;
   }
 
   /**
-   * Return the repos list, keyed by ID.
+   * Return the plugins list, keyed by ID.
    *
-   * We also take advantage of having the data, in order to update the repo name
-   * of local repos.
-   *
-   * @param array $repo_list
-   *   The repo list.
+   * @param array $plugins
+   *   The plugins list.
    *
    * @return array
-   *   Array keyed by the repo ID.
+   *   Array keyed by the plugin ID.
    */
-  protected function getReposKeyedById(array $repo_list) {
+  protected function getKeyedById(array $plugins) {
     $return = array();
-    foreach ($repo_list as $repo) {
-      $return[$repo['id']] = $repo;
+    foreach ($plugins as $plugin) {
+      $return[$plugin['id']] = $plugin;
     }
 
     return $return;
@@ -69,6 +141,11 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
   protected function syncLocalRepos() {
     // Get all the local repos by the GitHub repo ID.
     $ids = array_keys($this->repos);
+
+    if (!$ids) {
+      // No repositories were provided.
+      return;
+    }
 
     $query = new EntityFieldQuery();
     $result = $query
@@ -126,6 +203,7 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
         continue;
       }
 
+
       $repo = &$this->repos[$github_id];
       $repo['shoov_id'] = $node->nid;
 
@@ -137,11 +215,13 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
   /**
    * Gets the plugins filtered and sorted by the request.
    *
+   * @param array $plugins
+   *  Array of plugins.
+   *
    * @return array
    *   Array of plugins.
    */
-  public function getReposSortedAndFiltered() {
-    $plugins = $this->getRepos();
+  public function getSortedAndFiltered($plugins) {
     $public_fields = $this->getPublicFields();
 
     foreach ($this->parseRequestForListFilter() as $filter) {
@@ -275,16 +355,62 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
    * {@inheritdoc}
    */
   public function getTotalCount() {
-    return count($this->getReposSortedAndFiltered());
+    $source = $this->plugin['resource'] == 'github_orgs' ? $this->getOrgs() : $this->getRepos();
+    return count($this->getSortedAndFiltered($source));
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function additionalHateoas() {
+    return $this->links;
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * Links example:
+   * @code
+   * $links = array(
+   *  array(
+   *    'https://api.github.com/user/repos?per_page=50&page=2&callback=result',
+   *    array(
+   *      'rel' => 'next'
+   *    ),
+   *  ),
+   *  array(
+   *    'https://api.github.com/user/repos?per_page=50&page=2&callback=result',
+   *    array(
+   *      'rel' => 'last'
+   *    ),
+   *  ),
+   * );
+   * @endcode
+   */
+  public function formatNavigationLinks() {
+    $links = $this->links;
+
+    $formated_links = array();
+    foreach ($links as $link) {
+      $href = $link[0];
+      $name = $link[1]['rel'];
+
+      $href = parse_url($href);
+      $href = $this->versionedUrl($this->getPath()) . '?' . str_replace(array('&callback=result', 'callback=result'), '', $href['query']);
+
+      $formated_links[$name] = array('title' => $name, 'href' => $href);
+    }
+    $this->links = $formated_links;
+    return $formated_links;
   }
 
   public function index() {
     $return = array();
+    $method = $this->plugin['resource'] == 'github_orgs' ? 'getOrgs' : 'getRepos';
 
-    foreach (array_keys($this->getReposSortedAndFiltered()) as $plugin_name) {
+    foreach (array_keys($this->getSortedAndFiltered($this->$method())) as $plugin_name) {
       $return[] = $this->view($plugin_name);
     }
-
     return $return;
   }
 
@@ -302,7 +428,7 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       return $cached_data->data;
     }
 
-    $repo = $this->repos[$id];
+    $item = $this->plugin['resource'] == 'github_orgs' ? $this->orgs[$id] : $this->repos[$id];
 
     // Loop over all the defined public fields.
     foreach ($this->getPublicFields() as $public_field_name => $info) {
@@ -316,11 +442,11 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
 
       // If there is a callback defined execute it instead of a direct mapping.
       if ($info['callback']) {
-        $value = static::executeCallback($info['callback'], array($repo));
+        $value = static::executeCallback($info['callback'], array($item));
       }
       // Map row names to public properties.
       elseif ($info['property']) {
-        $value = !empty($repo[$info['property']]) ? $repo[$info['property']] : NULL;
+        $value = !empty($item[$info['property']]) ? $item[$info['property']] : NULL;
       }
 
       // Execute the process callbacks.
@@ -336,4 +462,18 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
     $this->setRenderedCache($output, $cache_id);
     return $output;
   }
+
+  /**
+   * Put in the field only owner name.
+   *
+   * @param $value
+   *  The owner value.
+   *
+   * @return string
+   *  Return owner name - organization or user name
+   */
+  protected function organizationProcess($value) {
+    return $value['login'];
+  }
 }
+

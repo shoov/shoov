@@ -23,11 +23,8 @@ function shoov_ci_build_views_default_views() {
   /* Display: Defaults */
   $handler = $view->new_display('default', 'Defaults', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'role';
-  $handler->display->display_options['access']['role'] = array(
-    3 => '3',
-    2 => '2',
-  );
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['perm'] = 'administer message types';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
@@ -85,6 +82,17 @@ function shoov_ci_build_views_default_views() {
   $handler->display->display_options['fields']['message_render']['label'] = 'Text';
   $handler->display->display_options['fields']['message_render']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['message_render']['hide_alter_empty'] = FALSE;
+  /* Field: Message: Start time */
+  $handler->display->display_options['fields']['field_ci_build_timestamp']['id'] = 'field_ci_build_timestamp';
+  $handler->display->display_options['fields']['field_ci_build_timestamp']['table'] = 'field_data_field_ci_build_timestamp';
+  $handler->display->display_options['fields']['field_ci_build_timestamp']['field'] = 'field_ci_build_timestamp';
+  $handler->display->display_options['fields']['field_ci_build_timestamp']['settings'] = array(
+    'format_type' => 'short',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+  );
   /* Field: User: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'users';
@@ -177,10 +185,15 @@ function shoov_ci_build_views_default_views() {
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
+  $handler->display->display_options['defaults']['access'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '25';
   $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
+  $handler->display->display_options['inherit_panels_path'] = '1';
   $export['ci_items'] = $view;
 
   return $export;

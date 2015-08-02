@@ -1,19 +1,48 @@
 <div class="row">
-  <div class="col-md-offset-3 col-md-5 ci-build-item">
-
-    <h2>#{{ ciBuildItem.id }} (status: {{ ciBuildItem.status }})</h2>
-
-    <div ng-show="ciBuildItem.status != 'queue'" class="log-wrapper">
-      <div ng-bind-html="ciBuildItem.log"></div>
+  <div class="col-md-12">
+    <div class="page-bar">
+      <ul class="page-breadcrumb">
+        <li>
+          <i class="fa fa-home"></i>
+          <a ui-sref="dashboard.homepage">Dashboard</a>
+          <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+          <a ui-sref="dashboard.repos">Live Monitor Repositories</a>
+          <i class="fa fa-angle-right"></i>
+        </li>
+        <li ng-if="build">
+          <a ui-sref="dashboard.ciBuild({ buildId: {{build.id}} })">{{ build.label }}</a>
+          <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+          Build #{{ ciBuildItem.id }}
+        </li>
+      </ul>
     </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 ci-build-item">
+    <div class="portlet">
+      <div class="portlet-title">
+        <div class="caption font-{{ ciBuildItem.status }}">
+          <i class="fa fa-heartbeat"></i>
+          <span class="caption-subject">Build #{{ ciBuildItem.id }} (status: {{ ciBuildItem.status }})</span>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <div ng-show="ciBuildItem.status != 'queue'" class="log-wrapper">
+          <pre ng-bind-html="ciBuildItem.log">
+          </pre>
+        </div>
 
-    <div ng-show="ciBuildItem.status == 'queue'">
-      Live Monitor build item is still in the queue. Refresh in a few minutes to see the log.
+        <div ng-show="ciBuildItem.status == 'queue'">
+          Live Monitor build item is still in the queue. Refresh in a few minutes to see the log.
+        </div>
+      </div>
     </div>
-
   </div>
 </div>
 
 <div ui-view></div>
-
-
