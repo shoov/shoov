@@ -136,9 +136,10 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
   if (!$wrapper->field_ci_build_enabled->value()) {
     // CI build is not enabled.
 
-    // Find Queue items and delete them.
-    $items = shoov_ci_build_get_items_by_status($node, 'queue');
-    message_delete_multiple($items);
+    // Find queue items and delete them.
+    if ($items = shoov_ci_build_get_items_by_status($node, 'queue')) {
+      message_delete_multiple($items);
+    }
 
     return;
   }
@@ -442,13 +443,16 @@ function shoov_ci_build_trigger_event(Message $message, $event) {
  *  Return array of messages ids.
  */
 function shoov_ci_build_get_items_by_status($node, $status ='queue') {
+  $account = user_load($node->uid);
   $query = new EntityFieldQuery();
   $result = $query
     ->entityCondition('entity_type', 'message')
     ->entityCondition('bundle', 'ci_build')
     ->fieldCondition('field_ci_build', 'target_id', $node->nid)
     ->fieldCondition('field_ci_build_status', 'value', $status)
-    ->addMetaData('account', user_load($node->uid))
+    // Add user's account to the metadata of the query in order not to get
+    // items user doesn't have access to.
+    ->addMetaData('account', $account)
     ->execute();
 
   return empty($result['message']) ? array() : array_keys($result['message']);
@@ -466,6 +470,7 @@ function shoov_ci_build_get_items_by_status($node, $status ='queue') {
  *  Return count of found items.
  */
 function shoov_ci_build_get_items_count($node, $status = array()) {
+  $account = user_load($node->uid);
   $query = new EntityFieldQuery();
   $query
     ->entityCondition('entity_type', 'message')
@@ -475,7 +480,9 @@ function shoov_ci_build_get_items_count($node, $status = array()) {
     $query->fieldCondition('field_ci_build_status', 'value', $status, 'IN');
   }
   $count = $query
-    ->addMetaData('account', user_load($node->uid))
+    // Add user's account to the metadata of the query in order not to get
+    // items user doesn't have access to.
+    ->addMetaData('account', $account)
     ->count()
     ->execute();
 
