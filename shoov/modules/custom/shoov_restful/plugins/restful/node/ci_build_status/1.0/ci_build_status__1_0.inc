@@ -8,7 +8,6 @@ $plugin = array(
   'bundle' => 'ci_build',
   'description' => t('Export the "CI-Builds" status image.'),
   'class' => 'ShoovCiBuildStatusResource',
-  'authentication_types' => TRUE,
   // Add a passthrough formatter.
   'formatter' => 'build_status_html',
 );

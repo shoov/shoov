@@ -32,12 +32,12 @@ class ShoovRestfulFormatterBuildStatusHtml extends \RestfulFormatterBase impleme
    * {@inheritdoc}
    */
   public function render(array $structured_data) {
-    if (empty($structured_data[0]['status'])) {
+    if (empty($structured_data['build_status'])) {
       // Response is an error, so send as JSON.
       return drupal_json_encode($structured_data);
     }
 
-    return $structured_data[0]['status'];
+    return $structured_data['build_status'];
   }
 
   /**

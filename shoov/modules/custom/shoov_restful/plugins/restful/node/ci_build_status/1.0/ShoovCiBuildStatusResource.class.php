@@ -15,7 +15,7 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
   public static function controllersInfo() {
     return array(
       '^.*$' => array(
-        \RestfulInterface::GET => 'viewEntities',
+        \RestfulInterface::GET => 'viewEntity',
       ),
     );
   }
@@ -26,7 +26,7 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
   public function publicFieldsInfo() {
     $public_fields = array();
 
-    $public_fields['status'] = array(
+    $public_fields['build_status'] = array(
       'callback' => array($this, 'statusHtml'),
     );
 
@@ -48,5 +48,15 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
     }
 
     return theme('image', array('path' => drupal_get_path('module', 'shoov_ci_build') . '/images/statuses/' . $file . '.png'));
+  }
+
+  protected function isValidEntity($op, $entity_id) {
+    dpm($op);
+    dpm($entity_id);
+
+    $request = $this->getRequest();
+
+
+    return TRUE;
   }
 }
