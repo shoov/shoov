@@ -33,7 +33,7 @@
           <span class="label label-sm label-error incident-info">
             Started: {{ (incident.created*1000) | date : 'MMM d, y h:mm a' }}
           </span>
-          <span ng-if="incident.created != incident.updated" class="label label-sm label-done incident-info">
+          <span ng-if="incident.fixed_build" class="label label-sm label-done incident-info">
             Terminated: {{ (incident.updated*1000) | date : 'MMM d, y h:mm a' }}
           </span>
           <span class="label label-sm label-queue incident-info">
