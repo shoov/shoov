@@ -1,0 +1,29 @@
+.incident {
+
+  .actions {
+    text-align: right;
+
+    > .incident-info {
+      font-size: 14px;
+      margin-right: 5px;
+      display: inline-block;
+      padding: 6px 8px;
+      margin-bottom: 3px;
+    }
+  }
+
+  .incident-builds {
+
+    li {
+
+      .build-type {
+        width: 110px;
+        display: inline-block;
+      }
+
+      a {
+        display: inline-block;
+      }
+    }
+  }
+}
