@@ -113,3 +113,9 @@ function shoov_ci_incident_get_incidents_count($nid) {
 
   return $count;
 }
+
+
+function shoov_ci_incident_query_failing_build_alter(QueryAlterableInterface $query) {
+  $query->leftJoin('field_data_field_fixed_build', 'f', 'node.nid = f.entity_id AND f.entity_type = :entity_type');
+  $query->isNull('f.field_fixed_build_target_id');
+}
