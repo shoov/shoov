@@ -382,6 +382,49 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-ci_build-field_ci_build_system_disabled'
+  $field_instances['node-ci_build-field_ci_build_system_disabled'] = array(
+    'bundle' => 'ci_build',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 8,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ci_build_system_disabled',
+    'label' => 'System disabled',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 0,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 10,
+    ),
+  );
+
   // Exported field_instance: 'node-ci_build-field_git_branch'
   $field_instances['node-ci_build-field_git_branch'] = array(
     'bundle' => 'ci_build',
@@ -571,6 +614,7 @@ function shoov_ci_build_field_default_field_instances() {
   t('Repository');
   t('Start time');
   t('Status');
+  t('System disabled');
   t('The count of failed CI build items before set state of CI build to error. ');
   t('The current status of processing CI Build.');
   t('The interval between executions. ');

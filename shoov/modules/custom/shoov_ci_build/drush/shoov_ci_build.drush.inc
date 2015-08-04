@@ -16,6 +16,13 @@ function shoov_ci_build_drush_command() {
     'description' => 'Create a CI build item.',
   );
 
+  $items['release-failed-items'] = array(
+    'description' => 'Release items that fail for long time.',
+    'options' => array(
+      'nid' => 'The last executed node id.',
+    ),
+  );
+
   return $items;
 }
 
@@ -99,4 +106,25 @@ function drush_shoov_ci_build_release_stuck_items() {
     drush_log(dt('@delta / @count) Re-queued message ID @id after being stuck.', $params));
     $delta++;
   }
+}
+
+/**
+ * Release items that are marked in progress for too long.
+ */
+function drush_shoov_ci_build_release_failed_items() {
+  $nid = drush_get_option('nid', 0);
+  $batch = 50;
+
+  $i = 0;
+
+  $query = new EntityFieldQuery();
+  $count = $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'ci_build')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->fieldCondition('field_ci_build_enabled', 'value', 1)
+    ->propertyOrderBy('nid', 'ASC')
+    ->count()
+    ->execute();
+  drush_print($count);
 }
