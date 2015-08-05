@@ -120,9 +120,11 @@ function drush_shoov_ci_build_release_failed_items() {
     ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'ci_incident')
     ->propertyCondition('status', NODE_PUBLISHED)
+    ->fieldCondition('field_reminders_sent', 'value', 2, '<')
+    ->fieldCondition('field_ci_build_system_disabled', 'value', FALSE)
+    ->addTag('failing_build')
     ->propertyOrderBy('nid', 'ASC')
     ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT')
-    ->addTag('failing_build')
     ->range(0, $range)
     ->execute();
 
@@ -137,7 +139,10 @@ function drush_shoov_ci_build_release_failed_items() {
     drush_print($node->nid);
     $wrapper = entity_metadata_wrapper('node', $node);
 
-//    if ($timestamp > time() /*- 3*24*60*60*/) {
+    $timestamp = $node->created;
+
+//    if ($timestamp > time() - 3*24*60*60) {
+//      drush_print($timestamp);
 //      // This build is failing less than 3 days.
 //      continue;
 //    }

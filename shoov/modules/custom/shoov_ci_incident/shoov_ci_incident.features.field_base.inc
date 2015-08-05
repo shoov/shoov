@@ -130,5 +130,20 @@ function shoov_ci_incident_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
+  // Exported field_base: 'field_reminders_sent'
+  $field_bases['field_reminders_sent'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_reminders_sent',
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'number',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'number_integer',
+  );
+
   return $field_bases;
 }

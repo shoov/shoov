@@ -323,6 +323,56 @@ function shoov_ci_incident_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-ci_incident-field_reminders_sent'
+  $field_instances['node-ci_incident-field_reminders_sent'] = array(
+    'bundle' => 'ci_incident',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => ' ',
+        ),
+        'type' => 'number_integer',
+        'weight' => 8,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_reminders_sent',
+    'label' => 'Reminders sent',
+    'required' => 0,
+    'settings' => array(
+      'max' => 2,
+      'min' => 0,
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 12,
+    ),
+  );
+
   // Exported field_instance: 'node-ci_incident-og_repo'
   $field_instances['node-ci_incident-og_repo'] = array(
     'bundle' => 'ci_incident',
@@ -381,6 +431,7 @@ function shoov_ci_incident_field_default_field_instances() {
   t('CI build');
   t('Failing Build');
   t('Fixed Build');
+  t('Reminders sent');
   t('Repository');
   t('System disabled');
 
