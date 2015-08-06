@@ -192,6 +192,10 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
 function shoov_ci_build_message_update(Message $message) {
   $wrapper = entity_metadata_wrapper('message', $message);
 
+  if ($message->type != 'ci_build') {
+    return;
+  }
+
   // Trigger Pusher event when CI Build status changes.
   shoov_ci_build_trigger_event($message, 'ci_build_update');
 

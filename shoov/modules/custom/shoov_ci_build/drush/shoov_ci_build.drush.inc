@@ -141,11 +141,8 @@ function drush_shoov_ci_build_release_failed_items() {
     // Incident wrapper.
     $wrapper = entity_metadata_wrapper('node', $node);
 
-    // Failing CI Build.
-    $build = $wrapper->field_ci_build->value();
-
     // CI Build wrapper
-    $build_wrapper = entity_metadata_wrapper('node', $build);
+    $build_wrapper = $wrapper->field_ci_build;
 
     if (!$build_wrapper->field_ci_build_enabled->value()) {
       // Build is already disabled.
@@ -161,50 +158,63 @@ function drush_shoov_ci_build_release_failed_items() {
       // Build is failing more than 3 days and the 1st reminder hasn't been sent yet:
       // - send first reminder;
       // - increase reminder counter.
-
       $arguments = array(
         '@{failing_days}' => 3,
-        '@{action}' => t('will be disabled in 4 days'),
+        '@{action}' => t('will be disabled automatically in 4 days'),
       );
 
-      $reminder = message_create('ci_build_failing_reminder', array('uid' => $node->uid, 'arguments' => $arguments));
-
-      $reminder_wrapper = entity_metadata_wrapper('message', $reminder);
-      $reminder_wrapper->field_ci_build->set($build->nid);
-      $reminder_wrapper->save();
-
-      print_r(message_load($reminder_wrapper->mid->value()));
-      $message = message_load($reminder_wrapper->mid->value());
-      message_notify_send_message($message);
+      drush_shoov_ci_build_send_reminder($build_wrapper->nid->value(), $arguments);
 
       $wrapper->field_reminders_sent->set(1);
       $wrapper->save();
       continue;
     }
 
-//    if ($timestamp > time() - 7*24*60*60 && $wrapper->field_reminders_count->value() < 2) {
-//      // Build is failing more then 6 days and the 2nd reminder hasn't been sent yet:
-//      // - send second reminder;
-//      // - increase reminder counter.
-//
-//
-//      $wrapper->field_reminders_count->set(2);
-//      $wrapper->save();
-//      continue;
-//    }
-//
-//    if ($timestamp > time() - 8*24*60*60 && $wrapper->field_reminders_count->value() < 3) {
-//      // Build is failing more then 7 days and the last reminder hasn't been sent yet:
-//      // - send the last reminder;
-//      // - increase reminder counter;
-//      // - disable the build.
-//
-//
-//      $wrapper->field_reminders_count->set(0);
-//      $wrapper->field_ci_build_system_disabled->set(1);
-//      $wrapper->field_ci_build_enabled->set(0);
-//      $wrapper->save();
-//      continue;
-//    }
+    if ($timestamp > time() - 7*24*60*60 && $wrapper->field_reminders_count->value() < 2) {
+      // Build is failing more then 6 days and the 2nd reminder hasn't been sent yet:
+      // - send second reminder;
+      // - increase reminder counter.
+      $arguments = array(
+        '@{failing_days}' => 6,
+        '@{action}' => t('will be disabled automatically in 1 days'),
+      );
+      drush_shoov_ci_build_send_reminder($build_wrapper->nid->value(), $arguments);
+
+      $wrapper->field_reminders_count->set(2);
+      $wrapper->save();
+      continue;
+    }
+
+    if ($timestamp > time() - 8*24*60*60 && $wrapper->field_reminders_count->value() < 3) {
+      // Build is failing more then 7 days and the last reminder hasn't been sent yet:
+      // - send the last reminder;
+      // - increase reminder counter;
+      // - disable the CI Build.
+      $arguments = array(
+        '@{failing_days}' => 7,
+        '@{action}' => t('has been disabled automatically.'),
+      );
+      drush_shoov_ci_build_send_reminder($build_wrapper->nid->value(), $arguments);
+
+      $wrapper->field_reminders_count->set(0);
+      $wrapper->field_ci_build_system_disabled->set(1);
+      $wrapper->save();
+      // Disable the CI Build.
+      $build_wrapper->field_ci_build_enabled->set(0);
+      $build_wrapper->save();
+      continue;
+    }
   }
+}
+
+function drush_shoov_ci_build_send_reminder($build_id, $arguments = array()) {
+  $build = node_load($build_id);
+  $reminder = message_create('ci_build_failing_reminder', array('uid' => $build->uid, 'arguments' => $arguments));
+
+  $reminder_wrapper = entity_metadata_wrapper('message', $reminder);
+  $reminder_wrapper->field_ci_build->set($build->nid);
+  $reminder_wrapper->save();
+
+  $message = message_load($reminder_wrapper->mid->value());
+  message_notify_send_message($message);
 }
