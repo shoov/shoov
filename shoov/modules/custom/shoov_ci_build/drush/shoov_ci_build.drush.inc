@@ -154,7 +154,7 @@ function drush_shoov_ci_build_release_failed_items() {
 
     $timestamp = $node->created;
 
-    if ($timestamp < time() - 6*24*60*60 && $wrapper->field_reminders_sent->value() < 1) {
+    if ($timestamp > time() - 6*24*60*60 && $wrapper->field_reminders_sent->value() < 1) {
       // Build is failing more than 3 days and the 1st reminder hasn't been sent yet:
       // - send first reminder;
       // - increase reminder counter.
