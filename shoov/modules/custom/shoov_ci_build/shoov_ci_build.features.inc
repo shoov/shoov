@@ -92,6 +92,32 @@ function shoov_ci_build_default_message_type() {
       ]
     }
   }');
+  $items['ci_build_failing_reminder'] = entity_import('message_type', '{
+    "name" : "ci_build_failing_reminder",
+    "description" : "CI Build failing reminder",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "Failing Build.",
+          "format" : "filtered_html",
+          "safe_value" : "\\u003Cp\\u003EFailing Build.\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "Dear [message:user:name]!\\r\\nYou build [message:field-ci-build:title] is failing more than @{failing_days} days. It @{action} .",
+          "format" : "filtered_html",
+          "safe_value" : "\\u003Cp\\u003EDear [message:user:name]!\\u003Cbr \\/\\u003E\\nYou build [message:field-ci-build:title] is failing more than @{failing_days} days. It @{action} .\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    }
+  }');
   return $items;
 }
 

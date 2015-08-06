@@ -120,9 +120,9 @@ function drush_shoov_ci_build_release_failed_items() {
     ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'ci_incident')
     ->propertyCondition('status', NODE_PUBLISHED)
-    ->fieldCondition('field_reminders_sent', 'value', 2, '<')
+    ->propertyCondition('created', time() - 3*24*60*60, '<')
     ->fieldCondition('field_ci_build_system_disabled', 'value', FALSE)
-    ->addTag('failing_build')
+    ->addTag('fixed_build_empty')
     ->propertyOrderBy('nid', 'ASC')
     ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT')
     ->range(0, $range)
@@ -137,40 +137,51 @@ function drush_shoov_ci_build_release_failed_items() {
 
   foreach ($nodes as $node) {
     drush_print($node->nid);
+
+    // Incident wrapper.
     $wrapper = entity_metadata_wrapper('node', $node);
+
+    // Failing CI Build.
+    $build = $wrapper->field_ci_build->value();
+
+    // CI Build wrapper
+    $build_wrapper = entity_metadata_wrapper('node', $build);
+
+    if (!$build_wrapper->field_ci_build_enabled->value()) {
+      // Build is already disabled.
+      $wrapper->field_reminders_sent->set(0);
+      $wrapper->field_ci_build_system_disabled->set(1);
+      $wrapper->save();
+      continue;
+    }
 
     $timestamp = $node->created;
 
-//    if ($timestamp > time() - 3*24*60*60) {
-//      drush_print($timestamp);
-//      // This build is failing less than 3 days.
-//      continue;
-//    }
-//
-//    if ($timestamp > time() - 6*24*60*60 && $wrapper->field_reminders_count->value() < 1) {
-//      // Build is failing more than 3 days and the 1st reminder hasn't been sent yet:
-//      // - send first reminder;
-//      // - increase reminder counter.
-//
-//      $arguments = array(
-//        '@{message:field-ci-build}' => $wrapper->label(),
-//        '@{failing_days}' => 3,
-//        '@{left_days}' => 4,
-//      );
-//
-//      $reminder = message_create('ci_build_failing_reminder', array('uid' => $node->uid, 'arguments' => $arguments));
-//      //'Your build is failing more then 3 days. It will be turned of in 4 days'
-//      $reminder_wrapper = entity_metadata_wrapper('message', $reminder);
-//      $reminder_wrapper->field_ci_build->set($node);
-//      $reminder_wrapper->save();
-//      drush_print($reminder_wrapper->value());
-////        message_notify_send_message(message_load($reminder_wrapper->mid->value()));
-//
-//
-//      $wrapper->field_reminders_count->set(1);
-//      $wrapper->save();
-//      continue;
-//    }
+    if ($timestamp < time() - 6*24*60*60 && $wrapper->field_reminders_sent->value() < 1) {
+      // Build is failing more than 3 days and the 1st reminder hasn't been sent yet:
+      // - send first reminder;
+      // - increase reminder counter.
+
+      $arguments = array(
+        '@{failing_days}' => 3,
+        '@{action}' => t('will be disabled in 4 days'),
+      );
+
+      $reminder = message_create('ci_build_failing_reminder', array('uid' => $node->uid, 'arguments' => $arguments));
+
+      $reminder_wrapper = entity_metadata_wrapper('message', $reminder);
+      $reminder_wrapper->field_ci_build->set($build->nid);
+      $reminder_wrapper->save();
+
+      print_r(message_load($reminder_wrapper->mid->value()));
+      $message = message_load($reminder_wrapper->mid->value());
+      message_notify_send_message($message);
+
+      $wrapper->field_reminders_sent->set(1);
+      $wrapper->save();
+      continue;
+    }
+
 //    if ($timestamp > time() - 7*24*60*60 && $wrapper->field_reminders_count->value() < 2) {
 //      // Build is failing more then 6 days and the 2nd reminder hasn't been sent yet:
 //      // - send second reminder;
@@ -181,6 +192,7 @@ function drush_shoov_ci_build_release_failed_items() {
 //      $wrapper->save();
 //      continue;
 //    }
+//
 //    if ($timestamp > time() - 8*24*60*60 && $wrapper->field_reminders_count->value() < 3) {
 //      // Build is failing more then 7 days and the last reminder hasn't been sent yet:
 //      // - send the last reminder;
