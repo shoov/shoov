@@ -170,7 +170,7 @@ function drush_shoov_ci_build_release_failed_items() {
       continue;
     }
 
-    if ($timestamp > time() - 7*24*60*60 && $wrapper->field_reminders_count->value() < 2) {
+    if ($timestamp > time() - 7*24*60*60 && $wrapper->field_reminders_sent->value() < 2) {
       // Build is failing more then 6 days and the 2nd reminder hasn't been sent yet:
       // - send second reminder;
       // - increase reminder counter.
@@ -180,23 +180,23 @@ function drush_shoov_ci_build_release_failed_items() {
       );
       drush_shoov_ci_build_send_reminder($build_wrapper->nid->value(), $arguments);
 
-      $wrapper->field_reminders_count->set(2);
+      $wrapper->field_reminders_sent->set(2);
       $wrapper->save();
       continue;
     }
 
-    if ($timestamp > time() - 8*24*60*60 && $wrapper->field_reminders_count->value() < 3) {
+    if ($timestamp > time() - 8*24*60*60 && $wrapper->field_reminders_sent->value() < 3) {
       // Build is failing more then 7 days and the last reminder hasn't been sent yet:
       // - send the last reminder;
       // - increase reminder counter;
       // - disable the CI Build.
       $arguments = array(
         '@{failing_days}' => 7,
-        '@{action}' => t('has been disabled automatically.'),
+        '@{action}' => t('has been disabled automatically'),
       );
       drush_shoov_ci_build_send_reminder($build_wrapper->nid->value(), $arguments);
 
-      $wrapper->field_reminders_count->set(0);
+      $wrapper->field_reminders_sent->set(0);
       $wrapper->field_ci_build_system_disabled->set(1);
       $wrapper->save();
       // Disable the CI Build.
