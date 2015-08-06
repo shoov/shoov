@@ -13,6 +13,12 @@ angular.module('clientApp')
     $scope.builds = builds;
     $scope.repositories = {};
 
+    // Always watch the amount of repositories that we have to determine
+    // whether to display the filter select list or not.
+    $scope.$watch('repositories', function(repos) {
+      $scope.repositoriesLength = Object.keys(repos).length;
+    });
+
     // Get the repositories from the builds.
     angular.forEach($scope.builds, function(build) {
       if ($scope.repositories[build.repository.id]) {
@@ -54,6 +60,10 @@ angular.module('clientApp')
         // Add new chanel.
         channelManager.addChannel(data[0].id);
         var newChannel = channelManager.getChannel(data[0].id);
+
+        // Add new repo to filter.
+        $scope.repositories[data[0].id] = data[0].label;
+        $scope.repositoriesLength++;
 
         $scope.addNewBuilds([newChannel]);
 
