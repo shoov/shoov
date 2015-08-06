@@ -123,7 +123,7 @@ function drush_shoov_ci_build_release_failed_items() {
     ->propertyCondition('created', time() - 3*24*60*60, '<')
     ->fieldCondition('field_ci_build_system_disabled', 'value', FALSE)
     ->addTag('fixed_build_empty')
-    ->propertyOrderBy('nid', 'ASC')
+    ->propertyOrderBy('changed', 'ASC')
     ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT')
     ->range(0, $range)
     ->execute();
