@@ -21,6 +21,13 @@ angular.module('clientApp')
       'done': 'Done'
     };
 
+    // List of build statuses.
+    $scope.intervals = {
+      180: '3 Min',
+      3600: '1 Hour',
+      86400: '1 Day'
+    };
+
     // Separate the queue or in progress item from the history list.
     angular.forEach(ciBuildItems, function(item) {
       if (item.status != 'queue' && item.status != 'in_progress') {

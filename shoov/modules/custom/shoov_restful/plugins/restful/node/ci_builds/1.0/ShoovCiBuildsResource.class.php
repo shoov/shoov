@@ -32,6 +32,10 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
       ),
     );
 
+    $public_fields['interval'] = array(
+      'property' => 'field_ci_build_interval',
+    );
+
     $public_fields['private_key'] = array(
       'property' => 'field_private_key',
     );

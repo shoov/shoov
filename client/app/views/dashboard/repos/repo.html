@@ -29,6 +29,11 @@
     </div>
   </div>
   <div class="row portlet-body">
+    <div class="col-md-12">
+      <label for="interval">Build interval: {{build.interval}}</label>
+      <select ng-options="id as label for (id, label) in intervals" class="form-control" id="interval" ng-model="build.interval">
+      </select>
+    </div>
     <div class="col-md-6">
       <div class="portlet">
         <div class="portlet-title">
