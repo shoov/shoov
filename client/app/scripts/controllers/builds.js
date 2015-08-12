@@ -61,10 +61,6 @@ angular.module('clientApp')
         channelManager.addChannel(data[0].id);
         var newChannel = channelManager.getChannel(data[0].id);
 
-        // Add new repo to filter.
-        $scope.repositories[data[0].id] = data[0].label;
-        $scope.repositoriesLength++;
-
         $scope.addNewBuilds([newChannel]);
 
         // Get new builds. Because after creating a new repository build are
@@ -72,10 +68,23 @@ angular.module('clientApp')
         $timeout(function() {
           // Get new builds and add them to the list.
           Builds.get(null, 'ui_build', data[0].id).then(function(val) {
+
+            var buildCounter = 0;
             angular.forEach(val, function(build) {
+              if (build.repository.id != data[0].id) {
+                // Don't add build if it doesn't belong to the requested repo.
+                return;
+              }
 
               $scope.builds.unshift(build);
+              buildCounter++;
             });
+
+            // Add new repo to filter only if there's new builds.
+            if (buildCounter) {
+              $scope.repositories[data[0].id] = data[0].label;
+              $scope.repositoriesLength++;
+            }
           });
         } ,2000);
       });
