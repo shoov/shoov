@@ -33,7 +33,7 @@
       <label for="interval">Build interval: </label>
       <select ng-change="updateInterval()" ng-options="id as label for (id, label) in intervals" class="form-control" id="interval" ng-model="build.interval">
       </select>
-      <i ng-class="{'fa-check': responseClass}" class="fa"></i>
+      <i ng-class="{'fa-check': responseStatus}" class="fa"></i>
     </div>
     <div class="col-md-6">
       <div class="portlet">

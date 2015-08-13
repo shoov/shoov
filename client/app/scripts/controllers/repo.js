@@ -21,7 +21,7 @@ angular.module('clientApp')
       'done': 'Done'
     };
 
-    // List of build statuses.
+    // List of build possible intervals.
     $scope.intervals = {
       180: '3 Min',
       3600: '1 Hour',
@@ -29,7 +29,7 @@ angular.module('clientApp')
     };
 
     // Show the success icon when there's a response from the backend.
-    $scope.responseClass = false;
+    $scope.responseStatus = false;
 
     // Separate the queue or in progress item from the history list.
     angular.forEach(ciBuildItems, function(item) {
@@ -58,11 +58,11 @@ angular.module('clientApp')
       Builds
         .update($scope.build.id, 'ci_build', params)
         .then(function() {
-          $scope.responseClass = true;
+          $scope.responseStatus = true;
 
           // Hide the success icon after 5 seconds of receiving the response.
           $timeout(function() {
-            $scope.responseClass = false;
+            $scope.responseStatus = false;
           }, 3000);
         });
     };
