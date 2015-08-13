@@ -60,7 +60,7 @@ angular.module('clientApp')
         .then(function() {
           $scope.responseStatus = true;
 
-          // Hide the success icon after 5 seconds of receiving the response.
+          // Hide the success icon after 3 seconds of receiving the response.
           $timeout(function() {
             $scope.responseStatus = false;
           }, 3000);
