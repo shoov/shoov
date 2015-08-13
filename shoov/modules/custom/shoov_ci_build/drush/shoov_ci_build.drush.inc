@@ -143,7 +143,6 @@ function drush_shoov_ci_build_release_failed_items() {
   $nodes = node_load_multiple($ids);
 
   foreach ($nodes as $node) {
-    drush_print($node->nid);
 
     // Incident wrapper.
     $wrapper = entity_metadata_wrapper('node', $node);
@@ -160,6 +159,9 @@ function drush_shoov_ci_build_release_failed_items() {
     }
 
     $timestamp = $node->created;
+    $params = array(
+      '@build' => $build_wrapper->label(),
+    );
 
     if ($arguments = drush_shoov_ci_build_third_message_should_be_sent($timestamp, $wrapper)) {
       // Build is failing more then 7 days: increase reminder counter,
@@ -169,20 +171,24 @@ function drush_shoov_ci_build_release_failed_items() {
       // Disable the CI Build.
       $build_wrapper->field_ci_build_enabled->set(0);
       $build_wrapper->save();
+      $params['@days'] = 7;
     }
     elseif ($arguments = drush_shoov_ci_build_second_message_should_be_sent($timestamp, $wrapper)) {
       // Build is failing more then 6 days: increase reminder counter.
       $wrapper->field_reminders_sent->set(2);
+      $params['@days'] = 6;
     }
     elseif ($arguments = drush_shoov_ci_build_first_message_should_be_sent($timestamp, $wrapper)) {
       // Build is failing more than 3 days: increase reminder counter.
       $wrapper->field_reminders_sent->set(1);
+      $params['@days'] = 3;
     }
 
     if ($arguments) {
       // Incident was changed and should be saved. Message should be sent.
       $wrapper->save();
       drush_shoov_ci_build_send_reminder($build_wrapper->nid->value(), $arguments);
+      drush_log(dt('Notification that CI build @build is failing more than @days days has been sent.', $params), 'success');
     }
   }
 }
