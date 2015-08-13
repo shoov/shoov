@@ -86,6 +86,11 @@ function shoov_ci_build_node_presave($node) {
   }
 
   $wrapper = entity_metadata_wrapper('node', $node);
+
+  if (!($wrapper->field_status_token->value())) {
+    $wrapper->field_status_token->set(drupal_random_key());
+  }
+
   if ($wrapper->field_private_key->value()) {
     // Private key is already populated.
     return;

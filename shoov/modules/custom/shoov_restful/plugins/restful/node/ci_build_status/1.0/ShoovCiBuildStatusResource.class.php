@@ -70,7 +70,7 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
       throw new RestfulUnprocessableEntityException(format_string('The entity ID @id is not a valid CI Build.', $params));
     }
     $wrapper = entity_metadata_wrapper('node', $node);
-    $status_token = $wrapper->field_private_key->value();
+    $status_token = $wrapper->field_status_token->value();
 
     if ($status_token != $request['status_token']) {
       throw new RestfulForbiddenException(format_string('You do not have access to CI Build ID @id status. Check the status token.', $params));
