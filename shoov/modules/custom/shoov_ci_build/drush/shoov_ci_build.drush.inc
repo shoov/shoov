@@ -122,7 +122,7 @@ function drush_shoov_ci_build_release_failed_items() {
     ->entityCondition('bundle', 'ci_incident')
     ->propertyCondition('status', NODE_PUBLISHED)
     // Incident was created more than 3 days ago.
-    ->propertyCondition('created', time() - 3*24*60*60, '<')
+    ->propertyCondition('created', strtotime('-3 days'), '<')
     // CI Build is still enabled.
     ->fieldCondition('field_ci_build_system_disabled', 'value', FALSE)
     // CI Build wasn't fixed yet.
@@ -136,9 +136,9 @@ function drush_shoov_ci_build_release_failed_items() {
     ->execute();
 
   if (empty($result['node'])) {
+    drush_log('No long time failing incidents were found.', 'success');
     return;
   }
-
   $ids = array_keys($result['node']);
   $nodes = node_load_multiple($ids);
 
@@ -227,7 +227,7 @@ function drush_shoov_ci_build_send_reminder($build_id, $arguments = array()) {
  *  sent - returns FALSE.
  */
 function drush_shoov_ci_build_first_message_should_be_sent($timestamp, $wrapper) {
-  if (!$timestamp < time() - 6 * 24 * 60 * 60 && !$wrapper->field_reminders_sent->value() < 1) {
+  if (!$timestamp < strtotime('-6 days') && !$wrapper->field_reminders_sent->value() < 1) {
     return FALSE;
   }
   $arguments = array(
@@ -252,7 +252,7 @@ function drush_shoov_ci_build_first_message_should_be_sent($timestamp, $wrapper)
  *  sent - returns FALSE.
  */
 function drush_shoov_ci_build_second_message_should_be_sent($timestamp, $wrapper) {
-  if (!$timestamp < time() - 7*24*60*60 && !$wrapper->field_reminders_sent->value() < 2) {
+  if (!$timestamp < strtotime('-7 days') && !$wrapper->field_reminders_sent->value() < 2) {
     return FALSE;
   }
   $arguments = array(
@@ -277,7 +277,7 @@ function drush_shoov_ci_build_second_message_should_be_sent($timestamp, $wrapper
  *  sent - returns FALSE.
  */
 function drush_shoov_ci_build_third_message_should_be_sent($timestamp, $wrapper) {
-  if (!$timestamp < time() - 8*24*60*60 && !$wrapper->field_reminders_sent->value() < 3) {
+  if (!$timestamp < strtotime('-8 days') && !$wrapper->field_reminders_sent->value() < 3) {
     return FALSE;
   }
   $arguments = array(
