@@ -115,15 +115,22 @@ function drush_shoov_ci_build_release_failed_items() {
 
   $range = 50;
 
+  // Get CI incidents of the enabled CI Builds, that haven't been fixed for more than 3 days.
   $query = new EntityFieldQuery();
   $result = $query
     ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'ci_incident')
     ->propertyCondition('status', NODE_PUBLISHED)
+    // Incident was created more than 3 days ago.
     ->propertyCondition('created', time() - 3*24*60*60, '<')
+    // CI Build is still enabled.
     ->fieldCondition('field_ci_build_system_disabled', 'value', FALSE)
+    // CI Build wasn't fixed yet.
     ->addTag('fixed_build_empty')
+    // Take the oldest ones first. Like this if message will be sent for current
+    // Builds, during the next run we'll handle the others.
     ->propertyOrderBy('changed', 'ASC')
+    // Skip access check.
     ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT')
     ->range(0, $range)
     ->execute();
@@ -154,67 +161,123 @@ function drush_shoov_ci_build_release_failed_items() {
 
     $timestamp = $node->created;
 
-    if ($timestamp > time() - 6*24*60*60 && $wrapper->field_reminders_sent->value() < 1) {
-      // Build is failing more than 3 days and the 1st reminder hasn't been sent yet:
-      // - send first reminder;
-      // - increase reminder counter.
-      $arguments = array(
-        '@{failing_days}' => 3,
-        '@{action}' => t('will be disabled automatically in 4 days'),
-      );
-
-      drush_shoov_ci_build_send_reminder($build_wrapper->nid->value(), $arguments);
-
-      $wrapper->field_reminders_sent->set(1);
-      $wrapper->save();
-      continue;
-    }
-
-    if ($timestamp > time() - 7*24*60*60 && $wrapper->field_reminders_sent->value() < 2) {
-      // Build is failing more then 6 days and the 2nd reminder hasn't been sent yet:
-      // - send second reminder;
-      // - increase reminder counter.
-      $arguments = array(
-        '@{failing_days}' => 6,
-        '@{action}' => t('will be disabled automatically in 1 days'),
-      );
-      drush_shoov_ci_build_send_reminder($build_wrapper->nid->value(), $arguments);
-
-      $wrapper->field_reminders_sent->set(2);
-      $wrapper->save();
-      continue;
-    }
-
-    if ($timestamp > time() - 8*24*60*60 && $wrapper->field_reminders_sent->value() < 3) {
-      // Build is failing more then 7 days and the last reminder hasn't been sent yet:
-      // - send the last reminder;
-      // - increase reminder counter;
-      // - disable the CI Build.
-      $arguments = array(
-        '@{failing_days}' => 7,
-        '@{action}' => t('has been disabled automatically'),
-      );
-      drush_shoov_ci_build_send_reminder($build_wrapper->nid->value(), $arguments);
-
+    if ($arguments = drush_shoov_ci_build_third_message_should_be_sent($timestamp, $wrapper)) {
+      // Build is failing more then 7 days: increase reminder counter,
+      // disable the CI Build.
       $wrapper->field_reminders_sent->set(0);
       $wrapper->field_ci_build_system_disabled->set(1);
-      $wrapper->save();
       // Disable the CI Build.
       $build_wrapper->field_ci_build_enabled->set(0);
       $build_wrapper->save();
-      continue;
+    }
+    elseif ($arguments = drush_shoov_ci_build_second_message_should_be_sent($timestamp, $wrapper)) {
+      // Build is failing more then 6 days: increase reminder counter.
+      $wrapper->field_reminders_sent->set(2);
+    }
+    elseif ($arguments = drush_shoov_ci_build_first_message_should_be_sent($timestamp, $wrapper)) {
+      // Build is failing more than 3 days: increase reminder counter.
+      $wrapper->field_reminders_sent->set(1);
+    }
+
+    if ($arguments) {
+      // Incident was changed and should be saved. Message should be sent.
+      $wrapper->save();
+      drush_shoov_ci_build_send_reminder($build_wrapper->nid->value(), $arguments);
     }
   }
 }
 
+/**
+ * Send message about failing CI Build to user.
+ *
+ * @param $build_id
+ *  CI Build node ID.
+ * @param array $arguments
+ *  Message arguments
+ */
 function drush_shoov_ci_build_send_reminder($build_id, $arguments = array()) {
   $build = node_load($build_id);
+  // Create a message.
   $reminder = message_create('ci_build_failing_reminder', array('uid' => $build->uid, 'arguments' => $arguments));
-
   $reminder_wrapper = entity_metadata_wrapper('message', $reminder);
   $reminder_wrapper->field_ci_build->set($build->nid);
   $reminder_wrapper->save();
 
   $message = message_load($reminder_wrapper->mid->value());
   message_notify_send_message($message);
+}
+
+/**
+ * Check if Build is failing more than 3 days and the 1st notification should
+ * be sent.
+ *
+ * @param $timestamp
+ *  Node creation timestamp.
+ * @param $wrapper
+ *  Incident node's wrapper object.
+ *
+ * @return array|bool
+ *  Returns array of arguments for the message. If notification should not be
+ *  sent - returns FALSE.
+ */
+function drush_shoov_ci_build_first_message_should_be_sent($timestamp, $wrapper) {
+  if (!$timestamp < time() - 6 * 24 * 60 * 60 && !$wrapper->field_reminders_sent->value() < 1) {
+    return FALSE;
+  }
+  $arguments = array(
+    '@{failing_days}' => 3,
+    '@{action}' => t('will be disabled automatically in 4 days'),
+  );
+
+  return $arguments;
+}
+
+/**
+ * Check if Build is failing more than 6 days and the 2nd notification should
+ * be sent.
+ *
+ * @param $timestamp
+ *  Node creation timestamp.
+ * @param $wrapper
+ *  Incident node's wrapper object.
+ *
+ * @return array|bool
+ *  Returns array of arguments for the message. If notification should not be
+ *  sent - returns FALSE.
+ */
+function drush_shoov_ci_build_second_message_should_be_sent($timestamp, $wrapper) {
+  if (!$timestamp < time() - 7*24*60*60 && !$wrapper->field_reminders_sent->value() < 2) {
+    return FALSE;
+  }
+  $arguments = array(
+    '@{failing_days}' => 6,
+    '@{action}' => t('will be disabled automatically in 1 days'),
+  );
+
+  return $arguments;
+}
+
+/**
+ * Check if Build is failing more than 7 days and the 3d notification should
+ * be sent.
+ *
+ * @param $timestamp
+ *  Node creation timestamp.
+ * @param $wrapper
+ *  Incident node's wrapper object.
+ *
+ * @return array|bool
+ *  Returns array of arguments for the message. If notification should not be
+ *  sent - returns FALSE.
+ */
+function drush_shoov_ci_build_third_message_should_be_sent($timestamp, $wrapper) {
+  if (!$timestamp < time() - 8*24*60*60 && !$wrapper->field_reminders_sent->value() < 3) {
+    return FALSE;
+  }
+  $arguments = array(
+    '@{failing_days}' => 7,
+    '@{action}' => t('has been disabled automatically'),
+  );
+
+  return $arguments;
 }
