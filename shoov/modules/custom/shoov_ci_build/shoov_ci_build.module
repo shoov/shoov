@@ -137,8 +137,8 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
     // CI build is not enabled.
 
     // Find queue items and delete them.
-    if ($items = shoov_ci_build_get_items_by_status($node, 'queue')) {
-      message_delete_multiple($items);
+    if ($ids = shoov_ci_build_get_items_by_status($node, 'queue')) {
+      message_delete_multiple($ids);
     }
 
     return;
@@ -437,10 +437,10 @@ function shoov_ci_build_trigger_event(Message $message, $event) {
  * @param $node
  *  The CI Build node.
  * @param $status
- *  Status field value. Default to queue.
+ *  Status field value. Defaults to "queue".
  *
  * @return array
- *  Return array of messages ids.
+ *  Return array of messages IDs.
  */
 function shoov_ci_build_get_items_by_status($node, $status ='queue') {
   $account = user_load($node->uid);
