@@ -439,3 +439,13 @@ function shoov_ci_build_trigger_event(Message $message, $event) {
   $data = array($result[0]);
   shoov_pusher_trigger_event($wrapper->field_ci_build->og_repo->getIdentifier(), $event, $data);
 }
+
+/**
+ * Implements hook_query_TAG_alter().
+ *
+ * CI Build Status token should be empty.
+ */
+function shoov_ci_build_query_empty_status_token_alter(QueryAlterableInterface $query) {
+  $query->leftJoin('field_data_field_status_token', 's', 'node.nid = s.entity_id');
+  $query->isNull('s.field_status_token_value');
+}
