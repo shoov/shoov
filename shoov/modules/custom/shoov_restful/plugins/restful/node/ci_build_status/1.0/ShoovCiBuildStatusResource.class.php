@@ -33,6 +33,15 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
     return $public_fields;
   }
 
+  /**
+   * Build CI Build status output HTML.
+   *
+   * @param EntityMetadataWrapper $wrapper
+   *  CI Build node wrapper.
+   *
+   * @return string
+   *  Returns formatted HTML.
+   */
   protected function statusHtml(\EntityMetadataWrapper $wrapper) {
     $ci_build_status = $wrapper->field_ci_build_incident_status->value();
     switch($ci_build_status) {
@@ -50,6 +59,9 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
     return theme('image', array('path' => drupal_get_path('module', 'shoov_ci_build') . '/images/statuses/' . $file . '.png'));
   }
 
+  /**
+   * {@inheritdoc}
+   */
   protected function isValidEntity($op, $entity_id) {
     $params = array(
       '@id' => $entity_id,
