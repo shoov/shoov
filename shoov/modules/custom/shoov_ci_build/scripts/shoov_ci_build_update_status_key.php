@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Update CI build items with status key.
+ * Update CI build items with status token.
  */
 
 // Get tha last message id.
