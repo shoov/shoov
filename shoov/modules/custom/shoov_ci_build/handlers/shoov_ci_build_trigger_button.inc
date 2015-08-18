@@ -1,9 +1,10 @@
 <?php
 
-
 /**
- * Edit button for a message instance.
+ * @file
+ * Contains shoov_ci_build_trigger_button.
  */
+
 class shoov_ci_build_trigger_button extends views_handler_field_entity {
 
   /**
