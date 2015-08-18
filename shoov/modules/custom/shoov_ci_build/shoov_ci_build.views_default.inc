@@ -125,21 +125,19 @@ function shoov_ci_build_views_default_views() {
   $handler->display->display_options['fields']['view']['label'] = '';
   $handler->display->display_options['fields']['view']['exclude'] = TRUE;
   $handler->display->display_options['fields']['view']['element_label_colon'] = FALSE;
-  /* Field: Global: Custom text */
-  $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
-  $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
-  $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
-  $handler->display->display_options['fields']['nothing_1']['label'] = 'Trigger';
-  $handler->display->display_options['fields']['nothing_1']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = 'Trigger';
-  $handler->display->display_options['fields']['nothing_1']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['nothing_1']['alter']['path'] = '/ci_build/[mid]/trigger';
+  /* Field: Message: Trigger message */
+  $handler->display->display_options['fields']['trigger']['id'] = 'trigger';
+  $handler->display->display_options['fields']['trigger']['table'] = 'message';
+  $handler->display->display_options['fields']['trigger']['field'] = 'trigger';
+  $handler->display->display_options['fields']['trigger']['label'] = '';
+  $handler->display->display_options['fields']['trigger']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['trigger']['element_label_colon'] = FALSE;
   /* Field: Global: Custom text */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = 'Operation';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '[view] [edit] [delete] [nothing_1]';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '[view] [edit] [delete] [trigger]';
   /* Sort criterion: Message: Timestamp */
   $handler->display->display_options['sorts']['timestamp']['id'] = 'timestamp';
   $handler->display->display_options['sorts']['timestamp']['table'] = 'message';

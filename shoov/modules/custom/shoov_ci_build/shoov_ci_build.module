@@ -17,14 +17,36 @@ const SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_ERROR = 3;
  * Implement hook_menu().
  */
 function shoov_ci_build_menu() {
-  $items["/ci_build/%mid/trigger"] = array(
+  $items["ci_build/%message/trigger"] = array(
     'title' => 'Trigger the CI Build',
     'page callback' => 'shoov_ci_build_trigger_item',
     'page arguments' => array(1),
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
+
+  return $items;
 }
+
+/**
+ * Send message to the nodejs server.
+ *
+ * @param $message
+ *  Message object.
+ */
+function shoov_ci_build_trigger_item($message) {
+  $nodejs_server_url = shoov_ci_build_get_nodejs_server_url($message);
+  $account = user_load($message->uid);
+  $url = array(
+    $nodejs_server_url,
+    'ci',
+    $message->mid,
+    shoov_restful_get_user_token($account),
+  );
+  $url = implode('/', $url);
+  drupal_http_request($url);
+}
+
 /**
  * Return the CI builds that are waiting for processing.
  *
