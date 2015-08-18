@@ -34,34 +34,67 @@ function drush_shoov_ui_build_delete_old_ui_builds() {
     ->execute();
 
   if (empty($result['node'])) {
+    // Stop if there's not repositories.
+    drush_print('No repositories found.');
     return;
   }
 
   $ids = array_keys($result['node']);
   $repos = node_load_multiple($ids);
   foreach ($repos as $repo) {
-    drush_print('Checking Repository ID ' . $repo->nid);
+    drush_print('Checking Repository "' . $repo->title . '"');
 
-    $ui_build_query = new EntityFieldQuery();
-    $ui_build_result = $ui_build_query
-      ->entityCondition('entity_type', 'node')
-      ->entityCondition('bundle', 'ui_build')
-      ->propertyCondition('status', NODE_PUBLISHED)
-      ->fieldCondition('og_repo', 'target_id', 1)
-      ->propertyOrderBy('nid', 'ASC')
-      ->execute();
+    // Need to use db_select() because field condition override in OG doesn't
+    // work in a Drush command.
+    $ui_build_query = db_select('og_membership', 'm');
+    $ui_build_query->leftJoin('node', 'n', 'm.etid = n.nid');
+    $ui_build_results = $ui_build_query->fields('n', array('nid'))
+      ->condition('m.gid', $repo->nid)
+      ->condition('m.entity_type', 'node')
+      ->condition('n.type', 'ui_build')
+      ->execute()
+      ->fetchAll();
 
-    var_dump($repo->nid);
-    var_dump($ui_build_result);
-
-    if (empty($ui_build_result['node'])) {
+    if (empty($ui_build_results) || count($ui_build_results) < 1) {
+      // Don't delete anything if we have less than 10 builds in this repository.
+      drush_print('There\'s not enough builds in this repository.');
       continue;
     }
 
-    $ui_build_ids = array_keys($ui_build_result['node']);
-    $ui_builds = node_load_multiple($ui_build_ids);
-    foreach ($ui_builds as $ui_build) {
-      drush_print($ui_build->nid);
+    // Delete every build that is older than 30 days.
+    foreach ($ui_build_results as $ui_build) {
+      $ui_build_wrapper = entity_metadata_wrapper('node', $ui_build->nid);
+
+      if ($ui_build_wrapper->created->value() > strtotime('-1 month')) {
+        // Build is not old enough.
+        continue;
+      }
+
+      drush_print('Build titled "' . $ui_build_wrapper->label() . '"('  . $ui_build_wrapper->getIdentifier() . ') is older than one month and is going to be deleted');
+      // Get all screen-shots in this build.
+      $sh_query = new EntityFieldQuery();
+      $sh_results = $sh_query
+        ->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'screenshot')
+        ->propertyCondition('status', NODE_PUBLISHED)
+        ->fieldCondition('field_build', 'target_id', $ui_build->nid)
+        ->execute();
+
+      var_dump($sh_results);
+
+      // Delete build.
+      //node_delete($ui_build_wrapper->getIdentifier());
+
+      if (empty($sh_results['node'])) {
+        // If there's no screenshots, continue to the next build.
+        continue;
+      }
+
+      // Delete all screenshots for this build.
+      $screenshots_ids = array_keys($sh_results['node']);
+      foreach ($screenshots_ids as $screenshot_id) {
+        //node_delete($screenshot_id);
+      }
     }
   }
 }
