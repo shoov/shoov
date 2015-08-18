@@ -19,9 +19,10 @@ function shoov_ui_build_drush_command() {
 }
 
 /**
- * Implements drush_hook_command().
- *
  * Command callback for "delete-old-ui-builds".
+ *
+ * Deletes ui-builds that are older than one month, meanwhile keeping 10 builds
+ * in each repository.
  */
 function drush_shoov_ui_build_delete_old_ui_builds() {
 
