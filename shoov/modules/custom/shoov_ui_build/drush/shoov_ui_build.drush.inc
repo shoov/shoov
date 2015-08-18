@@ -55,45 +55,43 @@ function drush_shoov_ui_build_delete_old_ui_builds() {
       ->execute()
       ->fetchAll();
 
-    if (empty($ui_build_results) || count($ui_build_results) < 1) {
+    if (count($ui_build_results) < 1) {
       // Don't delete anything if we have less than 10 builds in this repository.
-      drush_print('There\'s not enough builds in this repository.');
+      drush_print('There is no more than 10 builds in this repository.');
       continue;
     }
 
     // Delete every build that is older than 30 days.
-    foreach ($ui_build_results as $ui_build) {
+    foreach ($ui_build_results as $key => $ui_build) {
       $ui_build_wrapper = entity_metadata_wrapper('node', $ui_build->nid);
 
-      if ($ui_build_wrapper->created->value() > strtotime('-1 month')) {
-        // Build is not old enough.
+      if ($ui_build_wrapper->created->value() > strtotime('-1 month') || count($ui_build_results) < 1) {
+        // Build is not old enough or there's not enough builds left in the
+        // repository.
         continue;
       }
 
       drush_print('Build titled "' . $ui_build_wrapper->label() . '"('  . $ui_build_wrapper->getIdentifier() . ') is older than one month and is going to be deleted');
       // Get all screen-shots in this build.
-      $sh_query = new EntityFieldQuery();
-      $sh_results = $sh_query
-        ->entityCondition('entity_type', 'node')
-        ->entityCondition('bundle', 'screenshot')
-        ->propertyCondition('status', NODE_PUBLISHED)
-        ->fieldCondition('field_build', 'target_id', $ui_build->nid)
-        ->execute();
-
-      var_dump($sh_results);
+      $sh_results = db_select('field_data_field_build', 'f')
+        ->fields('f', array('entity_id'))
+        ->condition('f.field_build_target_id', $ui_build->nid)
+        ->execute()
+        ->fetchAll();
 
       // Delete build.
-      //node_delete($ui_build_wrapper->getIdentifier());
+      node_delete($ui_build_wrapper->getIdentifier());
+      // We need to keep track of how many builds left in the repository.
+      unset($ui_build_results[$key]);
 
-      if (empty($sh_results['node'])) {
+      if (empty($sh_results)) {
         // If there's no screenshots, continue to the next build.
         continue;
       }
 
       // Delete all screenshots for this build.
-      $screenshots_ids = array_keys($sh_results['node']);
-      foreach ($screenshots_ids as $screenshot_id) {
-        //node_delete($screenshot_id);
+      foreach ($sh_results as $screenshot) {
+        node_delete($screenshot->entity_id);
       }
     }
   }
