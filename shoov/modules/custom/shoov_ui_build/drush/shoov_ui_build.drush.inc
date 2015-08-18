@@ -55,7 +55,7 @@ function drush_shoov_ui_build_delete_old_ui_builds() {
       ->execute()
       ->fetchAll();
 
-    if (count($ui_build_results) < 1) {
+    if (count($ui_build_results) < 10) {
       // Don't delete anything if we have less than 10 builds in this repository.
       drush_print('There is no more than 10 builds in this repository.');
       continue;
@@ -65,7 +65,7 @@ function drush_shoov_ui_build_delete_old_ui_builds() {
     foreach ($ui_build_results as $key => $ui_build) {
       $ui_build_wrapper = entity_metadata_wrapper('node', $ui_build->nid);
 
-      if ($ui_build_wrapper->created->value() > strtotime('-1 month') || count($ui_build_results) < 1) {
+      if ($ui_build_wrapper->created->value() > strtotime('-1 month') || count($ui_build_results) < 10) {
         // Build is not old enough or there's not enough builds left in the
         // repository.
         continue;
