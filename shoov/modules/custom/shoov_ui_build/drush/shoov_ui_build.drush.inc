@@ -36,7 +36,7 @@ function drush_shoov_ui_build_delete_old_ui_builds() {
 
   if (empty($result['node'])) {
     // Stop if there's not repositories.
-    drush_print('No repositories found.');
+    drush_log('No reposirories found', 'warning');
     return;
   }
 
@@ -53,12 +53,13 @@ function drush_shoov_ui_build_delete_old_ui_builds() {
       ->condition('m.gid', $repo->nid)
       ->condition('m.entity_type', 'node')
       ->condition('n.type', 'ui_build')
+      ->orderBy('n.created', 'ASC')
       ->execute()
       ->fetchAll();
 
     if (count($ui_build_results) < 10) {
       // Don't delete anything if we have less than 10 builds in this repository.
-      drush_print('There is no more than 10 builds in this repository.');
+      drush_log('>> No more than 10 builds in this repository', 'warning');
       continue;
     }
 
@@ -72,7 +73,7 @@ function drush_shoov_ui_build_delete_old_ui_builds() {
         continue;
       }
 
-      drush_print('Build titled "' . $ui_build_wrapper->label() . '"('  . $ui_build_wrapper->getIdentifier() . ') is older than one month and is going to be deleted');
+      drush_log('>> Build titled "' . $ui_build_wrapper->label() . '"('  . $ui_build_wrapper->getIdentifier() . ') is older than one month and is going to be deleted', 'success');
       // Get all screen-shots in this build.
       $sh_results = db_select('field_data_field_build', 'f')
         ->fields('f', array('entity_id'))
