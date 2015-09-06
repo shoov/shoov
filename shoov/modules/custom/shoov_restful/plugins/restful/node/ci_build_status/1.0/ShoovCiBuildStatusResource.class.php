@@ -60,7 +60,8 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
   }
 
   /**
-   * {@inheritdoc}
+   * Check that node is a CI Build node.
+   * Check that the correct status token was sent.
    */
   protected function isValidEntity($op, $entity_id) {
     $params = array(
@@ -71,10 +72,6 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
 
     if (empty($request['status_token'])) {
       throw new RestfulForbiddenException(format_string('Access denied. Check the status token was sent.'));
-    }
-
-    if ($this->getEntityType() != 'node') {
-      throw new RestfulUnprocessableEntityException(format_string('The entity ID @id is not a Node.', $params));
     }
 
     $node = node_load($entity_id);
