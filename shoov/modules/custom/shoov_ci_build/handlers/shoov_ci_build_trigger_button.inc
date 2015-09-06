@@ -12,7 +12,7 @@ class shoov_ci_build_send_to_server_link extends views_handler_field_entity {
    */
   function render($values) {
     $message = message_load($values->mid);
-    if ($message->type != "ci_build") {
+    if ($message->type != 'ci_build') {
       // Not CI Build messages can't be triggered.
       return;
     }
