@@ -101,7 +101,7 @@ function drush_shoov_ui_build_delete_old_ui_builds() {
           ->entityCondition('entity_type', 'node')
           ->entityCondition('bundle', 'screenshot')
           ->propertyCondition('status', NODE_PUBLISHED)
-          ->fieldCondition('field_build', 'target_id', $repo->nid)
+          ->fieldCondition('field_build', 'target_id', $ui_build_wrapper->getIdentifier())
           ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT')
           ->execute();
 
