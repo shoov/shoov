@@ -45,8 +45,8 @@ function  shoov_ci_build_trigger_ci_build_item($message, $ajax = 'nojs') {
   );
   $url = implode('/', $url);
   drupal_http_request($url);
-
   if (!$ajax) {
+    drupal_set_message(t('Message @mid has been sent to the server', array('@mid' => $message->mid)));
     drupal_goto('<front>');
   }
 }
