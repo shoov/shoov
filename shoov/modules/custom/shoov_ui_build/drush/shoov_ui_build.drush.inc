@@ -49,7 +49,7 @@ function drush_shoov_ui_build_delete_old_ui_builds() {
 
     if (empty($result['node'])) {
       // Stop if there's not repositories.
-      drush_log('No repositories found', 'success');
+      drush_log('No repositories found', 'warning');
       return;
     }
 
@@ -67,9 +67,9 @@ function drush_shoov_ui_build_delete_old_ui_builds() {
         ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT')
         ->execute();
 
-      if (count($ui_build_results['node']) < 1) {
+      if (count($ui_build_results['node']) < 10) {
         // Don't delete anything if we have less than 10 builds in this repository.
-        drush_log('>> No more than 10 builds in this repository', 'success');
+        drush_log('>> No more than 10 builds in this repository', 'ok');
         // Print empty line between repositories.
         drush_print('');
         continue;
@@ -89,7 +89,7 @@ function drush_shoov_ui_build_delete_old_ui_builds() {
         if ($ui_build_wrapper->created->value() > strtotime('-1 month') || count($ui_builds) < 10) {
           // Build is not old enough or there's not enough builds left in the
           // repository.
-          drush_log('>>> Build is not going to be deleted (Not old enough or there\'s no enough builds)', 'success');
+          drush_log('>>> Build is not going to be deleted (Not old enough or there\'s no enough builds)', 'ok');
           continue;
         }
 
