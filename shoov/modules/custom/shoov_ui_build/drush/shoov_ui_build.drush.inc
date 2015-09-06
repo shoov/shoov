@@ -59,7 +59,7 @@ function drush_shoov_ui_build_delete_old_ui_builds() {
 
     if (count($ui_build_results) < 10) {
       // Don't delete anything if we have less than 10 builds in this repository.
-      drush_log('>> No more than 10 builds in this repository', 'warning');
+      drush_log('>> No more than 10 builds in this repository', 'success');
       continue;
     }
 
@@ -75,9 +75,9 @@ function drush_shoov_ui_build_delete_old_ui_builds() {
 
       drush_log('>> Build titled "' . $ui_build_wrapper->label() . '"('  . $ui_build_wrapper->getIdentifier() . ') is older than one month and is going to be deleted', 'success');
       // Get all screen-shots in this build.
-      $sh_results = db_select('field_data_field_build', 'f')
-        ->fields('f', array('entity_id'))
-        ->condition('f.field_build_target_id', $ui_build->nid)
+      $sh_results = db_select('field_data_field_build', 'efq')
+        ->fields('efq', array('entity_id'))
+        ->condition('efq.field_build_target_id', $ui_build->nid)
         ->execute()
         ->fetchAll();
 
