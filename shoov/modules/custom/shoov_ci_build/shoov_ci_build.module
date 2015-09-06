@@ -203,7 +203,7 @@ function shoov_ci_build_message_update(Message $message) {
     // CI Build started - save the start timestamp.
     $wrapper->field_ci_build_start_timestamp->set(time());
     // Update the field value on message saving.
-    field_attach_update('message', $wrapper->value());
+    field_attach_update('message', $message);
     return;
   }
 
@@ -225,7 +225,7 @@ function shoov_ci_build_message_update(Message $message) {
     // CI Build finished - save the end timestamp.
     $wrapper->field_ci_build_end_timestamp->set(time());
     // Update the field value on message saving.
-    field_attach_update('message', $wrapper->value());
+    field_attach_update('message', $message);
   }
 
   shoov_ci_build_create_build_item($node, $timestamp);
