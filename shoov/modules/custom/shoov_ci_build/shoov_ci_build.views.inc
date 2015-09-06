@@ -12,7 +12,7 @@ function shoov_ci_build_views_data() {
     'title' => t('Trigger CI Build message'),
     'help' => t('Link to send the message to nodejs server.'),
     'field' => array(
-      'handler' => 'shoov_ci_build_trigger_button',
+      'handler' => 'shoov_ci_build_send_to_server_link',
     ),
   );
   return $data;
