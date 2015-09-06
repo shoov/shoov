@@ -25,76 +25,103 @@ function shoov_ui_build_drush_command() {
  * in each repository.
  */
 function drush_shoov_ui_build_delete_old_ui_builds() {
+  $range = 50;
 
+  // Get the count of all the "repository" entities.
   $query = new EntityFieldQuery();
-  $result = $query
+  $count = $query
     ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'repository')
     ->propertyCondition('status', NODE_PUBLISHED)
-    ->propertyOrderBy('nid', 'ASC')
+    ->count()
     ->execute();
 
-  if (empty($result['node'])) {
-    // Stop if there's not repositories.
-    drush_log('No reposirories found', 'warning');
-    return;
-  }
+  // Go through the repositories in a batches of 50.
+  for($start=0;$start<=$count;$start=$start+$range) {
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'repository')
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->propertyOrderBy('nid', 'ASC')
+      ->range($start, $range)
+      ->execute();
 
-  $ids = array_keys($result['node']);
-  $repos = node_load_multiple($ids);
-  foreach ($repos as $repo) {
-    drush_print('Checking Repository "' . $repo->title . '"');
-
-    // Need to use db_select() because field condition override in OG doesn't
-    // work in a Drush command.
-    $ui_build_query = db_select('og_membership', 'm');
-    $ui_build_query->leftJoin('node', 'n', 'm.etid = n.nid');
-    $ui_build_results = $ui_build_query->fields('n', array('nid'))
-      ->condition('m.gid', $repo->nid)
-      ->condition('m.entity_type', 'node')
-      ->condition('n.type', 'ui_build')
-      ->orderBy('n.created', 'ASC')
-      ->execute()
-      ->fetchAll();
-
-    if (count($ui_build_results) < 10) {
-      // Don't delete anything if we have less than 10 builds in this repository.
-      drush_log('>> No more than 10 builds in this repository', 'success');
-      continue;
+    if (empty($result['node'])) {
+      // Stop if there's not repositories.
+      drush_log('No repositories found', 'success');
+      return;
     }
 
-    // Delete every build that is older than 30 days.
-    foreach ($ui_build_results as $key => $ui_build) {
-      $ui_build_wrapper = entity_metadata_wrapper('node', $ui_build->nid);
+    $ids = array_keys($result['node']);
+    $repos = node_load_multiple($ids);
+    foreach ($repos as $repo) {
+      drush_print(format_string('Checking Repository "@label"', array('@label' => $repo->title)));
 
-      if ($ui_build_wrapper->created->value() > strtotime('-1 month') || count($ui_build_results) < 10) {
-        // Build is not old enough or there's not enough builds left in the
-        // repository.
+      $ui_build_query = new EntityFieldQuery();
+      $ui_build_results = $ui_build_query
+        ->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'ui_build')
+        ->propertyCondition('status', NODE_PUBLISHED)
+        ->fieldCondition('og_repo', 'target_id', $repo->nid)
+        ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT')
+        ->execute();
+
+      if (count($ui_build_results['node']) < 1) {
+        // Don't delete anything if we have less than 10 builds in this repository.
+        drush_log('>> No more than 10 builds in this repository', 'success');
+        // Print empty line between repositories.
+        drush_print('');
         continue;
       }
 
-      drush_log('>> Build titled "' . $ui_build_wrapper->label() . '"('  . $ui_build_wrapper->getIdentifier() . ') is older than one month and is going to be deleted', 'success');
-      // Get all screen-shots in this build.
-      $sh_results = db_select('field_data_field_build', 'efq')
-        ->fields('efq', array('entity_id'))
-        ->condition('efq.field_build_target_id', $ui_build->nid)
-        ->execute()
-        ->fetchAll();
+      $build_ids = array_keys($ui_build_results['node']);
+      $ui_builds = node_load_multiple($build_ids);
+      // Delete every build that is older than 30 days.
+      foreach ($ui_builds as $key => $ui_build) {
+        $ui_build_wrapper = entity_metadata_wrapper('node', $ui_build->nid);
+        drush_print(format_string('>> Checking build "@label" (@id)', array(
+          '@label' => $ui_build_wrapper->label(),
+          '@id' => $ui_build_wrapper->getIdentifier(),
+          )
+        ));
 
-      // Delete build.
-      node_delete($ui_build_wrapper->getIdentifier());
-      // We need to keep track of how many builds left in the repository.
-      unset($ui_build_results[$key]);
+        if ($ui_build_wrapper->created->value() > strtotime('-1 month') || count($ui_builds) < 10) {
+          // Build is not old enough or there's not enough builds left in the
+          // repository.
+          drush_log('>>> Build is not going to be deleted (Not old enough or there\'s no enough builds)', 'success');
+          continue;
+        }
 
-      if (empty($sh_results)) {
-        // If there's no screenshots, continue to the next build.
-        continue;
+        drush_log('>>> Build is older than one month and is going to be deleted with all it\'s screenshots', 'success');
+        // Get all screen-shots in this build.
+
+        $sh_query = new EntityFieldQuery();
+        $sh_results = $sh_query
+          ->entityCondition('entity_type', 'node')
+          ->entityCondition('bundle', 'screenshot')
+          ->propertyCondition('status', NODE_PUBLISHED)
+          ->fieldCondition('field_build', 'target_id', $repo->nid)
+          ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT')
+          ->execute();
+
+        // Delete build.
+        node_delete($ui_build_wrapper->getIdentifier());
+        // We need to keep track of how many builds left in the repository.
+        unset($ui_builds[$key]);
+
+        if (empty($sh_results['node'])) {
+          // If there's no screenshots, continue to the next build.
+          continue;
+        }
+
+        // Delete all screenshots.
+        $screenshot_ids = array_keys($ui_build_results['node']);
+        node_delete_multiple($screenshot_ids);
       }
 
-      // Delete all screenshots for this build.
-      foreach ($sh_results as $screenshot) {
-        node_delete($screenshot->entity_id);
-      }
+      // Print empty line between repositories.
+      drush_print('');
     }
   }
 }
