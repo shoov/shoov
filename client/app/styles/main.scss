@@ -12,8 +12,10 @@
 @import 'before_after_image_slider';
 @import 'builds';
 @import 'homepage';
+@import "incident";
 @import 'loadingbar';
 @import 'repos';
+@import 'repo';
 @import 'screenshots';
 @import 'spinner';
 @import 'encrypt-form';
@@ -87,6 +89,10 @@ body {
         color: $breadcrumb-color;
         font-size: 16px;
         text-shadow: none;
+
+        @media (max-width: 768px) {
+          font-size: 14px;
+        }
 
         > a {
           color: $breadcrumb-color;
@@ -197,6 +203,8 @@ body {
       padding: 0;
       margin-bottom: 10px;
       min-height: 48px;
+      float: left;
+      width: 100%;
 
       > .caption {
         float: left;
@@ -228,6 +236,8 @@ body {
 
     .portlet-body {
       padding-top: 8px;
+      float: left;
+      width: 100%;
 
       .description {
         margin-bottom: 15px;
@@ -238,13 +248,35 @@ body {
         padding: 0 20px 20px;
       }
 
-      .log-wrapper {
+      .portlet {
+        padding: 0;
+      }
+    }
 
-        pre {
-          @include border-radius(0);
-          background: black;
-          color: white;
-        }
+    .info {
+      margin: 0 0 20px 0;
+      padding: 15px 30px 15px 15px;
+      border-left: 5px solid $brand-info-message-border;
+      background-color: $brand-info-message-bg;
+      color: $brand-info-message-color;
+      position: relative;
+      min-height: 90px;
+
+      .background {
+        position: absolute;
+        right: 10px;
+        bottom: 0;
+        font-size: 65px;
+        opacity: 0.4;
+      }
+    }
+
+    .log-wrapper {
+
+      pre {
+        @include border-radius(0);
+        background: black;
+        color: white;
       }
     }
   }

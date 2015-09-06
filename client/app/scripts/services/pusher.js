@@ -12,6 +12,9 @@ angular.module('clientApp')
 
     var channels = {};
 
+
+    this.pusher = null;
+
     /**
      * Get all pusher channels.
      *
@@ -74,6 +77,10 @@ angular.module('clientApp')
     };
 
     this.getClient = function() {
+      return this.pusher ? this.pusher : this.createNewPusher();
+    };
+
+    this.createNewPusher = function() {
       var pusherConf = {
         authEndpoint: Config.backend + '/api/v1.0/pusher_auth',
         auth: {
@@ -82,6 +89,8 @@ angular.module('clientApp')
           }
         }
       };
-      return new Pusher(Config.pusherKey, pusherConf);
-    }
+      this.pusher = new Pusher(Config.pusherKey, pusherConf);
+      return this.pusher;
+    };
+
   });
