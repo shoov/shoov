@@ -9,7 +9,7 @@
  */
 function shoov_ci_build_views_data() {
   $data['message']['trigger'] = array(
-    'title' => t('Trigger message'),
+    'title' => t('Trigger CI Build message'),
     'help' => t('Link to send the message to nodejs server.'),
     'field' => array(
       'handler' => 'shoov_ci_build_trigger_button',
