@@ -46,7 +46,7 @@ function  shoov_ci_build_trigger_ci_build_item($message, $ajax = 'nojs') {
   $url = implode('/', $url);
   drupal_http_request($url);
 
-  if ($ajax !== 'ajax') {
+  if (!$ajax) {
     drupal_goto('<front>');
   }
 }
