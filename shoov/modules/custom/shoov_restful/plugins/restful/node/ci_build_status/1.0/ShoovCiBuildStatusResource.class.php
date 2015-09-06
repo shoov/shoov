@@ -56,12 +56,15 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
         break;
     }
 
-    return theme('image', array('path' => drupal_get_path('module', 'shoov_ci_build') . '/images/statuses/' . $file . '.png'));
+    return theme('image', array('path' => drupal_get_path('module', 'shoov_ci_build') . '/images/status/' . $file . '.png'));
   }
 
   /**
-   * Check that node is a CI Build node.
-   * Check that the correct status token was sent.
+   * Overrides RestfulEntityBase::isValidEntity().
+   *
+   * Checks node is a CI Build node.
+   * Checks the correct status token was sent.
+   * Skips node_access check since we should give info even to anonymous user.
    */
   protected function isValidEntity($op, $entity_id) {
     $params = array(
