@@ -1,0 +1,19 @@
+.interval-wrapper {
+
+  label {
+    display: inline-block;
+  }
+
+  .form-control {
+    width: auto;
+    display: inline-block;
+  }
+
+  i {
+    margin-left: 5px;
+
+    &.fa-check {
+      color: $brand-success;
+    }
+  }
+}
