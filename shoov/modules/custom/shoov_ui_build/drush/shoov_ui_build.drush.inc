@@ -116,7 +116,7 @@ function drush_shoov_ui_build_delete_old_ui_builds() {
         }
 
         // Delete all screenshots.
-        $screenshot_ids = array_keys($ui_build_results['node']);
+        $screenshot_ids = array_keys($sh_results['node']);
         node_delete_multiple($screenshot_ids);
       }
 
