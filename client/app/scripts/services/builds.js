@@ -107,6 +107,31 @@ angular.module('clientApp')
       return $http.patch(Config.backend + '/api/ci-builds/' + githubRepo.build.id, {enabled: false});
     };
 
+    /**
+     * Update the build entity.
+     *
+     * Sends a patch request to the backend to update the build entities, which
+     * can be ci-build or ui-build.
+     *
+     * @param buildId
+     *  The ID of the build entity.
+     * @param type
+     *  The type of the ID Allowed values are "ci_build" and "ui_build".
+     *  Defaults to "ui_build".
+     * @param params
+     *  The params that needs to updated.
+     *
+     * @returns {HttpPromise}
+     *  The response from the backend.
+     */
+    this.update = function(buildId, type, params) {
+      // Determine the resource patch url.
+      var resource = type == 'ui_build' ? 'builds' : 'ci-builds';
+      var url = Config.backend + '/api/' + resource;
+      url += '/' + buildId;
+
+      return $http.patch(url, params);
+    };
 
     /**
      * Return builds array from the server.

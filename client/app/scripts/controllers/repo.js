@@ -8,7 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('RepoCtrl', function ($scope, build, ciBuildItems, incidents, channelManager) {
+  .controller('RepoCtrl', function ($scope, $timeout, build, ciBuildItems, Builds, incidents, channelManager) {
     $scope.build = build[0];
     $scope.ciBuildItems = [];
     $scope.incidents = incidents;
@@ -21,6 +21,16 @@ angular.module('clientApp')
       'done': 'Done'
     };
 
+    // List of build possible intervals.
+    $scope.intervals = {
+      180: '3 Min',
+      3600: '1 Hour',
+      86400: '1 Day'
+    };
+
+    // Show the success icon when there's a response from the backend.
+    $scope.responseStatus = false;
+
     // Separate the queue or in progress item from the history list.
     angular.forEach(ciBuildItems, function(item) {
       if (item.status != 'queue' && item.status != 'in_progress') {
@@ -32,6 +42,30 @@ angular.module('clientApp')
     });
 
     $scope.parseInt = parseInt;
+
+    /**
+     * Updates the build interval.
+     *
+     * Sends a request to the backend through the Builds service to update the
+     * build interval of the CI-Build entity, Updates the responseClass which is
+     * responsible for toggling the success icon next to the input.
+     */
+    $scope.updateInterval = function() {
+      var params = {
+        'interval': $scope.build.interval
+      };
+
+      Builds
+        .update($scope.build.id, 'ci_build', params)
+        .then(function() {
+          $scope.responseStatus = true;
+
+          // Hide the success icon after 3 seconds of receiving the response.
+          $timeout(function() {
+            $scope.responseStatus = false;
+          }, 3000);
+        });
+    };
 
     var channel = channelManager.getChannel($scope.build.repository);
     channel.bind('ci_incident_new', function(data) {
