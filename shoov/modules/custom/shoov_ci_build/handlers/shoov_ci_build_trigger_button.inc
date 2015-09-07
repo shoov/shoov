@@ -16,6 +16,12 @@ class shoov_ci_build_send_to_server_link extends views_handler_field_entity {
       // Not CI Build messages can't be triggered.
       return;
     }
+    $wrapper = entity_metadata_wrapper('message', $message);
+    $status = $wrapper->field_ci_build_status->value();
+    if ($status != 'queue') {
+      // Only items with status "queue" can be triggered.
+      return t('Triggered');
+    }
     // Add library to have the link that using AJAX.
     drupal_add_library('system', 'drupal.ajax');
     if (message_ui_access_control('trigger', $message)) {
