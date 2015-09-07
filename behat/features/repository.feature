@@ -18,26 +18,26 @@ Feature: Repository
   @api
   Scenario: Check authenticated user can create a repository
     Given I login with user "emma"
-    When  I create "Test repository" node of type "repository"
-    And   I visit "Test repository" node of type "repository"
+    When  I create "Emma/app1" node of type "repository"
+    And   I visit "Emma/app1" node of type "repository"
     Then  I should have access to the page
 
   @api
   Scenario: Check authenticated user has access to the repository
     Given I login with user "emma"
-    When  I visit "Test repository" node of type "repository"
+    When  I visit "Emma/app1" node of type "repository"
     Then  I should have access to the page
 
   @api
   Scenario: Check authenticated user can edit a repository
     Given I login with user "emma"
-    Then  I should be able to edit "Test repository" node of type "repository"
+    Then  I should be able to edit "Emma/app1" node of type "repository"
 
   @api
   Scenario: Check authenticated user can delete a repository
     Given I login with user "emma"
-    When  I delete "Test repository" node of type "repository"
-    Then  Node "Test repository" of type "repository" should be deleted
+    When  I delete "Emma/app1" node of type "repository"
+    Then  Node "Emma/app1" of type "repository" should be deleted
 
   @api
   Scenario Outline: Check authenticated user without groups can't create nodes of other types.
@@ -54,11 +54,11 @@ Feature: Repository
   @api
   Scenario: Check authenticated user can't create nodes in not his groups.
     Given I login with user "emma"
-    Then   I should not be able to add content to "drupal/drupal" repository
+    Then  I should not be able to add content to "drupal/drupal" repository
 
   @api
   Scenario: Check user can't create more than 1 repository with one GitHub ID.
     Given I login with user "emma"
-    When  I create repository "Test repository" with GitHub ID "12345"
+    When  I create repository "Emma/app1" with GitHub ID "12345"
     Then  I login with user "john"
     And   I should not be able to create repository with GitHub ID "12345"
