@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains shoov_ci_build_trigger_button.
+ * Contains shoov_ci_build_send_to_server_link.
  */
 
 class shoov_ci_build_send_to_server_link extends views_handler_field_entity {
