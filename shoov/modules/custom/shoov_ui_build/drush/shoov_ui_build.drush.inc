@@ -37,7 +37,7 @@ function drush_shoov_ui_build_delete_old_ui_builds() {
     ->execute();
 
   // Go through the repositories in a batches of 50.
-  for($start=0;$start<=$count;$start=$start+$range) {
+  for ($start=0;$start<=$count;$start=$start+$range) {
     $query = new EntityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'node')
