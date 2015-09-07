@@ -18,11 +18,12 @@ Feature: CI Build
   @api
   Scenario: Check after disabling of the CI build a new CI build item is removed.
     Given I login with user "admin"
-    When I disable CI Build  "Gizra/Gizra"
-    Then The CI Build item for build "Gizra/Gizra" should be removed
+    When I create repository and CI build "Test build"
+    And I disable CI Build  "Test build"
+    Then The CI Build item for build "Test build" should be removed
 
   @api
   Scenario: Check after re-enabling of the CI build a new CI build item is created.
       Given I login with user "admin"
-      When I enable CI Build  "Gizra/Gizra"
-      Then The CI Build item for build "Gizra/Gizra" should be created
+      When I enable CI Build  "Test build"
+      Then The CI Build item for build "Test build" should be created
