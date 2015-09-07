@@ -140,6 +140,12 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
   $wrapper = entity_metadata_wrapper('node', $node);
   if (!$wrapper->field_ci_build_enabled->value()) {
     // CI build is not enabled.
+
+    // Find queue items and delete them.
+    if ($ids = shoov_ci_build_get_items_by_status($node, 'queue')) {
+      message_delete_multiple($ids);
+    }
+
     return;
   }
 
@@ -149,16 +155,7 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
     'in_progress',
   );
 
-  $query = new EntityFieldQuery();
-  $count = $query
-    ->entityCondition('entity_type', 'message')
-    ->entityCondition('bundle', 'ci_build')
-    ->fieldCondition('field_ci_build', 'target_id', $node->nid)
-    ->fieldCondition('field_ci_build_status', 'value', $status, 'IN')
-    ->count()
-    ->execute();
-
-  if ($count) {
+  if (shoov_ci_build_get_items_count($node, $status)) {
     return;
   }
 
@@ -448,4 +445,62 @@ function shoov_ci_build_trigger_event(Message $message, $event) {
 function shoov_ci_build_query_empty_status_token_alter(QueryAlterableInterface $query) {
   $query->leftJoin('field_data_field_status_token', 's', 'node.nid = s.entity_id');
   $query->isNull('s.field_status_token_value');
+}
+
+/**
+ * Get all messages with certain status of certain CI Build.
+ *
+ * @param $node
+ *  The CI Build node.
+ * @param $status
+ *  Status field value. Defaults to "queue".
+ *
+ * @return array
+ *  Return array of messages IDs.
+ */
+function shoov_ci_build_get_items_by_status($node, $status ='queue') {
+  $account = user_load($node->uid);
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'message')
+    ->entityCondition('bundle', 'ci_build')
+    ->fieldCondition('field_ci_build', 'target_id', $node->nid)
+    ->fieldCondition('field_ci_build_status', 'value', $status)
+    // Add user's account to the metadata of the query in order not to get
+    // items user doesn't have access to.
+    ->addMetaData('account', $account)
+    ->execute();
+
+  return empty($result['message']) ? array() : array_keys($result['message']);
+}
+
+/**
+ * Get count of messages with certain statuses of certain CI Build.
+ *
+ * @param $node
+ *  The CI Build node
+ * @param array $status
+ *  An array of statuses.
+ *
+ * @return int
+ *  Return count of found items.
+ */
+function shoov_ci_build_get_items_count($node, $status = array()) {
+  $account = user_load($node->uid);
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'message')
+    ->entityCondition('bundle', 'ci_build')
+    ->fieldCondition('field_ci_build', 'target_id', $node->nid);
+  if ($status) {
+    $query->fieldCondition('field_ci_build_status', 'value', $status, 'IN');
+  }
+  $count = $query
+    // Add user's account to the metadata of the query in order not to get
+    // items user doesn't have access to.
+    ->addMetaData('account', $account)
+    ->count()
+    ->execute();
+
+  return $count;
 }
