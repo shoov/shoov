@@ -488,7 +488,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    */
   public function theCiBuildItemForBuildShouldBeRemoved($title) {
     $node = $this->getNodeByTitleAndBundle($title, 'ci_build');
-    $items = $this->getCiBuildItemsByStatus($node, 'queue');
+    $items = shoov_ci_build_get_items_by_status($node, 'queue');
     if ($items) {
       $error_message = format_string('The CI Build queue items for CI build "@title" are not removed',
         array('@title' => $title));
@@ -501,39 +501,11 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    */
   public function theCiBuildItemForBuildShouldBeCreated($title) {
     $node = $this->getNodeByTitleAndBundle($title, 'ci_build');
-    $items = $this->getCiBuildItemsByStatus($node, 'queue');
+    $items = shoov_ci_build_get_items_by_status($node, 'queue');
     if (!$items) {
       $error_message = format_string('The CI Build queue item for CI build "@title" is not created',
         array('@title' => $title));
       throw new \Exception($error_message);
     }
   }
-
-  /**
-   * Get all messages with certain status of certain CI Build.
-   *
-   * @param $node
-   *  The CI Build node.
-   * @param $status
-   *  Status field value. Defaults to "queue".
-   *
-   * @return array
-   *  Return array of messages IDs.
-   */
-  public function getCiBuildItemsByStatus($node, $status ='queue') {
-    $account = user_load($node->uid);
-    $query = new EntityFieldQuery();
-    $result = $query
-      ->entityCondition('entity_type', 'message')
-      ->entityCondition('bundle', 'ci_build')
-      ->fieldCondition('field_ci_build', 'target_id', $node->nid)
-      ->fieldCondition('field_ci_build_status', 'value', $status)
-      // Add user's account to the metadata of the query in order not to get
-      // items user doesn't have access to.
-      ->addMetaData('account', $account)
-      ->execute();
-
-    return empty($result['message']) ? array() : array_keys($result['message']);
-  }
-
 }
