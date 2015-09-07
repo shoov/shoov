@@ -17,13 +17,13 @@ Feature: CI Build
 
   @api
   Scenario: Check after disabling of the CI build a new CI build item is removed.
-    Given I login with user "admin"
-    When I create repository and CI build "Test build"
-    And I disable CI Build  "Test build"
-    Then The CI Build item for build "Test build" should be removed
+    Given I login with user "William"
+    When I create repository and CI build "William/app5"
+    And I disable CI Build  "William/app5"
+    Then The CI Build item for build "William/app5" should be removed
 
   @api
   Scenario: Check after re-enabling of the CI build a new CI build item is created.
-      Given I login with user "admin"
-      When I enable CI Build  "Test build"
-      Then The CI Build item for build "Test build" should be created
+      Given I login with user "William"
+      When I enable CI Build  "William/app5"
+      Then The CI Build item for build "William/app5" should be created
