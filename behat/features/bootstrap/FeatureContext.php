@@ -462,4 +462,67 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     $nid = $this->getNodeIdByTitleAndBundle($bundle, $title);
     return node_load($nid);
   }
+
+  /**
+   * @Then The :field_name value should be :field_value for the CI build :ci_build_title
+   */
+  public function theValueShouldBe($field_name, $field_value, $ci_build_title) {
+    $params = array(
+      '@title' => $ci_build_title,
+      '@field_name' => $field_name,
+      '@field_value' => $field_value,
+    );
+
+    // Get the CI build.
+    if (!$ci_build_node = $this->getNodeByTitleAndBundle($ci_build_title, 'ci_build')) {
+      throw new \Exception(format_string('Failed to get ID of CI build @title', $params));
+    }
+    // Find the last CI build item.
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'message')
+      ->fieldCondition('field_ci_build', 'target_id', $ci_build_node->nid)
+      ->propertyOrderBy('mid', 'ASC')
+      ->range(0, 1)
+      ->execute();
+
+
+    $wrapper = entity_metadata_wrapper('message', key($result['message']));
+    if ($wrapper->{$field_name}->value() != $field_value) {
+      throw new \Exception(format_string('Node @title does not have a value of @field_value for field @field_name.', $params += array('@value' => $wrapper->{$field_name}->value())));
+    }
+  }
+
+  /**
+   * @When I change CI build :ci_build_title status from :old_status to :new_status
+   */
+  public function iChangeCiBuildStatusFromTo($ci_build_title, $old_status, $new_status) {
+    $params = array(
+      '@title' => $ci_build_title,
+      '@old_status' => $old_status,
+    );
+
+    // Get the CI build.
+    if (!$ci_build_node = $this->getNodeByTitleAndBundle($ci_build_title, 'ci_build')) {
+      throw new \Exception(format_string('Failed to get ID of CI build @title', $params));
+    }
+    // Find the last CI build item.
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'message')
+      ->fieldCondition('field_ci_build', 'target_id', $ci_build_node->nid)
+      ->fieldCondition('field_ci_build_status', 'value', $old_status)
+      ->propertyOrderBy('mid', 'ASC')
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($result['message'])) {
+      throw new \Exception(format_string('Failed to find message for CI build @title and status @old_status', $params));
+    }
+
+    $wrapper = entity_metadata_wrapper('message', key($result['message']));
+    $wrapper->field_ci_build_status->set($new_status);
+    $wrapper->save();
+  }
 }
+
