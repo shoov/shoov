@@ -520,5 +520,4 @@ function _shoov_ci_build_check_requeue(Message $message) {
     $requeue_count = $wrapper->field_requeue_count->value();
     $wrapper->field_requeue_count->set($requeue_count + 1);
   }
-  $message = $wrapper->value();
 }
