@@ -564,7 +564,7 @@ function _shoov_ci_build_check_requeue(Message $message) {
         '@repo' => empty($wrapper->field_ci_build->og_repo) ? "" : $wrapper->field_ci_build->og_repo->label(),
         '@branch' => empty($wrapper->field_ci_build->field_git_branch) ? "" : $wrapper->field_ci_build->field_git_branch->label(),
         '@notification' => t('@ci_name has been re-queued 3 times.', $message_parameters),
-        '@url' => url('node/' . $wrapper->field_ci_build->getIdentifier()),
+        '@url' => url('node/' . $wrapper->field_ci_build->getIdentifier(), array('absolute' => TRUE)),
       );
 
       // Create notification message.
