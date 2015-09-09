@@ -77,8 +77,6 @@ function shoov_ci_build_get_stuck_ci_builds($timestamp = NULL, $range = 50) {
 
 /**
  * Implements hook_node_presave().
- *
- * Add a random private key to the CI build.
  */
 function shoov_ci_build_node_presave($node) {
   if ($node->type != 'ci_build') {
@@ -199,10 +197,11 @@ function shoov_ci_build_message_presave(Message $message) {
  *   The message object.
  */
 function shoov_ci_build_message_update(Message $message) {
-  // Trigger Pusher event when CI Build status changes.
   $wrapper = entity_metadata_wrapper('message', $message);
 
+  // Trigger Pusher event when CI Build status changes.
   shoov_ci_build_trigger_event($message, 'ci_build_update');
+
   $status = $wrapper->field_ci_build_status->value();
   if (!in_array($status, array('error', 'done'))) {
     // Item still in progress or re-queued after being stuck.
