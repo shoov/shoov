@@ -64,3 +64,4 @@ features[variable][] = node_options_ci_build
 features[variable][] = node_preview_ci_build
 features[variable][] = node_submitted_ci_build
 features[views_view][] = ci_items
+files[] = handlers/shoov_ci_build_send_to_server_link.inc

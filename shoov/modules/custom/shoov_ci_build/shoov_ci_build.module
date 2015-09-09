@@ -14,6 +14,44 @@ const SHOOV_CI_BUILD_CI_BUILD_STATUS_ERROR = 2;
 const SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_ERROR = 3;
 
 /**
+ * Implements hook_menu().
+ */
+function shoov_ci_build_menu() {
+  $items["ci_build/%message/trigger/%ctools_js"] = array(
+    'title' => 'Trigger the CI Build item',
+    'page callback' => 'shoov_ci_build_trigger_ci_build_item',
+    'page arguments' => array(1, 3),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Send message to the nodejs server.
+ *
+ * @param $message
+ *  Message object.
+ */
+function  shoov_ci_build_trigger_ci_build_item($message, $ajax = 'nojs') {
+  $nodejs_server_url = shoov_ci_build_get_nodejs_server_url($message);
+  $account = user_load($message->uid);
+  $url = array(
+    $nodejs_server_url,
+    'ci',
+    $message->mid,
+    shoov_restful_get_user_token($account),
+  );
+  $url = implode('/', $url);
+  drupal_http_request($url);
+  if (!$ajax) {
+    drupal_set_message(t('Message @mid has been sent to the server', array('@mid' => $message->mid)));
+    drupal_goto('<front>');
+  }
+}
+
+/**
  * Return the CI builds that are waiting for processing.
  *
  * @param int $timestamp
