@@ -77,6 +77,8 @@ function shoov_ci_build_get_stuck_ci_builds($timestamp = NULL, $range = 50) {
 
 /**
  * Implements hook_node_presave().
+ *
+ * Add a random private key to the CI build.
  */
 function shoov_ci_build_node_presave($node) {
   if ($node->type != 'ci_build') {
@@ -180,8 +182,6 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
 
 /**
  * Implements hook_message_presave().
- *
- * Add a random private key to the CI build.
  */
 function shoov_ci_build_message_presave(Message $message) {
   if ($message->type != 'ci_build') {
