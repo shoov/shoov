@@ -502,7 +502,9 @@ function shoov_ci_build_get_items_count($node, $status = array()) {
 
 /**
  * Helper function; Check whether a ci_build message was re-queued.
+ *
  * @param Message $message
+ *   Message from hook_message_presave().
  */
 function _shoov_ci_build_check_requeue(Message $message) {
   if (empty($message) || empty($message->original) || $message->type !='ci_build') {
