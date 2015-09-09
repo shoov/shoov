@@ -561,5 +561,51 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
 
     return str_replace(" ", "_", $prefix . strtolower($name));
   }
+ 
+  /**
+   * @When I disable CI Build  :title
+   */
+  public function iDisableCiBuild($title) {
+    $node = $this->getNodeByTitleAndBundle($title, 'ci_build');
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $wrapper->field_ci_build_enabled->set(FALSE);
+    $wrapper->save();
+  }
+
+  /**
+   * @When I enable CI Build  :title
+   */
+  public function iEnableCiBuild($title) {
+    $node = $this->getNodeByTitleAndBundle($title, 'ci_build');
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $wrapper->field_ci_build_enabled->set(TRUE);
+    $wrapper->save();
+  }
+
+  /**
+   * @Then The CI Build item for build :title should be removed
+   */
+  public function theCiBuildItemForBuildShouldBeRemoved($title) {
+    $node = $this->getNodeByTitleAndBundle($title, 'ci_build');
+    $items = shoov_ci_build_get_items_by_status($node, 'queue');
+    if ($items) {
+      $error_message = format_string('The CI Build queue items for CI build "@title" are not removed',
+        array('@title' => $title));
+      throw new \Exception($error_message);
+    }
+  }
+
+  /**
+   * @Then The CI Build item for build :title should be created
+   */
+  public function theCiBuildItemForBuildShouldBeCreated($title) {
+    $node = $this->getNodeByTitleAndBundle($title, 'ci_build');
+    $items = shoov_ci_build_get_items_by_status($node, 'queue');
+    if (!$items) {
+      $error_message = format_string('The CI Build queue item for CI build "@title" is not created',
+        array('@title' => $title));
+      throw new \Exception($error_message);
+    }
+  }
 }
 
