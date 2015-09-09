@@ -6,7 +6,7 @@ Feature: CI Build Message
   @api
   Scenario Outline: Check CI Builds messages exists
     Given I login with user "admin"
-    When  I visit "shoov-tester/gizra-behat" node of type "repository"
+    When  I visit "admin/content/message?type=ci_build"
     Then  I should see text matching "<title>"
 
   Examples:
