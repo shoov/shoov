@@ -151,6 +151,20 @@ function shoov_ci_incident_strongarm() {
       'display' => array(
         'message__message_text__0' => array(
           'message_notify_email_subject' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'message_notify_email_body' => array(
+            'weight' => '1',
+            'visible' => FALSE,
+          ),
+          'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+        'message__message_text__1' => array(
+          'message_notify_email_subject' => array(
             'weight' => '1',
             'visible' => FALSE,
           ),
@@ -160,17 +174,7 @@ function shoov_ci_incident_strongarm() {
           ),
           'default' => array(
             'weight' => '1',
-            'visible' => TRUE,
-          ),
-        ),
-        'message__message_text__1' => array(
-          'message_notify_email_subject' => array(
             'visible' => FALSE,
-            'weight' => 0,
-          ),
-          'message_notify_email_body' => array(
-            'visible' => TRUE,
-            'weight' => 0,
           ),
         ),
       ),

@@ -570,8 +570,6 @@ function _shoov_ci_build_check_requeue(Message $message) {
       // Create notification message.
       $notification_message = message_create("ci_incident_notification", array('arguments' => $arguments));
       $notification_message->uid = 1;
-      $notification_wrapper = entity_metadata_wrapper('message', $notification_message);
-      $notification_wrapper->field_title->set($arguments['@notification']);
 
       $options = array(
         'mail' => variable_get('site_mail', ini_get('sendmail_from')),
