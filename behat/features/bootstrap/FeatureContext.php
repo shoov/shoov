@@ -465,13 +465,12 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * @Then The :field_name field value should be :field_value for the CI build :ci_build_title
+   * @Then The :field_name field value should be :field_value for the last build of CI build :ci_build_title
    */
-  public function theFieldValueShouldBeForTheCiBuild($field_name, $field_value, $ci_build_title) {
+  public function theFieldValueShouldBeForTheLastBuildOfCiBuild($field_name, $field_value, $ci_build_title) {
 
     // Rebuild the machine name.
     $field_name = $this->getMachineName($field_name, "field_");
-
 
     if ($field_name == "field_ci_build_status") {
       $field_value = $this->getMachineName($field_value);
@@ -496,7 +495,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       ->range(0, 1)
       ->execute();
 
-
+    // Check CI build message's field value to be as expected.
     $wrapper = entity_metadata_wrapper('message', key($result['message']));
     if ($wrapper->{$field_name}->value() != $field_value) {
       throw new \Exception(format_string('Node @title does not have a value of @field_value for field @field_name.', $params += array('@value' => $wrapper->{$field_name}->value())));

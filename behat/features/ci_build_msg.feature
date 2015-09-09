@@ -20,7 +20,7 @@ Feature: CI Build Message
     Given I login with user "William"
     When  I create repository and CI build "William/app10"
     And   The CI build item for CI build "William/app10" is set to status "In progress"
-    Then  The "Requeue Count" field value should be "0" for the CI build "William/app10"
+    Then  The "Requeue Count" field value should be "0" for the last build of CI build  "William/app10"
 
   @api
   Scenario: Check CI Build message requeue counter is 1 after changing from "in_progress" to "queue".
@@ -28,6 +28,6 @@ Feature: CI Build Message
     When  I create repository and CI build "William/app11"
     And   The CI build item for CI build "William/app11" is set to status "In progress"
     And   I change CI build "William/app11" status from "In progress" to "Queue"
-    Then  The "Requeue Count" field value should be "1" for the CI build "William/app11"
+    Then  The "Requeue Count" field value should be "1" for the last build of CI build "William/app11"
 
 
