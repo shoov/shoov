@@ -504,6 +504,13 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
+   * @When The CI build item for CI build :ci_title is set to status :status
+   */
+  public function theCiBuildItemForCiBuildIsSetToStatus($ci_title, $status)  {
+    $this->iSetStatusForCiBuildItemsTimes(1, $ci_title, $status);
+  }
+
+  /**
    * @When I change CI build :ci_build_title status from :old_status to :new_status
    */
   public function iChangeCiBuildStatusFromTo($ci_build_title, $old_status, $new_status) {
