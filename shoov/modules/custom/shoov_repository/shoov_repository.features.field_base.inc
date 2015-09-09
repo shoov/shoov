@@ -17,13 +17,37 @@ function shoov_repository_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_github_id',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'number',
     'settings' => array(),
     'translatable' => 0,
     'type' => 'number_integer',
+  );
+
+  // Exported field_base: 'field_receive_notifications'
+  $field_bases['field_receive_notifications'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_receive_notifications',
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => 0,
+        1 => 1,
+      ),
+      'allowed_values_function' => '',
+    ),
+    'translatable' => 0,
+    'type' => 'list_boolean',
   );
 
   // Exported field_base: 'group_access'
@@ -33,7 +57,6 @@ function shoov_repository_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'group_access',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -60,7 +83,6 @@ function shoov_repository_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'group_group',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',

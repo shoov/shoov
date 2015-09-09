@@ -40,6 +40,22 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
       'property' => 'field_private_key',
     );
 
+    $public_fields['notification'] = array(
+      'callback' => array($this, 'notificationProcess'),
+    );
+
     return $public_fields;
   }
+
+  /**
+   * Gets the value of the membership entity's field_receive_notifications.
+   */
+  public function notificationProcess($wrapper) {
+    $account = $this->getAccount();
+
+    $membership = og_get_membership('node', $wrapper->og_repo->getIdentifier(), 'user', $account->uid);
+    $wrapper = entity_metadata_wrapper('og_membership', $membership);
+    return $wrapper->field_receive_notifications->value();
+  }
+
 }

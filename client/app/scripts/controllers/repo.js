@@ -12,6 +12,8 @@ angular.module('clientApp')
     $scope.build = build[0];
     $scope.ciBuildItems = [];
     $scope.incidents = incidents;
+    $scope.notificationsClass = $scope.build.notification ? 'fa-bell' : 'fa-bell-slash';
+    console.log(build[0]);
 
     // List of build statuses.
     $scope.buildStatuses = {
@@ -53,6 +55,31 @@ angular.module('clientApp')
     $scope.updateInterval = function() {
       var params = {
         'interval': $scope.build.interval
+      };
+
+      Builds
+        .update($scope.build.id, 'ci_build', params)
+        .then(function() {
+          $scope.responseStatus = true;
+
+          // Hide the success icon after 3 seconds of receiving the response.
+          $timeout(function() {
+            $scope.responseStatus = false;
+          }, 3000);
+        });
+    };
+
+    /**
+     * Toggle user subscription to the repository.
+     *
+     * Sends a request to the backend through the Builds service to update the
+     * build interval of the CI-Build entity, Updates the responseClass which is
+     * responsible for toggling the success icon next to the input.
+     */
+    $scope.changeNotifications = function() {
+      console.log(Builds);
+      var params = {
+        'toggleNotifications' : 1
       };
 
       Builds
