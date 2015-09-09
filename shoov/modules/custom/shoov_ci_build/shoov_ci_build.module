@@ -222,9 +222,6 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
  * Implements hook_message_presave().
  */
 function shoov_ci_build_message_presave(Message $message) {
-  if ($message->type != 'ci_build') {
-    return;
-  }
   _shoov_ci_build_check_requeue($message);
 }
 
@@ -545,14 +542,14 @@ function shoov_ci_build_get_items_count($node, $status = array()) {
  *   Message from hook_message_presave().
  */
 function _shoov_ci_build_check_requeue(Message $message) {
-  if (empty($message) || empty($message->original) || $message->type !='ci_build') {
+  if (empty($message->original) || $message->type !='ci_build') {
     // Not updating a ci_build message.
     return;
   }
 
   $wrapper = entity_metadata_wrapper('message', $message);
-  $old_wrapper = entity_metadata_wrapper('message', $message->original);
-  if ($old_wrapper->field_ci_build_status->value() == "in_progress" && $wrapper->field_ci_build_status->value() == "queue") {
+  $original_wrapper = entity_metadata_wrapper('message', $message->original);
+  if ($original_wrapper->field_ci_build_status->value() == "in_progress" && $wrapper->field_ci_build_status->value() == "queue") {
     // The build status changed from "in_progress" to "queue".
     // Increment requeue count.
     $requeue_count = $wrapper->field_requeue_count->value();
