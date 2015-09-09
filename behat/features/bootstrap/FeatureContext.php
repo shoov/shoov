@@ -334,6 +334,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       return;
     }
 
+    $status = $this->getStatusMachineName($status);
     $params = array('@title' => $ci_build_title);
 
     // Get the CI build.
@@ -464,9 +465,18 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * @Then The :field_name value should be :field_value for the CI build :ci_build_title
+   * @Then The :field_name field value should be :field_value for the CI build :ci_build_title
    */
-  public function theValueShouldBe($field_name, $field_value, $ci_build_title) {
+  public function theFieldValueShouldBeForTheCiBuild($field_name, $field_value, $ci_build_title) {
+
+    // Rebuild the machine name.
+    $field_name = str_replace(" ", "_", "field_" . strtolower($field_name));
+
+
+    if ($field_name == "field_ci_build_status") {
+      $field_value = $this->getStatusMachineName($field_value);
+    }
+
     $params = array(
       '@title' => $ci_build_title,
       '@field_name' => $field_name,
@@ -497,6 +507,9 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    * @When I change CI build :ci_build_title status from :old_status to :new_status
    */
   public function iChangeCiBuildStatusFromTo($ci_build_title, $old_status, $new_status) {
+    $old_status = $this->getStatusMachineName($old_status);
+    $new_status = $this->getStatusMachineName($new_status);
+
     $params = array(
       '@title' => $ci_build_title,
       '@old_status' => $old_status,
@@ -523,6 +536,28 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     $wrapper = entity_metadata_wrapper('message', key($result['message']));
     $wrapper->field_ci_build_status->set($new_status);
     $wrapper->save();
+  }
+
+  /**
+   * Helper function; gets the machine name of a status from a human readable name.
+   *
+   * @param  string $name
+   *    Human readable status name.
+   *
+   * @return string
+   *    Machine name of the status.
+   */
+  private function getStatusMachineName($name) {
+
+    $statuses = array(
+      "Queue" => "queue",
+      "In progress" => "in_progress",
+      "Done" => "done" ,
+      "Error"  =>  "error",
+    );
+
+
+    return empty($statuses[$name]) ? $name : $statuses[$name];
   }
 }
 
