@@ -511,15 +511,15 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * @When I change CI build :ci_build_title status from :old_status to :new_status
+   * @When I change CI build :ci_build_title status from :original_status to :new_status
    */
-  public function iChangeCiBuildStatusFromTo($ci_build_title, $old_status, $new_status) {
-    $old_status = $this->getMachineName($old_status);
+  public function iChangeCiBuildStatusFromTo($ci_build_title, $original_status, $new_status) {
+    $original_status = $this->getMachineName($original_status);
     $new_status = $this->getMachineName($new_status);
 
     $params = array(
       '@title' => $ci_build_title,
-      '@old_status' => $old_status,
+      '@original_status' => $original_status,
     );
 
     // Get the CI build.
@@ -531,13 +531,13 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     $result = $query
       ->entityCondition('entity_type', 'message')
       ->fieldCondition('field_ci_build', 'target_id', $ci_build_node->nid)
-      ->fieldCondition('field_ci_build_status', 'value', $old_status)
+      ->fieldCondition('field_ci_build_status', 'value', $original_status)
       ->propertyOrderBy('mid', 'ASC')
       ->range(0, 1)
       ->execute();
 
     if (empty($result['message'])) {
-      throw new \Exception(format_string('Failed to find message for CI build @title and status @old_status', $params));
+      throw new \Exception(format_string('Failed to find message for CI build @title and status @original_status', $params));
     }
 
     $wrapper = entity_metadata_wrapper('message', key($result['message']));
