@@ -116,11 +116,25 @@ function shoov_ci_incident_get_incidents_count($nid) {
 }
 
 /**
- * EntityFieldQuery tag. Incident should have an empty field_fixed_build filed.
+ * EntityFieldQuery tag. Incident should have an empty field_fixed_build field.
  *
  * Implements hook_query_TAG_alter().
  */
 function shoov_ci_incident_query_fixed_build_empty_alter(QueryAlterableInterface $query) {
-  $query->leftJoin('field_data_field_fixed_build', 'f', 'node.nid = f.entity_id AND f.bundle = node.type');
+  $query->leftJoin('field_data_field_fixed_build', 'f', 'node.nid = f.entity_id');
   $query->isNull('f.field_fixed_build_target_id');
+}
+
+/**
+ * EntityFieldQuery tag. Incident should have an empty or FALSE
+ * field_ci_build_system_disabled field
+ *
+ * Implements hook_query_TAG_alter().
+ */
+function shoov_ci_incident_query_ci_build_enabled_alter(QueryAlterableInterface $query) {
+  $query->leftJoin('field_data_field_ci_build_system_disabled', 'fd', 'node.nid = fd.entity_id');
+  $or = db_or()
+    ->condition('fd.field_ci_build_system_disabled_value', 0)
+    ->isNull('fd.field_ci_build_system_disabled_value');
+  $query->condition($or);
 }

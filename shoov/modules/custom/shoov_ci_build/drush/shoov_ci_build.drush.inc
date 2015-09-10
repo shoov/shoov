@@ -124,7 +124,7 @@ function drush_shoov_ci_build_release_failed_items() {
     // Incident was created more than 3 days ago.
     ->propertyCondition('created', strtotime('-3 days'), '<')
     // CI Build is still enabled.
-    ->fieldCondition('field_ci_build_system_disabled', 'value', FALSE)
+    ->addTag('ci_build_enabled')
     // CI Build wasn't fixed yet.
     ->addTag('fixed_build_empty')
     // Take the oldest ones first. Like this if message will be sent for current
