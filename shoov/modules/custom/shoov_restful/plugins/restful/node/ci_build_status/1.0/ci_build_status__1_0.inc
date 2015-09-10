@@ -11,4 +11,5 @@ $plugin = array(
   // Add a passthrough formatter.
   'formatter' => 'build_status_html',
   'authentication_types' => TRUE,
+  'authentication_optional' => TRUE,
 );
