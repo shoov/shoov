@@ -13,7 +13,6 @@ angular.module('clientApp')
     $scope.ciBuildItems = [];
     $scope.incidents = incidents;
     $scope.notificationsClass = $scope.build.notification ? 'fa-bell' : 'fa-bell-slash';
-    console.log(build[0]);
 
     // List of build statuses.
     $scope.buildStatuses = {
@@ -77,13 +76,15 @@ angular.module('clientApp')
      * responsible for toggling the success icon next to the input.
      */
     $scope.changeNotifications = function() {
-      console.log(Builds);
+      console.log($scope);
       var params = {
         'toggleNotifications' : 1
       };
 
-      Builds
-        .update($scope.build.id, 'ci_build', params)
+      var url = Config.backend + '/api/notification/' + $scope.build.repository;
+
+      $http
+        .patch(url, params)
         .then(function() {
           $scope.responseStatus = true;
 
