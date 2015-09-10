@@ -82,13 +82,7 @@ angular.module('clientApp')
       Builds
         .update($scope.build.id, 'notification', params)
         .then(function(response) {
-          $scope.notificationResponseStatus = true;
           $scope.build.notification = !$scope.build.notification;
-
-          // Hide the success icon after 3 seconds of receiving the response.
-          $timeout(function() {
-            $scope.notificationResponseStatus = false;
-          }, 3000);
         });
     };
 

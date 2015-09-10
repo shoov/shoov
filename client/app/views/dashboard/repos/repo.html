@@ -24,7 +24,6 @@
       <i class="fa fa-heartbeat"></i>
       <span class="caption-subject">Live Monitor: <a ng-href="https://github.com/{{ build.label }}" target="_blank">{{ build.label }}</a></span>
       <a href ng-click="changeNotifications()"><i class="fa {{ build.notification ? 'fa-bell' : 'fa-bell-slash' }}"></i></a>
-      <i ng-class="{'fa-check': notificationResponseStatus}" class="fa"></i>
     </div>
     <div class="actions">
       <a ui-sref="dashboard.encrypt({ buildId: parseInt(build.id) })">Encrypt keys</a>
