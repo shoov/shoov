@@ -111,9 +111,9 @@ function shoov_ci_build_default_message_type() {
           "safe_value" : "\\u003Cp\\u003EFailing Build.\\u003C\\/p\\u003E\\n"
         },
         {
-          "value" : "Dear [message:user:name]!\\r\\nYou build [message:field-ci-build:title] is failing more than @{failing_days} days. It @{action} .",
+          "value" : "Dear [message:user:name]!\\r\\nYou build \\u003Ca href=\\u0022@url\\u0022\\u003E[message:field-ci-build:title]\\u003C\\/a\\u003E is failing more than @{failing_days} days. It @{action} .",
           "format" : "filtered_html",
-          "safe_value" : "\\u003Cp\\u003EDear [message:user:name]!\\u003Cbr \\/\\u003E\\nYou build [message:field-ci-build:title] is failing more than @{failing_days} days. It @{action} .\\u003C\\/p\\u003E\\n"
+          "safe_value" : "\\u003Cp\\u003EDear [message:user:name]!\\u003Cbr \\/\\u003E\\nYou build \\u003Ca href=\\u0022@url\\u0022\\u003E[message:field-ci-build:title]\\u003C\\/a\\u003E is failing more than @{failing_days} days. It @{action} .\\u003C\\/p\\u003E\\n"
         }
       ]
     }

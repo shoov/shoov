@@ -187,6 +187,9 @@ function drush_shoov_ci_build_release_failed_items() {
     if ($arguments) {
       // Incident was changed and should be saved. Message should be sent.
       $wrapper->save();
+      $client_url = variable_get('shoov_client_url', 'http://localhost:9000/');
+      $options = array('fragment' => '/repos/' . $build_wrapper->nid->value());
+      $arguments ['@url'] = url($client_url, $options);
       drush_shoov_ci_build_send_reminder($build_wrapper->nid->value(), $arguments);
       drush_log(dt('Notification that CI build @build is failing more than @days days has been sent.', $params), 'success');
     }
