@@ -70,17 +70,27 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
     $params = array(
       '@id' => $entity_id,
     );
+    $node = node_load($entity_id);
+    $user = $this->getAccount();
+    if (!$entity_id) {
+      throw new RestfulNotFoundException();
+    }
+
+    if ($node->type != 'ci_build') {
+      throw new RestfulUnprocessableEntityException(format_string('The entity ID @id is not a valid CI Build.', $params));
+    }
 
     $request = $this->getRequest();
+    if ($user && node_access('view', $node)) {
+      return TRUE;
+    }
 
     if (empty($request['status_token'])) {
       throw new RestfulForbiddenException(format_string('Access denied. Check the status token was sent.'));
     }
 
-    $node = node_load($entity_id);
-    if ($node->type != 'ci_build') {
-      throw new RestfulUnprocessableEntityException(format_string('The entity ID @id is not a valid CI Build.', $params));
-    }
+
+
     $wrapper = entity_metadata_wrapper('node', $node);
     $status_token = $wrapper->field_status_token->value();
 
