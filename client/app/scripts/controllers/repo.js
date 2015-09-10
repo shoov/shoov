@@ -12,7 +12,6 @@ angular.module('clientApp')
     $scope.build = build[0];
     $scope.ciBuildItems = [];
     $scope.incidents = incidents;
-    $scope.notificationsClass = $scope.build.notification ? 'fa-bell' : 'fa-bell-slash';
 
     // List of build statuses.
     $scope.buildStatuses = {
@@ -76,21 +75,22 @@ angular.module('clientApp')
      * responsible for toggling the success icon next to the input.
      */
     $scope.changeNotifications = function() {
-      console.log($scope);
       var params = {
         'toggleNotifications' : 1
       };
 
-      var url = Config.backend + '/api/notification/' + $scope.build.repository;
-
-      $http
-        .patch(url, params)
-        .then(function() {
-          $scope.responseStatus = true;
+      Builds
+        .update($scope.build.repository, 'notification', params)
+        .then(function(response) {
+          $scope.notificationResponseStatus = true;
+          var data = response.data.data;
+          if (data.changed == 1) {
+            $scope.build.notification = data.value;
+          }
 
           // Hide the success icon after 3 seconds of receiving the response.
           $timeout(function() {
-            $scope.responseStatus = false;
+            $scope.notificationResponseStatus = false;
           }, 3000);
         });
     };

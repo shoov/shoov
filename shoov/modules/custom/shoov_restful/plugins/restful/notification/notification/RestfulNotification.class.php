@@ -7,7 +7,7 @@ class RestfulNotification extends \RestfulBase implements RestfulDataProviderInt
    */
   protected $controllers = array(
     '^.*$' => array(
-      \RestfulInterface::GET => 'toggleNotification',
+      \RestfulInterface::PATCH => 'toggleNotification',
     ),
   );
 
