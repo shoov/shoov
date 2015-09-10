@@ -76,17 +76,14 @@ angular.module('clientApp')
      */
     $scope.changeNotifications = function() {
       var params = {
-        'toggleNotifications' : 1
+        'notification_update' : !$scope.build.notification
       };
 
       Builds
-        .update($scope.build.repository, 'notification', params)
+        .update($scope.build.id, 'notification', params)
         .then(function(response) {
           $scope.notificationResponseStatus = true;
-          var data = response.data.data;
-          if (data.changed == 1) {
-            $scope.build.notification = data.value;
-          }
+          $scope.build.notification = !$scope.build.notification;
 
           // Hide the success icon after 3 seconds of receiving the response.
           $timeout(function() {

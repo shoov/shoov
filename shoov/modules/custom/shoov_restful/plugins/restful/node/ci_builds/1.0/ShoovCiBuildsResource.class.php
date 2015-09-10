@@ -41,7 +41,8 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
     );
 
     $public_fields['notification'] = array(
-      'callback' => array($this, 'notificationProcess'),
+      'callback' => array($this, 'getNotification'),
+      'create_or_update_passthrough' => TRUE,
     );
 
     return $public_fields;
@@ -50,7 +51,7 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
   /**
    * Gets the value of the membership entity's field_receive_notifications.
    */
-  public function notificationProcess($wrapper) {
+  protected function getNotification($wrapper) {
     $account = $this->getAccount();
 
     $membership = og_get_membership('node', $wrapper->og_repo->getIdentifier(), 'user', $account->uid);
@@ -58,4 +59,40 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
     return $wrapper->field_receive_notifications->value();
   }
 
+  protected function setPropertyValues(EntityMetadataWrapper $wrapper, $null_missing_fields = FALSE) {
+    try {
+      parent::setPropertyValues($wrapper, $null_missing_fields);
+    }
+    catch (\RestfulBadRequestException $exception){
+      $request = $this->getRequest();
+      if (!isset($request['notification_update'])) {
+        // Don't throw the bad request exception if we're updating the notification status.
+        throw $exception;
+      }
+    }
+  }
+  /**
+   * {@inheritdoc}
+   */
+  protected function updateEntity($id, $null_missing_fields = FALSE) {
+
+    $request = $this->getRequest();
+
+    if (isset($request['notification_update'])) {
+      // Check entity is valid, to make sure we can safely save the OG membership.
+      $entity_id = $this->getEntityIdByFieldId($id);
+      $this->isValidEntity('update', $entity_id);
+
+      $wrapper = entity_metadata_wrapper($this->getEntityType(), $entity_id);
+      $account = $this->getAccount();
+      $request = $this->getRequest();
+
+      $membership = og_get_membership('node', $wrapper->og_repo->getIdentifier(), 'user', $account->uid);
+      $wrapper = entity_metadata_wrapper('og_membership', $membership);
+      $wrapper->field_receive_notifications->set($request['notification_update']);
+      $wrapper->save();
+    }
+
+    return parent::updateEntity($id, $null_missing_fields);
+  }
 }

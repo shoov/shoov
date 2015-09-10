@@ -126,7 +126,7 @@ angular.module('clientApp')
      */
     this.update = function(buildId, type, params) {
       // Determine the resource patch url.
-      var resource = type == 'ui_build' ? 'builds' : type == 'notification' ? type : 'ci-builds';
+      var resource = type == 'ui_build' ? 'builds' : 'ci-builds';
       var url = Config.backend + '/api/' + resource;
       url += '/' + buildId;
 
