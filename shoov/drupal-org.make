@@ -103,6 +103,9 @@ projects[search_api][version] = "1.12"
 projects[search_api_solr][subdir] = "contrib"
 projects[search_api_solr][version] = "1.5"
 
+projects[smtp][subdir] = "contrib"
+projects[smtp][version] = "1.2"
+
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
 

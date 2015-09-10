@@ -108,6 +108,7 @@ function shoov_ci_incident_get_incidents_count($nid) {
     ->entityCondition('bundle', 'ci_incident')
     ->fieldCondition('field_ci_build', 'target_id', $nid)
     ->propertyCondition('status', NODE_PUBLISHED)
+    ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT')
     ->count()
     ->execute();
 

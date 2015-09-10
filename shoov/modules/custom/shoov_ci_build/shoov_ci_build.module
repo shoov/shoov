@@ -14,6 +14,44 @@ const SHOOV_CI_BUILD_CI_BUILD_STATUS_ERROR = 2;
 const SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_ERROR = 3;
 
 /**
+ * Implements hook_menu().
+ */
+function shoov_ci_build_menu() {
+  $items["ci_build/%message/trigger/%ctools_js"] = array(
+    'title' => 'Trigger the CI Build item',
+    'page callback' => 'shoov_ci_build_trigger_ci_build_item',
+    'page arguments' => array(1, 3),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Send message to the nodejs server.
+ *
+ * @param $message
+ *  Message object.
+ */
+function  shoov_ci_build_trigger_ci_build_item($message, $ajax = 'nojs') {
+  $nodejs_server_url = shoov_ci_build_get_nodejs_server_url($message);
+  $account = user_load($message->uid);
+  $url = array(
+    $nodejs_server_url,
+    'ci',
+    $message->mid,
+    shoov_restful_get_user_token($account),
+  );
+  $url = implode('/', $url);
+  drupal_http_request($url);
+  if (!$ajax) {
+    drupal_set_message(t('Message @mid has been sent to the server', array('@mid' => $message->mid)));
+    drupal_goto('<front>');
+  }
+}
+
+/**
  * Return the CI builds that are waiting for processing.
  *
  * @param int $timestamp
@@ -135,6 +173,12 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
   $wrapper = entity_metadata_wrapper('node', $node);
   if (!$wrapper->field_ci_build_enabled->value()) {
     // CI build is not enabled.
+
+    // Find queue items and delete them.
+    if ($ids = shoov_ci_build_get_items_by_status($node, 'queue')) {
+      message_delete_multiple($ids);
+    }
+
     return;
   }
 
@@ -144,16 +188,7 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
     'in_progress',
   );
 
-  $query = new EntityFieldQuery();
-  $count = $query
-    ->entityCondition('entity_type', 'message')
-    ->entityCondition('bundle', 'ci_build')
-    ->fieldCondition('field_ci_build', 'target_id', $node->nid)
-    ->fieldCondition('field_ci_build_status', 'value', $status, 'IN')
-    ->count()
-    ->execute();
-
-  if ($count) {
+  if (shoov_ci_build_get_items_count($node, $status)) {
     return;
   }
 
@@ -437,4 +472,62 @@ function shoov_ci_build_trigger_event(Message $message, $event) {
   $result = $handler->get($message->mid);
   $data = array($result[0]);
   shoov_pusher_trigger_event($wrapper->field_ci_build->og_repo->getIdentifier(), $event, $data);
+}
+
+/**
+ * Get all messages with certain status of certain CI Build.
+ *
+ * @param $node
+ *  The CI Build node.
+ * @param $status
+ *  Status field value. Defaults to "queue".
+ *
+ * @return array
+ *  Return array of messages IDs.
+ */
+function shoov_ci_build_get_items_by_status($node, $status ='queue') {
+  $account = user_load($node->uid);
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'message')
+    ->entityCondition('bundle', 'ci_build')
+    ->fieldCondition('field_ci_build', 'target_id', $node->nid)
+    ->fieldCondition('field_ci_build_status', 'value', $status)
+    // Add user's account to the metadata of the query in order not to get
+    // items user doesn't have access to.
+    ->addMetaData('account', $account)
+    ->execute();
+
+  return empty($result['message']) ? array() : array_keys($result['message']);
+}
+
+/**
+ * Get count of messages with certain statuses of certain CI Build.
+ *
+ * @param $node
+ *  The CI Build node
+ * @param array $status
+ *  An array of statuses.
+ *
+ * @return int
+ *  Return count of found items.
+ */
+function shoov_ci_build_get_items_count($node, $status = array()) {
+  $account = user_load($node->uid);
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'message')
+    ->entityCondition('bundle', 'ci_build')
+    ->fieldCondition('field_ci_build', 'target_id', $node->nid);
+  if ($status) {
+    $query->fieldCondition('field_ci_build_status', 'value', $status, 'IN');
+  }
+  $count = $query
+    // Add user's account to the metadata of the query in order not to get
+    // items user doesn't have access to.
+    ->addMetaData('account', $account)
+    ->count()
+    ->execute();
+
+  return $count;
 }
