@@ -73,7 +73,7 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
     $node = node_load($entity_id);
     $user = $this->getAccount();
     if (!$entity_id) {
-      throw new RestfulNotFoundException();
+      throw new RestfulNotFoundException(format_string('Invalid URL path'));
     }
 
     if ($node->type != 'ci_build') {
