@@ -47,13 +47,30 @@
             </div>
           </div>
         </div>
-        <div ng-show="builds.length">
-          <ul class="builds">
-            <li class="build-item animate" ng-repeat="build in builds">
-              <i class="fa fa-server"></i>
-              <a ng-href="#/screenshots/{{ build.id }}" >{{ build.label }}</a>
-            </li>
-          </ul>
+        <div class="form-group" ng-show="repositoriesLength > 1">
+          <label for="repository">Filter by repository</label>
+          <select class="form-control" id="repository" ng-model="repositoryFilter">
+            <option value="0" selected="selected">-No filter-</option>
+            <option ng-value="id" ng-repeat="(id, label) in repositories">{{label}}</option>
+          </select>
+        </div>
+        <div class="table-scrollable builds" ng-show="builds.length">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Repository</th>
+              <th>Created</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="build-item animate" ng-repeat="build in builds | buildsFilter: repositoryFilter">
+              <td><i class="fa fa-server"></i><a ui-sref="dashboard.screenshots({ buildId: build.id })">{{ build.label }}</a></td>
+              <td>{{ build.repository.label }}</td>
+              <td>{{ (build.created*1000) | date : 'MMM d, y h:mm a' }}</td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
