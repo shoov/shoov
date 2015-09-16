@@ -189,9 +189,9 @@ function drush_shoov_ci_build_release_failed_items() {
       $wrapper->save();
       $client_url = variable_get('shoov_client_url', 'http://localhost:9000/');
       $options = array('fragment' => '/repos/' . $build_wrapper->nid->value());
-      $arguments ['@url'] = url($client_url, $options);
+      $arguments ['@{url}'] = url($client_url, $options);
       drush_shoov_ci_build_send_reminder($build_wrapper->nid->value(), $arguments);
-      drush_log(dt('Notification that CI build @build is failing more than @days days has been sent.', $params), 'success');
+      drush_log(dt('Notification that CI build @build is failing for more than @days days has been sent.', $params), 'success');
     }
   }
 }
@@ -230,12 +230,12 @@ function drush_shoov_ci_build_send_reminder($build_id, $arguments = array()) {
  *  sent - returns FALSE.
  */
 function drush_shoov_ci_build_first_message_should_be_sent($timestamp, $wrapper) {
-  if (!$timestamp < strtotime('-6 days') && !$wrapper->field_reminders_sent->value() < 1) {
+  if ($wrapper->field_reminders_sent->value() >= 1) {
     return FALSE;
   }
   $arguments = array(
     '@{failing_days}' => 3,
-    '@{action}' => t('will be disabled automatically in 4 days'),
+    '@{action}' => t('Please, check it. If the build still fails in 4 day - it will be disabled automatically'),
   );
 
   return $arguments;
@@ -255,12 +255,12 @@ function drush_shoov_ci_build_first_message_should_be_sent($timestamp, $wrapper)
  *  sent - returns FALSE.
  */
 function drush_shoov_ci_build_second_message_should_be_sent($timestamp, $wrapper) {
-  if (!$timestamp < strtotime('-7 days') && !$wrapper->field_reminders_sent->value() < 2) {
+  if ($timestamp >= strtotime('-6 days') || $wrapper->field_reminders_sent->value() >= 2) {
     return FALSE;
   }
   $arguments = array(
     '@{failing_days}' => 6,
-    '@{action}' => t('will be disabled automatically in 1 days'),
+    '@{action}' => t('Please, check it. If the build still fails in 1 day - it will be disabled automatically'),
   );
 
   return $arguments;
@@ -280,12 +280,12 @@ function drush_shoov_ci_build_second_message_should_be_sent($timestamp, $wrapper
  *  sent - returns FALSE.
  */
 function drush_shoov_ci_build_third_message_should_be_sent($timestamp, $wrapper) {
-  if (!$timestamp < strtotime('-8 days') && !$wrapper->field_reminders_sent->value() < 3) {
+  if ($timestamp >= strtotime('-7 days') || $wrapper->field_reminders_sent->value() >= 3) {
     return FALSE;
   }
   $arguments = array(
     '@{failing_days}' => 7,
-    '@{action}' => t('has been disabled automatically'),
+    '@{action}' => t('Unfortunately it has been disabled automatically. You can try to fix the build and re-enable it to continue monitoring'),
   );
 
   return $arguments;
