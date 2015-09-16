@@ -530,6 +530,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    * @When I flag subscription to node :title
    */
   public function iFlagSubscriptionToNode($title) {
+    $account = user_load_by_name($this->user->name);
     $bundle = "ci_build";
     $query = new \entityFieldQuery();
     $result = $query
@@ -548,7 +549,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     }
 
     // Set the field controlling the membership to TRUE.
-    $membership = og_get_membership('node', key($result['node']), 'user', $this->user->uid);
+    $membership = og_get_membership('node', key($result['node']), 'user', $account->uid);
     $wrapper = entity_metadata_wrapper('og_membership', $membership);
 
     $wrapper->field_receive_notifications->set(TRUE);
@@ -560,6 +561,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
    * @When I unflag subscription to node :title
    */
   public function iUnflagSubscriptionToNode($title) {
+    $account = user_load_by_name($this->user->name);
     $bundle = "ci_build";
     $query = new \entityFieldQuery();
     $result = $query
@@ -578,7 +580,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     }
 
     // Set the field controlling the membership to TRUE.
-    $membership = og_get_membership('node', key($result['node']), 'user', $this->user->uid);
+    $membership = og_get_membership('node', key($result['node']), 'user', $account->uid);
     $wrapper = entity_metadata_wrapper('og_membership', $membership);
 
     $wrapper->field_receive_notifications->set(FALSE);
