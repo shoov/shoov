@@ -76,7 +76,7 @@ angular.module('clientApp')
      */
     $scope.changeNotifications = function() {
       var params = {
-        'notification_update' : !$scope.build.notification
+        'notification' : !$scope.build.notification
       };
 
       Builds

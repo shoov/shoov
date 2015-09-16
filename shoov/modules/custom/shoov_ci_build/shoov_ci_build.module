@@ -555,8 +555,22 @@ function shoov_ci_build_entity_presave($entity, $type) {
   $wrapper = entity_metadata_wrapper($type, $entity);
   $original_wrapper = entity_metadata_wrapper($type, $entity->original);
 
-  if ($wrapper->field_receive_notifications->value() != $original_wrapper->field_receive_notifications->value()) {
-    // Update the flag.
+  if ($wrapper->field_receive_notifications->value() == $original_wrapper->field_receive_notifications->value()) {
+    // Nothing changed.
+    return;
   }
 
+  // The flag is on the ci_build node.
+  $item = menu_get_item();
+  if (empty($item['page_arguments'][1])) {
+    // Bad request.
+    return;
+  }
+
+  $ci_build_wrapper = entity_metadata_wrapper('node', $item['page_arguments'][1]);
+  // Update the flag.
+  $action = $original_wrapper->field_receive_notifications->value() ? 'unflag' : 'flag';
+  $flag = flag_get_flag('subscribe_ci_builds');
+
+  $flag->flag($action, $ci_build_wrapper->getIdentifier());
 }

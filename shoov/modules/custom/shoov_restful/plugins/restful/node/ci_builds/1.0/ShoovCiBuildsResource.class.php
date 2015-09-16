@@ -65,7 +65,7 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
     }
     catch (\RestfulBadRequestException $exception){
       $request = $this->getRequest();
-      if (!isset($request['notification_update'])) {
+      if (!isset($request['notification'])) {
         // Don't throw the bad request exception if we're updating the notification status.
         throw $exception;
       }
@@ -78,7 +78,7 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
 
     $request = $this->getRequest();
 
-    if (isset($request['notification_update'])) {
+    if (isset($request['notification'])) {
       // Check entity is valid, to make sure we can safely save the OG membership.
       $entity_id = $this->getEntityIdByFieldId($id);
       $this->isValidEntity('update', $entity_id);
@@ -89,7 +89,7 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
 
       $membership = og_get_membership('node', $wrapper->og_repo->getIdentifier(), 'user', $account->uid);
       $wrapper = entity_metadata_wrapper('og_membership', $membership);
-      $wrapper->field_receive_notifications->set($request['notification_update']);
+      $wrapper->field_receive_notifications->set($request['notification']);
       $wrapper->save();
     }
 
