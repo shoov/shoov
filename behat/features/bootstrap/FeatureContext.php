@@ -586,9 +586,9 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * @Then The :flag_name flag on node :title should be :status
+   * @Then The :title flag on the node :flag_name should be :status
    */
-  public function theFlagOnTheNodeShouldBe($flag_name, $title, $status) {
+  public function theFlagOnTheNodeShouldBe($title, $flag_name, $status) {
     $bundle = "ci_build";
     $query = new \entityFieldQuery();
     $result = $query
