@@ -548,8 +548,9 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       throw new \Exception(format_string("Node @title of @type not found.", $params));
     }
 
+    $wrapper = entity_metadata_wrapper('node', key($result['node']));
     // Set the field controlling the membership to TRUE.
-    $membership = og_get_membership('node', key($result['node']), 'user', $account->uid);
+    $membership = og_get_membership('node', $wrapper->og_repo->getIdentifier(), 'user', $account->uid);
     $wrapper = entity_metadata_wrapper('og_membership', $membership);
 
     $wrapper->field_receive_notifications->set(TRUE);
@@ -579,8 +580,9 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       throw new \Exception(format_string("Node @title of @type not found.", $params));
     }
 
+    $wrapper = entity_metadata_wrapper('node', key($result['node']));
     // Set the field controlling the membership to TRUE.
-    $membership = og_get_membership('node', key($result['node']), 'user', $account->uid);
+    $membership = og_get_membership('node', $wrapper->og_repo->getIdentifier(), 'user', $account->uid);
     $wrapper = entity_metadata_wrapper('og_membership', $membership);
 
     $wrapper->field_receive_notifications->set(FALSE);
