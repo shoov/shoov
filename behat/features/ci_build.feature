@@ -27,3 +27,15 @@ Feature: CI Build
       Given I login with user "William"
       When I enable CI Build  "William/app5"
       Then The CI Build item for build "William/app5" should be created
+
+  @api
+  Scenario: Check flagging subscription flag.
+    Given I login with user "William"
+    When I flag subscription to node "William/app5"
+    Then The "Subscribe CI Builds" flag on the node "William/app5" should be "flagged"
+
+  @api
+  Scenario: Check unflagging subscription flag.
+    Given I login with user "William"
+    When I unflag subscription to node "William/app5"
+    Then The "Subscribe CI Builds" flag on the node "William/app5" should be "unflagged"

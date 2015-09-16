@@ -464,6 +464,23 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
+   * Helper function; gets a generic machine name of a from a human readable name.
+   *
+   * @param string $name
+   *    Human readable name.
+   *
+   * @param string $prefix
+   *    String to prefix the machine name (e.g. "field_").
+   *
+   * @return string
+   *    Generic machine name.
+   */
+  private function getMachineName($name, $prefix = "") {
+
+    return str_replace(" ", "_", $prefix . strtolower($name));
+  }
+ 
+  /**
    * @When I disable CI Build  :title
    */
   public function iDisableCiBuild($title) {
@@ -508,4 +525,109 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       throw new \Exception($error_message);
     }
   }
+
+  /**
+   * @When I flag subscription to node :title
+   */
+  public function iFlagSubscriptionToNode($title) {
+    $account = user_load_by_name($this->user->name);
+    $bundle = "ci_build";
+    $query = new \entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', strtolower($bundle))
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+        '@type' => $bundle,
+      );
+      throw new \Exception(format_string("Node @title of @type not found.", $params));
+    }
+
+    $wrapper = entity_metadata_wrapper('node', key($result['node']));
+    // Set the field controlling the membership to TRUE.
+    $membership = og_get_membership('node', $wrapper->og_repo->getIdentifier(), 'user', $account->uid);
+    $wrapper = entity_metadata_wrapper('og_membership', $membership);
+
+    $wrapper->field_receive_notifications->set(TRUE);
+    $wrapper->save();
+
+  }
+
+  /**
+   * @When I unflag subscription to node :title
+   */
+  public function iUnflagSubscriptionToNode($title) {
+    $account = user_load_by_name($this->user->name);
+    $bundle = "ci_build";
+    $query = new \entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', strtolower($bundle))
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+        '@type' => $bundle,
+      );
+      throw new \Exception(format_string("Node @title of @type not found.", $params));
+    }
+
+    $wrapper = entity_metadata_wrapper('node', key($result['node']));
+    // Set the field controlling the membership to FALSE.
+    $membership = og_get_membership('node', $wrapper->og_repo->getIdentifier(), 'user', $account->uid);
+    $wrapper = entity_metadata_wrapper('og_membership', $membership);
+
+    $wrapper->field_receive_notifications->set(FALSE);
+    $wrapper->save();
+  }
+
+  /**
+   * @Then The :title flag on the node :flag_name should be :status
+   */
+  public function theFlagOnTheNodeShouldBe($title, $flag_name, $status) {
+    $bundle = "ci_build";
+    $query = new \entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', strtolower($bundle))
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+        '@type' => $bundle,
+      );
+      throw new \Exception(format_string("Node @title of @type not found.", $params));
+    }
+
+    $flag_name = $this->getMachineName($flag_name);
+    $user_flag_data = flag_get_user_flags("node");
+
+    $params = array(
+      '@title' => $title,
+    );
+
+    if ($status == "flagged") {
+      if (empty($user_flag_data[$flag_name][key($result['node'])])) {
+        throw new \Exception(format_string("CI Build node subscription to @title is not flagged.", $params));
+      }
+    }
+
+    if ($status == "unflagged") {
+      if (!empty($user_flag_data[$flag_name][key($result['node'])])) {
+        throw new \Exception(format_string("CI Build node subscription to @title is flagged.", $params));
+      }
+    }
+  }
 }
+

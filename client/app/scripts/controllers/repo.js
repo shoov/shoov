@@ -67,6 +67,25 @@ angular.module('clientApp')
         });
     };
 
+    /**
+     * Toggle user subscription to the repository.
+     *
+     * Sends a request to the backend through the Builds service to update the
+     * build interval of the CI-Build entity, Updates the responseClass which is
+     * responsible for toggling the success icon next to the input.
+     */
+    $scope.changeNotifications = function() {
+      var params = {
+        'notification' : !$scope.build.notification
+      };
+
+      Builds
+        .update($scope.build.id, 'notification', params)
+        .then(function(response) {
+          $scope.build.notification = !$scope.build.notification;
+        });
+    };
+
     var channel = channelManager.getChannel($scope.build.repository);
     channel.bind('ci_incident_new', function(data) {
       // Put new item in the beginning of the list.

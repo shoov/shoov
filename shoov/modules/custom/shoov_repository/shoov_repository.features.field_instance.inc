@@ -166,12 +166,51 @@ function shoov_repository_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance:
+  // 'og_membership-og_membership_type_default-field_receive_notifications'
+  $field_instances['og_membership-og_membership_type_default-field_receive_notifications'] = array(
+    'bundle' => 'og_membership_type_default',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 1,
+      ),
+    ),
+    'entity_type' => 'og_membership',
+    'field_name' => 'field_receive_notifications',
+    'label' => 'Receive Notifications',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 0,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 1,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Determine if this is an OG group.');
   t('GitHub ID');
   t('Group');
   t('Group visibility');
+  t('Receive Notifications');
 
   return $field_instances;
 }
