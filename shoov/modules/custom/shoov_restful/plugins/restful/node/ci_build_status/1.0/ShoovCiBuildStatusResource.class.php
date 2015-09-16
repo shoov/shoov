@@ -67,10 +67,6 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
    * Skips node_access check since we should give info even to anonymous user.
    */
   protected function isValidEntity($op, $entity_id) {
-    if (!$entity_id) {
-      throw new RestfulNotFoundException(format_string('Invalid URL path'));
-    }
-
     $params = array(
       '@id' => $entity_id,
     );
