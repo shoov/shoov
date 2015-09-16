@@ -508,4 +508,19 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       throw new \Exception($error_message);
     }
   }
+
+  /**
+   * @When I toggle subscription to node :title
+   */
+  public function iToggleSubscriptionToNode($title) {
+    throw new PendingException();
+  }
+
+  /**
+   * @Then The :flag_name flag should be :status
+   */
+  public function theFlagShouldBe($flag_name, $status) {
+    throw new PendingException();
+  }
+
 }

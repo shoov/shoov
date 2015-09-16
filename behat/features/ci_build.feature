@@ -27,3 +27,14 @@ Feature: CI Build
       Given I login with user "William"
       When I enable CI Build  "William/app5"
       Then The CI Build item for build "William/app5" should be created
+
+  @api
+  Scenario Outline: Check subscription flag.
+    Given I login with user "William"
+    When I toggle subscription to node "William/app5"
+    Then The "Subscribe CI Builds" flag should be "<status>"
+
+  Examples:
+    | status |
+    | flagged |
+    | unflagged  |
