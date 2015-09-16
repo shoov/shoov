@@ -29,12 +29,13 @@ Feature: CI Build
       Then The CI Build item for build "William/app5" should be created
 
   @api
-  Scenario Outline: Check subscription flag.
+  Scenario: Check flagging subscription flag.
     Given I login with user "William"
-    When I toggle subscription to node "William/app5"
-    Then The "Subscribe CI Builds" flag should be "<status>"
+    When I flag subscription to node "William/app5"
+    Then The "Subscribe CI Builds" flag on the node "William/app5" should be "flagged"
 
-  Examples:
-    | status |
-    | flagged |
-    | unflagged  |
+  @api
+  Scenario: Check unflagging subscription flag.
+    Given I login with user "William"
+    When I unflag subscription to node "William/app5"
+    Then The "Subscribe CI Builds" flag on the node "William/app5" should be "unflagged"

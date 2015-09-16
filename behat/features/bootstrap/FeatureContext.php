@@ -527,18 +527,103 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * @When I toggle subscription to node :title
+   * @When I flag subscription to node :title
    */
-  public function iToggleSubscriptionToNode($title) {
-    throw new PendingException();
+  public function iFlagSubscriptionToNode($title) {
+    $bundle = "ci_build";
+    $query = new \entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', strtolower($bundle))
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+        '@type' => $bundle,
+      );
+      throw new \Exception(format_string("Node @title of @type not found.", $params));
+    }
+
+    // Set the field controlling the membership to TRUE.
+    $membership = og_get_membership('node', key($result['node']), 'user', $this->user->uid);
+    $wrapper = entity_metadata_wrapper('og_membership', $membership);
+
+    $wrapper->field_receive_notifications->set(TRUE);
+    $wrapper->save();
+
   }
 
   /**
-   * @Then The :flag_name flag should be :status
+   * @When I unflag subscription to node :title
    */
-  public function theFlagShouldBe($flag_name, $status) {
-    throw new PendingException();
+  public function iUnflagSubscriptionToNode($title) {
+    $bundle = "ci_build";
+    $query = new \entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', strtolower($bundle))
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+        '@type' => $bundle,
+      );
+      throw new \Exception(format_string("Node @title of @type not found.", $params));
+    }
+
+    // Set the field controlling the membership to TRUE.
+    $membership = og_get_membership('node', key($result['node']), 'user', $this->user->uid);
+    $wrapper = entity_metadata_wrapper('og_membership', $membership);
+
+    $wrapper->field_receive_notifications->set(FALSE);
+    $wrapper->save();
   }
 
+  /**
+   * @Then The :flag_name flag on node :title should be :status
+   */
+  public function theFlagOnTheNodeShouldBe($flag_name, $title, $status) {
+    $bundle = "ci_build";
+    $query = new \entityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', strtolower($bundle))
+      ->propertyCondition('title', $title)
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->range(0, 1)
+      ->execute();
+    if (empty($result['node'])) {
+      $params = array(
+        '@title' => $title,
+        '@type' => $bundle,
+      );
+      throw new \Exception(format_string("Node @title of @type not found.", $params));
+    }
+
+    $flag_name = $this->getMachineName($flag_name);
+    $user_flag_data = flag_get_user_flags("node");
+
+    $params = array(
+      '@title' => $title,
+    );
+
+    if ($status == "flagged") {
+      if (empty($user_flag_data[$flag_name][key($result['node'])])) {
+        throw new \Exception(format_string("CI Build node subscription to @title is not flagged.", $params));
+      }
+    }
+
+    if ($status == "unflagged") {
+      if (!empty($user_flag_data[$flag_name][key($result['node'])])) {
+        throw new \Exception(format_string("CI Build node subscription to @title is flagged.", $params));
+      }
+    }
+  }
 }
 
