@@ -14,7 +14,7 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
    */
   public static function controllersInfo() {
     return array(
-      '^.*$' => array(
+      '^(\d+,)*\d+$' => array(
         \RestfulInterface::GET => 'viewEntity',
       ),
     );
@@ -67,29 +67,29 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
    * Skips node_access check since we should give info even to anonymous user.
    */
   protected function isValidEntity($op, $entity_id) {
+    if (!$entity_id) {
+      throw new RestfulNotFoundException(format_string('Invalid URL path'));
+    }
+
     $params = array(
       '@id' => $entity_id,
     );
     $node = node_load($entity_id);
-    $user = $this->getAccount();
-    if (!$entity_id) {
-      throw new RestfulNotFoundException(format_string('Invalid URL path'));
-    }
+    $account = $this->getAccount();
 
     if ($node->type != 'ci_build') {
       throw new RestfulUnprocessableEntityException(format_string('The entity ID @id is not a valid CI Build.', $params));
     }
 
-    $request = $this->getRequest();
-    if ($user && node_access('view', $node)) {
+    if ($account->uid && node_access('view', $node)) {
       return TRUE;
     }
+
+    $request = $this->getRequest();
 
     if (empty($request['status_token'])) {
       throw new RestfulForbiddenException(format_string('Access denied. Check the status token was sent.'));
     }
-
-
 
     $wrapper = entity_metadata_wrapper('node', $node);
     $status_token = $wrapper->field_status_token->value();
