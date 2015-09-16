@@ -464,6 +464,23 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
+   * Helper function; gets a generic machine name of a from a human readable name.
+   *
+   * @param string $name
+   *    Human readable name.
+   *
+   * @param string $prefix
+   *    String to prefix the machine name (e.g. "field_").
+   *
+   * @return string
+   *    Generic machine name.
+   */
+  private function getMachineName($name, $prefix = "") {
+
+    return str_replace(" ", "_", $prefix . strtolower($name));
+  }
+ 
+  /**
    * @When I disable CI Build  :title
    */
   public function iDisableCiBuild($title) {
@@ -524,3 +541,4 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
 }
+
