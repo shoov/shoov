@@ -94,8 +94,11 @@ projects[panels][version] = "3.5"
 projects[restful][subdir] = "contrib"
 projects[restful][type] = module
 projects[restful][download][type] = git
-projects[restful][download][branch] = 7.x-1.x
-projects[restful][download][revision] = 9dae54204eef0925081abcfaaa20faa6191a3a4c
+;TODO: Restore the normal repository after the branch is merged.he
+projects[restful][download][url] = https://github.com/Moo64c/restful.git
+projects[restful][download][branch] = callback_pass
+;projects[restful][download][branch] = 7.x-1.x
+;projects[restful][download][revision] = 9dae54204eef0925081abcfaaa20faa6191a3a4c
 
 projects[search_api][subdir] = "contrib"
 projects[search_api][version] = "1.12"
