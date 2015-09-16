@@ -31,7 +31,7 @@ class ShoovUiBuildsResource extends \ShoovEntityBaseNode {
       'resource' => array(
         'repository' => array(
           'name' => 'repositories',
-          'full_view' => FALSE,
+          'full_view' => TRUE,
         ),
       ),
     );
