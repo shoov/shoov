@@ -69,7 +69,7 @@ while ($i < $count) {
     }
   }
 
-  $i += $batch;
+  $i += count($messages);
   $mid = end($ids);
 
   $params = array(
