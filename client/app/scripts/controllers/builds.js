@@ -11,9 +11,26 @@ angular.module('clientApp')
   .controller('BuildsCtrl', function ($scope, builds, Auth, Config, Builds, channelManager, $timeout) {
 
     $scope.builds = builds;
+    $scope.repositories = {};
+
+    // Always watch the amount of repositories that we have to determine
+    // whether to display the filter select list or not.
+    $scope.$watch('repositories', function(repos) {
+      $scope.repositoriesLength = Object.keys(repos).length;
+    });
+
+    // Get the repositories from the builds.
+    angular.forEach($scope.builds, function(build) {
+      if ($scope.repositories[build.repository.id]) {
+        // Don't add the same repository twice.
+        return;
+      }
+      $scope.repositories[build.repository.id] = build.repository.label;
+    });
 
     $scope.accessToken = Auth.getAccessToken();
     $scope.backend = Config.backend;
+    $scope.repositoryFilter = "0";
 
     /**
      * Listen to new build events and add new builds to the list.
@@ -51,10 +68,23 @@ angular.module('clientApp')
         $timeout(function() {
           // Get new builds and add them to the list.
           Builds.get(null, 'ui_build', data[0].id).then(function(val) {
+
+            var buildCounter = 0;
             angular.forEach(val, function(build) {
+              if (build.repository.id != data[0].id) {
+                // Don't add build if it doesn't belong to the requested repo.
+                return;
+              }
 
               $scope.builds.unshift(build);
+              buildCounter++;
             });
+
+            // Add new repo to filter only if there's new builds.
+            if (buildCounter) {
+              $scope.repositories[data[0].id] = data[0].label;
+              $scope.repositoriesLength++;
+            }
           });
         } ,2000);
       });
