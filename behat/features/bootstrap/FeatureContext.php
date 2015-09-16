@@ -581,7 +581,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     }
 
     $wrapper = entity_metadata_wrapper('node', key($result['node']));
-    // Set the field controlling the membership to TRUE.
+    // Set the field controlling the membership to FALSE.
     $membership = og_get_membership('node', $wrapper->og_repo->getIdentifier(), 'user', $account->uid);
     $wrapper = entity_metadata_wrapper('og_membership', $membership);
 
