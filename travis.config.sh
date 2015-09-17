@@ -81,9 +81,9 @@ function post_install {
   echo "\$conf['shoov_pusher_app_secret'] = '<your-app-secret>';"  >> www/sites/default/settings.php
   echo "\$conf['shoov_pusher_app_id'] = '<your-app-id>';"  >> www/sites/default/settings.php
 
-  echo "\$conf['shoov_keen_project_id'] = '55fa6e4d96773d25ec4d23b3';"  >> www/sites/default/settings.php
-  echo "\$conf['shoov_keen_write_key'] = '30ac16f9ef819b7704063365040ef7edee6697c14ce639d46f4b39cd329062880dd5fc78e8fbdfb7422ecd2dca86ada8c3f971e074a4a19ac6f35df4d5494a1b97aef4f20a21af31af8ea7298de0522b86f0119df42dbc933632093864330c59569ee1aeeda5a3e98be00773932eaf9c';"  >> www/sites/default/settings.php
-  echo "\$conf['shoov_keen_read_key'] = 'a9ce199cc111c2930cad863945a76250a57feef7a87f34919d8ad8a508d8e254573c3d2c198048aab0ec7ceb7fa9a24940b6ae48f2cba090b1f3f3d1a1f7cdd4e526a7abe690a7d5d20e120592773c37855eab4877550f778e9141d4c7eed168ab6df62205ac6c0daebbb985d4f4a348';"  >> www/sites/default/settings.php
+#  echo "\$conf['shoov_keen_project_id'] = '55fa6e4d96773d25ec4d23b3';"  >> www/sites/default/settings.php
+#  echo "\$conf['shoov_keen_write_key'] = '30ac16f9ef819b7704063365040ef7edee6697c14ce639d46f4b39cd329062880dd5fc78e8fbdfb7422ecd2dca86ada8c3f971e074a4a19ac6f35df4d5494a1b97aef4f20a21af31af8ea7298de0522b86f0119df42dbc933632093864330c59569ee1aeeda5a3e98be00773932eaf9c';"  >> www/sites/default/settings.php
+#  echo "\$conf['shoov_keen_read_key'] = 'a9ce199cc111c2930cad863945a76250a57feef7a87f34919d8ad8a508d8e254573c3d2c198048aab0ec7ceb7fa9a24940b6ae48f2cba090b1f3f3d1a1f7cdd4e526a7abe690a7d5d20e120592773c37855eab4877550f778e9141d4c7eed168ab6df62205ac6c0daebbb985d4f4a348';"  >> www/sites/default/settings.php
 }
 
 # Post upgrade script.
