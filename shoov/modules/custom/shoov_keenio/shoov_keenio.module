@@ -4,6 +4,7 @@
  * Code for the Keen IO integration.
  */
 
+use \KeenIO\Client\KeenIOClient;
 
 /**
  * Send Keen IO event.
@@ -52,11 +53,11 @@ function shoov_keenio_get_client() {
   if (empty($write_key) || empty($read_key) || empty($project_id)) {
     throw new Exception('Keen IO app is not configured properly.');
   }
-//  $client = KeenIO\Client\KeenIOClient::factory([
-//    'projectId' => $project_id,
-//    'writeKey'  => $write_key,
-//    'readKey'   => $read_key
-//  ]);
+  $client = new KeenIOClient(array(
+    'projectId' => $project_id,
+    'writeKey'  => $write_key,
+    'readKey'   => $read_key
+  ));
   return $client;
 }
 
