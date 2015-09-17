@@ -1,0 +1,6 @@
+name = Template Holder
+description = This theme is not to be activated.
+package = Shoov
+version = VERSION
+core = 7.x
+stylesheets[all][] = layout.css
