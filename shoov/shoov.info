@@ -64,4 +64,3 @@ dependencies[] = shoov_repository
 dependencies[] = shoov_restful
 dependencies[] = shoov_ui_build
 dependencies[] = shoov_user
-
