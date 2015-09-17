@@ -32,7 +32,7 @@ function shoov_keenio_send_event($collection = 'purchases', $event = 'purchase',
  * @return KeenIOClient
  *   The KeenIOClient object.
  *
- * @throws \RestfulServerConfigurationException
+ * @throws Exception
  */
 function shoov_keenio_get_client() {
   $client = &drupal_static(__FUNCTION__);
@@ -45,7 +45,7 @@ function shoov_keenio_get_client() {
   $read_key = variable_get('shoov_keen_read_key');
 
   if (empty($write_key) || empty($read_key) || empty($project_id)) {
-    throw new \RestfulServerConfigurationException('Keen IO app is not configured properly. ');
+    throw new Exception('Keen IO app is not configured properly.');
   }
 
   $client = KeenIOClient::factory([
