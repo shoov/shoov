@@ -22,6 +22,9 @@ use KeenIO\Client\KeenIOClient;
  */
 function shoov_keenio_send_event($collection = 'purchases', $event = 'purchase', $data = array()) {
   $client = shoov_keenio_get_client();
+  if (!$client) {
+    return FALSE;
+  }
   $event = array($event => $data);
   return $client->addEvent($collection, $event);
 }
@@ -45,7 +48,8 @@ function shoov_keenio_get_client() {
   $read_key = variable_get('shoov_keen_read_key');
 
   if (empty($write_key) || empty($read_key) || empty($project_id)) {
-    throw new Exception('Keen IO app is not configured properly.');
+//    throw new Exception('Keen IO app is not configured properly.');
+    return FALSE;
   }
 
   $client = KeenIOClient::factory([
