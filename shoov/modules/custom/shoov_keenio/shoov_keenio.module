@@ -45,7 +45,13 @@ function shoov_keenio_get_client() {
   $read_key = variable_get('shoov_keen_read_key');
 
   if (empty($write_key) || empty($read_key) || empty($project_id)) {
-    throw new \RestfulServerConfigurationException('Keen IO app is not configured properly.');
+    $missing = '';
+    $missing .= empty($project_id) ? 'project id,' : '';
+    $missing .= empty($write_key) ? 'write key,' : '';
+    $missing .= empty($read_key) ? 'read key,' : '';
+    $missing = rtrim($missing, ',');
+
+    throw new \RestfulServerConfigurationException(format_string('Keen IO app is not configured properly. @params missing', array('@params' => $missing)));
   }
 
   $client = KeenIOClient::factory([
