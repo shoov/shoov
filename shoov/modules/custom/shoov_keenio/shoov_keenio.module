@@ -43,13 +43,15 @@ function shoov_keenio_get_client() {
     return $client;
   }
 
+  if (!class_exists('KeenIOClient')) {
+    return FALSE;
+  }
   $project_id = variable_get('shoov_keen_project_id');
   $write_key = variable_get('shoov_keen_write_key');
   $read_key = variable_get('shoov_keen_read_key');
 
   if (empty($write_key) || empty($read_key) || empty($project_id)) {
-//    throw new Exception('Keen IO app is not configured properly.');
-    return FALSE;
+    throw new Exception('Keen IO app is not configured properly.');
   }
 
   $client = KeenIOClient::factory([
