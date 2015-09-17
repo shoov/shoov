@@ -19,14 +19,14 @@
  *
  * @return bool
  */
-//function shoov_keenio_send_event($collection = 'purchases', $event = 'purchase', $data = array()) {
-//  $client = shoov_keenio_get_client();
-//  if (!$client) {
-//    return FALSE;
-//  }
-//  $event = array($event => $data);
-//  return $client->addEvent($collection, $event);
-//}
+function shoov_keenio_send_event($collection = 'purchases', $event = 'purchase', $data = array()) {
+  $client = shoov_keenio_get_client();
+  if (!$client) {
+    return FALSE;
+  }
+  $event = array($event => $data);
+  return $client->addEvent($collection, $event);
+}
 
 /**
  * Get a Keen IO instance.
@@ -52,11 +52,11 @@ function shoov_keenio_get_client() {
   if (empty($write_key) || empty($read_key) || empty($project_id)) {
     throw new Exception('Keen IO app is not configured properly.');
   }
-  $client = KeenIO\Client\KeenIOClient::factory([
-    'projectId' => $project_id,
-    'writeKey'  => $write_key,
-    'readKey'   => $read_key
-  ]);
+//  $client = KeenIO\Client\KeenIOClient::factory([
+//    'projectId' => $project_id,
+//    'writeKey'  => $write_key,
+//    'readKey'   => $read_key
+//  ]);
   return $client;
 }
 
