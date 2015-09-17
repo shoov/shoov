@@ -80,6 +80,10 @@ function post_install {
   echo "\$conf['shoov_pusher_app_key'] = '<your-app-key>';"  >> www/sites/default/settings.php
   echo "\$conf['shoov_pusher_app_secret'] = '<your-app-secret>';"  >> www/sites/default/settings.php
   echo "\$conf['shoov_pusher_app_id'] = '<your-app-id>';"  >> www/sites/default/settings.php
+
+  echo "\$conf['shoov_keen_project_id'] = '55f9371f46f9a75af42d9153';"  >> www/sites/default/settings.php
+  echo "\$conf['shoov_keen_write_key'] = 'e7b29497f97627522d92d1a76bcd55eb29f46475568df17314fa4ba7e8f3725b2bd5f065c8e56491e1d26720a22e5baee701fecd9a0a8edffecf72336d532a325cc0100a52468e61e1f6a8444ee56e83792ea923104571e0a37f579f4a3da5eb11ec98edbe3658c7a23d2ccd037012e6';"  >> www/sites/default/settings.php
+  echo "\$conf['shoov_keen_read_key'] = '386fd862896d584d06e39f1fd0e39a4f6347567e8069c10c476fcac87207a58a1d59e325465a9588b13cb3bbb9488fbbbcac05b76e4a791c6f370ca0e466c3dace170ae7172d2f677ce577a2caf9b8a5da9eab76e77040f154996fdc7c949c62e719d51e241ecdd5b40e862ed7da4c06';"  >> www/sites/default/settings.php
 }
 
 # Post upgrade script.
