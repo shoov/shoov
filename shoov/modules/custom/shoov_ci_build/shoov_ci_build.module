@@ -219,6 +219,11 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
 
   // Trigger Pusher event when new CI Build is created.
   shoov_ci_build_trigger_event(message_load($message->mid), 'ci_build_new');
+  // Send data to Keen IO.
+  shoov_keenio_send_event('shoov_events', 'new-build', array(
+    'mid' => $message->mid,
+    'build' => $wrapper->field_ci_build->label(),
+  ));
 
   return $message;
 }
@@ -237,6 +242,14 @@ function shoov_ci_build_message_update(Message $message) {
 
   $status = $wrapper->field_ci_build_status->value();
   if (!in_array($status, array('error', 'done'))) {
+
+    if ($wrapper->field_ci_build_status->value() == 'queue') {
+      // Send data to Keen IO.
+      shoov_keenio_send_event('shoov_events', 'build-requeued', array(
+        'mid' => $message->mid,
+        'build' => $wrapper->field_ci_build->label(),
+      ));
+    }
     // Item still in progress or re-queued after being stuck.
     return;
   }
@@ -376,6 +389,16 @@ function shoov_ci_build_process_ci_build_item(Message $message) {
 
     // Get the updated status.
     $ci_build_status = shoov_ci_build_get_ci_build_status($ci_build_node);
+
+    $old_wrapper = entity_metadata_wrapper('message', $message->original);
+    $old_status = shoov_ci_build_get_ci_build_status($old_wrapper->field_ci_build->value());
+    if ($ci_build_status != $old_status) {
+      // Send data to Keen IO.
+      shoov_keenio_send_event('shoov_events', 'build-changed-status', array(
+        'build' => $wrapper->field_ci_build->label(),
+        'status' => $ci_build_status,
+      ));
+    }
   }
 
   $arguments = array(

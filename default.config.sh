@@ -80,6 +80,11 @@ function post_install {
   echo "\$conf['shoov_pusher_app_key'] = '<your-app-key>';"  >> www/sites/default/settings.php
   echo "\$conf['shoov_pusher_app_secret'] = '<your-app-secret>';"  >> www/sites/default/settings.php
   echo "\$conf['shoov_pusher_app_id'] = '<your-app-id>';"  >> www/sites/default/settings.php
+
+  # Keen IO integration.
+  echo "\$conf['shoov_keen_project_id'] = '<your-keen-project-id>';"  >> www/sites/default/settings.php
+  echo "\$conf['shoov_keen_write_key'] = '<your-keen-write-key>';"  >> www/sites/default/settings.php
+  echo "\$conf['shoov_keen_read_key'] = '<your-keen-read-key>';"  >> www/sites/default/settings.php
 }
 
 # Post upgrade script.
