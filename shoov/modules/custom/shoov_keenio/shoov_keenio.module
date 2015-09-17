@@ -4,61 +4,61 @@
  * Code for the Keen IO integration.
  */
 
-//use KeenIO\Client\KeenIOClient;
-//
-///**
-// * Send Keen IO event.
-// *
-// * @param string $collection
-// *  Event collection name.
-// * @param string $event
-// *  Event name.
-// * @param array $data
-// *  Data to send.
-// *
-// * @throws RestfulServerConfigurationException
-// *
-// * @return bool
-// */
-//function shoov_keenio_send_event($collection = 'purchases', $event = 'purchase', $data = array()) {
-//  $client = shoov_keenio_get_client();
-//  if (!$client) {
-//    return FALSE;
-//  }
-//  $event = array($event => $data);
-//  return $client->addEvent($collection, $event);
-//}
-//
-///**
-// * Get a Keen IO instance.
-// *
-// * @return KeenIOClient
-// *   The KeenIOClient object.
-// *
-// * @throws Exception
-// */
-//function shoov_keenio_get_client() {
-//  $client = &drupal_static(__FUNCTION__);
-//  if ($client) {
-//    return $client;
-//  }
-//
-//  if (!class_exists('KeenIOClient')) {
-//    return FALSE;
-//  }
-//  $project_id = variable_get('shoov_keen_project_id');
-//  $write_key = variable_get('shoov_keen_write_key');
-//  $read_key = variable_get('shoov_keen_read_key');
-//
-//  if (empty($write_key) || empty($read_key) || empty($project_id)) {
-//    throw new Exception('Keen IO app is not configured properly.');
-//  }
-//
-//  $client = KeenIOClient::factory([
-//    'projectId' => $project_id,
-//    'writeKey'  => $write_key,
-//    'readKey'   => $read_key
-//  ]);
-//  return $client;
-//}
+use KeenIO\Client\KeenIOClient;
+
+/**
+ * Send Keen IO event.
+ *
+ * @param string $collection
+ *  Event collection name.
+ * @param string $event
+ *  Event name.
+ * @param array $data
+ *  Data to send.
+ *
+ * @throws RestfulServerConfigurationException
+ *
+ * @return bool
+ */
+function shoov_keenio_send_event($collection = 'purchases', $event = 'purchase', $data = array()) {
+  $client = shoov_keenio_get_client();
+  if (!$client) {
+    return FALSE;
+  }
+  $event = array($event => $data);
+  return $client->addEvent($collection, $event);
+}
+
+/**
+ * Get a Keen IO instance.
+ *
+ * @return KeenIOClient
+ *   The KeenIOClient object.
+ *
+ * @throws Exception
+ */
+function shoov_keenio_get_client() {
+  $client = &drupal_static(__FUNCTION__);
+  if ($client) {
+    return $client;
+  }
+
+  if (!class_exists('KeenIOClient')) {
+    return FALSE;
+  }
+  $project_id = variable_get('shoov_keen_project_id');
+  $write_key = variable_get('shoov_keen_write_key');
+  $read_key = variable_get('shoov_keen_read_key');
+
+  if (empty($write_key) || empty($read_key) || empty($project_id)) {
+    throw new Exception('Keen IO app is not configured properly.');
+  }
+
+  $client = KeenIOClient::factory([
+    'projectId' => $project_id,
+    'writeKey'  => $write_key,
+    'readKey'   => $read_key
+  ]);
+  return $client;
+}
 
