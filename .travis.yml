@@ -15,7 +15,6 @@ addons:
     packages:
     - php5-cgi
     - php5-mysql
-    - php5-mcrypt
 
 
 before_install:
