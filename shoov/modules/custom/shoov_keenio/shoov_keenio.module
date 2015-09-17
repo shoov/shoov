@@ -19,14 +19,14 @@
  *
  * @return bool
  */
-function shoov_keenio_send_event($collection = 'purchases', $event = 'purchase', $data = array()) {
-  $client = shoov_keenio_get_client();
-  if (!$client) {
-    return FALSE;
-  }
-  $event = array($event => $data);
-  return $client->addEvent($collection, $event);
-}
+//function shoov_keenio_send_event($collection = 'purchases', $event = 'purchase', $data = array()) {
+//  $client = shoov_keenio_get_client();
+//  if (!$client) {
+//    return FALSE;
+//  }
+//  $event = array($event => $data);
+//  return $client->addEvent($collection, $event);
+//}
 
 /**
  * Get a Keen IO instance.
