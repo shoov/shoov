@@ -25,6 +25,8 @@ class ShoovRestfulFormatterBuildStatusHtml extends \RestfulFormatterBase impleme
       return $data;
     }
 
+    $this->contentType = 'image/png';
+
     return $data;
   }
 
