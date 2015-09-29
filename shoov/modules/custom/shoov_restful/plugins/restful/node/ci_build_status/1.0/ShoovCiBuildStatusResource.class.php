@@ -56,7 +56,7 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
         break;
     }
 
-    return theme('image', array('path' => drupal_get_path('module', 'shoov_ci_build') . '/images/status/' . $file . '.png'));
+    return url(drupal_get_path('module', 'shoov_ci_build') . '/images/status/' . $file . '.png', array('absolute' => TRUE));
   }
 
   /**
