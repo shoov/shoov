@@ -16,8 +16,8 @@
       <label for="demo-url">
         Not sure what to do? Leave us your site URL, and we'll help you set it up
       </label>
-      <input type="url" id="demo-url" size="45" ng-model="url.text" required="true">
-      <button type="submit">Save</button>
+      <input type="url" id="demo-url" size="45" ng-model="url.text" required="true" ng-change="changeSubmitValue();">
+      <button type="submit" ng-disabled="submitValue == 'Saved';">{{submitValue}}</button>
     </form>
   </div>
 </div>

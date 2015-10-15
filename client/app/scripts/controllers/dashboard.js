@@ -18,6 +18,23 @@ angular.module('clientApp')
     $scope.userHasNoData = !account.repository;
 
     /**
+     * User's demo url.
+     */
+    $scope.url = {'text': account.demo_request_url};
+
+    /**
+     * Submit button value.
+     */
+    $scope.submitValue = 'Save';
+
+    /**
+     * Change Submit button value when URL has been changed.
+     */
+    $scope.changeSubmitValue = function() {
+      $scope.submitValue = 'Save';
+    };
+
+    /**
      * Set the entered demo url for the current user.
      *
      * @param url
@@ -26,8 +43,11 @@ angular.module('clientApp')
     $scope.saveAccountDemoUrl = function(url) {
       var data = {};
       data['demo_request_url'] = url;
-      Account.set(data);
-      $scope.userHasNoData = false;
+      Account.set(data).success(function() {
+        // Change submit button value after saving.
+        $scope.submitValue = 'Saved';
+      });
+
     };
 
     /**
