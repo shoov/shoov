@@ -12,8 +12,6 @@ angular.module('clientApp')
 
     /**
      * Determine if user doesn't have any repositories monitoring yet.
-     *
-     * @type {boolean}
      */
     $scope.userHasNoData = !account.repository;
 
