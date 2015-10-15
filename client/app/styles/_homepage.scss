@@ -6,6 +6,14 @@
 
 #demo-url-form {
   text-align: center;
-  background-color: $brand-info-light;
+  background-color: #FFF;
   padding-bottom: 20px;
+  padding-top: 10px;
+
+  button {
+    padding: 4px 25px;
+  }
+  input {
+    padding: 2px 5px 4px;
+  }
 }
