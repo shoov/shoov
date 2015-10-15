@@ -10,6 +10,17 @@
     </div>
   </div>
 </div>
+<div class="row" ng-show="userHasNoData">
+  <div class="col-md-6 pull-right">
+    <form ng-submit="saveAccountDemoUrl(url.text);">
+      <label for="demo-url">
+        Not sure what to do? Leave us your site URL, and we'll help you set it up
+      </label>
+      <input type="url" id="demo-url" size="45" ng-model="url.text" required="true">
+      <button type="submit">Save</button>
+    </form>
+  </div>
+</div>
 <div class="row">
   <div class="col-md-6 live-monitor-wrapper">
     <a class="dashboard-stat dashboard-stat-light red-soft" ui-sref="dashboard.repos">
