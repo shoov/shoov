@@ -21,3 +21,19 @@ $brand-info-message-bg:       #EEF7FB;
 $brand-info-message-color:    #31708F;
 $brand-info-message-border:   #A6E1EC;
 $brand-highlight:         	 	#FFF9EA;
+
+
+
+/* Desktop */
+@mixin desktop-only {
+  @media (min-width: $screen-sm-min) {
+    @content;
+  }
+}
+
+/* Mobile */
+@mixin mobile-only {
+  @media (max-width: $screen-xs-max) {
+    @content;
+  }
+}
