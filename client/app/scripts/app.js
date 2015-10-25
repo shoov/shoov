@@ -249,6 +249,9 @@ angular
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 
+    // Configuration for the responsive debug.
+    $rootScope.responsiveDebug = true;
+
     // Get year for the footer.
     $rootScope.year = new Date().getFullYear();
 
