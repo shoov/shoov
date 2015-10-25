@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-sm-12">
     <div class="page-bar">
       <ul class="page-breadcrumb">
         <li>
@@ -15,7 +15,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-sm-12">
     <div class="portlet">
       <div class="portlet-title">
         <div class="caption font-green-sharp">
@@ -25,20 +25,20 @@
       </div>
       <div class="portlet-body">
         <div class="row account">
-          <div class="col-md-3">
+          <div class="col-sm-3">
             <i class="fa fa-github-alt"></i>
             Name:
           </div>
-          <div class="col-md-9">
+          <div class="col-sm-9">
             {{ account.label }}
           </div>
         </div>
         <div class="row account">
-          <div class="col-md-3">
+          <div class="col-sm-3">
             <i class="fa fa-envelope"></i>
             Mail:
           </div>
-          <div class="col-md-9">
+          <div class="col-sm-9">
             {{ account.mail }}
           </div>
         </div>
@@ -46,22 +46,22 @@
         <form class="browser-stack-form account" editable-form name="stackEditableForm" onaftersave="saveSeleniumProvidersData('browserstack')">
           <div ng-click="stackEditableForm.$show()">
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-sm-3">
                 <i class="fa fa-database"></i>
                 BrowserStack Username:
               </div>
-              <div class="col-md-9">
+              <div class="col-sm-9">
                 <span class="like-a" href="#" editable-text="account.browserstack_username">{{ account.browserstack_username || 'empty' }}</span>
               </div>
             </div>
           </div>
           <div ng-show="stackEditableForm.$visible">
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-sm-3">
                 <i class="fa fa-database"></i>
                 BrowserStack Key:
               </div>
-              <div class="col-md-9">
+              <div class="col-sm-9">
                 <span href="#" editable-text="account.browserstack_key">{{ account.browserstack_key || 'empty' }}</span>
               </div>
             </div>
@@ -80,22 +80,22 @@
         <form class="sauce-labs-form account" editable-form name="sauceEditableForm" onaftersave="saveSeleniumProvidersData('sauce')">
           <div ng-click="sauceEditableForm.$show()">
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-sm-3">
                 <i class="fa fa-flask"></i>
                 Sauce Labs Username:
               </div>
-              <div class="col-md-9">
+              <div class="col-sm-9">
                 <span class="like-a" href="#" editable-text="account.sauce_username">{{ account.sauce_username || 'empty' }}</span>
               </div>
             </div>
           </div>
           <div ng-show="sauceEditableForm.$visible">
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-sm-3">
                 <i class="fa fa-flask"></i>
                 Sauce Labs Key:
               </div>
-              <div class="col-md-9">
+              <div class="col-sm-9">
                 <span href="#" editable-text="account.sauce_access_key">{{ account.sauce_access_key || 'empty' }}</span>
               </div>
             </div>
@@ -111,7 +111,7 @@
         </form>
 
         <div class="dashboard-stat dashboard-stat-light white-soft">
-          <div class="col-md-12 code-box">
+          <div class="col-sm-12 code-box">
             Create or update your <code>~/.shoov.json</code> file by copy pasting the following code into your terminal:
 
             <div class="config">
