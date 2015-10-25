@@ -11,6 +11,26 @@
     border: 1px solid rgba(255, 255, 255, 0.14);
     @include single-box-shadow(4px , 4px , 30px ,0px , #252729);
     @include border-radius(4px);
+
+    > div {
+      margin-top: 20px;
+    }
+
+    h1 {
+      margin: 0px;
+    }
+  }
+
+  .github-private button {
+    margin-right: 2px;
+  }
+
+  .shoov-logo {
+    margin-top: 0;
+    color: white;
+    font-size: 96px;
+    font-weight: 400;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
   }
 
   .btn-github {
@@ -22,7 +42,4 @@
     }
   }
 
-  .github-private {
-    margin-top: 20px;
-  }
 }

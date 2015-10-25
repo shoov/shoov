@@ -39,11 +39,8 @@ body {
     margin: 0;
   }
 
-  .container {
-//    background: $main-bg-color;
-//    padding: 25px 20px 75px 20px;
-//    min-height: 500px;
-//    position: relative;
+  .shoov-logo {
+    font-family: 'Audiowide', arial, sans-serif;
   }
 
   .navbar {
@@ -421,14 +418,13 @@ body {
 
     .fa {
       font-size: 20px;
-      color: green;
+      color: $turquoise;
       cursor: pointer;
     }
 
     &.message {
       margin-top: 40px;
-      background-color: #ffffe0;
-      border: 1px solid black;
+      background-color: $light-gray;
       padding: 10px 20px;
       @include border-radius(5px);
       font-size: 18px;
