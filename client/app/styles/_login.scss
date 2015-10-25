@@ -1,6 +1,5 @@
 #dashboard-login,
 #dashboard-github-auth {
-
   margin-top: 200px;
 
   .container {
@@ -15,22 +14,28 @@
     > div {
       margin-top: 20px;
     }
+  }
 
-    h1 {
-      margin: 0px;
-    }
+  h1 {
+    margin: 0px;
+    margin-top: 0;
+    color: $light-gray;
+    font-size: 40px;
+    font-weight: 400;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    font-family: 'Fira Sans', arial, sans-serif;
+  }
+
+  a {
+    color: $turquoise;
   }
 
   .github-private button {
     margin-right: 2px;
   }
 
-  .shoov-logo {
-    margin-top: 0;
-    color: white;
-    font-size: 96px;
-    font-weight: 400;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  .dev-tip .message {
+    margin-top: 40px;;
   }
 
   .btn-github {
