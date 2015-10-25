@@ -432,11 +432,12 @@ body {
   }
 
   footer {
-    padding: 20px 10px;
-    background: $footer-bg;
-    color: $footer-color;
-    width: 100%;
-    text-align: center;
+   .container {
+     padding: 20px 10px;
+     background: $footer-bg;
+     color: $footer-color;
+     text-align: center;
+   }
   }
 
   .content {
