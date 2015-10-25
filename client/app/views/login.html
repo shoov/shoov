@@ -1,21 +1,16 @@
 <div id="dashboard-login">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-offset-3 col-sm-5 jumbotron">
+  <div class="container text-center">
+    <a class="btn btn-block btn-social btn-lg btn-github" ng-show="githubClientId" ng-href="https://github.com/login/oauth/authorize?client_id={{ githubClientId }}&scope=user:email,read:org,{{ githubPrivateAccess ? 'repo' : 'public_repo'}}">
+      <i class="fa fa-github"></i> Sign in with GitHub
+    </a>
 
-        <a class="btn btn-block btn-social btn-lg btn-github" ng-show="githubClientId" ng-href="https://github.com/login/oauth/authorize?client_id={{ githubClientId }}&scope=user:email,read:org,{{ githubPrivateAccess ? 'repo' : 'public_repo'}}">
-          <i class="fa fa-github"></i> Sign in with GitHub
-        </a>
+    <div class="github-private">
+      <checkbox ng-model="githubPrivateAccess"></checkbox> Allow Shoov to access your private repositories
+    </div>
 
-        <div class="github-private">
-          <checkbox ng-model="githubPrivateAccess"></checkbox> Allow Shoov to access your private repositories
-        </div>
-
-        <div class="dev-tip message">
-          <i class="fa fa-info-circle" popover-template="'githubLogin.html'" popover-title="Dev Tip"></i>
-          <em>Psst! click on the info icons to get some Dev Tips. There are more tips inside!</em>
-        </div>
-      </div>
+    <div class="dev-tip message">
+      <i class="fa fa-info-circle" popover-template="'githubLogin.html'" popover-title="Dev Tip"></i>
+      <em>Psst! click on the info icons to get some Dev Tips. There are more tips inside!</em>
     </div>
   </div>
 

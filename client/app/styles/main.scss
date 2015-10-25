@@ -9,6 +9,7 @@
 
 @import "mixin";
 @import "custom_bootstrap";
+@import "login";
 @import 'account';
 @import 'before_after_image_slider';
 @import 'builds';
@@ -26,8 +27,10 @@
 }
 
 body {
-  background-color: $brand-default;
   color: $brand-main-color;
+  background: $dark-blue;
+  width: 100%;
+  height: 100%;
 
   ul,
   ol {
@@ -37,10 +40,10 @@ body {
   }
 
   .container {
-    background: $main-bg-color;
-    padding: 25px 20px 75px 20px;
-    min-height: 500px;
-    position: relative;
+//    background: $main-bg-color;
+//    padding: 25px 20px 75px 20px;
+//    min-height: 500px;
+//    position: relative;
   }
 
   .navbar {
@@ -405,42 +408,7 @@ body {
     background-image: none;
     filter: none;
     @include box-shadow(none);
-    @include border-radius(0);
     text-shadow: none;
-
-    &.btn-github:hover {
-      color: white;
-    }
-  }
-
-  #dashboard-login,
-  #dashboard-github-auth {
-    background: {
-      image: image-url("fish.jpg");
-      repeat: no-repeat;
-      position: top left;
-    }
-  ;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-
-    @include background-size(cover);
-
-    .container {
-      background-color: transparent;
-      min-height: 0;
-      padding: 0;
-    }
-
-    .jumbotron {
-      margin-top: 80px;
-      background-color: white;
-    }
-
-    .github-private {
-      margin-top: 20px;
-    }
   }
 
   .config {
