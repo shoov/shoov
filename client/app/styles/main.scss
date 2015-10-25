@@ -432,13 +432,18 @@ body {
   }
 
   footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
     padding: 20px 10px;
     background: $footer-bg;
     color: $footer-color;
     width: 100%;
     text-align: center;
+  }
+
+  .content {
+    background: $light-gray;
+
+    .main {
+      min-height: 1000px;
+    }
   }
 }
