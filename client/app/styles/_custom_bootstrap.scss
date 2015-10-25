@@ -3,16 +3,10 @@ $grid-gutter-width: 30px;
 
 $custom-desktop-width: (1140px + $grid-gutter-width);
 
-// Small screen / tablet
-//$container-tablet:  $custom-desktop-width;
 //** For `$screen-sm-min` and up.
-//$container-sm:  $container-tablet ;
 $container-sm:  $custom-desktop-width ;
 
-// Medium screen / desktop
-//$container-desktop: $custom-desktop-width;
 //** For `$screen-md-min` and up.
-//$container-md:  $container-desktop;
 $container-md:  $custom-desktop-width;
 
 @import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
