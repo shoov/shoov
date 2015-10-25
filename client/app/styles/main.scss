@@ -27,10 +27,8 @@
 }
 
 body {
-  color: $brand-main-color;
+  font-family: 'Fira Sans', arial, sans-serif;
   background: $dark-blue;
-  width: 100%;
-  height: 100%;
 
   ul,
   ol {
