@@ -2,12 +2,8 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
-        <h1 class="text-center shoov-logo">shoov</h1>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12">
         <div class="login-wrapper">
+          <h1 class="shoov-logo text-center">shoov</h1>
           <a class="btn btn-block btn-social btn-lg btn-github text-center" ng-show="githubClientId" ng-href="https://github.com/login/oauth/authorize?client_id={{ githubClientId }}&scope=user:email,read:org,{{ githubPrivateAccess ? 'repo' : 'public_repo'}}">
             <i class="fa fa-github"></i> Sign in with GitHub
           </a>
