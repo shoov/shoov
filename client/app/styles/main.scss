@@ -6,8 +6,8 @@
 // @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 
 @import "compass/css3";
-@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
 
+@import "custom_bootstrap";
 @import "variables";
 @import 'account';
 @import 'before_after_image_slider';
