@@ -3,15 +3,35 @@
   color: $turquoise;
 
     .container {
+      padding-bottom: 50px;
 
       .navbar-brand {
         color: #fff;
         background: $turquoise;
-        @include border-radius(5px);
+        @include border-radius(0px 0px 5px 5px);
       }
     }
 
   .navbar-nav {
-    float: right;
+    height: 50px;
+
+    li {
+      margin-left: 8px;
+
+      &:hover a {
+        background: transparent;
+        color: $turquoise;
+      }
+
+      a {
+        color: $light-gray;
+
+        &.active {
+          color: $turquoise;
+
+        }
+      }
+    }
+
   }
 }
