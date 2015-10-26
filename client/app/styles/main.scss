@@ -10,6 +10,7 @@
 @import "mixin";
 @import "custom_bootstrap";
 @import "footer";
+@import "header";
 @import "login";
 @import 'account';
 @import 'before_after_image_slider';
@@ -55,24 +56,6 @@ body {
       text-decoration: none;
       color: $gizra-dark;
     }
-  }
-
-  .navbar {
-    margin-bottom: 0;
-    background: none;
-    border: 0 none;
-
-    .container {
-      background: white;
-      box-shadow: 0 1px 10px 0 rgba(50, 50, 50, 0.2);
-      padding: 15px 20px 5px 20px;
-      min-height: 0;
-      z-index: 1;
-    }
-  }
-
-  .navbar-nav {
-    float: right;
   }
 
   .page-title {
