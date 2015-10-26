@@ -4,24 +4,46 @@
   padding-bottom: 20px;
   background: $dark-blue;
 
-  .company-details {
-    text-align: center;
+  .container {
 
-    span {
-      margin-right: 10px;
+    .company-details {
+      text-align: center;
 
       @include mobile-only {
-        display: block;
-        margin-top: 10px;
+        text-align: left;
+        margin: 0 auto;
+        max-width: 280px;
       }
 
-      a {
-        color: $gray;
-      }
+      span {
+        margin-right: 10px;
 
-      i {
-        color: $turquoise;
-        margin-right: 5px;
+        @include mobile-only {
+          display: block;
+          margin-right: 0px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+
+          &:first-child {
+            margin-top: 0px;
+          }
+        }
+
+        a {
+          color: $gray;
+
+          &.gizra-logo {
+            letter-spacing: 0.7px;
+            font-size: 17px;
+            color: $gizra;
+          }
+        }
+
+        i {
+          color: $turquoise;
+          margin-right: 5px;
+        }
       }
     }
   }
