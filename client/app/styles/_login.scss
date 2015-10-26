@@ -11,7 +11,7 @@
       padding: 15px;
       background: rgba(123, 135, 146, 0.12);
       border: 1px solid rgba(255, 255, 255, 0.14);
-      @include single-box-shadow(4px , 4px , 30px ,0px , #252729);
+      @include box-shadow(4px 4px 30px 0px #252729);
       @include border-radius(4px);
     }
 
