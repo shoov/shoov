@@ -40,15 +40,18 @@
       }
     }
 
-  navbar-collapse.in {
-    overflow-y: auto;
-  }
-
   .navbar-nav {
-    height: 50px;
+
+    @include desktop-only {
+      height: 50px;
+      float: right;
+    }
 
     li {
-      margin-left: 8px;
+
+      @include desktop-only {
+        margin-left: 8px;
+      }
 
       &:hover a {
         background: transparent;
@@ -58,9 +61,13 @@
       a {
         color: $light-gray;
 
+        &:focus {
+          background-color: transparent;
+          outline: none;
+        }
+
         &.active {
           color: $turquoise;
-
         }
       }
     }
