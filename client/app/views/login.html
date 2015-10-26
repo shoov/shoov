@@ -12,7 +12,7 @@
       <div class="row">
         <div class="col-xs-12">
           <a class="btn btn-block btn-social btn-lg btn-github text-center" ng-show="githubClientId" ng-href="https://github.com/login/oauth/authorize?client_id={{ githubClientId }}&scope=user:email,read:org,{{ githubPrivateAccess ? 'repo' : 'public_repo'}}">
-            <i class="fa fa-github"></i> With Your GitHub account
+            <i class="fa fa-github"></i> With GitHub account
           </a>
           <div class="github-private">
             <checkbox ng-model="githubPrivateAccess"></checkbox>
