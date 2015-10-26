@@ -3,14 +3,46 @@
   color: $turquoise;
 
     .container {
-      padding-bottom: 50px;
+      padding-bottom: 17px;
 
-      .navbar-brand {
+      @include mobile-only {
+        text-align: center;
+      }
+
+      .shoov-logo {
+        display: inline-block;
+        height: 50px;
+        padding: 15px 15px;
+        font-size: 18px;
+        line-height: 20px;
         color: #fff;
         background: $turquoise;
+        text-decoration: none;
         @include border-radius(0px 0px 5px 5px);
+
+        @include desktop-only {
+          float: left;
+        }
+      }
+
+      button.navbar-toggle {
+        margin-right: 0;
+        margin-top: 0;
+        background: 0 0;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+
+        .icon-bar {
+          background: white;
+          @include border-radius(1px);
+        }
       }
     }
+
+  navbar-collapse.in {
+    overflow-y: auto;
+  }
 
   .navbar-nav {
     height: 50px;
@@ -32,6 +64,5 @@
         }
       }
     }
-
   }
 }
