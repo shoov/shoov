@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-sm-12">
     <div class="page-bar">
       <ul class="page-breadcrumb">
         <li>
@@ -29,13 +29,13 @@
     </div>
   </div>
   <div class="row portlet-body">
-    <div class="col-md-12 interval-wrapper">
+    <div class="col-sm-12 interval-wrapper">
       <label for="interval">Build interval: </label>
       <select ng-change="updateInterval()" ng-options="id as label for (id, label) in intervals" class="form-control" id="interval" ng-model="build.interval">
       </select>
       <i ng-class="{'fa-check': responseStatus}" class="fa"></i>
     </div>
-    <div class="col-md-6">
+    <div class="col-sm-6">
       <div class="portlet">
         <div class="portlet-title">
           <div class="caption">Build History</div>
@@ -70,7 +70,7 @@
       </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-sm-6">
       <div class="portlet">
         <div class="portlet-title">
           <div class="caption">Incidents</div>

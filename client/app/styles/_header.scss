@@ -1,0 +1,17 @@
+#header {
+  background: $dark-blue;
+  color: $turquoise;
+
+    .container {
+
+      .navbar-brand {
+        color: #fff;
+        background: $turquoise;
+        @include border-radius(5px);
+      }
+    }
+
+  .navbar-nav {
+    float: right;
+  }
+}
