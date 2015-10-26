@@ -1,31 +1,25 @@
 <div id="dashboard-login">
   <div class="container">
-    <div class="row">
-      <div class="col-sm-offset-3 col-sm-5 jumbotron">
-
-        <a class="btn btn-block btn-social btn-lg btn-github" ng-show="githubClientId" ng-href="https://github.com/login/oauth/authorize?client_id={{ githubClientId }}&scope=user:email,read:org,{{ githubPrivateAccess ? 'repo' : 'public_repo'}}">
-          <i class="fa fa-github"></i> Sign in with GitHub
-        </a>
-
-        <div class="github-private">
-          <checkbox ng-model="githubPrivateAccess"></checkbox> Allow Shoov to access your private repositories
+    <div class="login-wrapper">
+      <div class="row">
+        <div class="col-xs-6">
+          <h1 class="pull-left">Sign In</h1>
         </div>
-
-        <div class="dev-tip message">
-          <i class="fa fa-info-circle" popover-template="'githubLogin.html'" popover-title="Dev Tip"></i>
-          <em>Psst! click on the info icons to get some Dev Tips. There are more tips inside!</em>
+        <div class="col-xs-6">
+          <span class="shoov-logo pull-right">Shoov</span>
         </div>
       </div>
-    </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <a class="btn btn-block btn-social btn-lg btn-github text-center" ng-show="githubClientId" ng-href="https://github.com/login/oauth/authorize?client_id={{ githubClientId }}&scope=user:email,read:org,{{ githubPrivateAccess ? 'repo' : 'public_repo'}}">
+            <i class="fa fa-github"></i> With GitHub account
+          </a>
+          <div class="github-private">
+            <checkbox ng-model="githubPrivateAccess"></checkbox>
+            Allow Shoov to access your private repositories
+          </div>
+        </div>
+        </div>
+      </div>
   </div>
-
 </div>
-
-<script type="text/ng-template" id="githubLogin.html">
-  <p>
-    See an example of a RESTful <a href="https://github.com/shoov/shoov/blob/master/shoov/modules/custom/shoov_restful/plugins/restful/restful_token_auth/token_auth/access_token/1.0/ShoovGithubAuthAuthentication.class.php#L8" target="_blank">data provider</a> with a GitHub backend.
-  </p>
-  <div>
-    <em>Photo by <a href="https://twitter.com/amitaibu">@amitaibu</a> in Nagasaki, Japan</em>
-  </div>
-</script>

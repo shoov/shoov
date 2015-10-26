@@ -9,6 +9,7 @@
 
 @import "mixin";
 @import "custom_bootstrap";
+@import "login";
 @import 'account';
 @import 'before_after_image_slider';
 @import 'builds';
@@ -26,8 +27,8 @@
 }
 
 body {
-  background-color: $brand-default;
-  color: $brand-main-color;
+  font-family: 'Fira Sans', arial, sans-serif;
+  background: $dark-blue;
 
   ul,
   ol {
@@ -36,11 +37,8 @@ body {
     margin: 0;
   }
 
-  .container {
-    background: $main-bg-color;
-    padding: 25px 20px 75px 20px;
-    min-height: 500px;
-    position: relative;
+  .shoov-logo {
+    font-family: 'Audiowide', arial, sans-serif;
   }
 
   .navbar {
@@ -405,42 +403,7 @@ body {
     background-image: none;
     filter: none;
     @include box-shadow(none);
-    @include border-radius(0);
     text-shadow: none;
-
-    &.btn-github:hover {
-      color: white;
-    }
-  }
-
-  #dashboard-login,
-  #dashboard-github-auth {
-    background: {
-      image: image-url("fish.jpg");
-      repeat: no-repeat;
-      position: top left;
-    }
-  ;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-
-    @include background-size(cover);
-
-    .container {
-      background-color: transparent;
-      min-height: 0;
-      padding: 0;
-    }
-
-    .jumbotron {
-      margin-top: 80px;
-      background-color: white;
-    }
-
-    .github-private {
-      margin-top: 20px;
-    }
   }
 
   .config {
@@ -453,14 +416,13 @@ body {
 
     .fa {
       font-size: 20px;
-      color: green;
+      color: $turquoise;
       cursor: pointer;
     }
 
     &.message {
       margin-top: 40px;
-      background-color: #ffffe0;
-      border: 1px solid black;
+      background-color: $light-gray;
       padding: 10px 20px;
       @include border-radius(5px);
       font-size: 18px;
@@ -468,13 +430,19 @@ body {
   }
 
   footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    padding: 20px 10px;
-    background: $footer-bg;
-    color: $footer-color;
-    width: 100%;
-    text-align: center;
+   .container {
+     padding: 20px 10px;
+     background: $footer-bg;
+     color: $footer-color;
+     text-align: center;
+   }
+  }
+
+  .content {
+    background: $light-gray;
+
+    .main {
+      min-height: 1000px;
+    }
   }
 }
