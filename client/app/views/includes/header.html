@@ -1,0 +1,19 @@
+<header id="header">
+  <nav role="navigation">
+    <div class="container">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="shoov-logo" ui-sref="dashboard.homepage">Shoov</a>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a ui-sref="dashboard.account" ui-sref-active="active"><i class="fa fa-user"></i> Account</a></li>
+          <li><a href ng-click="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
