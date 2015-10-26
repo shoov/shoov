@@ -7,6 +7,7 @@
 
       @include mobile-only {
         text-align: center;
+        padding-bottom: 0px;
       }
 
       .shoov-logo {
@@ -19,9 +20,18 @@
         background: $turquoise;
         text-decoration: none;
         @include border-radius(0px 0px 5px 5px);
+        @include transition(0.4s ease-in-out all);
+
+        &:hover {
+          background: $dark-turquoise;
+        }
 
         @include desktop-only {
           float: left;
+        }
+
+        @include mobile-only {
+          margin-bottom: 25px;
         }
       }
 
@@ -42,10 +52,6 @@
 
   .navbar-collapse {
 
-    @include mobile-only {
-      margin-top: 25px;
-    }
-
     .navbar-nav {
 
       @include desktop-only {
@@ -53,10 +59,20 @@
         float: right;
       }
 
+      @include mobile-only {
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
+
       li {
 
         @include desktop-only {
           margin-left: 8px;
+          margin-top: 8px;
+        }
+
+        @include mobile-only {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.09);
         }
 
         &:hover a {
@@ -66,6 +82,7 @@
 
         a {
           color: $light-gray;
+          @include transition(0.4s ease-in-out all);
 
           &:focus {
             background-color: transparent;
