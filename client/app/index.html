@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="clientApp">
+  <body ng-app="clientApp" ng-class="{'login-page': $state.current.name == 'login' || $state.current.name == 'github'}">
   <!-- Responsive debug breakpoint -->
     <div ng-include="'views/includes/responsive-debug.html'"></div>
   <!--[if lt IE 7]>

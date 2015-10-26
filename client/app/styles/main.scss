@@ -29,7 +29,11 @@
 
 body {
   font-family: 'Fira Sans', arial, sans-serif;
-  background: $dark-blue;
+  background: $light-gray;
+
+  &.login-page {
+    background: $dark-blue;
+  }
 
   ul,
   ol {
