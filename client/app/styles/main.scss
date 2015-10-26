@@ -43,6 +43,17 @@ body {
     margin: 0;
   }
 
+  hr {
+    background: $light-gray;
+    height: 1px;
+    display: block;
+    border-bottom: 1px solid #e2e2e2;
+
+    &.no-margin {
+      margin: 0px;
+    }
+  }
+
   .shoov-logo {
     font-family: 'Audiowide', arial, sans-serif;
   }
@@ -71,8 +82,9 @@ body {
   }
 
   .page-bar {
+    font-family: 'Droid Serif',serif;
     padding: 0;
-    background-color: white;
+    margin-top: 20px;
     margin-bottom: 20px;
     width: 100%;
 
@@ -88,7 +100,7 @@ body {
         font-size: 16px;
         text-shadow: none;
 
-        @media (max-width: 768px) {
+        @include mobile-only {
           font-size: 14px;
         }
 
@@ -102,8 +114,9 @@ body {
           text-shadow: none;
 
           &.fa-angle-right {
-            width: 28px;
+            width: 10px;
             text-align: center;
+            color: rgba(40, 165, 168, 0.61);
           }
         }
       }
