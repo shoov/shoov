@@ -1,7 +1,12 @@
 #dashboard-login,
 #dashboard-github-auth {
-  margin-top: 200px;
   color: $light-gray;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  margin-top: 40px;
+
+  @include desktop-only {
+    min-height: $min-height;
+  }
 
   .container {
 
@@ -13,6 +18,11 @@
       border: 1px solid rgba(255, 255, 255, 0.14);
       @include box-shadow(4px 4px 30px 0px #252729);
       @include border-radius(4px);
+
+      @include desktop-only {
+        border-top: 1px solid rgba(255, 255, 255, 0.09);
+        margin-top: 200px;
+      }
     }
 
     h1 {
@@ -41,15 +51,20 @@
       background: $turquoise;
       padding-left: 0px;
 
+      @include mobile-only {
+        padding-left: 55px;
+      }
+
       &:hover {
         background: $dark-turquoise;
       }
     }
     
     .shoov-logo {
-      background: #28A5A8;
+      color: rgba(255, 255, 255, 0.78);
       padding: 8px;
-      border-radius: 2px;
+      @include border-radius(2px);
+      border: 1px solid rgba(255, 255, 255, 0.52);
     }
 
     button {
@@ -67,4 +82,20 @@
 
 #dashboard-github-auth {
   color: $turquoise;
+}
+
+#footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+
+  @include desktop-only {
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+  }
+
+  @include mobile-only {
+    margin-top: 50px;
+  }
+
 }

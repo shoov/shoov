@@ -9,6 +9,7 @@
 
 @import "mixin";
 @import "custom_bootstrap";
+@import "footer";
 @import "login";
 @import 'account';
 @import 'before_after_image_slider';
@@ -28,7 +29,11 @@
 
 body {
   font-family: 'Fira Sans', arial, sans-serif;
-  background: $dark-blue;
+  background: $light-gray;
+
+  &.login-page {
+    background: $dark-blue;
+  }
 
   ul,
   ol {
@@ -39,6 +44,17 @@ body {
 
   .shoov-logo {
     font-family: 'Audiowide', arial, sans-serif;
+  }
+
+  .gizra-logo {
+    text-transform: lowercase;
+    font-family: Abril Fatface;
+    color: $gizra;
+
+    &:hover, &:focus {
+      text-decoration: none;
+      color: $gizra-dark;
+    }
   }
 
   .navbar {
@@ -429,20 +445,13 @@ body {
     }
   }
 
-  footer {
-   .container {
-     padding: 20px 10px;
-     background: $footer-bg;
-     color: $footer-color;
-     text-align: center;
-   }
-  }
-
   .content {
     background: $light-gray;
 
     .main {
-      min-height: 1000px;
+      @include desktop-only {
+        min-height: $min-height;
+      }
     }
   }
 }
