@@ -40,34 +40,41 @@
       }
     }
 
-  .navbar-nav {
+  .navbar-collapse {
 
-    @include desktop-only {
-      height: 50px;
-      float: right;
+    @include mobile-only {
+      margin-top: 25px;
     }
 
-    li {
+    .navbar-nav {
 
       @include desktop-only {
-        margin-left: 8px;
+        height: 50px;
+        float: right;
       }
 
-      &:hover a {
-        background: transparent;
-        color: $turquoise;
-      }
+      li {
 
-      a {
-        color: $light-gray;
-
-        &:focus {
-          background-color: transparent;
-          outline: none;
+        @include desktop-only {
+          margin-left: 8px;
         }
 
-        &.active {
+        &:hover a {
+          background: transparent;
           color: $turquoise;
+        }
+
+        a {
+          color: $light-gray;
+
+          &:focus {
+            background-color: transparent;
+            outline: none;
+          }
+
+          &.active {
+            color: $turquoise;
+          }
         }
       }
     }
