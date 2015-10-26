@@ -24,8 +24,18 @@
 <div class="container content">
   <div ui-view class="main"></div>
 </div>
-<footer>
+<footer id="footer">
   <div class="container">
-    {{year}} <i class="fa fa-copyright"></i>
+    <div class="company-details row">
+      <span><i class="fa fa-map-marker"></i>5 Brenner St | Tel-Aviv| Israel </span>
+      <span><i class="fa fa-phone"></i>Tel: +972-3-3731222 | Fax: +972-3-5617771</span>
+      <span><i class="fa fa-envelope-o"></i><a href="mailto:info@gizra.com" class="email">info@gizra.com</a></span>
+      <span>
+        <a href="http://www.gizra.com" target="_blank">
+          <span> {{year}} <i class="fa fa-copyright"></i></span>
+          <span class="gizra-logo">gizra</span>
+        </a>
+      </span>
+    </div>
   </div>
 </footer>
