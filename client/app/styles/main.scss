@@ -449,7 +449,9 @@ body {
     background: $light-gray;
 
     .main {
-      min-height: 1000px;
+      @include desktop-only {
+        min-height: $min-height;
+      }
     }
   }
 }
