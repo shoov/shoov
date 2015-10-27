@@ -9,6 +9,10 @@ body {
     .box {
       border-bottom: 1px solid $smoke-blue;
 
+      &:last-child {
+        border-bottom: none
+      }
+
       > div {
 
         &:nth-child(1) {
@@ -21,18 +25,18 @@ body {
           }
         }
       }
-
-      &.browser-stack-form,
-      &.sauce-labs-form {
-        .editable {
-          cursor: pointer;
-        }
-      }
-
       .space-box {
         padding-top: 15px;
         padding-bottom: 15px;
         display: inline-block;
+      }
+    }
+
+    .browser-stack-form,
+    .sauce-labs-form {
+
+      .editable {
+        cursor: pointer;
       }
     }
 

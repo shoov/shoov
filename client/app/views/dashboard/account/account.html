@@ -27,18 +27,23 @@
           <span class="space-box">{{ account.mail }}</span>
         </div>
       </div>
+    </div>
 
+    <div class="soft-border">
       <form class="browser-stack-form account" editable-form name="stackEditableForm" onaftersave="saveSeleniumProvidersData('browserstack')">
         <div ng-click="stackEditableForm.$show()">
           <div class="row">
-            <div class="col-xs-3 "><i class="fa fa-database"></i> BrowserStack Username:</div>
+            <div class="col-xs-3">
+              <i class="fa fa-database"></i>
+              BrowserStack Username:
+            </div>
             <div class="col-xs-9">
-              <span href="#" class="space-box" editable-text="account.browserstack_username">{{ account.browserstack_username || 'empty' }}</span>
+              <span href="#" editable-text="account.browserstack_username">{{ account.browserstack_username || 'empty' }}</span>
             </div>
           </div>
         </div>
-        <div ng-click="stackEditableForm.$show()">
-          <div class="row box">
+        <div ng-show="stackEditableForm.$visible">
+          <div class="row">
             <div class="col-xs-3">
               <i class="fa fa-database"></i>
               BrowserStack Key:
@@ -73,7 +78,7 @@
             </div>
           </div>
         </div>
-        <div ng-click="sauceEditableForm.$show()">
+        <div ng-show="sauceEditableForm.$visible">
           <div class="row">
             <div class="col-xs-3">
               <i class="fa fa-flask"></i>
@@ -97,7 +102,10 @@
           </div>
         </div>
       </form>
+
     </div>
+
+
     <div class="row">
       <div class="col-xs-12 code-box">
         Create or update your <code>~/.shoov.json</code> file by copy pasting the following code into your terminal:
