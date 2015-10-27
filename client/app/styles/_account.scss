@@ -1,22 +1,40 @@
-.account {
-  > div {
-    margin-bottom: 8px;
-    font-size: 18px;
-  }
-
-  &.browser-stack-form,
-  &.sauce-labs-form {
+body {
+  #account-page {
 
     .row {
-      margin-bottom: 4px;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
 
-      .editable {
-        cursor: pointer;
+    color: $gray-medium;
+
+    .account {
+      border: 1px solid $smoke-blue;
+
+      &:nth-child(n+3) {
+        border-top: none;
+      }
+
+      &.browser-stack-form,
+      &.sauce-labs-form {
+        .editable {
+          cursor: pointer;
+        }
+      }
+
+      .account-label {
+        border-right: 1px solid $smoke-blue;
+      }
+
+      .account-label,
+      .account-value {
+        padding: 15px;
+
       }
     }
 
-    .form-actions {
-      margin-bottom: 10px;
+    .code-box {
+      margin-top: 60px;
     }
   }
 }

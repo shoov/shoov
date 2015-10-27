@@ -2,9 +2,15 @@ body {
 
   #homepage {
 
-    .live-monitor-wrapper,
-    .visual-regression-wrapper {
-      text-align: center;
+    .wrapper {
+      border: none;
+      color: white;
+      background: $light-blue;
+
+      h2 {
+        color: $light-blue;
+        background: white;
+      }
     }
   }
 }
