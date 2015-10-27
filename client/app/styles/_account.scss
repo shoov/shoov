@@ -6,13 +6,20 @@ body {
       margin-right: 0px;
     }
 
-    color: $gray-medium;
+    .box {
+      border-bottom: 1px solid $smoke-blue;
 
-    .account {
-      border: 1px solid $smoke-blue;
+      > div {
 
-      &:nth-child(n+3) {
-        border-top: none;
+        &:nth-child(1) {
+          padding-top: 15px;
+        }
+
+        &:nth-child(2) {
+          @include desktop-only{
+            border-left: 1px solid $smoke-blue;
+          }
+        }
       }
 
       &.browser-stack-form,
@@ -22,14 +29,10 @@ body {
         }
       }
 
-      .account-label {
-        border-right: 1px solid $smoke-blue;
-      }
-
-      .account-label,
-      .account-value {
-        padding: 15px;
-
+      .space-box {
+        padding-top: 15px;
+        padding-bottom: 15px;
+        display: inline-block;
       }
     }
 

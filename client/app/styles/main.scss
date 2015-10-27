@@ -29,6 +29,7 @@
 }
 
 body {
+  color: $gray-medium;
   font-family: 'Fira Sans', arial, sans-serif;
   background: $light-gray;
 
@@ -69,6 +70,10 @@ body {
       font-size: 18px;
       text-transform: capitalize;
     }
+  }
+
+  .soft-border {
+    border: 1px solid $smoke-blue;
   }
 
   .code-box {
