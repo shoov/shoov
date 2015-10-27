@@ -54,6 +54,23 @@ body {
     }
   }
 
+  .wrapper {
+    padding: 0px 15px 15px 15px;
+    border: 1px solid rgba(128, 128, 128, 0.18);
+    background: white;
+    @include border-radius(0px 0px 10px 10px);
+    @include box-shadow( 0px 0px 10px -1px rgba(0, 0, 0, 0.1));
+
+    h2 {
+      margin: 0px -15px 20px -15px;
+      padding: 10px 15px 10px 15px;
+      color: white;
+      background-color: $light-blue;
+      font-size: 18px;
+      text-transform: capitalize;
+    }
+  }
+
   .shoov-logo {
     font-family: 'Audiowide', arial, sans-serif;
   }
