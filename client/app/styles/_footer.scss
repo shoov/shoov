@@ -4,6 +4,10 @@
   padding-bottom: 20px;
   background: $dark-blue;
 
+  @include mobile-only {
+    margin-top: 50px;
+  }
+
   .container {
 
     .company-details {

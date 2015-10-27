@@ -445,9 +445,7 @@ body {
     background: $light-gray;
 
     .main {
-      @include desktop-only {
-        min-height: $min-height;
-      }
+      min-height: $min-height;
     }
   }
 }

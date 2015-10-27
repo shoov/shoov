@@ -3,10 +3,7 @@
   color: $light-gray;
   border-top: 1px solid rgba(255, 255, 255, 0.09);
   margin-top: 40px;
-
-  @include desktop-only {
-    min-height: $min-height;
-  }
+  min-height: $min-height;
 
   .container {
 
@@ -83,20 +80,4 @@
 
 #dashboard-github-auth {
   color: $turquoise;
-}
-
-#footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.09);
-
-  @include desktop-only {
-      position: absolute;
-      bottom: 0px;
-      left: 0px;
-      right: 0px;
-  }
-
-  @include mobile-only {
-    margin-top: 50px;
-  }
-
 }
