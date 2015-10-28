@@ -1,43 +1,43 @@
 body {
   #account-page {
 
-    .row {
-      margin-left: 0px;
-      margin-right: 0px;
-    }
+    .account-details {
 
-    .box {
-      border-bottom: 1px solid $smoke-blue;
-
-      &:last-child {
-        border-bottom: none
+      .row {
+        margin-left: 0px;
+        margin-right: 0px;
       }
 
-      > div {
+      .form-actions {
+        margin-top: 15px;
+        margin-bottom: 15px;
+      }
 
-        &:nth-child(1) {
-          padding-top: 15px;
+      .box {
+        border-bottom: 1px solid $smoke-blue;
+
+        &:last-child {
+          border-bottom: none
         }
 
-        &:nth-child(2) {
-          @include desktop-only{
-            border-left: 1px solid $smoke-blue;
+        > div {
+          padding-top: 15px;
+          padding-bottom: 15px;
+
+          &:first-child {
+            border-right: 1px solid $smoke-blue;
+
+            &.no-border {
+              border: none;
+            }
           }
         }
       }
-      .space-box {
-        padding-top: 15px;
-        padding-bottom: 15px;
-        display: inline-block;
-      }
-    }
 
-    .browser-stack-form,
-    .sauce-labs-form {
-
-      .editable {
-        cursor: pointer;
+      i {
+        color: #5D80A1;
       }
+
     }
 
     .code-box {

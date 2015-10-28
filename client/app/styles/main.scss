@@ -70,10 +70,26 @@ body {
       font-size: 18px;
       text-transform: capitalize;
     }
+
+    h5 {
+      margin: 0px;
+      padding: 10px 15px;
+      border: 1px solid $smoke-blue;
+      color: $light-blue;
+      background: rgba(93, 128, 161, 0.19);
+      border-bottom: none;
+    }
+
+    .soft-border {
+      border: 1px solid $smoke-blue;
+    }
   }
 
-  .soft-border {
-    border: 1px solid $smoke-blue;
+  .form-actions {
+    .btn-primary {
+      border-color: $light-blue;
+      background: $light-blue;
+    }
   }
 
   .code-box {
@@ -105,6 +121,22 @@ body {
     margin: 0 0 20px 0;
     font-weight: 300;
     font-family: "Open Sans", sans-serif;
+  }
+
+  .editable {
+    cursor: pointer;
+
+    .edit-icon {
+      padding-left: 5px;
+    }
+
+    &.editable-empty {
+      color: $gizra;
+
+      &:hover {
+        color: $gizra-dark;
+      }
+    }
   }
 
   .page-bar {
