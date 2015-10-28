@@ -55,6 +55,28 @@ body {
     }
   }
 
+  i {
+    color: #5D80A1;
+  }
+
+  code {
+    padding: 6px 8px;
+    color: $turquoise;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+
+  .pre-code {
+    display: inline-block;
+    font-size: 13px;
+    word-break: break-all;
+    word-wrap: break-word;
+    color: #333333;
+    border: 1px solid #ccc;
+    border-radius: 4px
+  }
+
   .wrapper {
     padding: 0px 15px 15px 15px;
     border: 1px solid rgba(128, 128, 128, 0.18);
@@ -76,7 +98,7 @@ body {
       padding: 10px 15px;
       border: 1px solid $smoke-blue;
       color: $light-blue;
-      background: rgba(93, 128, 161, 0.19);
+      background: rgba(93, 128, 161, 0.14);
       border-bottom: none;
     }
 
@@ -87,13 +109,13 @@ body {
 
   .form-actions {
     .btn-primary {
-      border-color: $light-blue;
-      background: $light-blue;
+      border-color: $dark-turquoise;
+      background: $turquoise;
     }
   }
 
   .code-box {
-    background: $code;
+    background: $code-bg;
   }
 
   .shoov-logo {
@@ -127,6 +149,7 @@ body {
     cursor: pointer;
 
     .edit-icon {
+      color: $turquoise;
       padding-left: 5px;
     }
 

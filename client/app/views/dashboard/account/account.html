@@ -15,7 +15,7 @@
   <div class="wrapper">
     <h2>Account</h2>
     <div class="account-details">
-      <h5><i class="fa fa-github-alt"></i> Github account details</h5>
+      <h5><i class="fa fa-github-alt"></i> Github account</h5>
       <div class="soft-border">
         <div class="row box">
           <div class="col-xs-3"><i class="fa fa-user"></i> Name</div>
@@ -31,7 +31,7 @@
         </div>
       </div>
       <br/>
-      <h5><i class="fa fa-database"></i> BrowserStack</h5>
+      <h5><i class="fa fa-database"></i> BrowserStack account</h5>
       <div class="soft-border">
         <form class="browser-stack-form account" editable-form name="stackEditableForm" onaftersave="saveSeleniumProvidersData('browserstack')">
           <div ng-click="stackEditableForm.$show()">
@@ -43,7 +43,7 @@
               <div class="col-xs-9">
               <span editable-text="account.browserstack_username">
                 {{ account.browserstack_username || 'empty' }}
-                <span class="edit-icon"><i class="fa fa-pencil"></i></span>
+                <i class="fa fa-pencil edit-icon"></i>
               </span>
               </div>
             </div>
@@ -72,7 +72,7 @@
         </form>
       </div>
       <br/>
-      <h5><i class="fa fa fa-flask"></i> Sauce Labs</h5>
+      <h5><i class="fa fa fa-flask"></i> Sauce Labs account</h5>
       <div class="soft-border">
         <form class="sauce-labs-form account" editable-form name="sauceEditableForm" onaftersave="saveSeleniumProvidersData('sauce')">
           <div ng-click="sauceEditableForm.$show()">
@@ -84,7 +84,7 @@
               <div class="col-xs-9">
               <span editable-text="account.sauce_username">
                 {{ account.sauce_username || 'empty' }}
-                <span class="edit-icon"><i class="fa fa-pencil"></i></span>
+                <i class="fa fa-pencil edit-icon"></i>
               </span>
               </div>
             </div>
@@ -115,29 +115,37 @@
         </form>
       </div>
     </div>
-    <div class="row">
-      <div class="col-xs-12 code-box">
-        Create or update your <code>~/.shoov.json</code> file by copy pasting the following code into your terminal:
+  </div>
+  <br/>
+  <div class="wrapper">
+    <h2>Configuration</h2>
+    <div class="config-details">
+      <div class="row">
+        <div class="col-xs-12">
+          <p>Create or update your <code>~/.shoov.json</code> file by copy pasting the following code into your terminal:</p>
+          <div class="code-box">
 
-        <div class="config">
-          <input type="text" size="50" name="config" value='curl -o ~/.shoov.json {{backend}}/api/v1.0/config?access_token={{ accessToken }}'>
+            <div class="pre-code">
+              curl -o ~/.shoov.json {{backend}}/api/v1.0/config?access_token={{ accessToken }}
+            </div>
+
+            <div class="">
+              <i class="fa fa-info-circle" popover-placement="right" popover-template="'userAccount.html'" popover-title="Dev Tip"></i>
+            </div>
+
+            See <a href="https://github.com/shoov/test-example" target="_blank">this</a> repo for an example.
+          </div>
         </div>
-
-        <div class="dev-tip">
-          <i class="fa fa-info-circle" popover-placement="right" popover-template="'userAccount.html'" popover-title="Dev Tip"></i>
-        </div>
-
-        See <a href="https://github.com/shoov/test-example" target="_blank">this</a> repo for an example.
       </div>
+      <script type="text/ng-template" id="userAccount.html">
+        <p>
+          Since <code>~/.shoov.json</code> is a JS file we use RESTful to get the info, so infact the <code>curl</code> command calls a custom RESTful <a href="https://github.com/shoov/shoov/blob/master/shoov/modules/custom/shoov_restful/plugins/restful/user/config/1.0/ShoovConfigResource.class.php#L22" target="_blank">resource</a>
+        </p>
+        <div>
+          Next in out todo list is allowing you to add your BrowserStack/ SauceLabs
+          username and key, so it will be part of the config. We already have it in the backend.
+        </div>
+      </script>
     </div>
   </div>
-  <script type="text/ng-template" id="userAccount.html">
-    <p>
-      Since <code>~/.shoov.json</code> is a JS file we use RESTful to get the info, so infact the <code>curl</code> command calls a custom RESTful <a href="https://github.com/shoov/shoov/blob/master/shoov/modules/custom/shoov_restful/plugins/restful/user/config/1.0/ShoovConfigResource.class.php#L22" target="_blank">resource</a>
-    </p>
-    <div>
-      Next in out todo list is allowing you to add your BrowserStack/ SauceLabs
-      username and key, so it will be part of the config. We already have it in the backend.
-    </div>
-  </script>
 </div>

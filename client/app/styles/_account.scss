@@ -1,7 +1,8 @@
 body {
   #account-page {
 
-    .account-details {
+    .account-details,
+    .config-details {
 
       .row {
         margin-left: 0px;
@@ -34,14 +35,6 @@ body {
         }
       }
 
-      i {
-        color: #5D80A1;
-      }
-
-    }
-
-    .code-box {
-      margin-top: 60px;
     }
   }
 }
