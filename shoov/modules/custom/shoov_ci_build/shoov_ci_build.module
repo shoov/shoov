@@ -25,6 +25,22 @@ function shoov_ci_build_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items["ci_build/%ci_build/%uid/subscribe/%ctools_js"] = array(
+    'title' => 'Subscribe/Unsubscribe user to/from the CI Build',
+    'page callback' => 'shoov_ci_build_subscribe_user',
+    'page arguments' => array(1, 2, 'subscribe'),
+    'access arguments' => array('administer flags'),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items["ci_build/%ci_build/%uid/unsubscribe/%ctools_js"] = array(
+    'title' => 'Subscribe/Unsubscribe user to/from the CI Build',
+    'page callback' => 'shoov_ci_build_subscribe_user',
+    'page arguments' => array(1, 2, 'unsubscribe'),
+    'access arguments' => array('administer flags'),
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -33,6 +49,8 @@ function shoov_ci_build_menu() {
  *
  * @param $message
  *  Message object.
+ * @param string $ajax
+ *  Indicate if ajax should be used. Default to 'nojs'.
  */
 function  shoov_ci_build_trigger_ci_build_item($message, $ajax = 'nojs') {
   $nodejs_server_url = shoov_ci_build_get_nodejs_server_url($message);
@@ -53,6 +71,47 @@ function  shoov_ci_build_trigger_ci_build_item($message, $ajax = 'nojs') {
 
   $commands = array();
   $commands[] = ajax_command_replace('#trigger-' . $message->mid, t('Triggered'));
+
+  print ajax_render($commands);
+}
+
+/**
+ * Subscribe/Unsubscribe user to/from the CI Build.
+ *
+ * @param $build_id
+ *  The CI Build node ID.
+ * @param $uid
+ *  The user ID.
+ * @param $action
+ *  Action to do. Can be 'subscribe' or 'unsubscribe'
+ * @param string $ajax
+ *  Indicate if ajax should be used. Default to 'nojs'.
+ */
+function shoov_ci_build_subscribe_user($build_id, $uid, $action, $ajax = 'nojs') {
+  $flag = flag_get_flag('subscribe_ci_builds');
+  $flag->flag_flag($action, $build_id, $uid);
+
+  if (!$ajax) {
+    $params = array(
+      '@uid' => $uid,
+      '@action' => $action == 'subscribe' ? 'subscribed to' : 'unsubscribed from',
+      '@build_id' => $build_id,
+    );
+    drupal_set_message(t('User @uid has been @action the CI Build @build_id', $params));
+    drupal_goto('<front>');
+  }
+
+  $commands = array();
+  $commands[] = ajax_command_replace('#subscribe-' . $uid,
+    l(t('Unsubscribe'), "ci_build/$build_id/$uid/unsubscribe",
+      array('attributes' => array('class' => 'use-ajax', 'id' => 'unsubscribe-' . $uid))
+    )
+  );
+  $commands[] = ajax_command_replace('#unsubscribe-' . $uid,
+    l(t('Subscribe'), "ci_build/$build_id/$uid/subscribe",
+      array('attributes' => array('class' => 'use-ajax', 'id' => 'subscribe-' . $uid))
+    )
+  );
 
   print ajax_render($commands);
 }
