@@ -120,32 +120,9 @@
   <div class="wrapper">
     <h2>Configuration</h2>
     <div class="config-details">
-      <div class="row">
-        <div class="col-xs-12">
-          <p>Create or update your <code>~/.shoov.json</code> file by copy pasting the following code into your terminal:</p>
-          <div class="code-box">
-
-            <div class="pre-code">
-              curl -o ~/.shoov.json {{backend}}/api/v1.0/config?access_token={{ accessToken }}
-            </div>
-
-            <div class="">
-              <i class="fa fa-info-circle" popover-placement="right" popover-template="'userAccount.html'" popover-title="Dev Tip"></i>
-            </div>
-
-            See <a href="https://github.com/shoov/test-example" target="_blank">this</a> repo for an example.
-          </div>
-        </div>
-      </div>
-      <script type="text/ng-template" id="userAccount.html">
-        <p>
-          Since <code>~/.shoov.json</code> is a JS file we use RESTful to get the info, so infact the <code>curl</code> command calls a custom RESTful <a href="https://github.com/shoov/shoov/blob/master/shoov/modules/custom/shoov_restful/plugins/restful/user/config/1.0/ShoovConfigResource.class.php#L22" target="_blank">resource</a>
-        </p>
-        <div>
-          Next in out todo list is allowing you to add your BrowserStack/ SauceLabs
-          username and key, so it will be part of the config. We already have it in the backend.
-        </div>
-      </script>
+      <p>Create or update your <code>~/.shoov.json</code> file by copy pasting the following code into your terminal:</p>
+      <div class="pre-code">curl -o ~/.shoov.json {{backend}}/api/v1.0/config?access_token={{ accessToken }}</div>
     </div>
+    <i class="fa fa-cog watermark"></i>
   </div>
 </div>

@@ -65,15 +65,18 @@ body {
 
   .pre-code {
     display: inline-block;
+    padding: 10px;
+    color: #333333;
+    background: $code-bg;
+    border: 1px solid #DFE2E4;
+    border-radius: 4px;
     font-size: 13px;
     word-break: break-all;
     word-wrap: break-word;
-    color: #333333;
-    border: 1px solid #ccc;
-    border-radius: 4px
   }
 
   .wrapper {
+    position: relative;
     padding: 0px 15px 15px 15px;
     border: 1px solid rgba(128, 128, 128, 0.18);
     background: white;
@@ -105,6 +108,19 @@ body {
     i {
       color: #5D80A1;
     }
+
+    .watermark {
+      position: absolute;
+      right: 14px;
+      bottom: 13px;
+      font-size: 80px;
+      overflow-y: hidden;
+      color: rgba(93, 128, 161, 0.12);
+
+      @include mobile-only {
+        display: none;
+      }
+    }
   }
 
   .form-actions {
@@ -112,10 +128,6 @@ body {
       border-color: $dark-turquoise;
       background: $turquoise;
     }
-  }
-
-  .code-box {
-    background: $code-bg;
   }
 
   .shoov-logo {
@@ -522,7 +534,7 @@ body {
     }
   }
 
-  .content {
+  #content {
     background: $light-gray;
 
     .main {
