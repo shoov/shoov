@@ -10,6 +10,15 @@
     </div>
   </div>
   <div class="row text-center">
+    <div class="col-xs-12">
+      <form id="demo-url-form" ng-submit="saveAccountDemoUrl(url.text);">
+        <label for="demo-url">
+          Leave us your site URL, and we'll help you set it up.
+        </label>
+        <input type="url" id="demo-url" size="45" ng-model="url.text" required="true" ng-change="changeSubmitValue();">
+        <button type="submit" class="btn btn-info" ng-disabled="submitValue == 'Saved';">{{submitValue}}</button>
+      </form>
+    </div>
     <div class="col-sm-6">
       <div class="wrapper">
         <a ui-sref="dashboard.repos">
