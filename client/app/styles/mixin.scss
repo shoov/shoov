@@ -27,13 +27,15 @@ $light-turquoise: #2886a2;
 $dark-turquoise: #288A8D;
 $gizra: #e27058;
 $gizra-dark: #e25d48;
-$light-gray: #f5f5f5;
 $gray-medium: #565656;
 $gray: #999999;
+$light-gray: #f5f5f5;
+$code-bg: #EDF5FD;
 $light-blue: #5d80a1;
+$smoke-blue: rgba(93, 128, 161, 0.37);
 $medium-blue: #194D7D;
 $dark-blue: #253340;
-$min-height: 950px;
+$min-height: 941px;
 
 /* Desktop */
 @mixin desktop-only {

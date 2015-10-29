@@ -1,36 +1,30 @@
-<div class="row">
-  <div class="col-sm-12">
-    <div class="page-bar">
-      <ul class="page-breadcrumb">
-        <li class="active"><i class="fa fa-desktop"></i> Dashboard</li>
-      </ul>
-      <hr class="no-margin"/>
+<div id="homepage">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="page-bar">
+        <ul class="page-breadcrumb">
+          <li class="active"><i class="fa fa-desktop"></i> Dashboard</li>
+        </ul>
+        <hr class="no-margin"/>
+      </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-sm-6 live-monitor-wrapper">
-    <a class="dashboard-stat dashboard-stat-light red-soft" ui-sref="dashboard.repos">
-      <div class="visual">
-        <i class="fa fa-heartbeat"></i>
-      </div>
-      <div class="details">
-        <div class="desc">
+  <div class="row text-center">
+    <div class="col-sm-6">
+      <div class="wrapper">
+        <a ui-sref="dashboard.repos">
+          <h2><i class="fa fa-heartbeat"></i></h2>
           Live Monitor
-        </div>
+        </a>
       </div>
-    </a>
-  </div>
-  <div class="col-sm-6 visual-regression-wrapper">
-    <a class="dashboard-stat dashboard-stat-light blue-soft" ui-sref="dashboard.builds">
-      <div class="visual">
-        <i class="fa fa-history"></i>
-      </div>
-      <div class="details">
-        <div class="desc">
+    </div>
+    <div class="col-sm-6">
+      <div class="wrapper">
+        <a ui-sref="dashboard.builds">
+          <h2><i class="fa fa-history"></i></h2>
           Visual Regression
-        </div>
+        </a>
       </div>
-    </a>
+    </div>
   </div>
 </div>

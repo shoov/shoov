@@ -1,5 +1,16 @@
-.live-monitor-wrapper,
-.visual-regression-wrapper {
-  text-align: center;
-  padding-top: 30px;
+body {
+
+  #homepage {
+
+    .wrapper {
+      border: none;
+      color: white;
+      background: $light-blue;
+
+      h2 {
+        color: $light-blue;
+        background: white;
+      }
+    }
+  }
 }
