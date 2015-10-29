@@ -92,6 +92,32 @@ function shoov_ci_build_default_message_type() {
       ]
     }
   }');
+  $items['server_is_down'] = entity_import('message_type', '{
+    "name" : "server_is_down",
+    "description" : "Server is down",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "Shoov server is down.",
+          "format" : "filtered_html",
+          "safe_value" : "\\u003Cp\\u003EShoov server is down.\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "Hi, admin!\\r\\n\\r\\nThe @server is down. Please, check it under the url @url.",
+          "format" : "filtered_html",
+          "safe_value" : "\\u003Cp\\u003EHi, admin!\\u003C\\/p\\u003E\\n\\u003Cp\\u003EThe @server is down. Please, check it under the url @url.\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    }
+  }');
   return $items;
 }
 
