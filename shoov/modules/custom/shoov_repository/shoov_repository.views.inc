@@ -12,7 +12,7 @@ function shoov_repository_views_data() {
     'title' => t('Subscribe user to the CI Build'),
     'help' => t('Link to subscribe/unsubscribe user.'),
     'field' => array(
-      'handler' => 'shoov_ci_build_subscribe_user',
+      'handler' => 'shoov_repository_subscribe_user',
     ),
   );
   return $data;

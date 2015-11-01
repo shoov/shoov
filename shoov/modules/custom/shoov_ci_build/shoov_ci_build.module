@@ -25,18 +25,10 @@ function shoov_ci_build_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  $items["ci_build/%ci_build/%uid/subscribe/%ctools_js"] = array(
+  $items["ci_build/%ci_build/%uid/%action/%ctools_js"] = array(
     'title' => 'Subscribe/Unsubscribe user to/from the CI Build',
     'page callback' => 'shoov_ci_build_subscribe_user',
-    'page arguments' => array(1, 2, 'subscribe'),
-    'access arguments' => array('administer flags'),
-    'type' => MENU_CALLBACK,
-  );
-
-  $items["ci_build/%ci_build/%uid/unsubscribe/%ctools_js"] = array(
-    'title' => 'Subscribe/Unsubscribe user to/from the CI Build',
-    'page callback' => 'shoov_ci_build_subscribe_user',
-    'page arguments' => array(1, 2, 'unsubscribe'),
+    'page arguments' => array(1, 2, 3),
     'access arguments' => array('administer flags'),
     'type' => MENU_CALLBACK,
   );
@@ -52,7 +44,7 @@ function shoov_ci_build_menu() {
  * @param string $ajax
  *  Indicate if ajax should be used. Default to 'nojs'.
  */
-function  shoov_ci_build_trigger_ci_build_item($message, $ajax = 'nojs') {
+function shoov_ci_build_trigger_ci_build_item($message, $ajax = 'nojs') {
   $nodejs_server_url = shoov_ci_build_get_nodejs_server_url($message);
   $account = user_load($message->uid);
   $url = array(
