@@ -11,10 +11,10 @@ class shoov_repository_subscribe_user extends views_handler_field_entity {
    * {@inheritdoc}
    */
   function render($values) {
-
     // Get group is being viewed ID.
     $argument = $this->view->argument;
     if (empty($argument['og_user_node_target_id'])) {
+      // The context hasn't been sent.
       return;
     }
     $gid = $argument['og_user_node_target_id']->value[0];
@@ -30,18 +30,19 @@ class shoov_repository_subscribe_user extends views_handler_field_entity {
     if (empty($result['node'])) {
       return;
     }
+    // Add library to have the link that is using AJAX.
     drupal_add_library('system', 'drupal.ajax');
-    foreach ($result['node'] as $build) {
-      $build_id = $build->nid;
-
-      $flag = flag_get_flag('subscribe_ci_builds');
-      if ($flag->is_flagged($build_id, $values->uid)) {
-        return l(t('Unsubscribe'), 'ci_build/' . $build_id . '/' . $values->uid . '/unsubscribe/nojs',
+    // Get the flag
+    $flag = flag_get_flag('subscribe_ci_builds');
+    foreach ($result['node'] as $ci_build) {
+      // Show link to un/subscribe the user to the CI Build.
+      if ($flag->is_flagged($ci_build->nid, $values->uid)) {
+        return l(t('Unsubscribe'), 'ci_build/' . $ci_build->nid . '/' . $values->uid . '/unsubscribe/nojs/' . md5($ci_build->nid . '+' . $values->uid),
           array('attributes' => array('class' => 'use-ajax', 'id' => 'unsubscribe-' . $values->uid))
         );
       }
       else {
-        return l(t('Subscribe'), 'ci_build/' . $build_id . '/' . $values->uid . '/subscribe/nojs',
+        return l(t('Subscribe'), 'ci_build/' . $ci_build->nid . '/' . $values->uid . '/subscribe/nojs/' . md5($ci_build->nid . '+' . $values->uid),
           array('attributes' => array('class' => 'use-ajax', 'id' => 'subscribe-' . $values->uid))
         );
       }

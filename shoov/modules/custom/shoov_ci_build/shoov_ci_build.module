@@ -25,11 +25,12 @@ function shoov_ci_build_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  $items["ci_build/%node/%user/%/%ctools_js"] = array(
+  $items["ci_build/%node/%user/%/%ctools_js/%"] = array(
     'title' => 'Subscribe/Unsubscribe user to/from the CI Build',
     'page callback' => 'shoov_ci_build_subscribe_user',
     'page arguments' => array(1, 2, 3),
-    'access arguments' => array('administer flags'),
+    'access callback' => 'shoov_ci_build_subscribe_user_check_access',
+    'access arguments' => array(1, 2, 5),
     'type' => MENU_CALLBACK,
   );
 
@@ -68,20 +69,49 @@ function shoov_ci_build_trigger_ci_build_item($message, $ajax = 'nojs') {
 }
 
 /**
- * Subscribe/Unsubscribe user to/from the CI Build.
+ * Check permissions to un/subscribe account to the CI Build.
+ *
+ * @param $ci_build
+ *  The CI Build node object
+ * @param $account
+ *  The user object.
+ * @param $token
+ *  The access token
+ *
+ * @return bool
+ *  Returns TRUE if user has permissions to un/subscribe account to the CI Build.
+ */
+function shoov_ci_build_subscribe_user_check_access($ci_build, $account, $token) {
+  if (!user_access('administer flags')) {
+    // User doesn't have permissions to un/subscribe account.
+    return FALSE;
+  }
+
+  if (md5($ci_build->nid . '+' . $account->uid) != $token) {
+    // Access token is invalid.
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
+ * Un/subscribe user to the CI Build.
  *
  * @param $ci_build
  *  The CI Build node.
  * @param $account
- *  The user entity.
+ *  The user object.
  * @param $action
  *  Action to do. Can be 'subscribe' or 'unsubscribe'
  * @param string $ajax
  *  Indicate if ajax should be used. Default to 'nojs'.
  */
 function shoov_ci_build_subscribe_user($ci_build, $account, $action, $ajax = 'nojs') {
+  // Get the flag.
   $flag = flag_get_flag('subscribe_ci_builds');
   $flag_action = $action == 'subscribe' ? 'flag' : 'unflag';
+  // Un/flag user due to the sent action.
   $flag->flag($flag_action, $ci_build->nid, $account);
 
   if (!$ajax) {
@@ -95,21 +125,21 @@ function shoov_ci_build_subscribe_user($ci_build, $account, $action, $ajax = 'no
   }
 
   $commands = array();
+  // Change the link to the opposite.
   if ($action == 'subscribe') {
     $commands[] = ajax_command_replace('#subscribe-' . $account->uid,
-      l(t('Unsubscribe'), 'ci_build/' . $ci_build->nid . '/' . $account->uid . '/unsubscribe/nojs',
+      l(t('Unsubscribe'), 'ci_build/' . $ci_build->nid . '/' . $account->uid . '/unsubscribe/nojs/' . md5($ci_build->nid . '+' . $account->uid),
         array('attributes' => array('class' => 'use-ajax', 'id' => 'unsubscribe-' . $account->uid))
       )
     );
   }
   else {
     $commands[] = ajax_command_replace('#unsubscribe-' . $account->uid,
-      l(t('Subscribe'), 'ci_build/' . $ci_build->nid . '/' . $account->uid . '/subscribe/nojs',
+      l(t('Subscribe'), 'ci_build/' . $ci_build->nid . '/' . $account->uid . '/subscribe/nojs/' . md5($ci_build->nid . '+' . $account->uid),
         array('attributes' => array('class' => 'use-ajax', 'id' => 'subscribe-' . $account->uid))
       )
     );
   }
-
   print ajax_render($commands);
 }
 
