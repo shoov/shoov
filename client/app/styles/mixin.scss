@@ -38,7 +38,7 @@ $medium-blue: #194D7D;
 $dark-blue: #253340;
 $min-height: 941px;
 
-/* Desktop */
+  /* Desktop */
 @mixin desktop-only {
   @media (min-width: $screen-sm-min) {
     @content;

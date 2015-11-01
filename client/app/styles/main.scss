@@ -57,6 +57,19 @@ code {
   font-size: 14px;
 }
 
+input {
+  border: 1px solid rgba(93, 128, 161, 0.32);
+
+  &:focus {
+    outline: 2px solid rgba(125, 147, 169, 0.33);
+  }
+}
+
+button {
+  @include transition(0.4s ease-in-out all);
+  @include border-radius(2px);
+}
+
 .pre-code {
   display: inline-block;
   padding: 10px;
@@ -104,23 +117,18 @@ code {
   }
 
   .watermark {
-    position: absolute;
-    right: 14px;
-    bottom: 13px;
-    font-size: 80px;
-    overflow-y: hidden;
-    color: rgba(93, 128, 161, 0.12);
+    i {
+      position: absolute;
+      right: 14px;
+      bottom: 13px;
+      font-size: 80px;
+      overflow-y: hidden;
+      color: rgba(93, 128, 161, 0.12);
 
-    @include mobile-only {
-      display: none;
+      @include mobile-only {
+        display: none;
+      }
     }
-  }
-}
-
-.form-actions {
-  .btn-primary {
-    border-color: $dark-turquoise;
-    background: $turquoise;
   }
 }
 

@@ -10,41 +10,36 @@
     </div>
   </div>
   <div class="wrapper">
-    <h2>Configuration</h2>
-    <div class="config-details">
-      <p>Create or update your <code>~/.shoov.json</code> file by copy pasting the following code into your terminal:</p>
-      <div class="pre-code">curl -o ~/.shoov.json {{backend}}/api/v1.0/config?access_token={{ accessToken }}</div>
-    </div>
-    <i class="fa fa-cog watermark"></i>
-  </div>
-  <div class="row text-center">
-    <div class="col-xs-12">
-      <form id="demo-url-form" ng-submit="saveAccountDemoUrl(url.text);">
-        <label for="demo-url">
-          Leave us your site URL, and we'll help you set it up.
-        </label>
-        <input type="url" id="demo-url" size="45" ng-model="url.text" required="true" ng-change="changeSubmitValue();">
-        <button type="submit" class="btn btn-info" ng-disabled="submitValue == 'Saved';">{{submitValue}}</button>
-      </form>
-    </div>
-    <div class="col-xs-12">
-      <a href="/tutorials/lesson1-install/" class="tutorial-link"><i class="fa fa-graduation-cap"></i> Get started with Shoov by reading the Shoov tutorial</a
-    </div>
-    <div class="col-sm-6">
-      <div class="wrapper">
-        <a ui-sref="dashboard.repos">
-          <h2><i class="fa fa-heartbeat"></i></h2>
-          Live Monitor
-        </a>
+    <h2>Dashboard</h2>
+    <div class="soft-border" id="demo-url-wrapper">
+      <div class="row">
+        <div class="col-xs-12">
+          <form ng-submit="saveAccountDemoUrl(url.text);">
+            <label for="demo-url">Need help on setting shoov ?</label>
+            <div class="description">Leave us your site URL, and we'll help you set it up.</div>
+            <input type="url" id="demo-url" placeholder="http://example-site.com" size="45" ng-model="url.text" required="true" ng-change="changeSubmitValue();">
+            <button type="submit" class="btn btn-primary" ng-disabled="submitValue == 'Saved';">{{submitValue}}</button>
+          </form>
+          <div class="watermark">
+            <i class="fa fa-thumbs-o-up pull-right"></i>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-sm-6">
-      <div class="wrapper">
+    <br/>
+    <div class="row">
+      <div class="col-sm-6">
+        <a ui-sref="dashboard.repos">
+          <i class="fa fa-heartbeat"></i> Live Monitor
+        </a>
+      </div>
+      <div class="col-sm-6">
         <a ui-sref="dashboard.builds">
-          <h2><i class="fa fa-history"></i></h2>
-          Visual Regression
+          <i class="fa fa-history"></i>Visual Regression
         </a>
       </div>
     </div>
   </div>
 </div>
+
+<!--<a href="/tutorials/lesson1-install/" class="tutorial-link"><i class="fa fa-graduation-cap"></i> Get started with Shoov by reading the Shoov tutorial</a-->

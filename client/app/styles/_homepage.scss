@@ -1,17 +1,42 @@
 #homepage {
 
-  #demo-url-form {
-    text-align: center;
-    background-color: #FFF;
-    padding-bottom: 20px;
-    padding-top: 10px;
-    margin-top: 20px;
+  #demo-url-wrapper {
+    padding: 20px;
 
-    button {
-      padding: 4px 25px;
+    form {
+
+      label {
+        color: $light-blue;
+        font-size: 17px;
+        margin-bottom: 0px;
+      }
+
+      .description {
+        display: block;
+      }
+
+      input {
+        margin-top: 15px;
+        padding: 2px 5px 4px;
+
+        @include mobile-only {
+         width: 100%;
+        }
+      }
+
+      button {
+        padding: 3px 25px;
+
+        @include mobile-only {
+          margin-top: 10px;
+          width: 100%;
+        }
+      }
     }
-    input {
-      padding: 2px 5px 4px;
+
+    .watermark i {
+      bottom: 0px;
+      right: 10px;
     }
   }
 }
