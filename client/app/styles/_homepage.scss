@@ -43,29 +43,33 @@
         }
 
         .main-icon {
-          background: $dark-turquoise;
+          background: darken($gray-blue, 3%);
         }
       }
 
       h5,
-      .main-icon {
-        @include transition(0.35s ease-in all);
+      .main-icon, {
+        @include transition(0.3s ease-in all);
       }
 
       h5 {
         margin-bottom: 5px;
         border: none;
         @include border-radius(0px 0px 5px 5px);
-        color: inherit;
+        color: $turquoise;
         background: white;
         font-size: 15px;
         text-transform: uppercase;
         font-weight: bold;
+
+        @include mobile-only {
+          margin-bottom: 30px;
+        }
       }
 
       .main-icon {
         padding: 30px;
-        background: $turquoise;
+        background: $gray-blue;
         @include border-radius(5px 5px 0px 0px);
         @include box-shadow(0px 40px 10px -2px rgba(0, 0, 0, 0.20));
 
