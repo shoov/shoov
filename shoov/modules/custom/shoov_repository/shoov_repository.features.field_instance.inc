@@ -39,7 +39,7 @@ function shoov_repository_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_github_id',
     'label' => 'GitHub ID',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'max' => '',
       'min' => '',
