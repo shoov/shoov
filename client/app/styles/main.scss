@@ -82,50 +82,57 @@ button {
   word-wrap: break-word;
 }
 
-.wrapper {
-  position: relative;
-  padding: 0px 15px 15px 15px;
-  border: 1px solid rgba(128, 128, 128, 0.18);
-  background: white;
-  @include border-radius(0px 0px 10px 10px);
-  @include box-shadow( 0px 0px 10px -1px rgba(0, 0, 0, 0.1));
+.main-content {
 
-  > h2 {
-    margin: 0px -15px 20px -15px;
-    padding: 10px 15px 10px 15px;
-    color: white;
-    background-color: $light-blue;
-    font-size: 18px;
-    text-transform: capitalize;
-  }
+  .wrapper {
+    position: relative;
+    padding: 0px 15px 15px 15px;
+    border: 1px solid rgba(128, 128, 128, 0.18);
+    background: white;
+    @include border-radius(0px 0px 10px 10px);
+    @include box-shadow( 0px 0px 10px -1px rgba(0, 0, 0, 0.1));
 
-  h5 {
-    margin: 0px;
-    padding: 10px 15px;
-    border: 1px solid $smoke-blue;
-    color: $light-blue;
-    background: rgba(93, 128, 161, 0.14);
-  }
+    &:nth-child(n+2) {
+      margin-top: 20px;
+    }
 
-  .soft-border {
-    border: 1px solid $smoke-blue;
-  }
+    > h2 {
+      margin: 0px -15px 20px -15px;
+      padding: 10px 15px 10px 15px;
+      color: white;
+      background-color: $light-blue;
+      font-size: 18px;
+      text-transform: capitalize;
+    }
 
-  i {
-    color: #5D80A1;
-  }
+    h5 {
+      margin: 0px;
+      padding: 10px 15px;
+      border: 1px solid $smoke-blue;
+      color: $light-blue;
+      background: rgba(93, 128, 161, 0.14);
+    }
 
-  .watermark {
+    .soft-border {
+      border: 1px solid $smoke-blue;
+    }
+
     i {
-      position: absolute;
-      right: 14px;
-      bottom: 13px;
-      font-size: 80px;
-      overflow-y: hidden;
-      color: rgba(93, 128, 161, 0.12);
+      color: #5D80A1;
+    }
 
-      @include mobile-only {
-        display: none;
+    .watermark {
+      i {
+        position: absolute;
+        right: 14px;
+        bottom: 13px;
+        font-size: 80px;
+        overflow-y: hidden;
+        color: rgba(93, 128, 161, 0.12);
+
+        @include mobile-only {
+          display: none;
+        }
       }
     }
   }

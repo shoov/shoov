@@ -9,49 +9,50 @@
       </div>
     </div>
   </div>
-  <div class="wrapper">
-    <h2>Dashboard</h2>
-    <div id="demo-url-wrapper">
-      <form ng-submit="saveAccountDemoUrl(url.text);">
-        <label for="demo-url">Need help on setting shoov ?</label>
-        <div class="description">Leave us your site URL, and we'll help you set it up.</div>
-        <input type="url" id="demo-url" placeholder="http://example-site.com" size="45" ng-model="url.text" required="true" ng-change="changeSubmitValue();">
-        <button type="submit" class="btn btn-primary" ng-disabled="submitValue == 'Saved';">{{submitValue}}</button>
-      </form>
+  <div class="main-content">
+    <div class="wrapper">
+      <h2>Dashboard</h2>
+      <div id="dashboard-links">
+        <div class="row text-center">
+          <div class="col-sm-4">
+            <a ui-sref="dashboard.repos">
+              <div class="main-icon">
+                <i class="fa fa-heartbeat"></i>
+              </div>
+              <h5 class="">Live Monitor</h5>
+            </a>
+          </div>
+          <div class="col-sm-4">
+            <a ui-sref="dashboard.builds">
+              <div class="main-icon">
+                <i class="fa fa-history"></i>
+              </div>
+              <h5 class="">Visual Regression</h5>
+            </a>
+          </div>
+          <div class="col-sm-4">
+            <a href="http://www.shoov.io/tutorials/lesson1-install/" class="tutorial-link" target="_blank">
+              <div class="main-icon">
+                <i class="fa fa-graduation-cap"></i>
+              </div>
+              <h5 class="">Shoov tutorial</h5>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wrapper">
+      <h2>Need help on setting shoov ?</h2>
+      <div id="demo-url-wrapper">
+        <form ng-submit="saveAccountDemoUrl(url.text);">
+          <label for="demo-url">Leave us your site URL, and we'll help you set it up.</label>
+          <input type="url" id="demo-url" placeholder="http://example-site.com" size="45" ng-model="url.text" required="true" ng-change="changeSubmitValue();">
+          <button type="submit" class="btn btn-primary" ng-disabled="submitValue == 'Saved';">{{submitValue}}</button>
+        </form>
+      </div>
       <div class="watermark">
-        <i class="fa fa-thumbs-o-up pull-right"></i>
+        <i class="fa fa-thumbs-o-up"></i>
       </div>
-    </div>
-    <br/>
-    <div id="dashboard-links">
-      <div class="row text-center">
-        <div class="col-sm-4">
-          <a ui-sref="dashboard.repos">
-            <div class="main-icon">
-              <i class="fa fa-heartbeat"></i>
-            </div>
-            <h5 class="">Live Monitor</h5>
-          </a>
-        </div>
-        <div class="col-sm-4">
-          <a ui-sref="dashboard.builds">
-            <div class="main-icon">
-              <i class="fa fa-history"></i>
-            </div>
-            <h5 class="">Visual Regression</h5>
-          </a>
-        </div>
-        <div class="col-sm-4">
-          <a href="http://www.shoov.io/tutorials/lesson1-install/" class="tutorial-link" target="_blank">
-            <div class="main-icon">
-              <i class="fa fa-graduation-cap"></i>
-            </div>
-            <h5 class="">Shoov tutorial</h5>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div>
     </div>
   </div>
 </div>

@@ -1,22 +1,14 @@
 #homepage {
 
   #demo-url-wrapper {
-    position: relative;
-    padding: 10px 0px;
 
     form {
-
       label {
-        font-size: 17px;
         margin-bottom: 0px;
       }
 
-      .description {
-        display: block;
-      }
-
       input {
-        margin-top: 15px;
+        margin-top: 5px;
         padding: 2px 5px 4px;
 
         @include mobile-only {
@@ -33,17 +25,14 @@
         }
       }
     }
+  }
 
-    .watermark i {
-      right: 0px;
-    }
+  .watermark i {
+    bottom: 7px;
+    font-size: 70px;
   }
 
   #dashboard-links {
-//    border-top: 1px solid;
-//    border-bottom: 1px solid;
-//    border-color: rgba(93, 128, 161, 0.21);
-
     a {
       text-decoration: none;
 
@@ -64,12 +53,14 @@
       }
 
       h5 {
+        margin-bottom: 5px;
+        border: none;
+        @include border-radius(0px 0px 5px 5px);
         color: inherit;
+        background: white;
         font-size: 15px;
         text-transform: uppercase;
-        background: white;
         font-weight: bold;
-        border: none;
       }
 
       .main-icon {
@@ -83,7 +74,6 @@
           color: white;
         }
       }
-
     }
   }
 }
