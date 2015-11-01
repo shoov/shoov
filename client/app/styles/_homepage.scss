@@ -56,22 +56,26 @@
       &:hover {
 
         h5 {
-          color: $dark-turquoise;
+          color: $turquoise;
         }
 
         .main-icon {
-          background: darken($gray-blue, 3%);
+          background: darken($gray-blue, 13%);
+          i {
+            color: darken(rgba(134, 164, 193, 0.35), 25%);
+          }
         }
       }
 
       h5,
-      .main-icon, {
+      .main-icon,
+      .main-icon i {
         @include transition(0.3s ease-in all);
       }
 
       h5 {
         border: none;
-        color: $turquoise;
+        color: $light-blue;
         background: white;
         font-size: 15px;
         text-transform: uppercase;
@@ -88,7 +92,7 @@
 
         i {
           font-size: 106px;
-          color: white;
+          color: rgba(134, 164, 193, 0.35);
         }
       }
     }
