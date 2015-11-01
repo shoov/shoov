@@ -90,7 +90,7 @@ button {
   @include border-radius(0px 0px 10px 10px);
   @include box-shadow( 0px 0px 10px -1px rgba(0, 0, 0, 0.1));
 
-  h2 {
+  > h2 {
     margin: 0px -15px 20px -15px;
     padding: 10px 15px 10px 15px;
     color: white;
@@ -105,7 +105,6 @@ button {
     border: 1px solid $smoke-blue;
     color: $light-blue;
     background: rgba(93, 128, 161, 0.14);
-    border-bottom: none;
   }
 
   .soft-border {

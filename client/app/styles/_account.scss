@@ -4,6 +4,10 @@ body {
     .account-details,
     .config-details {
 
+      h5 {
+        border-bottom: none;
+      }
+
       .row {
         margin-left: 0px;
         margin-right: 0px;
