@@ -105,6 +105,29 @@ function shoov_repository_default_page_manager_handlers() {
     $pane->uuid = '93ec5592-5bb5-4d9a-b292-837862383c93';
     $display->content['new-93ec5592-5bb5-4d9a-b292-837862383c93'] = $pane;
     $display->panels['right'][0] = 'new-93ec5592-5bb5-4d9a-b292-837862383c93';
+    $pane = new stdClass();
+    $pane->pid = 'new-edecb08f-2ba8-4203-a4bb-80a93b0c58cc';
+    $pane->panel = 'right';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'group_members_subscribtion-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = 'edecb08f-2ba8-4203-a4bb-80a93b0c58cc';
+    $display->content['new-edecb08f-2ba8-4203-a4bb-80a93b0c58cc'] = $pane;
+    $display->panels['right'][1] = 'new-edecb08f-2ba8-4203-a4bb-80a93b0c58cc';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
