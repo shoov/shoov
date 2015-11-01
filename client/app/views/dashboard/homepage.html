@@ -9,6 +9,14 @@
       </div>
     </div>
   </div>
+  <div class="wrapper">
+    <h2>Configuration</h2>
+    <div class="config-details">
+      <p>Create or update your <code>~/.shoov.json</code> file by copy pasting the following code into your terminal:</p>
+      <div class="pre-code">curl -o ~/.shoov.json {{backend}}/api/v1.0/config?access_token={{ accessToken }}</div>
+    </div>
+    <i class="fa fa-cog watermark"></i>
+  </div>
   <div class="row text-center">
     <div class="col-xs-12">
       <form id="demo-url-form" ng-submit="saveAccountDemoUrl(url.text);">
@@ -18,6 +26,9 @@
         <input type="url" id="demo-url" size="45" ng-model="url.text" required="true" ng-change="changeSubmitValue();">
         <button type="submit" class="btn btn-info" ng-disabled="submitValue == 'Saved';">{{submitValue}}</button>
       </form>
+    </div>
+    <div class="col-xs-12">
+      <a href="/tutorials/lesson1-install/" class="tutorial-link"><i class="fa fa-graduation-cap"></i> Get started with Shoov by reading the Shoov tutorial</a
     </div>
     <div class="col-sm-6">
       <div class="wrapper">
