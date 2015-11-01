@@ -42,7 +42,7 @@ function shoov_ci_build_menu() {
  *
  * @param $message
  *  Message object.
- * @param string $ajax
+ * @param $ajax
  *  Indicate if ajax should be used. Default to 'nojs'.
  */
 function shoov_ci_build_trigger_ci_build_item($message, $ajax = 'nojs') {
@@ -104,7 +104,7 @@ function shoov_ci_build_subscribe_user_check_access($ci_build, $account, $token)
  *  The user object.
  * @param $action
  *  Action to do. Can be 'subscribe' or 'unsubscribe'
- * @param string $ajax
+ * @param $ajax
  *  Indicate if ajax should be used. Default to 'nojs'.
  */
 function shoov_ci_build_subscribe_user($ci_build, $account, $action, $ajax = 'nojs') {
