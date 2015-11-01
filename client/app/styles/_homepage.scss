@@ -2,9 +2,7 @@
 
   #demo-url-wrapper {
     position: relative;
-    padding: 10px 0px 20px 0px;
-    border-bottom: 1px solid;
-    border-color: rgba(93, 128, 161, 0.21);
+    padding: 10px 0px;
 
     form {
 
@@ -38,6 +36,54 @@
 
     .watermark i {
       right: 0px;
+    }
+  }
+
+  #dashboard-links {
+//    border-top: 1px solid;
+//    border-bottom: 1px solid;
+//    border-color: rgba(93, 128, 161, 0.21);
+
+    a {
+      text-decoration: none;
+
+      &:hover {
+
+        h5 {
+          color: $dark-turquoise;
+        }
+
+        .main-icon {
+          background: $dark-turquoise;
+        }
+      }
+
+      h5,
+      .main-icon {
+        @include transition(0.35s ease-in all);
+      }
+
+      h5 {
+        color: inherit;
+        font-size: 15px;
+        text-transform: uppercase;
+        background: white;
+        font-weight: bold;
+        border: none;
+      }
+
+      .main-icon {
+        padding: 30px;
+        background: $turquoise;
+        @include border-radius(5px 5px 0px 0px);
+        @include box-shadow(0px 40px 10px -2px rgba(0, 0, 0, 0.20));
+
+        i {
+          font-size: 106px;
+          color: white;
+        }
+      }
+
     }
   }
 }

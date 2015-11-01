@@ -24,8 +24,8 @@ $brand-info-message-border:   #A6E1EC;
 $brand-highlight:         	 	#FFF9EA;
 
 $turquoise: #28A5A8;
-$light-turquoise: #2886a2;
-$dark-turquoise: #288A8D;
+$light-turquoise: lighten($turquoise, 6%);
+$dark-turquoise: darken($turquoise, 4%);
 $gizra: #e27058;
 $gizra-dark: #e25d48;
 $gray-medium: #565656;
