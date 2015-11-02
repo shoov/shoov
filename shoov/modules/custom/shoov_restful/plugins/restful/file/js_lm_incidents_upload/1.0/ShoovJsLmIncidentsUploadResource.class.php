@@ -21,6 +21,7 @@ class ShoovJsLmIncidentsUploadResource extends RestfulFilesUpload {
     $files = array();
 
     if (!empty($request['image'])) {
+      $this->base64ImageToFile($request['image']);
       $files = parent::createEntity();
     }
 
@@ -44,8 +45,14 @@ class ShoovJsLmIncidentsUploadResource extends RestfulFilesUpload {
     return $handler->post('', $request);
   }
 
-  protected function base64ImageToFile() {
+  protected function base64ImageToFile($base64) {
+    // Update $_FILES, as it's expected by \RestfulFilesUpload::createEntity().
+    if (!$path = file_unmanaged_save_data(base64_decode($base64), 'temporary://')) {
+      throw new \RestfulBadRequestException('Image could not be saved');
+    }
 
+    $name = basename($path);
+    $_FILES[$name] = $path;
   }
 
 
