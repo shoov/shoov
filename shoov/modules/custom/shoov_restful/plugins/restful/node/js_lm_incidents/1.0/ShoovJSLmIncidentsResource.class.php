@@ -25,6 +25,10 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
       'property' => 'field_js_lm_errors',
     );
 
+    $public_fields['image'] = array(
+      'property' => 'field_js_lm_image',
+    );
+
     return $public_fields;
   }
 
@@ -39,6 +43,7 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
     return TRUE;
   }
 
+
   public function entityPreSave(\EntityMetadataWrapper $wrapper) {
     parent::entityPreSave($wrapper);
 
@@ -46,10 +51,6 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
 
     // Add label.
     $wrapper->title->set($request['build'] . ' ' . time());
-
-    // Add group reference
-    $node_wrapper = entity_metadata_wrapper('node', $request['build']);
-    $wrapper->js_lm->set($node_wrapper->js_lm->value(array('identifier' => TRUE)));
 
 
   }
