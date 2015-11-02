@@ -2,11 +2,10 @@
 
 /**
  * @file
- * Contains ShoovJSLmIncidentsResource.
+ * Contains ShoovJsLmIncidentsResource.
  */
 
-class ShoovJSLmIncidentsResource extends \ShoovEntityBaseNode {
-
+class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
 
   /**
    * Overrides \RestfulEntityBaseNode::publicFieldsInfo().
