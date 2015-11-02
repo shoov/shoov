@@ -57,7 +57,7 @@ class ShoovJsLmIncidentsUploadResource extends RestfulFilesUpload {
 
     $name = md5(time());
 
-    $_FILES['files'][$name] = array(
+    $_FILES['image'] = array(
       'name'     =>  $name . '.png',
       'type'     =>  'image/png',
       'tmp_name' =>  $path,
