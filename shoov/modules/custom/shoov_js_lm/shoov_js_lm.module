@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Shoov JS Live Monitor feature.
+ */
+
+include_once 'shoov_js_lm.features.inc';
