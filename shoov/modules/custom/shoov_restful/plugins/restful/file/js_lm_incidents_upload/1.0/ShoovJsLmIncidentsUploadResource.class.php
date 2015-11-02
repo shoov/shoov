@@ -47,12 +47,25 @@ class ShoovJsLmIncidentsUploadResource extends RestfulFilesUpload {
 
   protected function base64ImageToFile($base64) {
     // Update $_FILES, as it's expected by \RestfulFilesUpload::createEntity().
+    $base64 = str_replace('data:image/png;base64', '', $base64);
     if (!$path = file_unmanaged_save_data(base64_decode($base64), 'temporary://')) {
       throw new \RestfulBadRequestException('Image could not be saved');
     }
 
+
     $name = basename($path);
     $_FILES[$name] = $path;
+  }
+
+  /**
+   * Overrides RestfulEntityBase::access().
+   *
+   * If "File entity" module exists, determine access by its provided permissions
+   * otherwise, check if variable is set to allow anonymous users to upload.
+   * Defaults to authenticated user.
+   */
+  public function access() {
+    return TRUE;
   }
 
 

@@ -8,8 +8,6 @@ if (variable_get('restful_file_upload', FALSE)) {
     'class' => 'ShoovJsLmIncidentsUploadResource',
     'entity_type' => 'file',
     'authentication_types' => FALSE,
-    // We will implement hook_menu() with custom settings.
-    'menu_item' => variable_get('restful_hook_menu_base_path', 'api') . '/js-lm-incident-upload',
     // Set the default validators, scheme, and replace as used in
     // file_save_upload().
     'options' => array(
