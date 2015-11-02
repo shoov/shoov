@@ -28,4 +28,16 @@ class ShoovJSLmIncidentsResource extends \ShoovEntityBaseNode {
 
     return $public_fields;
   }
+
+  /**
+   * Overrides \ShoovEntityBaseNode::checkEntityAccess().
+   *
+   * Always grant access to create.
+   *
+   * @todo: Reconsider.
+   */
+  protected function checkEntityAccess($op, $entity_type, $entity) {
+    return TRUE;
+  }
+
 }
