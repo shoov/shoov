@@ -5,3 +5,54 @@
  */
 
 include_once 'shoov_js_lm.features.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function shoov_js_lm_menu() {
+  $items['js_lm/%node'] = array(
+    'title' => 'Proxy the JS script file',
+    'page callback' => 'shoov_js_lm_proxy_script',
+    'page arguments' => array(1),
+    'access callback' => 'shoov_js_lm_proxy_script_access',
+    'access arguments' => array(1),
+    'delivery callback' => 'shoov_js_lm_proxy_script_delivery',
+  );
+
+  return $items;
+}
+
+/**
+ * Access callback; Proxy the JS script file access.
+ *
+ * @param $node
+ *   The JS live monitor build node object.
+ */
+function shoov_js_lm_proxy_script_access($node) {
+  return $node->type == 'js_lm_build';
+}
+
+
+/**
+ * Page callback; Proxy the JS script file.
+ *
+ * @param $node
+ *   The JS live monitor build node object.
+ */
+function shoov_js_lm_proxy_script($node) {
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $url = $wrapper->field_js_lm_url->value();
+
+  $contents = file_get_contents($url);
+
+  print $contents;
+}
+
+function shoov_js_lm_proxy_script_delivery($page_callback_result) {
+  // We are returning JSON, so tell the browser.
+  drupal_add_http_header('Content-Type', 'application/json');
+
+  echo $page_callback_result;
+}
+
+
