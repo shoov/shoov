@@ -17,7 +17,8 @@ class shoov_repository_subscribe_user extends views_handler_field_entity {
       // The context hasn't been sent.
       return;
     }
-    $gid = $argument['og_user_node_target_id']->value[0];
+
+    $gid = $argument['og_user_node_target_id']->get_value();
 
     // Get CI Build item.
     $query = new EntityFieldQuery();

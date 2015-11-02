@@ -17,7 +17,7 @@ const SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_ERROR = 3;
  * Implements hook_menu().
  */
 function shoov_ci_build_menu() {
-  $items["ci_build/%message/trigger/%ctools_js"] = array(
+  $items['ci_build/%message/trigger/%ctools_js'] = array(
     'title' => 'Trigger the CI Build item',
     'page callback' => 'shoov_ci_build_trigger_ci_build_item',
     'page arguments' => array(1, 3),
@@ -25,11 +25,11 @@ function shoov_ci_build_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  $items["ci_build/%node/%user/%/%ctools_js/%"] = array(
+  $items['ci_build/%node/%user/%/%ctools_js/%'] = array(
     'title' => 'Subscribe/Unsubscribe user to/from the CI Build',
     'page callback' => 'shoov_ci_build_subscribe_user',
     'page arguments' => array(1, 2, 3),
-    'access callback' => 'shoov_ci_build_subscribe_user_check_access',
+    'access callback' => 'shoov_ci_build_subscribe_user_access',
     'access arguments' => array(1, 2, 5),
     'type' => MENU_CALLBACK,
   );
@@ -81,7 +81,21 @@ function shoov_ci_build_trigger_ci_build_item($message, $ajax = 'nojs') {
  * @return bool
  *  Returns TRUE if user has permissions to un/subscribe account to the CI Build.
  */
-function shoov_ci_build_subscribe_user_check_access($ci_build, $account, $token) {
+function shoov_ci_build_subscribe_user_access($ci_build, $account, $token) {
+  if (!user_is_logged_in()) {
+    // User is anonymous.
+    return;
+  }
+
+  // Get the Repository ID.
+  $wrapper = entity_metadata_wrapper('node', $ci_build);
+  $gid = $wrapper->og_repo->getIdentifier();
+
+  if (!og_is_member('node', $gid, 'user', $account)) {
+    // Account is not a group member.
+    return;
+  }
+
   if (!user_access('administer flags')) {
     // User doesn't have permissions to un/subscribe account.
     return FALSE;
@@ -117,10 +131,12 @@ function shoov_ci_build_subscribe_user($ci_build, $account, $action, $ajax = 'no
   if (!$ajax) {
     $params = array(
       '@uid' => $account->uid,
-      '@action' => $action == 'subscribe' ? 'subscribed to' : 'unsubscribed from',
       '@build_id' => $ci_build->nid,
     );
-    drupal_set_message(t('User @uid has been @action the CI Build @build_id', $params));
+    $action == 'subscribe' ?
+      drupal_set_message(t('User @uid has been subscribed to the CI Build @build_id', $params)) :
+      drupal_set_message(t('User @uid has been unsubscribed from the CI Build @build_id', $params));
+
     drupal_goto('<front>');
   }
 
