@@ -55,4 +55,3 @@ function shoov_js_lm_proxy_script_delivery($page_callback_result) {
   echo $page_callback_result;
 }
 
-

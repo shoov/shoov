@@ -39,4 +39,19 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
     return TRUE;
   }
 
+  public function entityPreSave(\EntityMetadataWrapper $wrapper) {
+    parent::entityPreSave($wrapper);
+
+    $request = $this->getRequest();
+
+    // Add label.
+    $wrapper->title->set($request['build'] . ' ' . time());
+
+    // Add group reference
+    $node_wrapper = entity_metadata_wrapper('node', $request['build']);
+    $wrapper->js_lm->set($node_wrapper->js_lm->value(array('identifier' => TRUE)));
+
+
+  }
+
 }
