@@ -86,13 +86,15 @@ select {
 .table {
   margin-bottom: 0px;
 
-  > thead > tr > th,
-  > thead > tr > td,
-  > tbody > tr > th,
-  > tbody > tr > td,
-  > tfoot > tr > th,
-  > tfoot > tr > td {
-    border-top: none;
+  > thead,
+  > tbody,
+  > tfoot {
+    > tr {
+      > th,
+      > td {
+        border-top: none;
+      }
+    }
   }
 
   > thead th {
@@ -102,6 +104,34 @@ select {
   > tbody tr{
     border-bottom: 1px solid lighten($smoke-blue, 35%);
   }
+
+  a,
+  a > i {
+    @include transition(0.4s ease-in-out all);
+  }
+
+ td {
+   a {
+     text-decoration: none;
+
+     &:hover {
+       color: $dark-turquoise;
+       i {
+         background-color: $dark-turquoise;
+       }
+     }
+
+     i {
+       display: inline-block;
+       padding: 5px 4px 6px 5px;
+       vertical-align: middle;
+       text-align: center;
+       background-color: $brand-success;
+       color: white;
+       margin-right: 4px;
+     }
+   }
+ }
 }
 
 .pre-code {

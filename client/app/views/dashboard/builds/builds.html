@@ -21,7 +21,7 @@
   <div class="soft-border">
     <div class="builds-list">
       <p>
-        Bellow are the recent visual regression builds. Only if a visual regression was found (i.e. a failing test) it will be listed here.
+        <i class="fa fa-info-circle"></i> Bellow are the recent visual regression builds. Only if a visual regression was found (i.e. a failing test) it will be listed here.
       </p>
       <div ng-hide="builds.length">
         <div class="col-sm-12 code-box">
@@ -57,7 +57,7 @@
           </thead>
           <tbody>
             <tr class="build-item animate" ng-repeat="build in builds | buildsFilter: repositoryFilter">
-              <td><i class="fa fa-server"></i><a ui-sref="dashboard.screenshots({ buildId: build.id })">{{ build.label }}</a></td>
+              <td><a ui-sref="dashboard.screenshots({ buildId: build.id })"><i class="fa fa-server"></i> {{ build.label }}</a></td>
               <td>{{ build.repository.label }}</td>
               <td>{{ (build.created*1000) | date : 'MMM d, y h:mm a' }}</td>
             </tr>
