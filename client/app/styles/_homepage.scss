@@ -11,7 +11,7 @@
         margin-top: 5px;
         padding: 2px 5px 4px;
 
-        @include mobile-only {
+        @include mobile {
          width: 100%;
         }
       }
@@ -19,7 +19,7 @@
       button {
         padding: 3px 25px;
 
-        @include mobile-only {
+        @include mobile {
           margin-top: 10px;
           width: 100%;
         }
@@ -34,7 +34,7 @@
 
   #dashboard-links {
     .link {
-      @include mobile-only {
+      @include mobile {
         margin-bottom: 20px;
 
         &:last-child {
@@ -80,10 +80,6 @@
         font-size: 15px;
         text-transform: uppercase;
         font-weight: bold;
-
-        @include mobile-only {
-          margin-bottom: 30px;
-        }
       }
 
       .main-icon {

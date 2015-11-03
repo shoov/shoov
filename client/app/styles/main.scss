@@ -21,6 +21,11 @@
   box-sizing: border-box;
 }
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 body {
   color: $gray-medium;
   font-family: 'Fira Sans', arial, sans-serif;
@@ -130,7 +135,7 @@ button {
         overflow-y: hidden;
         color: rgba(93, 128, 161, 0.12);
 
-        @include mobile-only {
+        @include mobile {
           display: none;
         }
       }
@@ -201,7 +206,7 @@ button {
       font-size: 16px;
       text-shadow: none;
 
-      @include mobile-only {
+      @include mobile {
         font-size: 14px;
       }
 

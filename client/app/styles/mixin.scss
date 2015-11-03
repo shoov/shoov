@@ -40,14 +40,14 @@ $dark-blue: #253340;
 $min-height: 941px;
 
   /* Desktop */
-@mixin desktop-only {
+@mixin desktop {
   @media (min-width: $screen-sm-min) {
     @content;
   }
 }
 
 /* Mobile */
-@mixin mobile-only {
+@mixin mobile {
   @media (max-width: $screen-xs-max) {
     @content;
   }
