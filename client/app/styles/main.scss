@@ -54,6 +54,10 @@ hr {
   }
 }
 
+em {
+  color: $turquoise;
+}
+
 code {
   padding: 6px 8px;
   color: $turquoise;
@@ -75,71 +79,80 @@ button {
   @include border-radius(2px);
 }
 
+select {
+  @include border-radius(3px);
+}
+
 .pre-code {
   display: inline-block;
+  margin-bottom: 10px;
   padding: 10px;
   color: #333333;
   background: $code-bg;
   border: 1px solid #DFE2E4;
-  border-radius: 4px;
+  @include border-radius(4px);
   font-size: 13px;
   word-break: break-all;
   word-wrap: break-word;
 }
 
-.main-content {
+.soft-border {
+  border: 1px solid $smoke-blue;
+  border-top: none;
+}
 
-  .wrapper {
-    position: relative;
-    padding: 0px 15px 20px 15px;
-    border: 1px solid rgba(128, 128, 128, 0.18);
-    background: white;
-    @include border-radius(0px 0px 10px 10px);
-    @include box-shadow( 0px 0px 10px -1px rgba(0, 0, 0, 0.1));
+.wrapper {
+  position: relative;
+  padding: 0px 15px 20px 15px;
+  border: 1px solid rgba(128, 128, 128, 0.18);
+  background: white;
+  @include border-radius(0px 0px 10px 10px);
+  @include box-shadow( 0px 0px 10px -1px rgba(0, 0, 0, 0.1));
 
-    &:nth-child(n+2) {
-      margin-top: 20px;
-    }
+  > h2 {
+    margin: 0px -15px 20px -15px;
+    padding: 10px 15px 10px 15px;
+    color: white;
+    background-color: $light-blue;
+    font-size: 18px;
+    text-transform: capitalize;
+  }
 
-    > h2 {
-      margin: 0px -15px 20px -15px;
-      padding: 10px 15px 10px 15px;
-      color: white;
-      background-color: $light-blue;
-      font-size: 18px;
-      text-transform: capitalize;
-    }
+  h5 {
+    margin: 0px;
+    padding: 10px 15px;
+    border: 1px solid $smoke-blue;
+    color: $light-blue;
+    background: rgba(93, 128, 161, 0.14);
+  }
 
-    h5 {
-      margin: 0px;
-      padding: 10px 15px;
-      border: 1px solid $smoke-blue;
-      color: $light-blue;
-      background: rgba(93, 128, 161, 0.14);
-    }
+  .soft-border {
+    border-top: none;
+  }
 
-    .soft-border {
-      border: 1px solid $smoke-blue;
-    }
+  i {
+    color: #5D80A1;
+  }
 
+  .watermark {
     i {
-      color: #5D80A1;
-    }
+      position: absolute;
+      right: 14px;
+      bottom: 13px;
+      font-size: 80px;
+      overflow-y: hidden;
+      color: rgba(93, 128, 161, 0.12);
 
-    .watermark {
-      i {
-        position: absolute;
-        right: 14px;
-        bottom: 13px;
-        font-size: 80px;
-        overflow-y: hidden;
-        color: rgba(93, 128, 161, 0.12);
-
-        @include mobile {
-          display: none;
-        }
+      @include mobile {
+        display: none;
       }
     }
+  }
+}
+
+.main-content .wrapper {
+  &:nth-child(n+2) {
+    margin-top: 20px;
   }
 }
 
@@ -236,7 +249,7 @@ button {
 
 .font-green-sharp,
 .font-done {
-  color: $brand-success;
+  color: $brand-primary;
 }
 
 .font-blue-sharp,
