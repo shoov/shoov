@@ -98,12 +98,12 @@ function shoov_ci_build_subscribe_user_access($ci_build, $account, $token) {
 
   if (!user_access('administer flags')) {
     // User doesn't have permissions to un/subscribe account.
-    return FALSE;
+    return;
   }
 
   if (md5($ci_build->nid . '+' . $account->uid) != $token) {
     // Access token is invalid.
-    return FALSE;
+    return;
   }
 
   return TRUE;
