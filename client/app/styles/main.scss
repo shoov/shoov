@@ -21,6 +21,11 @@
   box-sizing: border-box;
 }
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 body {
   color: $gray-medium;
   font-family: 'Fira Sans', arial, sans-serif;
@@ -29,54 +34,74 @@ body {
   &.login-page {
     background: $dark-blue;
   }
+}
 
-  ul,
-  ol {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+hr {
+  background: $light-gray;
+  height: 1px;
+  display: block;
+  border-bottom: 1px solid #e2e2e2;
+
+  &.no-margin {
+    margin: 0px;
   }
+}
 
-  hr {
-    background: $light-gray;
-    height: 1px;
-    display: block;
-    border-bottom: 1px solid #e2e2e2;
+code {
+  padding: 6px 8px;
+  color: $turquoise;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  font-size: 14px;
+}
 
-    &.no-margin {
-      margin: 0px;
-    }
+input {
+  border: 1px solid rgba(93, 128, 161, 0.32);
+
+  &:focus {
+    outline: 2px solid rgba(125, 147, 169, 0.33);
   }
+}
 
-  code {
-    padding: 6px 8px;
-    color: $turquoise;
-    background-color: #f5f5f5;
-    border-radius: 4px;
-    font-size: 14px;
-  }
+button {
+  @include transition(0.4s ease-in-out all);
+  @include border-radius(2px);
+}
 
-  .pre-code {
-    display: inline-block;
-    padding: 10px;
-    color: #333333;
-    background: $code-bg;
-    border: 1px solid #DFE2E4;
-    border-radius: 4px;
-    font-size: 13px;
-    word-break: break-all;
-    word-wrap: break-word;
-  }
+.pre-code {
+  display: inline-block;
+  padding: 10px;
+  color: #333333;
+  background: $code-bg;
+  border: 1px solid #DFE2E4;
+  border-radius: 4px;
+  font-size: 13px;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.main-content {
 
   .wrapper {
     position: relative;
-    padding: 0px 15px 15px 15px;
+    padding: 0px 15px 20px 15px;
     border: 1px solid rgba(128, 128, 128, 0.18);
     background: white;
     @include border-radius(0px 0px 10px 10px);
     @include box-shadow( 0px 0px 10px -1px rgba(0, 0, 0, 0.1));
 
-    h2 {
+    &:nth-child(n+2) {
+      margin-top: 20px;
+    }
+
+    > h2 {
       margin: 0px -15px 20px -15px;
       padding: 10px 15px 10px 15px;
       color: white;
@@ -91,7 +116,6 @@ body {
       border: 1px solid $smoke-blue;
       color: $light-blue;
       background: rgba(93, 128, 161, 0.14);
-      border-bottom: none;
     }
 
     .soft-border {
@@ -103,435 +127,269 @@ body {
     }
 
     .watermark {
-      position: absolute;
-      right: 14px;
-      bottom: 13px;
-      font-size: 80px;
-      overflow-y: hidden;
-      color: rgba(93, 128, 161, 0.12);
+      i {
+        position: absolute;
+        right: 14px;
+        bottom: 13px;
+        font-size: 80px;
+        overflow-y: hidden;
+        color: rgba(93, 128, 161, 0.12);
 
-      @include mobile-only {
-        display: none;
+        @include mobile {
+          display: none;
+        }
       }
     }
   }
+}
 
-  .form-actions {
-    .btn-primary {
-      border-color: $dark-turquoise;
-      background: $turquoise;
-    }
+.shoov-logo {
+  font-family: 'Audiowide', arial, sans-serif;
+}
+
+.gizra-logo {
+  text-transform: lowercase;
+  font-family: Abril Fatface;
+  color: $gizra;
+
+  &:hover, &:focus {
+    text-decoration: none;
+    color: $gizra-dark;
+  }
+}
+
+.page-title {
+  padding: 0;
+  font-size: 24px;
+  letter-spacing: -1px;
+  line-height: 24px;
+  display: block;
+  color: $page-title-color;
+  margin: 0 0 20px 0;
+  font-weight: 300;
+  font-family: "Open Sans", sans-serif;
+}
+
+.editable {
+  cursor: pointer;
+
+  .edit-icon {
+    color: $turquoise;
+    padding-left: 5px;
   }
 
-  .shoov-logo {
-    font-family: 'Audiowide', arial, sans-serif;
-  }
-
-  .gizra-logo {
-    text-transform: lowercase;
-    font-family: Abril Fatface;
+  &.editable-empty {
     color: $gizra;
 
-    &:hover, &:focus {
-      text-decoration: none;
+    &:hover {
       color: $gizra-dark;
     }
   }
+}
 
-  .page-title {
-    padding: 0;
-    font-size: 24px;
-    letter-spacing: -1px;
-    line-height: 24px;
-    display: block;
-    color: $page-title-color;
-    margin: 0 0 20px 0;
-    font-weight: 300;
-    font-family: "Open Sans", sans-serif;
-  }
+.page-bar {
+  font-family: 'Droid Serif',serif;
+  padding: 0;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
 
-  .editable {
-    cursor: pointer;
+  .page-breadcrumb {
+    display: inline-block;
+    padding: 10px 6px;
+    margin: 0;
+    list-style: none;
 
-    .edit-icon {
-      color: $turquoise;
-      padding-left: 5px;
-    }
-
-    &.editable-empty {
-      color: $gizra;
-
-      &:hover {
-        color: $gizra-dark;
-      }
-    }
-  }
-
-  .page-bar {
-    font-family: 'Droid Serif',serif;
-    padding: 0;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    width: 100%;
-
-    .page-breadcrumb {
+    li {
       display: inline-block;
-      padding: 10px 6px;
-      margin: 0;
-      list-style: none;
+      color: $breadcrumb-color;
+      font-size: 16px;
+      text-shadow: none;
 
-      li {
-        display: inline-block;
+      @include mobile {
+        font-size: 14px;
+      }
+
+      > a {
         color: $breadcrumb-color;
-        font-size: 16px;
-        text-shadow: none;
-
-        @include mobile-only {
-          font-size: 14px;
-        }
-
-        > a {
-          color: $breadcrumb-color;
-        }
-
-        > i {
-          color: $gray-bg-color;
-          font-size: 18px;
-          text-shadow: none;
-
-          &.fa-angle-right {
-            width: 10px;
-            text-align: center;
-            color: rgba(40, 165, 168, 0.61);
-          }
-        }
-      }
-    }
-  }
-
-  /* Animation */
-  .animate {
-    @include transition(0.7s ease-out all);
-
-    &.ng-move,
-    &.ng-enter,
-    &.ng-leave {
-      @include transition(all linear 0.7s);
-    }
-
-    &.ng-leave.ng-leave-active,
-    &.ng-move,
-    &.ng-enter {
-      opacity:0;
-      max-height:0;
-    }
-
-    &.ng-leave,
-    &.ng-move.ng-move-active,
-    &.ng-enter.ng-enter-active {
-      opacity:1;
-      max-height:40px;
-    }
-  }
-
-  .ng-enter-active {
-    background-color: $brand-highlight;
-  }
-  /* End animation */
-
-  .font-red-sunglo,
-  .font-error {
-    color: $brand-danger;
-  }
-
-  .font-green-sharp,
-  .font-done {
-    color: $brand-success;
-  }
-
-  .font-blue-sharp,
-  .font-in_progress {
-    color: $brand-primary;
-  }
-
-  .font-purple-intense {
-    color: $brand-title-purple;
-  }
-
-  .font-queue {
-    color: $brand-warning;
-  }
-
-  .label {
-    font-size: 16px;
-    font-weight: bold;
-    letter-spacing: 0.5px;
-
-    &.label-sm {
-      font-size: 12px;
-      padding: 0 4px 1px 4px;
-    }
-
-    &.label-error {
-      background-color: $brand-danger;
-    }
-
-    &.label-done {
-      background-color: $brand-success;
-    }
-
-    &.label-queue {
-      background-color: $brand-warning;
-    }
-
-    &.label-in_progress {
-      background-color: $brand-sky;
-    }
-  }
-
-  .portlet {
-    padding: 12px 20px 15px 20px;
-    background-color: white;
-    float: left;
-    width: 100%;
-
-    .portlet-title {
-      border-bottom: 1px solid #eee;
-      padding: 0;
-      margin-bottom: 10px;
-      min-height: 48px;
-      float: left;
-      width: 100%;
-
-      > .caption {
-        float: left;
-        display: inline-block;
-        font-size: 18px;
-        line-height: 18px;
-        padding: 10px 0;
-
-        > i {
-          font-size: 15px;
-          font-weight: 300;
-          margin-top: 3px;
-        }
-
-        > .caption-subject {
-          font-size: 16px;
-          font-weight: bold;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-        }
-      }
-
-      > .actions {
-        padding: 6px 0 14px 0;
-        float: right;
-        display: inline-block;
-      }
-    }
-
-    .portlet-body {
-      padding-top: 8px;
-      float: left;
-      width: 100%;
-
-      .description {
-        margin-bottom: 15px;
-      }
-
-      .col-list {
-        background-color: $main-bg-color;
-        padding: 0 20px 20px;
-      }
-
-      .portlet {
-        padding: 0;
-      }
-    }
-
-    .info {
-      margin: 0 0 20px 0;
-      padding: 15px 30px 15px 15px;
-      border-left: 5px solid $brand-info-message-border;
-      background-color: $brand-info-message-bg;
-      color: $brand-info-message-color;
-      position: relative;
-      min-height: 90px;
-
-      .background {
-        position: absolute;
-        right: 10px;
-        bottom: 0;
-        font-size: 65px;
-        opacity: 0.4;
-      }
-    }
-
-    .log-wrapper {
-
-      pre {
-        @include border-radius(0);
-        background: black;
-        color: white;
-      }
-    }
-  }
-
-  .dashboard-stat {
-    display: block;
-    margin-bottom: 25px;
-    position: relative;
-    height: auto;
-    float: left;
-    width: 100%;
-
-    &:before {
-      content: " ";
-      display: table;
-    }
-
-    &.dashboard-stat-light {
-      padding-bottom: 20px;
-      margin-bottom: 20px;
-    }
-
-    &.red-soft {
-      background-color: $brand-danger;
-
-      &:hover {
-        background-color: $state-danger-hover;
-      }
-    }
-
-    &.blue-soft {
-      background-color: $brand-primary;
-
-      &:hover {
-        background-color: $state-primary-hover;
-      }
-    }
-
-    &.green-soft {
-      background-color: $brand-success;
-
-      &:hover {
-        background-color: $brand-success-hover;
-      }
-    }
-
-    &.white-soft {
-      padding-top: 10px;
-      background-color: $main-bg-color;
-
-      .config {
-
-        input {
-          width: 75%;
-        }
-      }
-
-      .visual {
-
-        > i {
-          color: black;
-        }
-      }
-
-      &:hover {
-        background-color: $main-bg-color;
-      }
-    }
-
-    .visual {
-      width: 80px;
-      height: 80px;
-      display: block;
-      float: left;
-      padding-top: 10px;
-      padding-left: 15px;
-      margin-bottom: 15px;
-      font-size: 35px;
-      line-height: 35px;
-
-      &.background {
-        position: absolute;
-        bottom: 20px;
-        right: 55px;
       }
 
       > i {
-        margin-left: 0;
-        font-size: 110px;
-        line-height: 110px;
-        color: white;
-        opacity: 0.1;
-      }
-    }
+        color: $gray-bg-color;
+        font-size: 18px;
+        text-shadow: none;
 
-    .details {
-      position: absolute;
-      right: 15px;
-      padding-right: 15px;
-      margin-bottom: 5px;
-
-      .desc {
-        color: white;
-        padding-top: 25px;
-        text-align: right;
-        font-size: 34px;
-        line-height: 36px;
-
-        @media (max-width: 320px) {
-          font-size: 32px;
-          line-height: 34px;
+        &.fa-angle-right {
+          width: 10px;
+          text-align: center;
+          color: rgba(40, 165, 168, 0.61);
         }
       }
     }
   }
+}
 
-  // Override bootstrap default buttons and inputs.
-  input.form-control,
-  textarea.form-control {
-    @include border-radius(0);
+.font-red-sunglo,
+.font-error {
+  color: $brand-danger;
+}
+
+.font-green-sharp,
+.font-done {
+  color: $brand-success;
+}
+
+.font-blue-sharp,
+.font-in_progress {
+  color: $brand-primary;
+}
+
+.font-purple-intense {
+  color: $brand-title-purple;
+}
+
+.font-queue {
+  color: $brand-warning;
+}
+
+.label {
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+
+  &.label-sm {
+    font-size: 12px;
+    padding: 0 4px 1px 4px;
   }
 
-  .btn {
-    outline: none;
-    background-image: none;
-    filter: none;
-    @include box-shadow(none);
-    text-shadow: none;
+  &.label-error {
+    background-color: $brand-danger;
   }
 
-  .config {
-    margin-top: 10px;
-    margin-bottom: 20px;
+  &.label-done {
+    background-color: $brand-success;
   }
 
-  .dev-tip {
-    display: inline-block;
+  &.label-queue {
+    background-color: $brand-warning;
+  }
 
-    .fa {
-      font-size: 20px;
-      color: $turquoise;
-      cursor: pointer;
-    }
+  &.label-in_progress {
+    background-color: $brand-sky;
+  }
+}
 
-    &.message {
-      margin-top: 40px;
-      background-color: $light-gray;
-      padding: 10px 20px;
-      @include border-radius(5px);
+.portlet {
+  padding: 12px 20px 15px 20px;
+  background-color: white;
+  float: left;
+  width: 100%;
+
+  .portlet-title {
+    border-bottom: 1px solid #eee;
+    padding: 0;
+    margin-bottom: 10px;
+    min-height: 48px;
+    float: left;
+    width: 100%;
+
+    > .caption {
+      float: left;
+      display: inline-block;
       font-size: 18px;
+      line-height: 18px;
+      padding: 10px 0;
+
+      > i {
+        font-size: 15px;
+        font-weight: 300;
+        margin-top: 3px;
+      }
+
+      > .caption-subject {
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+    }
+
+    > .actions {
+      padding: 6px 0 14px 0;
+      float: right;
+      display: inline-block;
     }
   }
 
-  #content {
-    background: $light-gray;
+  .portlet-body {
+    padding-top: 8px;
+    float: left;
+    width: 100%;
 
-    .main {
-      min-height: $min-height;
+    .description {
+      margin-bottom: 15px;
     }
+
+    .col-list {
+      background-color: $main-bg-color;
+      padding: 0 20px 20px;
+    }
+
+    .portlet {
+      padding: 0;
+    }
+  }
+
+  .info {
+    margin: 0 0 20px 0;
+    padding: 15px 30px 15px 15px;
+    border-left: 5px solid $brand-info-message-border;
+    background-color: $brand-info-message-bg;
+    color: $brand-info-message-color;
+    position: relative;
+    min-height: 90px;
+
+    .background {
+      position: absolute;
+      right: 10px;
+      bottom: 0;
+      font-size: 65px;
+      opacity: 0.4;
+    }
+  }
+
+  .log-wrapper {
+    pre {
+      @include border-radius(0);
+      background: black;
+      color: white;
+    }
+  }
+}
+
+// Override bootstrap default buttons and inputs.
+input.form-control,
+textarea.form-control {
+  @include border-radius(0);
+}
+
+.btn {
+  outline: none;
+  background-image: none;
+  filter: none;
+  @include box-shadow(none);
+  text-shadow: none;
+}
+
+.config {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+#content {
+  background: $light-gray;
+
+  .main {
+    min-height: $min-height;
   }
 }

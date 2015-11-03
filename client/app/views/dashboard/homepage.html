@@ -9,21 +9,55 @@
       </div>
     </div>
   </div>
-  <div class="row text-center">
-    <div class="col-sm-6">
-      <div class="wrapper">
-        <a ui-sref="dashboard.repos">
-          <h2><i class="fa fa-heartbeat"></i></h2>
-          Live Monitor
-        </a>
+  <div class="main-content">
+    <div class="wrapper">
+      <h2>Dashboard</h2>
+      <div id="dashboard-links">
+        <div class="row text-center">
+          <div class="col-sm-4 link">
+            <div>
+              <a ui-sref="dashboard.repos">
+                <div class="main-icon">
+                  <i class="fa fa-heartbeat"></i>
+                </div>
+                <h5>Live Monitor</h5>
+              </a>
+            </div>
+          </div>
+          <div class="col-sm-4 link">
+            <div>
+              <a ui-sref="dashboard.builds">
+                <div class="main-icon">
+                  <i class="fa fa-history"></i>
+                </div>
+                <h5>Visual Regression</h5>
+              </a>
+            </div>
+          </div>
+          <div class="col-sm-4 link">
+            <div >
+              <a href="http://www.shoov.io/tutorials/lesson1-install/" class="tutorial-link" target="_blank">
+                <div class="main-icon">
+                  <i class="fa fa-graduation-cap"></i>
+                </div>
+                <h5>Shoov tutorial</h5>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-sm-6">
-      <div class="wrapper">
-        <a ui-sref="dashboard.builds">
-          <h2><i class="fa fa-history"></i></h2>
-          Visual Regression
-        </a>
+    <div class="wrapper">
+      <h2>Need help on setting shoov ?</h2>
+      <div id="demo-url-wrapper">
+        <form ng-submit="saveAccountDemoUrl(url.text);">
+          <label for="demo-url">Leave us your site URL, and we'll help you set it up.</label>
+          <input type="url" id="demo-url" placeholder="http://example-site.com" size="45" ng-model="url.text" required="true" ng-change="changeSubmitValue();">
+          <button type="submit" class="btn btn-primary" ng-disabled="submitValue == 'Saved';">{{submitValue}}</button>
+        </form>
+      </div>
+      <div class="watermark">
+        <i class="fa fa-thumbs-o-up"></i>
       </div>
     </div>
   </div>

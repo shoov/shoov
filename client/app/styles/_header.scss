@@ -5,7 +5,7 @@
     .container {
       padding-bottom: 17px;
 
-      @include mobile-only {
+      @include mobile {
         text-align: center;
         padding-bottom: 0px;
       }
@@ -26,11 +26,11 @@
           background: $dark-turquoise;
         }
 
-        @include desktop-only {
+        @include desktop {
           float: left;
         }
 
-        @include mobile-only {
+        @include mobile {
           margin-bottom: 25px;
         }
       }
@@ -54,24 +54,24 @@
 
     .navbar-nav {
 
-      @include desktop-only {
+      @include desktop {
         height: 50px;
         float: right;
       }
 
-      @include mobile-only {
+      @include mobile {
         margin-top: 0px;
         margin-bottom: 0px;
       }
 
       li {
 
-        @include desktop-only {
+        @include desktop {
           margin-left: 8px;
           margin-top: 8px;
         }
 
-        @include mobile-only {
+        @include mobile {
           border-bottom: 1px solid rgba(255, 255, 255, 0.09);
         }
 

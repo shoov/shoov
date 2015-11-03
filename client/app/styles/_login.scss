@@ -16,7 +16,7 @@
       @include box-shadow(4px 4px 30px 0px #252729);
       @include border-radius(4px);
 
-      @include desktop-only {
+      @include desktop {
         border-top: 1px solid rgba(255, 255, 255, 0.09);
         margin-top: 200px;
       }
@@ -49,7 +49,7 @@
       padding-left: 0px;
       @include transition(0.4s ease-in-out all);
 
-      @include mobile-only {
+      @include mobile {
         padding-left: 55px;
       }
 

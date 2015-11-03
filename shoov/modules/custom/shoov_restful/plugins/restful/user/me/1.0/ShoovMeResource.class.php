@@ -58,6 +58,10 @@ class ShoovMeResource extends \RestfulEntityBaseUser {
       'property' => 'field_saucelabs_key',
     );
 
+    $public_fields['demo_request_url'] = array(
+      'property' => 'field_demo_request_url',
+    );
+
     return $public_fields;
   }
 
