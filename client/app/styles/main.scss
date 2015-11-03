@@ -54,6 +54,10 @@ hr {
   }
 }
 
+em {
+  color: $turquoise;
+}
+
 code {
   padding: 6px 8px;
   color: $turquoise;
@@ -75,13 +79,18 @@ button {
   @include border-radius(2px);
 }
 
+select {
+  @include border-radius(3px);
+}
+
 .pre-code {
   display: inline-block;
+  margin-bottom: 10px;
   padding: 10px;
   color: #333333;
   background: $code-bg;
   border: 1px solid #DFE2E4;
-  border-radius: 4px;
+  @include border-radius(4px);
   font-size: 13px;
   word-break: break-all;
   word-wrap: break-word;

@@ -52,11 +52,16 @@
 
   .navbar-collapse {
 
+    @include desktop {
+      padding-right: 0px;
+    }
+
     .navbar-nav {
 
       @include desktop {
         height: 50px;
         float: right;
+        margin-right: -15px;
       }
 
       @include mobile {
@@ -67,7 +72,6 @@
       li {
 
         @include desktop {
-          margin-left: 8px;
           margin-top: 8px;
         }
 
