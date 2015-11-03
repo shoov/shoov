@@ -12,7 +12,9 @@
 
      &.pager-is-active {
        max-height: 265px;
+       padding: 10px;
        overflow-y: scroll;
+       border: 1px solid $smoke-blue;
      }
 
      li {
