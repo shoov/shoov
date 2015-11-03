@@ -23,6 +23,10 @@ function shoov_ci_build_drush_command() {
     ),
   );
 
+  $items['check-nodejs-server-health'] = array(
+    'description' => 'Check nodejs servers are working.'
+  );
+
   return $items;
 }
 
@@ -289,4 +293,38 @@ function drush_shoov_ci_build_third_message_should_be_sent($timestamp, $wrapper)
   );
 
   return $arguments;
+}
+
+/**
+ * Check all existing servers status. If one of them is down - send email to
+ * the site admin.
+ */
+function drush_shoov_ci_build_check_nodejs_server_health() {
+  $servers = array();
+  $servers['primary_server'] = variable_get('shoov_nodejs_server', 'http://localhost:3000');
+  $servers['secondary_server'] = variable_get('shoov_nodejs_server_secondary', 'http://localhost:3001');
+
+  foreach($servers as $key => $uri) {
+    $result = drupal_http_request($uri);
+    $status_code = $result->code;
+
+    if ($status_code == 200) {
+      continue;
+    }
+
+    // Send email to admin.
+    $arguments = array(
+      '@server' => $key,
+      '@url' => $uri,
+      );
+    $message = message_create('server_is_down', array('arguments' => $arguments));
+    $message->uid = 1;
+
+    $options = array(
+      'mail' => variable_get('site_mail', ini_get('sendmail_from')),
+    );
+    drush_print(format_string('The @server is down. Url is @url', $arguments));
+    message_notify_send_message($message, $options);
+
+  }
 }

@@ -45,10 +45,16 @@ function  shoov_ci_build_trigger_ci_build_item($message, $ajax = 'nojs') {
   );
   $url = implode('/', $url);
   drupal_http_request($url);
+
   if (!$ajax) {
     drupal_set_message(t('Message @mid has been sent to the server', array('@mid' => $message->mid)));
     drupal_goto('<front>');
   }
+
+  $commands = array();
+  $commands[] = ajax_command_replace('#trigger-' . $message->mid, t('Triggered'));
+
+  print ajax_render($commands);
 }
 
 /**
@@ -124,6 +130,11 @@ function shoov_ci_build_node_presave($node) {
   }
 
   $wrapper = entity_metadata_wrapper('node', $node);
+
+  if (!($wrapper->field_status_token->value())) {
+    $wrapper->field_status_token->set(drupal_random_key());
+  }
+
   if ($wrapper->field_private_key->value()) {
     // Private key is already populated.
     return;
@@ -472,6 +483,16 @@ function shoov_ci_build_trigger_event(Message $message, $event) {
   $result = $handler->get($message->mid);
   $data = array($result[0]);
   shoov_pusher_trigger_event($wrapper->field_ci_build->og_repo->getIdentifier(), $event, $data);
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ *
+ * CI Build Status token should be empty.
+ */
+function shoov_ci_build_query_empty_status_token_alter(QueryAlterableInterface $query) {
+  $query->leftJoin('field_data_field_status_token', 's', 'node.nid = s.entity_id');
+  $query->isNull('s.field_status_token_value');
 }
 
 /**

@@ -106,7 +106,7 @@ function shoov_ci_build_default_message_type() {
     "arguments" : null,
     "message_text" : { "und" : [
         {
-          "value" : "[message:field-ci-build:title] build is failing.",
+         "value" : "[message:field-ci-build:title] build is failing.",
           "format" : "filtered_html",
           "safe_value" : "\\u003Cp\\u003E[message:field-ci-build:title] build is failing.\\u003C\\/p\\u003E\\n"
         },
@@ -114,6 +114,32 @@ function shoov_ci_build_default_message_type() {
           "value" : "Dear [message:user:name]!\\r\\n\\r\\nThe build \\u003Ca href=\\u0022@{url}\\u0022\\u003E[message:field-ci-build:title]\\u003C\\/a\\u003E is failing for more than @{failing_days} days. \\r\\n@{action}. \\r\\n\\r\\nBest regards,\\r\\n\\r\\nShoov team.\\r\\n",
           "format" : "filtered_html",
           "safe_value" : "\\u003Cp\\u003EDear [message:user:name]!\\u003C\\/p\\u003E\\n\\u003Cp\\u003EThe build \\u003Ca href=\\u0022@{url}\\u0022\\u003E[message:field-ci-build:title]\\u003C\\/a\\u003E is failing for more than @{failing_days} days.\\u003Cbr \\/\\u003E\\n@{action}. \\u003C\\/p\\u003E\\n\\u003Cp\\u003EBest regards,\\u003C\\/p\\u003E\\n\\u003Cp\\u003EShoov team.\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    }
+  }');
+  $items['server_is_down'] = entity_import('message_type', '{
+    "name" : "server_is_down",
+    "description" : "Server is down",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "Shoov server is down.",
+          "format" : "filtered_html",
+          "safe_value" : "\\u003Cp\\u003EShoov server is down.\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "Hi, admin!\\r\\n\\r\\nThe @server is down. Please, check it under the url @url.",
+          "format" : "filtered_html",
+          "safe_value" : "\\u003Cp\\u003EHi, admin!\\u003C\\/p\\u003E\\n\\u003Cp\\u003EThe @server is down. Please, check it under the url @url.\\u003C\\/p\\u003E\\n"
         }
       ]
     }
