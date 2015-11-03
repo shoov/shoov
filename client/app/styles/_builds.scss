@@ -1,21 +1,23 @@
-.builds {
-  margin-top: 20px;
+.builds-list {
 
-  > li {
-    background-color: $main-bg-color;
-    margin-bottom: 7px;
+  .form-control {
+    width: auto;
+  }
 
-    > i {
-      display: inline-block;
-      padding: 5px 4px 6px 5px;
-      vertical-align: middle;
-      text-align: center;
-      background-color: $brand-success;
-      color: white;
-    }
+  .builds {
+    margin-top: 20px;
 
-    a {
-      padding: 5px;
+    td {
+
+      i {
+        display: inline-block;
+        padding: 5px 4px 6px 5px;
+        vertical-align: middle;
+        text-align: center;
+        background-color: $brand-success;
+        color: white;
+        margin-right: 4px;
+      }
     }
   }
 }
