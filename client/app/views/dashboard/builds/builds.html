@@ -15,71 +15,67 @@
     </div>
   </div>
 </div>
-<div class="row">
-  <div class="col-sm-12 builds-list">
-    <div class="portlet">
-      <div class="portlet-title">
-        <div class="caption font-blue-sharp">
-          <i class="fa fa-history"></i>
-          <span class="caption-subject">Visual Regression</span>
-        </div>
-      </div>
+<div class="wrapper">
+  <h2>Visual Regression</h2>
+  <h5><i class="fa fa-history"></i> Builds</h5>
+  <div class="soft-border">
+    <div class="builds-list">
+      <p>
+        Bellow are the recent visual regression builds. Only if a visual regression was found (i.e. a failing test) it will be listed here.
+      </p>
+      <div ng-hide="builds.length">
+        <div class="col-sm-12 code-box">
+          No builds were uploaded yet. Make sure you have created your <code>~/.shoov.json</code> file by copy pasting the following code into your terminal:
 
-      <div class="portlet-body">
-        <div class="description">
-          Bellow are the recent visual regression builds. Only if a visual regression was found (i.e. a failing test) it will be listed here.
-        </div>
-
-        <div class="dashboard-stat dashboard-stat-light white-soft" ng-hide="builds.length">
-          <div class="col-sm-12 code-box">
-            No builds were uploaded yet. Make sure you have created your <code>~/.shoov.json</code> file by copy pasting the following code into your terminal:
-
-            <div class="config">
-              <input type="text" size="50" name="config" value='curl -o ~/.shoov.json {{backend}}/api/v1.0/config?access_token={{ accessToken }}'>
-            </div>
-
-            See <a href="https://github.com/shoov/test-example" target="_blank">this</a> repo for an example.
-
-            <div class="dev-tip">
-              <i class="fa fa-info-circle" popover-template="'angularFun.html'" popover-title="Dev Tip"></i>
-            </div>
-            <div class="visual background">
-              <i class="fa fa-code"></i>
-            </div>
+          <div class="config">
+            <input type="text" size="50" name="config" value='curl -o ~/.shoov.json {{backend}}/api/v1.0/config?access_token={{ accessToken }}'>
+          </div>
+          See <a href="https://github.com/shoov/test-example" target="_blank">this</a> repo for an example.
+          <div class="dev-tip">
+            <i class="fa fa-info-circle" popover-template="'angularFun.html'" popover-title="Dev Tip"></i>
+          </div>
+          <div class="visual background">
+            <i class="fa fa-code"></i>
           </div>
         </div>
-        <div class="form-group" ng-show="repositoriesLength > 1">
-          <label for="repository">Filter by repository</label>
-          <select class="form-control" id="repository" ng-model="repositoryFilter">
-            <option value="0" selected="selected">-No filter-</option>
-            <option ng-value="id" ng-repeat="(id, label) in repositories">{{label}}</option>
-          </select>
-        </div>
-        <div class="table-scrollable builds" ng-show="builds.length">
-          <table class="table table-hover">
-            <thead>
-            <tr>
-              <th>Name</th>
-              <th>Repository</th>
-              <th>Created</th>
-            </tr>
-            </thead>
-            <tbody>
+      </div>
+      <div class="form-group" ng-show="repositoriesLength > 1">
+        <label for="repository">Filter by repository</label>
+        <select class="form-control" id="repository" ng-model="repositoryFilter">
+          <option value="0" selected="selected">-No filter-</option>
+          <option ng-value="id" ng-repeat="(id, label) in repositories">{{label}}</option>
+        </select>
+      </div>
+      <div class="table-scrollable builds" ng-show="builds.length">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Repository</th>
+            <th>Created</th>
+          </tr>
+          </thead>
+          <tbody>
+
             <tr class="build-item animate" ng-repeat="build in builds | buildsFilter: repositoryFilter">
               <td><i class="fa fa-server"></i><a ui-sref="dashboard.screenshots({ buildId: build.id })">{{ build.label }}</a></td>
               <td>{{ build.repository.label }}</td>
               <td>{{ (build.created*1000) | date : 'MMM d, y h:mm a' }}</td>
             </tr>
-            </tbody>
-          </table>
-        </div>
+
+            <tr class="build-item animate" ng-repeat="build in builds | buildsFilter: repositoryFilter">
+              <td><i class="fa fa-server"></i><a ui-sref="dashboard.screenshots({ buildId: build.id })">{{ build.label }}</a></td>
+              <td>{{ build.repository.label }}</td>
+              <td>{{ (build.created*1000) | date : 'MMM d, y h:mm a' }}</td>
+            </tr>
+
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </div>
-
 <div ui-view></div>
-
 <script type="text/ng-template" id="angularFun.html">
   <p>
     More of a client side person? The Angular code for this page is <a href="https://github.com/shoov/shoov/blob/master/client/app/views/dashboard/builds/builds.html#L1" target="_blank">here</a>. Care to join and improve? It's open source after all!
