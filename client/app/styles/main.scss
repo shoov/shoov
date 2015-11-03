@@ -87,59 +87,58 @@ button {
   word-wrap: break-word;
 }
 
-.main-content {
+.wrapper {
+  position: relative;
+  padding: 0px 15px 20px 15px;
+  border: 1px solid rgba(128, 128, 128, 0.18);
+  background: white;
+  @include border-radius(0px 0px 10px 10px);
+  @include box-shadow( 0px 0px 10px -1px rgba(0, 0, 0, 0.1));
 
-  .wrapper {
-    position: relative;
-    padding: 0px 15px 20px 15px;
-    border: 1px solid rgba(128, 128, 128, 0.18);
-    background: white;
-    @include border-radius(0px 0px 10px 10px);
-    @include box-shadow( 0px 0px 10px -1px rgba(0, 0, 0, 0.1));
+  > h2 {
+    margin: 0px -15px 20px -15px;
+    padding: 10px 15px 10px 15px;
+    color: white;
+    background-color: $light-blue;
+    font-size: 18px;
+    text-transform: capitalize;
+  }
 
-    &:nth-child(n+2) {
-      margin-top: 20px;
-    }
+  h5 {
+    margin: 0px;
+    padding: 10px 15px;
+    border: 1px solid $smoke-blue;
+    color: $light-blue;
+    background: rgba(93, 128, 161, 0.14);
+  }
 
-    > h2 {
-      margin: 0px -15px 20px -15px;
-      padding: 10px 15px 10px 15px;
-      color: white;
-      background-color: $light-blue;
-      font-size: 18px;
-      text-transform: capitalize;
-    }
+  .soft-border {
+    border: 1px solid $smoke-blue;
+  }
 
-    h5 {
-      margin: 0px;
-      padding: 10px 15px;
-      border: 1px solid $smoke-blue;
-      color: $light-blue;
-      background: rgba(93, 128, 161, 0.14);
-    }
+  i {
+    color: #5D80A1;
+  }
 
-    .soft-border {
-      border: 1px solid $smoke-blue;
-    }
-
+  .watermark {
     i {
-      color: #5D80A1;
-    }
+      position: absolute;
+      right: 14px;
+      bottom: 13px;
+      font-size: 80px;
+      overflow-y: hidden;
+      color: rgba(93, 128, 161, 0.12);
 
-    .watermark {
-      i {
-        position: absolute;
-        right: 14px;
-        bottom: 13px;
-        font-size: 80px;
-        overflow-y: hidden;
-        color: rgba(93, 128, 161, 0.12);
-
-        @include mobile {
-          display: none;
-        }
+      @include mobile {
+        display: none;
       }
     }
+  }
+}
+
+.main-content .wrapper {
+  &:nth-child(n+2) {
+    margin-top: 20px;
   }
 }
 
@@ -236,7 +235,7 @@ button {
 
 .font-green-sharp,
 .font-done {
-  color: $brand-success;
+  color: $brand-primary;
 }
 
 .font-blue-sharp,
