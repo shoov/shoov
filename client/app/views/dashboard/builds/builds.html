@@ -56,19 +56,11 @@
           </tr>
           </thead>
           <tbody>
-
             <tr class="build-item animate" ng-repeat="build in builds | buildsFilter: repositoryFilter">
               <td><i class="fa fa-server"></i><a ui-sref="dashboard.screenshots({ buildId: build.id })">{{ build.label }}</a></td>
               <td>{{ build.repository.label }}</td>
               <td>{{ (build.created*1000) | date : 'MMM d, y h:mm a' }}</td>
             </tr>
-
-            <tr class="build-item animate" ng-repeat="build in builds | buildsFilter: repositoryFilter">
-              <td><i class="fa fa-server"></i><a ui-sref="dashboard.screenshots({ buildId: build.id })">{{ build.label }}</a></td>
-              <td>{{ build.repository.label }}</td>
-              <td>{{ (build.created*1000) | date : 'MMM d, y h:mm a' }}</td>
-            </tr>
-
           </tbody>
         </table>
       </div>

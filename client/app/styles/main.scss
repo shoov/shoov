@@ -95,6 +95,10 @@ select {
     border-top: none;
   }
 
+  > thead th {
+    color: $light-blue;
+  }
+
   > tbody tr{
     border-bottom: 1px solid lighten($smoke-blue, 35%);
   }
