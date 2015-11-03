@@ -47,25 +47,23 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
   public function entityPreSave(\EntityMetadataWrapper $wrapper) {
     parent::entityPreSave($wrapper);
 
+    // Add label.
     $request = $this->getRequest();
 
-    if (!empty($request['image'])) {
-      $file = $this->base64ImageToFile($request['image']);
-      $request['image'] = $file->fid;
-    }
-
-
-    // Add label.
     $wrapper->title->set($request['build'] . ' ' . time());
   }
 
-
-  protected function base64ImageToFile($base64) {
-    $base64 = str_replace('data:image/png;base64,', '', $base64);
-    if (!$file = file_save_data(base64_decode($base64), 'piped://')) {
-      throw new RestfulBadRequestException('Image file could not have been saved');
+  public function propertyValuesPreprocess($property_name, $value, $public_field_name) {
+    if ($public_field_name == 'image') {
+      $base64 = str_replace('data:image/png;base64,', '', $value);
+      if (!$file = file_save_data(base64_decode($base64), 'piped://')) {
+        throw new RestfulBadRequestException('Image file could not have been saved');
+      }
+      $value = $file->fid;
     }
-    return $file;
+
+    return parent::propertyValuesPreprocess($property_name, $value, $public_field_name);
   }
+
 
 }
