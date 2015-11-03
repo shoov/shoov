@@ -82,8 +82,8 @@ function shoov_ci_build_trigger_ci_build_item($message, $ajax = 'nojs') {
  *  Returns TRUE if user has permissions to un/subscribe account to the CI Build.
  */
 function shoov_ci_build_subscribe_user_access($ci_build, $account, $token) {
-  if (!user_is_logged_in()) {
-    // User is anonymous.
+  if (!$account->uid) {
+    // The user acted upon is anonymous.
     return;
   }
 
