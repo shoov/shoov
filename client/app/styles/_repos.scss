@@ -14,6 +14,11 @@
    ul.repos {
      background: white;
 
+     &.pager-is-active {
+       max-height: 265px;
+       overflow-y: scroll;
+     }
+
      li {
        margin-bottom: 10px;
      }
@@ -60,8 +65,8 @@
 
    ul.pagination {
      float: none;
+     margin-bottom: 0px;
    }
-
  }
 }
 

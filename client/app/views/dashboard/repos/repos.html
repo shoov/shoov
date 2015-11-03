@@ -19,7 +19,7 @@
   <div class="wrapper">
     <h2>Live Monitor Repositories</h2>
     <div class="row">
-      <div class="col-sm-4">
+      <div class="col-sm-12">
         <h5><i class="fa fa-heartbeat"></i> Live Monitor Repositories</h5>
         <div class="soft-border">
           <label for="organizations">Organization:</label>
@@ -27,7 +27,7 @@
             <option ng-repeat="value in orgs" ng-if="value.user" value="me" ng-selected="{{organization == 'me'}}">{{value.label + ' (me)'}} </option>
             <option ng-repeat="value in orgs" ng-if="!value.user" value="{{value.label}}" ng-selected="{{organization == value.label}}">{{value.label}} </option>
           </select>
-          <ul class="repos">
+          <ul class="repos" ng-class="{'pager-is-active': pager}">
             <li ng-repeat="repo in repos" class="repo-item">
               <div class="repos-checkbox">
                 <div class="checker">

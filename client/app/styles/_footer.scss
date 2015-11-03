@@ -1,3 +1,9 @@
+#footer-spacer {
+  @include desktop {
+    margin-top: 130px;
+  }
+}
+
 #footer {
   color: $gray;
   padding-top: 20px;
