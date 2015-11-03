@@ -56,11 +56,13 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
 
   public function propertyValuesPreprocess($property_name, $value, $public_field_name) {
     if ($public_field_name == 'image') {
+
       if (strpos($value, 'data:image/png;base64,') !== 0) {
         throw new \RestfulBadRequestException('Image data is not provided as a valid base64.');
       }
 
       $base64 = str_replace('data:image/png;base64,', '', $value);
+      $base64 = str_replace(' ', '+', $base64);
       if (!$file = file_save_data(base64_decode($base64), 'piped://image64.png')) {
         throw new \RestfulBadRequestException('Image file could not have been saved');
       }
