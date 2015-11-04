@@ -63,6 +63,8 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
 
       $base64 = str_replace('data:image/png;base64,', '', $value);
       $base64 = str_replace(' ', '+', $base64);
+
+
       if (!$file = file_save_data(base64_decode($base64), 'piped://image64.png')) {
         throw new \RestfulBadRequestException('Image file could not have been saved');
       }
