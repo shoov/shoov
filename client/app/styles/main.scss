@@ -93,6 +93,7 @@ select {
       > th,
       > td {
         border-top: none;
+        border-bottom-color: lighten($smoke-blue, 30%);
       }
     }
   }
@@ -455,6 +456,6 @@ textarea.form-control {
   background: $light-gray;
 
   .main {
-    min-height: $min-height;
+//    min-height: $min-height;
   }
 }
