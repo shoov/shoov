@@ -23,23 +23,22 @@
   <div class="wrapper">
     <h2>Live Monitor Repository</h2>
     <div class="row">
-      <div class="col-sm-6">
-        <label class="visible-xs">Link to repository</label>
-        <a class="external-link" ng-href="https://github.com/{{ build.label }}" target="_blank">
-          <i class="fa fa-external-link"></i> {{ build.label }}
-        </a>
-      </div>
-      <div class="col-sm-6">
-        <a class="encrypt-keys-link" ui-sref="dashboard.encrypt({ buildId: parseInt(build.id) })"><i class="fa fa-file-code-o"></i> Encrypt keys</a>
-      </div>
-      <div class="col-sm-12 interval-wrapper">
-        <label for="interval">Build interval: </label>
-        <select ng-change="updateInterval()" ng-options="id as label for (id, label) in intervals" class="form-control" id="interval" ng-model="build.interval"></select>
-        <i ng-class="{'fa-check': responseStatus}" class="fa"></i>
+      <div class="col-sm-12">
+        <h5><i class="fa fa-tasks"></i> Repository settings</h5>
+        <div class="soft-border">
+          <a  ng-href="https://github.com/{{ build.label }}" target="_blank"> <i class="fa fa-external-link-square"></i> {{ build.label }}</a>
+          <span class="divider"> &nbsp | &nbsp</span>
+          <a class="encrypt-keys-link" ui-sref="dashboard.encrypt({ buildId: parseInt(build.id) })"><i class="fa fa-file-code-o"></i> Encrypt keys</a>
+          <div class="interval-wrapper">
+            <label for="interval">Build interval: </label>
+            <select ng-change="updateInterval()" ng-options="id as label for (id, label) in intervals" class="form-control" id="interval" ng-model="build.interval"></select>
+            <i ng-class="{'fa-check': responseStatus}" class="fa"></i>
+          </div>
+        </div>
       </div>
     </div>
-
     <div class="row">
+      <br/>
       <div class="col-sm-6">
         <h5><i class="fa fa-calendar"></i> Build History</h5>
         <div class="soft-border">
@@ -69,6 +68,7 @@
         </div>
       </div>
       <div class="col-sm-6">
+        <br class="visible-xs"/>
         <h5><i class="fa fa-exclamation-circle"></i> Incidents</h5>
         <div class="soft-border">
           <div ng-hide="incidents.length">Yay, no incidents!</div>
