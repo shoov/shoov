@@ -67,11 +67,12 @@ angular.module('clientApp')
         Builds
           .enable(repo)
           .then(function(response) {
-            // Add build info to the repo info.
+            // Add build info to the repo info.q
             var data = response.data.data[0];
             $scope.repos[key].build = {
-              enabled: true,
-              id: data.id
+              enabled: data.enabled,
+              id: data.id,
+              disable_reason: data.disable_reason
             };
 
             $scope.repos[key].shoov_id = data.repository;
@@ -85,6 +86,7 @@ angular.module('clientApp')
           .then(function(response) {
             // Update build info to the repo info.
             $scope.repos[key].build.enabled = false;
+            $scope.repos[key].build.disable_reason = 'none';
             $scope.repos[key]._inProgress = false;
           });
       }

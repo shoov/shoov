@@ -167,3 +167,151 @@ function shoov_repository_check_repository_unique($github_id, $node) {
 
   throw new Exception(format_string('GitHub ID @githubid was duplicated.', array('@githubid' => $github_id)));
 }
+
+/**
+ * Check .shoov.yml file exists in repository.
+ *
+ * @param $node
+ *  Repository node
+ *
+ * @return bool
+ *  TRUE if file exists.
+ */
+function shoov_repository_yml_file_exists($node) {
+  if ($node->type != 'repository') {
+    return FALSE;
+  }
+
+  // Get the master branch tree.
+  $tree = shoov_repository_get_repo_tree($node->title);
+  if (!$tree) {
+    return FALSE;
+  }
+
+  // Check if .shoov.yml file is listed in the tree.
+  $file_exists = FALSE;
+  foreach ($tree as $item) {
+    if ($item['path'] != '.shoov.yml') {
+      continue;
+    }
+    $file_exists = TRUE;
+  }
+
+  return $file_exists;
+}
+
+/**
+ * Get the GitHub repository tree.
+ *
+ * @param $repo_name
+ *  The GitHub repository name.
+ * @param $sha
+ *  The sha hash.
+ *
+ * @return array
+ *  Returns the tree.
+ */
+function shoov_repository_get_repo_tree($repo_name, $sha) {
+  global $user;
+  $account = user_load($user->uid);
+
+  // Get user's github access token.
+  $user_wrapper = entity_metadata_wrapper('user', $account);
+  $access_token = $user_wrapper->field_github_access_token->value();
+
+  $options = array(
+    'headers' => array(
+      'Authorization' => 'token ' . $access_token,
+    ),
+  );
+
+  // Get the sha hash.
+  $sha = shoov_repository_get_sha($repo_name);
+  if (!$sha) {
+    return;
+  }
+
+  // Get the tree.
+  $url = 'repos/' . $repo_name . '/git/trees/' . $sha;
+  $data = shoov_github_http_request($url, $options);
+  if (!isset($data['data']['tree'])) {
+    // Probably the sha hash is incorrect.
+    return;
+  }
+  $tree = $data['data']['tree'];
+
+  return $tree;
+}
+
+
+
+/**
+ * Get the sha hash for the default branch for the repository.
+ *
+ * @param $repo_name
+ *  GitHub repository name
+ *
+ * @return string
+ *  Returns the sha hash.
+ */
+function shoov_repository_get_sha($repo_name) {
+  global $user;
+  $account = user_load($user->uid);
+
+  // Get default branch for the repo.
+  $branch = shoov_repository_get_default_branch($repo_name);
+
+  // Get user's github access token.
+  $user_wrapper = entity_metadata_wrapper('user', $account);
+  $access_token = $user_wrapper->field_github_access_token->value();
+
+  $options = array(
+    'headers' => array(
+      'Authorization' => 'token ' . $access_token,
+    ),
+  );
+
+  // Get the sha hash for the branch.
+  $url = 'repos/' . $repo_name . '/git/refs/heads/' . $branch;
+  $data = shoov_github_http_request($url, $options);
+  if (!isset($data['data']['object'])) {
+    // Probably branch doesn't exist.
+    return;
+  }
+  $sha = $data['data']['object']['sha'];
+  return $sha;
+}
+
+/**
+ * Get the default branch for the GitHub repository.
+ *
+ * @param $repo_name
+ *  The GitHub repository name.
+ *
+ * @return string
+ *  Returns the default repository branch name
+ */
+function shoov_repository_get_default_branch($repo_name) {
+  global $user;
+  $account = user_load($user->uid);
+
+  // Get user's github access token.
+  $user_wrapper = entity_metadata_wrapper('user', $account);
+  $access_token = $user_wrapper->field_github_access_token->value();
+
+  $options = array(
+    'headers' => array(
+      'Authorization' => 'token ' . $access_token,
+    ),
+  );
+
+  // Get the tree.
+  $url = 'repos/' . $repo_name;
+  $data = shoov_github_http_request($url, $options);
+  if (!isset($data['data']['default_branch'])) {
+    // Probably the repository name is incorrect.
+    return;
+  }
+  $branch = $data['data']['default_branch'];
+  return $branch;
+}

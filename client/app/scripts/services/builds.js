@@ -104,7 +104,7 @@ angular.module('clientApp')
         return;
       }
 
-      return $http.patch(Config.backend + '/api/ci-builds/' + githubRepo.build.id, {enabled: false});
+      return $http.patch(Config.backend + '/api/ci-builds/' + githubRepo.build.id, {enabled: false, disable_reason: 'none'});
     };
 
     /**

@@ -193,6 +193,19 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
     return;
   }
 
+  // Check repository has .shoov.yml file
+  if (!shoov_repository_yml_file_exists($wrapper->og_repo->value())) {
+    // .shoov.yml file doesm't exist in the repository. Disable the CI Build
+    // with the reason "No .shoov.yml file".
+
+    $node->_skip_create_ci_build_item = TRUE;
+    $node->field_ci_build_enabled[LANGUAGE_NONE][0]['value'] = 0;
+    $node->field_disable_reason[LANGUAGE_NONE][0]['value'] = 'no_config_file';
+    field_attach_update('node', $node);
+    // @todo: Send email?
+    return;
+  }
+
   // Verify a "queue" or "in progress" build items doesn't already exist.
   $status = array(
     'queue',
