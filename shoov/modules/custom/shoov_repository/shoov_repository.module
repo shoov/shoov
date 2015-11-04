@@ -182,6 +182,11 @@ function shoov_repository_yml_file_exists($node) {
     return FALSE;
   }
 
+  if (variable_get('test_mode', FALSE)){
+    // This is the test mode. Don't check the repo.
+    return TRUE;
+  }
+
   // Get the master branch tree.
   $tree = shoov_repository_get_repo_tree($node->title);
   if (!$tree) {

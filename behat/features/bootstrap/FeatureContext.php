@@ -508,4 +508,15 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       throw new \Exception($error_message);
     }
   }
+
+  /** @BeforeSuite */
+  public static function setup(SuiteEvent $event) {
+    variable_set('test_mode', TRUE);
+  }
+
+  /** @AfterSuite */
+  public static function teardown(SuiteEvent $event) {
+    variable_set('test_mode', FALSE);
+  }
+
 }
