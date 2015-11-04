@@ -241,8 +241,6 @@ function shoov_repository_get_repo_tree($repo_name) {
   return $tree;
 }
 
-
-
 /**
  * Get the sha hash for the default branch for the repository.
  *
