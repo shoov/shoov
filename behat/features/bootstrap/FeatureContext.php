@@ -5,6 +5,8 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Tester\Exception\PendingException;
+use Behat\Testwork\Hook\Scope\BeforeSuiteScope;
+use Behat\Testwork\Hook\Scope\AfterSuiteScope;
 
 class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
 
@@ -509,13 +511,21 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     }
   }
 
-  /** @BeforeSuite */
-  public static function setup(SuiteEvent $event) {
+  /**
+   * @BeforeSuite
+   *
+   * Set variable 'test_mode' to TRUE to bypass some checks.
+   */
+  public static function setup(BeforeSuiteScope $event) {
     variable_set('test_mode', TRUE);
   }
 
-  /** @AfterSuite */
-  public static function teardown(SuiteEvent $event) {
+  /**
+   * @AfterSuite
+   *
+   * Set variable 'test_mode' to FALSE after tests finished.
+   */
+  public static function teardown(AfterSuiteScope $event) {
     variable_set('test_mode', FALSE);
   }
 
