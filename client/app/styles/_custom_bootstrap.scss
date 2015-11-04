@@ -15,6 +15,7 @@ $container-md:  $custom-desktop-width;
 // Path to bootstrap fonts.
 $icon-font-path: "../../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 
+$table-bg-hover: lighten($smoke-blue, 40%);
 $brand-primary: $turquoise;
 $brand-info:  $turquoise;
 $brand-danger: $gizra;

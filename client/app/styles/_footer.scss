@@ -2,6 +2,10 @@
   @include desktop {
     margin-top: 70px;
   }
+
+  @include mobile {
+    margin-top: 230px;;
+  }
 }
 
 #footer {
@@ -9,13 +13,10 @@
   padding-top: 10px;
   padding-bottom: 10px;
   background: $dark-blue;
-
-  @include desktop {
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-  }
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
 
   @include mobile {
     margin-top: 50px;

@@ -3,13 +3,12 @@
   color: $light-gray;
   border-top: 1px solid rgba(255, 255, 255, 0.09);
   margin-top: 40px;
-  min-height: $min-height;
 
   .container {
 
     .login-wrapper {
       max-width: 500px;
-      margin: 25px auto 0px auto;
+      margin: 20% auto 0px auto;
       padding: 15px;
       background: rgba(123, 135, 146, 0.12);
       border: 1px solid rgba(255, 255, 255, 0.14);
@@ -18,7 +17,6 @@
 
       @include desktop {
         border-top: 1px solid rgba(255, 255, 255, 0.09);
-        margin-top: 200px;
       }
     }
 
