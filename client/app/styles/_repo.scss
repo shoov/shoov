@@ -14,11 +14,16 @@
   }
 
   .interval-wrapper {
-    margin: 10px 0px;
+    margin-top: 10px;
 
     .form-control {
       width: auto;
       display: inline-block;
+
+      @include mobile() {
+        display: block;
+        width: 100%;
+      }
     }
 
     i {
