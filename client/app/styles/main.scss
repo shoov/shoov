@@ -88,6 +88,61 @@ select {
   @include border-radius(3px);
 }
 
+.wrapper {
+  position: relative;
+  padding: 0px 15px 20px 15px;
+  border: 1px solid rgba(128, 128, 128, 0.18);
+  background: white;
+  @include border-radius(0px 0px 10px 10px);
+  @include box-shadow( 0px 0px 10px -1px rgba(0, 0, 0, 0.1));
+
+  > h2 {
+    margin: 0px -15px 20px -15px;
+    padding: 10px 15px 10px 15px;
+    color: white;
+    background-color: $light-blue;
+    font-size: 18px;
+    text-transform: capitalize;
+  }
+
+  h5 {
+    margin: 0px;
+    padding: 10px 15px;
+    border: 1px solid $smoke-blue;
+    color: $light-blue;
+    background: rgba(93, 128, 161, 0.14);
+  }
+
+  .soft-border {
+    border-top: none;
+  }
+
+  i {
+    color: #5D80A1;
+  }
+
+  .watermark {
+    i {
+      position: absolute;
+      right: 14px;
+      bottom: 13px;
+      font-size: 80px;
+      overflow-y: hidden;
+      color: rgba(93, 128, 161, 0.12);
+
+      @include mobile {
+        display: none;
+      }
+    }
+  }
+}
+
+.main-content .wrapper {
+  &:nth-child(n+2) {
+    margin-top: 20px;
+  }
+}
+
 .red {
   color: red;
 }
@@ -145,6 +200,7 @@ select {
 }
 
 .external-link {
+  position: relative;
   display: inline-block;
   padding: 8px;
   @include border-radius(3px);
@@ -153,15 +209,35 @@ select {
   @include transition(0.4s ease-in-out all);
   text-decoration: none;
 
-  i {
+  &:hover {
     color: white;
-    padding-right: 4px;
-    vertical-align: middle;
+    background-color: $dark-turquoise;
+    text-decoration: none;
   }
 
-  &:hover {
-    background-color: $dark-turquoise;
+  &:before {
+    @include desktop() {
+      content: "";
+      height: 100%;
+      width: 1px;
+      position: absolute;
+      left: 28px;
+      top: 0px;
+      background: rgba(255, 255, 255, 0.4);
+    }
   }
+
+  i {
+    color: white;
+    padding-right: 8px;
+    vertical-align: middle;
+
+    @include mobile() {
+      display: none;
+    }
+  }
+
+
 }
 
 .pre-code {
@@ -181,61 +257,6 @@ select {
   border: 1px solid $smoke-blue;
   border-top: none;
   padding: 15px;
-}
-
-.wrapper {
-  position: relative;
-  padding: 0px 15px 20px 15px;
-  border: 1px solid rgba(128, 128, 128, 0.18);
-  background: white;
-  @include border-radius(0px 0px 10px 10px);
-  @include box-shadow( 0px 0px 10px -1px rgba(0, 0, 0, 0.1));
-
-  > h2 {
-    margin: 0px -15px 20px -15px;
-    padding: 10px 15px 10px 15px;
-    color: white;
-    background-color: $light-blue;
-    font-size: 18px;
-    text-transform: capitalize;
-  }
-
-  h5 {
-    margin: 0px;
-    padding: 10px 15px;
-    border: 1px solid $smoke-blue;
-    color: $light-blue;
-    background: rgba(93, 128, 161, 0.14);
-  }
-
-  .soft-border {
-    border-top: none;
-  }
-
-  i {
-    color: #5D80A1;
-  }
-
-  .watermark {
-    i {
-      position: absolute;
-      right: 14px;
-      bottom: 13px;
-      font-size: 80px;
-      overflow-y: hidden;
-      color: rgba(93, 128, 161, 0.12);
-
-      @include mobile {
-        display: none;
-      }
-    }
-  }
-}
-
-.main-content .wrapper {
-  &:nth-child(n+2) {
-    margin-top: 20px;
-  }
 }
 
 .shoov-logo {
