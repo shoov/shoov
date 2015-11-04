@@ -22,63 +22,66 @@
   </div>
   <div class="wrapper">
     <h2>Live Monitor Repository</h2>
-    <a class="external-link" ng-href="https://github.com/{{ build.label }}" target="_blank">
-      <i class="fa fa-external-link"></i> {{ build.label }}
-    </a>
+    <div class="row">
+      <div class="col-sm-6">
+        <label class="visible-xs">Link to repository</label>
+        <a class="external-link" ng-href="https://github.com/{{ build.label }}" target="_blank">
+          <i class="fa fa-external-link"></i> {{ build.label }}
+        </a>
+      </div>
+      <div class="col-sm-6">
+        <a class="encrypt-keys-link" ui-sref="dashboard.encrypt({ buildId: parseInt(build.id) })"><i class="fa fa-file-code-o"></i> Encrypt keys</a>
+      </div>
+      <div class="col-sm-12 interval-wrapper">
+        <label for="interval">Build interval: </label>
+        <select ng-change="updateInterval()" ng-options="id as label for (id, label) in intervals" class="form-control" id="interval" ng-model="build.interval"></select>
+        <i ng-class="{'fa-check': responseStatus}" class="fa"></i>
+      </div>
+    </div>
 
-  </div>
+
+    <h5><i class="fa fa-calendar"></i> Build History</h5>
+    <div class="soft-border">
+      <div class="row">
+        <div class="col-sm-6">
+          <div ng-show="ciBuildItemQueueOrInProgress">
+            <span class="label label-sm label-{{ ciBuildItemQueueOrInProgress.status }}">{{ buildStatuses[ciBuildItemQueueOrInProgress.status] }}</span>
+            <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: ciBuildItemQueueOrInProgress.id })">#{{ciBuildItemQueueOrInProgress.id}}</a> - {{ (ciBuildItemQueueOrInProgress.start_timestamp*1000) | date : 'MMM d, y h:mm a' }}
+          </div>
+          <div ng-hide="ciBuildItems.length"> Here you will see a log of every live monitor build.</div>
+          <div class="table-scrollable" ng-show="ciBuildItems.length">
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>#ID</th>
+                <th>Start time</th>
+                <th>Status</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr class="ci-build-item animate" ng-repeat="ciBuildItem in ciBuildItems | filter: { status: ('!queue' && '!in_progress') }">
+                <td><a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: ciBuildItem.id })">#{{ ciBuildItem.id }}</a></td>
+                <td>{{ (ciBuildItem.start_timestamp*1000) | date : 'MMM d, y h:mm a' }}</td>
+                <td><span class="label label-sm label-{{ ciBuildItem.status }}">{{ ciBuildItem.status }}</span></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
 
   <div class="portlet">
 
 
-    <h5>
-      <i class="fa fa-heartbeat"></i> Builds
-    </h5>
-    <div class="soft-border">
+
 
     </div>
 
     <div class="row portlet-body">
-      <div class="col-sm-12 interval-wrapper">
-        <label for="interval">Build interval: </label>
-        <select ng-change="updateInterval()" ng-options="id as label for (id, label) in intervals" class="form-control" id="interval" ng-model="build.interval">
-        </select>
-        <i ng-class="{'fa-check': responseStatus}" class="fa"></i>
-      </div>
-      <div class="col-sm-6">
-        <div class="portlet">
-          <div class="portlet-title">
-            <div class="caption">Build History</div>
-            <div class="actions" ng-show="ciBuildItemQueueOrInProgress">
-              <span class="label label-sm label-{{ ciBuildItemQueueOrInProgress.status }}">{{ buildStatuses[ciBuildItemQueueOrInProgress.status] }}</span>
-              <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: ciBuildItemQueueOrInProgress.id })">#{{ciBuildItemQueueOrInProgress.id}}</a> - {{ (ciBuildItemQueueOrInProgress.start_timestamp*1000) | date : 'MMM d, y h:mm a' }}
-            </div>
-          </div>
-          <div class="portlet-body">
-            <div ng-hide="ciBuildItems.length">
-              Here you will see a log of every live monitor build.
-            </div>
-            <div class="table-scrollable" ng-show="ciBuildItems.length">
-              <table class="table table-hover">
-                <thead>
-                <tr>
-                  <th>#ID</th>
-                  <th>Start time</th>
-                  <th>Status</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr class="ci-build-item animate" ng-repeat="ciBuildItem in ciBuildItems | filter: { status: ('!queue' && '!in_progress') }">
-                  <td><a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: ciBuildItem.id })">#{{ ciBuildItem.id }}</a></td>
-                  <td>{{ (ciBuildItem.start_timestamp*1000) | date : 'MMM d, y h:mm a' }}</td>
-                  <td><span class="label label-sm label-{{ ciBuildItem.status }}">{{ ciBuildItem.status }}</span></td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
+
+
       <div class="col-sm-6">
         <div class="portlet">
           <div class="portlet-title">

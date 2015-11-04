@@ -1,6 +1,24 @@
 #repository-page {
 
+  .encrypt-keys-link {
+    text-decoration: none;
+    float: right;
+
+    @include mobile() {
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 12px;
+      float: none;
+    }
+
+     i {
+       color: $turquoise;
+     }
+  }
+
   .interval-wrapper {
+    margin-top: 20px;
+    margin-bottom: 20px;
 
     label {
       display: inline-block;
