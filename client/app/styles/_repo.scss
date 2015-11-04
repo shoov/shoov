@@ -1,14 +1,34 @@
 #repository-page {
 
-  .interval-wrapper {
+  a {
+    text-decoration: none;
 
-    label {
-      display: inline-block;
-    }
+     i {
+       color: $turquoise;
+     }
+  }
+
+  .watermark {
+    bottom: 19px;
+    right: 35px;
+  }
+
+  .interval-wrapper label,
+  .divider {
+    color: $light-blue;
+  }
+
+  .interval-wrapper {
+    margin-top: 10px;
 
     .form-control {
       width: auto;
       display: inline-block;
+
+      @include mobile() {
+        display: block;
+        width: 100%;
+      }
     }
 
     i {
@@ -18,5 +38,13 @@
         color: $brand-success;
       }
     }
+  }
+
+  .ci-build-item {
+
+    .label {
+      padding: 4px;
+    }
+
   }
 }
