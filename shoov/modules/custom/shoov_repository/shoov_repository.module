@@ -205,13 +205,11 @@ function shoov_repository_yml_file_exists($node) {
  *
  * @param $repo_name
  *  The GitHub repository name.
- * @param $sha
- *  The sha hash.
  *
  * @return array
  *  Returns the tree.
  */
-function shoov_repository_get_repo_tree($repo_name, $sha) {
+function shoov_repository_get_repo_tree($repo_name) {
   global $user;
   $account = user_load($user->uid);
 
