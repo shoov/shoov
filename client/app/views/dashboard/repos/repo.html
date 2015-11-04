@@ -39,17 +39,16 @@
       </div>
     </div>
 
-
-    <h5><i class="fa fa-calendar"></i> Build History</h5>
-    <div class="soft-border">
-      <div class="row">
-        <div class="col-sm-6">
+    <div class="row">
+      <div class="col-sm-6">
+        <h5><i class="fa fa-calendar"></i> Build History</h5>
+        <div class="soft-border">
           <div ng-show="ciBuildItemQueueOrInProgress">
             <span class="label label-sm label-{{ ciBuildItemQueueOrInProgress.status }}">{{ buildStatuses[ciBuildItemQueueOrInProgress.status] }}</span>
             <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: ciBuildItemQueueOrInProgress.id })">#{{ciBuildItemQueueOrInProgress.id}}</a> - {{ (ciBuildItemQueueOrInProgress.start_timestamp*1000) | date : 'MMM d, y h:mm a' }}
           </div>
           <div ng-hide="ciBuildItems.length"> Here you will see a log of every live monitor build.</div>
-          <div class="table-scrollable" ng-show="ciBuildItems.length">
+          <div class="table-scrollable table-responsive" ng-show="ciBuildItems.length">
             <table class="table table-hover">
               <thead>
               <tr>
@@ -67,50 +66,31 @@
               </tbody>
             </table>
           </div>
-
         </div>
       </div>
-    </div>
-
-  <div class="portlet">
-
-
-
-
-    </div>
-
-    <div class="row portlet-body">
-
-
       <div class="col-sm-6">
-        <div class="portlet">
-          <div class="portlet-title">
-            <div class="caption">Incidents</div>
-          </div>
-          <div class="portlet-body">
-            <div ng-hide="incidents.length">
-              Yay, no incidents!
-            </div>
-            <div class="table-scrollable" ng-show="incidents.length">
-              <table class="table table-hover">
-                <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Incident time</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr class="incident-item animate" ng-repeat="incident in incidents">
-                  <td><a ui-sref="dashboard.ciIncident({ incidentId: incident.id })">{{ incident.label }}</a></td>
-                  <td>{{ (incident.created*1000) | date : 'MMM d, y h:mm a' }}</td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
+        <h5><i class="fa fa-exclamation-circle"></i> Incidents</h5>
+        <div class="soft-border">
+          <div ng-hide="incidents.length">Yay, no incidents!</div>
+          <div class="table-scrollable table-responsive" ng-show="incidents.length">
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>Name</th>
+                <th>Incident time</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr class="incident-item animate" ng-repeat="incident in incidents">
+                <td><a ui-sref="dashboard.ciIncident({ incidentId: incident.id })">{{ incident.label }}</a></td>
+                <td>{{ (incident.created*1000) | date : 'MMM d, y h:mm a' }}</td>
+              </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
     </div>
-  </div>
   <div ui-view></div>
+  </div>
 </div>
