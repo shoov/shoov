@@ -1,19 +1,22 @@
-.interval-wrapper {
+#repository-page {
 
-  label {
-    display: inline-block;
-  }
+  .interval-wrapper {
 
-  .form-control {
-    width: auto;
-    display: inline-block;
-  }
+    label {
+      display: inline-block;
+    }
 
-  i {
-    margin-left: 5px;
+    .form-control {
+      width: auto;
+      display: inline-block;
+    }
 
-    &.fa-check {
-      color: $brand-success;
+    i {
+      margin-left: 5px;
+
+      &.fa-check {
+        color: $brand-success;
+      }
     }
   }
 }

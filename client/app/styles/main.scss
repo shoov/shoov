@@ -144,6 +144,26 @@ select {
  }
 }
 
+.external-link {
+  display: inline-block;
+  padding: 8px;
+  @include border-radius(3px);
+  color: white;
+  background-color: $turquoise;
+  @include transition(0.4s ease-in-out all);
+  text-decoration: none;
+
+  i {
+    color: white;
+    padding-right: 4px;
+    vertical-align: middle;
+  }
+
+  &:hover {
+    background-color: $dark-turquoise;
+  }
+}
+
 .pre-code {
   display: inline-block;
   margin-bottom: 10px;
