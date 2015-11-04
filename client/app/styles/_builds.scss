@@ -3,23 +3,4 @@
   .form-control {
     width: auto;
   }
-
-  .builds {
-    margin-top: 20px;
-
-    td {
-      a {
-
-        i {
-          display: inline-block;
-          padding: 5px 4px 6px 5px;
-          vertical-align: middle;
-          text-align: center;
-          background-color: $brand-success;
-          color: white;
-          margin-right: 4px;
-        }
-      }
-    }
-  }
 }
