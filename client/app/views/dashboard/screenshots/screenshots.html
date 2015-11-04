@@ -19,7 +19,6 @@
     </div>
   </div>
 </div>
-
 <div class="row">
   <div class="col-sm-12 screenshots-list">
     <div class="portlet">
@@ -29,7 +28,6 @@
           <span class="caption-subject">Screenshot</span>
         </div>
       </div>
-
       <div class="portlet-body">
         <ul class="info">
           <li>Repository: <a ng-href="https://github.com/{{ repoName }}">{{ repoName }}</a></li>
@@ -39,35 +37,13 @@
             <i class="fa fa-github"></i>
           </li>
         </ul>
-
         <div class="row">
-
-          <div>
-            <div class="col-sm-6">
-
-              <!-- <div class="pr-wrapper">
-                <div class="form-group">
-                  <input type="text" class="form-control" ng-disabled="prProgress" ng-model="prName">
-                  <button class="btn btn-primary" ng-disabled="!selection.length || prProgress" ng-click="pullRequest()">Create Pull Request </button>
-              <span class="dev-tip">
-                <i class="fa fa-info-circle" popover-placement="right" popover-template="'prDocker.html'" popover-title="Dev Tip"></i>
-              </span>
-                </div>
-
-                <div>
-                  <a ng-href="{{ prUrl }}" ng-show="prUrl">{{ prUrl }}</a>
-                </div>
-              </div> -->
-            </div>
-
-            <div class="col-sm-6 show-diff">
-              Show diff <input bs-switch type="checkbox" ng-model="showDiff">
-            </div>
+          <div class="col-sm-6 show-diff">
+            Show diff <input bs-switch type="checkbox" ng-model="showDiff">
           </div>
         </div>
         <div class="row image-size">
         </div>
-
         <div class="col-sm-4">
           <label for="image-style">Image size:</label>
           <select id="image-style" class="form-control" ng-model="imageStyle">
@@ -76,7 +52,6 @@
         </div>
       </div>
     </div>
-
     <div class="screenshot-header">
       <div class="row">
         <div class="col-sm-1">
@@ -88,15 +63,10 @@
         <div class="col-sm-11">
           <div class="download-wrapper">
             <button class="btn btn-primary" ng-disabled="!selection.length" ng-click="zip()">Download</button>
-
-        <span class="dev-tip">
-          <i class="fa fa-info-circle" popover-placement="right" popover-template="'zip.html'" popover-title="Dev Tip"></i>
-        </span>
           </div>
         </div>
       </div>
     </div>
-
     <div ng-repeat="screenshot in screenshots" class="screenshot-wrapper">
       <div class="row">
         <div class="col-xs-2 col-sm-1 checkbox-wrapper">
@@ -114,9 +84,7 @@
         </div>
         <div class="col-xs-12">
           <div ng-style="{'height' : screenshot.maxHeight[imageStyle] }">
-
             <img class="diff-image" ng-show="showDiff" ng-src="{{ imageStyle == 'self' ? (screenshot.diff.self + '?access_token=' + accessToken) : (screenshot.diff.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}" />
-
             <before-after-image-slider ng-hide="showDiff"
              baseline-img-src="{{ imageStyle == 'self' ? (screenshot.baseline.self + '?access_token=' + accessToken) : (screenshot.baseline.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}"
              regression-img-src="{{ imageStyle == 'self' ? (screenshot.regression.self + '?access_token=' + accessToken) : (screenshot.regression.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}"
@@ -141,9 +109,7 @@
     </pagination>
   </div>
 </div>
-
 <div ui-view></div>
-
 <script type="text/ng-template" id="prDocker.html">
   <p>
     We still need to add socket.io so you won't need to press <code>F5</code>, as you need now. Also there's almost no error handling if a PR fails.
@@ -151,10 +117,4 @@
   <div>
     But still this part is pretty cool. Hey, why not have a look at the <a href="https://github.com/shoov/php-ci/blob/master/Dockerfile#L1" target="_blank">Dockerfile</a>, or the <a href="https://github.com/shoov/shoov-pr-server/blob/master/routes/create_pr.js#L1" target="_blank">nodejs</a> server?
   </div>
-</script>
-
-<script type="text/ng-template" id="zip.html">
-  <p>
-    Yap, The zip is created in the <a href="https://github.com/shoov/shoov/blob/master/client/app/scripts/services/zip.js#L21" target="_blank">client</a>!
-  </p>
 </script>
