@@ -67,7 +67,7 @@ angular.module('clientApp')
         Builds
           .enable(repo)
           .then(function(response) {
-            // Add build info to the repo info.q
+            // Add build info to the repo info.
             var data = response.data.data[0];
             $scope.repos[key].build = {
               enabled: data.enabled,
