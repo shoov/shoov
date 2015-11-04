@@ -1,76 +1,73 @@
-<div class="row">
-  <div class="col-sm-12">
-    <div class="page-bar">
-      <ul class="page-breadcrumb">
-        <li>
-          <i class="fa fa-desktop"></i>
-          <a ui-sref="dashboard.homepage">Dashboard</a>
-          <i class="fa fa-angle-right"></i>
-        </li>
-        <li>
-          <a ui-sref="dashboard.repos">Live Monitor Repositories</a>
-          <i class="fa fa-angle-right"></i>
-        </li>
-        <li>
-          <a ui-sref="dashboard.ciBuild({buildId:{{build.id}}})">{{ build.label }}</a>
-          <i class="fa fa-angle-right"></i>
-        </li>
-        <li>
-          Encrypt
-        </li>
-      </ul>
-      <hr class="no-margin"/>
+<div id="encrypt-page">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="page-bar">
+        <ul class="page-breadcrumb">
+          <li>
+            <i class="fa fa-desktop"></i>
+            <a ui-sref="dashboard.homepage">Dashboard</a>
+            <i class="fa fa-angle-right"></i>
+          </li>
+          <li>
+            <a ui-sref="dashboard.repos">Live Monitor Repositories</a>
+            <i class="fa fa-angle-right"></i>
+          </li>
+          <li>
+            <a ui-sref="dashboard.ciBuild({buildId:{{build.id}}})">{{ build.label }}</a>
+            <i class="fa fa-angle-right"></i>
+          </li>
+          <li>
+            Encrypt
+          </li>
+        </ul>
+        <hr class="no-margin"/>
+      </div>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="wrapper">
+      <h2>Encrypt</h2>
+      <div class="account-details">
+        <h5><i class="fa fa-cog"></i> Key configuration</h5>
+        <div class="soft-border">
+          <form class="encrypt-key-form" ng-submit="getKey(data)">
+            <div class="form-item form-group">
+              <label>Key <span class="red">*</span></label>
+              <input type="text" class="form-control" required id="key-name" ng-model="data.keyName">
+            </div>
+            <div class="form-item form-group">
+              <label>Value <span class="red">*</span></label>
+              <input type="text" class="form-control" required id="key-value" ng-model="data.keyValue">
+            </div>
+            <div class="form-item form-group">
+              <label>Description</label>
+              <textarea class="form-control" id="key-description" ng-model="data.description"></textarea>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-info" type="submit">Submit</button>
+            </div>
+          </form>
+        </div>
+        <div ng-show="encryptedKey">
+          <br>
+          <h5><i class="fa fa-file-code-o"></i></i> Key Details</h5>
+          <div class="soft-border">
+            <div class="result">
+              <label>Encrypted Key</label>
+              <div id="encrypted-key" class="pre-code" ng-model="encryptedKey"></div>
+            </div>
+            <div class="result">
+              <label>Add this to your .shoov.yml file:</label>
+            <textarea id="yml-file" ng-value="ymlFile">
+              env:
+              # {{data.description}}
+              - secure: "{{encryptedKey}}"
+            </textarea>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-<div class="portlet">
-  <div class="portlet-title">
-    <div class="caption font-purple-intense">
-      <i class="fa fa-file-code-o"></i>
-      <span class="caption-subject">Encrypt</span>
-    </div>
-  </div>
-  <div class="row portlet-body">
-    <div class="col-sm-6">
-
-      <form class="encrypt-key-form" ng-submit="getKey(data)">
-        <div class="form-item form-group">
-          <label>Key <i class="red">*</i></label>
-          <input type="text" class="form-control" required id="key-name" ng-model="data.keyName">
-        </div>
-        <div class="form-item form-group">
-          <label>Value <i class="red">*</i></label>
-          <input type="text" class="form-control" required id="key-value" ng-model="data.keyValue">
-        </div>
-        <div class="form-item form-group">
-          <label>Description</label>
-          <textarea class="form-control" id="key-description" ng-model="data.description"></textarea>
-        </div>
-
-        <div class="form-actions">
-          <button class="btn btn-info" type="submit">Submit</button>
-        </div>
-
-      </form>
-    </div>
-
-    <div class="col-sm-6" ng-show="encryptedKey">
-
-      <div class="result">
-        <label>Encrypted Key</label>
-        <input type="text" id="encrypted-key" ng-value="encryptedKey">
-      </div>
-      <div class="result">
-        <label>Add this to your .shoov.yml file:</label>
-      <textarea id="yml-file" ng-value="ymlFile">
-env:
-  # {{data.description}}
-  - secure: "{{encryptedKey}}"
-      </textarea>
-      </div>
-
-    </div>
-  </div>
-</div>
-
 <div ui-view></div>

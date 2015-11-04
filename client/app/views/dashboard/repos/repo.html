@@ -1,105 +1,113 @@
-<div class="row">
-  <div class="col-sm-12">
-    <div class="page-bar">
-      <ul class="page-breadcrumb">
-        <li>
-          <i class="fa fa-desktop"></i>
-          <a ui-sref="dashboard.homepage">Dashboard</a>
-          <i class="fa fa-angle-right"></i>
-        </li>
-        <li>
-          <a ui-sref="dashboard.repos">Live Monitor Repositories</a>
-          <i class="fa fa-angle-right"></i>
-        </li>
-        <li>
-          {{ build.label }}
-        </li>
-      </ul>
-      <hr class="no-margin"/>
+<div id="repository-page">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="page-bar">
+        <ul class="page-breadcrumb">
+          <li>
+            <i class="fa fa-desktop"></i>
+            <a ui-sref="dashboard.homepage">Dashboard</a>
+            <i class="fa fa-angle-right"></i>
+          </li>
+          <li>
+            <a ui-sref="dashboard.repos">Live Monitor Repositories</a>
+            <i class="fa fa-angle-right"></i>
+          </li>
+          <li>
+            {{ build.label }}
+          </li>
+        </ul>
+        <hr class="no-margin"/>
+      </div>
     </div>
   </div>
-</div>
-<div class="portlet">
-  <div class="portlet-title">
-    <div class="caption font-red-sunglo">
-      <i class="fa fa-heartbeat"></i>
-      <span class="caption-subject">Live Monitor: <a ng-href="https://github.com/{{ build.label }}" target="_blank">{{ build.label }}</a></span>
-    </div>
-    <div class="actions">
-      <a ui-sref="dashboard.encrypt({ buildId: parseInt(build.id) })">Encrypt keys</a>
-    </div>
+  <div class="wrapper">
+    <h2>Live Monitor Repository</h2>
+    <a class="external-link" ng-href="https://github.com/{{ build.label }}" target="_blank">
+      <i class="fa fa-external-link"></i> {{ build.label }}
+    </a>
+
   </div>
-  <div class="row portlet-body">
-    <div class="col-sm-12 interval-wrapper">
-      <label for="interval">Build interval: </label>
-      <select ng-change="updateInterval()" ng-options="id as label for (id, label) in intervals" class="form-control" id="interval" ng-model="build.interval">
-      </select>
-      <i ng-class="{'fa-check': responseStatus}" class="fa"></i>
+
+  <div class="portlet">
+
+
+    <h5>
+      <i class="fa fa-heartbeat"></i> Builds
+    </h5>
+    <div class="soft-border">
+
     </div>
-    <div class="col-sm-6">
-      <div class="portlet">
-        <div class="portlet-title">
-          <div class="caption">Build History</div>
-          <div class="actions" ng-show="ciBuildItemQueueOrInProgress">
-            <span class="label label-sm label-{{ ciBuildItemQueueOrInProgress.status }}">{{ buildStatuses[ciBuildItemQueueOrInProgress.status] }}</span>
-            <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: ciBuildItemQueueOrInProgress.id })">#{{ciBuildItemQueueOrInProgress.id}}</a> - {{ (ciBuildItemQueueOrInProgress.start_timestamp*1000) | date : 'MMM d, y h:mm a' }}
+
+    <div class="row portlet-body">
+      <div class="col-sm-12 interval-wrapper">
+        <label for="interval">Build interval: </label>
+        <select ng-change="updateInterval()" ng-options="id as label for (id, label) in intervals" class="form-control" id="interval" ng-model="build.interval">
+        </select>
+        <i ng-class="{'fa-check': responseStatus}" class="fa"></i>
+      </div>
+      <div class="col-sm-6">
+        <div class="portlet">
+          <div class="portlet-title">
+            <div class="caption">Build History</div>
+            <div class="actions" ng-show="ciBuildItemQueueOrInProgress">
+              <span class="label label-sm label-{{ ciBuildItemQueueOrInProgress.status }}">{{ buildStatuses[ciBuildItemQueueOrInProgress.status] }}</span>
+              <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: ciBuildItemQueueOrInProgress.id })">#{{ciBuildItemQueueOrInProgress.id}}</a> - {{ (ciBuildItemQueueOrInProgress.start_timestamp*1000) | date : 'MMM d, y h:mm a' }}
+            </div>
+          </div>
+          <div class="portlet-body">
+            <div ng-hide="ciBuildItems.length">
+              Here you will see a log of every live monitor build.
+            </div>
+            <div class="table-scrollable" ng-show="ciBuildItems.length">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th>#ID</th>
+                  <th>Start time</th>
+                  <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="ci-build-item animate" ng-repeat="ciBuildItem in ciBuildItems | filter: { status: ('!queue' && '!in_progress') }">
+                  <td><a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: ciBuildItem.id })">#{{ ciBuildItem.id }}</a></td>
+                  <td>{{ (ciBuildItem.start_timestamp*1000) | date : 'MMM d, y h:mm a' }}</td>
+                  <td><span class="label label-sm label-{{ ciBuildItem.status }}">{{ ciBuildItem.status }}</span></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-        <div class="portlet-body">
-          <div ng-hide="ciBuildItems.length">
-            Here you will see a log of every live monitor build.
+      </div>
+      <div class="col-sm-6">
+        <div class="portlet">
+          <div class="portlet-title">
+            <div class="caption">Incidents</div>
           </div>
-          <div class="table-scrollable" ng-show="ciBuildItems.length">
-            <table class="table table-hover">
-              <thead>
-              <tr>
-                <th>#ID</th>
-                <th>Start time</th>
-                <th>Status</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr class="ci-build-item animate" ng-repeat="ciBuildItem in ciBuildItems | filter: { status: ('!queue' && '!in_progress') }">
-                <td><a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: ciBuildItem.id })">#{{ ciBuildItem.id }}</a></td>
-                <td>{{ (ciBuildItem.start_timestamp*1000) | date : 'MMM d, y h:mm a' }}</td>
-                <td><span class="label label-sm label-{{ ciBuildItem.status }}">{{ ciBuildItem.status }}</span></td>
-              </tr>
-              </tbody>
-            </table>
+          <div class="portlet-body">
+            <div ng-hide="incidents.length">
+              Yay, no incidents!
+            </div>
+            <div class="table-scrollable" ng-show="incidents.length">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Incident time</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="incident-item animate" ng-repeat="incident in incidents">
+                  <td><a ui-sref="dashboard.ciIncident({ incidentId: incident.id })">{{ incident.label }}</a></td>
+                  <td>{{ (incident.created*1000) | date : 'MMM d, y h:mm a' }}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="col-sm-6">
-      <div class="portlet">
-        <div class="portlet-title">
-          <div class="caption">Incidents</div>
-        </div>
-        <div class="portlet-body">
-          <div ng-hide="incidents.length">
-            Yay, no incidents!
-          </div>
-          <div class="table-scrollable" ng-show="incidents.length">
-            <table class="table table-hover">
-              <thead>
-              <tr>
-                <th>Name</th>
-                <th>Incident time</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr class="incident-item animate" ng-repeat="incident in incidents">
-                <td><a ui-sref="dashboard.ciIncident({ incidentId: incident.id })">{{ incident.label }}</a></td>
-                <td>{{ (incident.created*1000) | date : 'MMM d, y h:mm a' }}</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
+  <div ui-view></div>
 </div>
-
-<div ui-view></div>
