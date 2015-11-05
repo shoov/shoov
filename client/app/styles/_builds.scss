@@ -4,3 +4,29 @@
     width: auto;
   }
 }
+
+#ci-build-item-page {
+  .wrapper {
+
+    &.ci-build-item-status-error {
+      @include ci-build-item-status-color($brand-error);
+    }
+
+    &.ci-build-item-status-done {
+      @include ci-build-item-status-color($brand-done);
+    }
+
+    &.ci-build-item-status-in_progress {
+      @include ci-build-item-status-color($brand-progress);
+    }
+
+    &.ci-build-item-status-queue {
+      @include ci-build-item-status-color($brand-warning);
+    }
+
+    pre {
+      margin-bottom: 0px;
+    }
+  }
+}
+

@@ -1,5 +1,4 @@
 //##  Colors
-$brand-default:         			#c6c6c6;
 $brand-main-color:            #777777;
 $brand-primary:         		 	#428bca;
 $brand-success:         		 	#45B6AF;
@@ -7,7 +6,6 @@ $brand-success-hover:         #3E9790;
 $brand-info:            		 	#89C4F4;
 $brand-info-light:       		 	#C1D6EC;
 $brand-warning:         		 	#dfba49;
-$brand-danger:          		 	#F3565D;
 $main-bg-color:          		 	#F1F3FA;
 $gray-bg-color:          		 	#AAAAAA;
 $state-danger-hover:          #A94442;
@@ -37,8 +35,14 @@ $smoke-blue: rgba(93, 128, 161, 0.37);
 $gray-blue: rgba(117, 149, 179, 0.37);
 $medium-blue: #194D7D;
 $dark-blue: #253340;
+$table-bg-hover: lighten($smoke-blue, 40%);
+$brand-primary: $turquoise;
+$brand-info:  $turquoise;
+$brand-error: rgb(210, 84, 84);
+$brand-done: #51c18a;
+$brand-progress: #a38f6a;
 
-  /* Desktop */
+/* Desktop */
 @mixin desktop {
   @media (min-width: $screen-sm-min) {
     @content;
@@ -49,5 +53,23 @@ $dark-blue: #253340;
 @mixin mobile {
   @media (max-width: $screen-xs-max) {
     @content;
+  }
+}
+
+/* Ci-build-item color changer */
+@mixin ci-build-item-status-color($color) {
+
+  h5,
+  i {
+    color: darken($color, 15%);
+  }
+
+  h5 {
+    border-color: lighten($color, 20%);
+    background: lighten($color, 33%);
+  }
+
+  .soft-border {
+    border-color: lighten($color, 20%);
   }
 }
