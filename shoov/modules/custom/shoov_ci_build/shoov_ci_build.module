@@ -137,15 +137,17 @@ function shoov_ci_build_node_presave($node) {
       throw new Exception('no_config_file');
     }
   }
-
-  $original_wrapper = entity_metadata_wrapper('node', $node->original);
-  $original_enabled = $original_wrapper->field_ci_build_enabled->value();
-  if ($wrapper->field_ci_build_enabled->value() && !$original_enabled) {
-    // Trying to enable the CI Build.
-    if (!shoov_repository_config_file_exists($wrapper->og_repo->value(), $wrapper->field_git_branch->value())) {
-      throw new Exception('no_config_file');
+  else {
+    $original_wrapper = entity_metadata_wrapper('node', $node->original);
+    $original_enabled = $original_wrapper->field_ci_build_enabled->value();
+    if ($wrapper->field_ci_build_enabled->value() && !$original_enabled) {
+      // Trying to enable the CI Build.
+      if (!shoov_repository_config_file_exists($wrapper->og_repo->value(), $wrapper->field_git_branch->value())) {
+        throw new Exception('no_config_file');
+      }
     }
   }
+
 
   if (!($wrapper->field_status_token->value())) {
     $wrapper->field_status_token->set(drupal_random_key());
