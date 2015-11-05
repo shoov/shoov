@@ -131,13 +131,17 @@ function shoov_ci_build_node_presave($node) {
 
   $wrapper = entity_metadata_wrapper('node', $node);
 
-  $original_enabled = FALSE;
-  if (isset($node->original)) {
-    $original_wrapper = entity_metadata_wrapper('node', $node->original);
-    $original_enabled = $original_wrapper->field_ci_build_enabled->value();
+  if ($node->is_new) {
+    // Check config file exists for the new CI Build.
+    if (!shoov_repository_config_file_exists($wrapper->og_repo->value(), $wrapper->field_git_branch->value())) {
+      throw new Exception('no_config_file');
+    }
   }
 
+  $original_wrapper = entity_metadata_wrapper('node', $node->original);
+  $original_enabled = $original_wrapper->field_ci_build_enabled->value();
   if ($wrapper->field_ci_build_enabled->value() && !$original_enabled) {
+    // Trying to enable the CI Build.
     if (!shoov_repository_config_file_exists($wrapper->og_repo->value(), $wrapper->field_git_branch->value())) {
       throw new Exception('no_config_file');
     }
