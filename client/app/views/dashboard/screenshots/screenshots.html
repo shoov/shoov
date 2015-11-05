@@ -22,26 +22,31 @@
 <div class="main-content">
   <div class="wrapper">
     <h2>Screenshot</h2>
-    <h5><i class="fa fa-github"></i> Repository data</h5>
-    <div class="soft-border">
-      <ul class="info separated">
-        <li>Repository: <a ng-href="https://github.com/{{ repoName }}">{{ repoName }}</a></li>
-        <li>Branch: <a ng-href="https://github.com/{{ repoName }}/tree/{{ gitCommit }}">{{ gitBranch }}</a></li>
-        <li>Commit: <a ng-href="https://github.com/{{ repoName }}/commit/{{ gitCommit }}">{{ gitCommit }}</a></li>
-      </ul>
-    </div>
-    <br/>
-    <h5><i class="fa fa-cog"></i> Screenshot settings</h5>
-    <div class="soft-border">
-      <div class="row">
-        <div class="col-sm-4 show-diff">
-          Show diff <input bs-switch type="checkbox" ng-model="showDiff">
+    <div class="row">
+      <div class="col-sm-8">
+        <h5><i class="fa fa-github"></i> Repository data</h5>
+        <div class="soft-border">
+          <ul class="info separated">
+            <li>Repository: <a ng-href="https://github.com/{{ repoName }}">{{ repoName }}</a></li>
+            <li>Branch: <a ng-href="https://github.com/{{ repoName }}/tree/{{ gitCommit }}">{{ gitBranch }}</a></li>
+            <li>Commit: <a ng-href="https://github.com/{{ repoName }}/commit/{{ gitCommit }}">{{ gitCommit }}</a></li>
+          </ul>
         </div>
-        <div class="col-sm-4">
-          <label for="image-style">Image size:</label>
-          <select id="image-style" class="form-control" ng-model="imageStyle">
-            <option ng-repeat="(value, style) in imageStyles" value="{{value}}" ng-selected="{{value == imageStyle}}">{{style}}</option>
-          </select>
+      </div>
+      <div class="col-sm-4">
+        <h5><i class="fa fa-cog"></i> Screenshot settings</h5>
+        <div class="soft-border">
+          <div class="row">
+            <div class="col-sm-4 show-diff">
+              Show diff <input bs-switch type="checkbox" ng-model="showDiff">
+            </div>
+            <div class="col-sm-4">
+              <label for="image-style">Image size:</label>
+              <select id="image-style" class="form-control" ng-model="imageStyle">
+                <option ng-repeat="(value, style) in imageStyles" value="{{value}}" ng-selected="{{value == imageStyle}}">{{style}}</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
     </div>
