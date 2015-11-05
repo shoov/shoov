@@ -1,13 +1,22 @@
 #incident-page {
+  
+  .labels {
+    margin-bottom: 25px;
 
-  .incident-info {
-    font-size: 14px;
-    margin-right: 5px;
-    display: inline-block;
-    padding: 6px 8px;
-    margin-bottom: 3px;
+    .incident-info {
+      font-size: 14px;
+      margin-right: 5px;
+      display: inline-block;
+      padding: 6px 8px;
+      margin-bottom: 3px;
+
+      @include mobile() {
+        text-align: left;
+        display: block;
+      }
+    }
   }
-
+  
   .incident-builds {
 
     li {

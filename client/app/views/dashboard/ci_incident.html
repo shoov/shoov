@@ -30,37 +30,26 @@
       <h5><i class="fa fa-exclamation-circle"></i> {{ incident.label }}</h5>
       <div class="soft-border">
         <div class="row">
-          <div class="col-xs-12">
+          <div class="col-xs-12 labels">
             <span class="label label-sm label-error incident-info">Started: {{ (incident.created*1000) | date : 'MMM d, y h:mm a' }}</span>
             <span ng-if="incident.created != incident.updated" class="label label-sm label-done incident-info"> Terminated: {{ (incident.updated*1000) | date : 'MMM d, y h:mm a' }}</span>
             <span class="label label-sm label-queue incident-info">Downtime: {{ downTime }}</span>
           </div>
           <div class="col-xs-12">
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12 ">
-      <div class="portlet">
-        <div class="portlet-body">
-          <ul class="info incident-builds">
-            <li><div class="build-type">1st failing build:</div> <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: incident.failing_build.id })">Build #{{ incident.failing_build.id }}</a></li>
-            <li ng-if="incident.fixed_build"><div class="build-type">Fixed build:</div> <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: incident.fixed_build.id })">Build #{{ incident.fixed_build.id }}</a></li>
-            <li class="background">
-              <i class="fa fa-file-text-o"></i>
-            </li>
-          </ul>
-          <div class="log-wrapper">
-          <pre ng-bind-html="incident.failing_build.log">
-          </pre>
+            <ul class="info incident-builds">
+              <li><div class="build-type">1st failing build:</div> <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: incident.failing_build.id })">Build #{{ incident.failing_build.id }}</a></li>
+              <li ng-if="incident.fixed_build"><div class="build-type">Fixed build:</div> <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: incident.fixed_build.id })">Build #{{ incident.fixed_build.id }}</a></li>
+              <li class="background">
+                <i class="fa fa-file-text-o"></i>
+              </li>
+            </ul>
+            <div class="log-wrapper">
+              <pre ng-bind-html="incident.failing_build.log"></pre>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
   <div ui-view></div>
-
 </div>
