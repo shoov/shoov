@@ -345,27 +345,9 @@ select {
   }
 }
 
-.font-red-sunglo,
-.font-error {
-  color: $brand-danger;
-}
-
-.font-green-sharp,
-.font-done {
-  color: $brand-primary;
-}
-
 .font-blue-sharp,
 .font-in_progress {
   color: $brand-primary;
-}
-
-.font-purple-intense {
-  color: $brand-title-purple;
-}
-
-.font-queue {
-  color: $brand-warning;
 }
 
 .label {
@@ -379,11 +361,11 @@ select {
   }
 
   &.label-error {
-    background-color: $brand-danger;
+    background-color: $brand-error;
   }
 
   &.label-done {
-    background-color: $brand-success;
+    background-color: $brand-done;
   }
 
   &.label-queue {
@@ -391,7 +373,7 @@ select {
   }
 
   &.label-in_progress {
-    background-color: $brand-sky;
+    background-color: $brand-progress;
   }
 }
 
@@ -473,17 +455,16 @@ select {
       opacity: 0.4;
     }
   }
+}
 
-  .log-wrapper {
-    pre {
-      @include border-radius(0);
-      background: black;
-      color: white;
-    }
+.log-wrapper {
+  pre {
+    @include border-radius(0);
+    background: black;
+    color: white;
   }
 }
 
-// Override bootstrap default buttons and inputs.
 input.form-control,
 textarea.form-control {
   @include border-radius(0);
