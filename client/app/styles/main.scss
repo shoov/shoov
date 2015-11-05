@@ -154,6 +154,8 @@ select {
   > tbody,
   > tfoot {
     > tr {
+      @include transition(all 0.4s ease-in-out);
+
       > th,
       > td {
         border-top: none;
@@ -441,7 +443,7 @@ select {
 
 .info {
   position: relative;
-  margin: 0 0 20px 0;
+  margin: 0px;
   padding: 8px 15px 8px 15px;
   border: 1px solid $smoke-blue;
   border-radius: 3px;

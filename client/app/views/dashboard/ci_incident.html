@@ -26,7 +26,7 @@
   </div>
   <div class="main-content">
     <div class="wrapper">
-      <h2>Incident</h2>
+      <h2>Incident report</h2>
       <h5><i class="fa fa-exclamation-circle"></i> {{ incident.label }}</h5>
       <div class="soft-border">
         <div class="row">
@@ -38,17 +38,21 @@
           <div class="col-xs-12">
             <ul class="info incident-builds">
               <li>
-                <div class="build-type"><i class="fa fa-file-text-o"></i> 1st failing build:</div>
+                <div class="build-type"><i class="fa fa-file-code-o"></i> 1st failing build:</div>
                 <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: incident.failing_build.id })">Build #{{ incident.failing_build.id }}</a>
               </li>
               <li ng-if="incident.fixed_build">
-                <div class="build-type"><i class="fa fa-file-text-o"></i> Fixed build:</div>
+                <div class="build-type"><i class="fa fa-file-code-o"></i> Fixed build:</div>
                 <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: incident.fixed_build.id })">Build #{{ incident.fixed_build.id }}</a></li>
             </ul>
-            <div class="log-wrapper">
-              <pre ng-bind-html="incident.failing_build.log"></pre>
-            </div>
           </div>
+        </div>
+      </div>
+      <br/>
+      <h5><i class="fa fa-file-code-o"></i> Log</h5>
+      <div class="soft-border">
+        <div class="log-wrapper">
+          <pre ng-bind-html="incident.failing_build.log"></pre>
         </div>
       </div>
     </div>
