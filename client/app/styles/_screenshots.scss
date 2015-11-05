@@ -13,7 +13,6 @@
         width: 40%;
         display: inline-block;
         margin-right: 3px;
-        float: left;
       }
     }
   }
@@ -31,11 +30,9 @@
     margin-top: 20px;
     background-color: white;
     padding: 20px;
-    float: left;
     width: 100%;
 
     .download-wrapper {
-      float: right;
       margin-top: 10px;
     }
   }
@@ -44,7 +41,6 @@
     margin-bottom: 30px;
     background-color: white;
     padding: 20px 15px 60px;
-    float: left;
     width: 100%;
 
     .screenshot-item {
@@ -94,6 +90,5 @@
 
 .pagination {
   text-align: center;
-  float: left;
   width: 100%;
 }
