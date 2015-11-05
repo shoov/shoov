@@ -1,14 +1,15 @@
 #incident-page {
   
   .labels {
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 
     .incident-info {
-      font-size: 14px;
-      margin-right: 5px;
       display: inline-block;
-      padding: 6px 8px;
+      margin-right: 5px;
       margin-bottom: 3px;
+      padding: 6px 8px;
+      border: 1px solid rgba(0, 0, 0, 0.11);
+      font-size: 14px;
 
       @include mobile() {
         text-align: left;
@@ -18,12 +19,27 @@
   }
   
   .incident-builds {
+    padding: 0px 7px;
 
     li {
+      color: inherit;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid $smoke-blue;
+      padding-left: 14px;
+
+      &:last-child {
+        border-bottom: none;
+      }
 
       .build-type {
-        width: 110px;
+        width: 123px;
         display: inline-block;
+      }
+
+      i {
+        padding-right: 3px;
+        color: inherit;
       }
 
       a {

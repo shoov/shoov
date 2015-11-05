@@ -440,20 +440,34 @@ select {
 }
 
 .info {
-  margin: 0 0 20px 0;
-  padding: 15px 30px 15px 15px;
-  border-left: 5px solid $brand-info-message-border;
-  background-color: $brand-info-message-bg;
-  color: $brand-info-message-color;
   position: relative;
-  min-height: 90px;
-
-  .background {
+  margin: 0 0 20px 0;
+  padding: 8px 15px 8px 15px;
+  border: 1px solid $smoke-blue;
+  border-radius: 3px;
+  
+  &:before,
+  &:after {
+    content: "";
     position: absolute;
-    right: 10px;
-    bottom: 0;
-    font-size: 65px;
-    opacity: 0.4;
+    top: 0px;
+    width: 7px;
+    background: rgba(93, 128, 161, 0.23);
+    height: 100%;
+  }
+
+  &:before {
+    left: 0px;
+    border-right: 1px solid $smoke-blue;
+  }
+
+  &:after {
+    right: 0px;
+    border-left: 1px solid $smoke-blue;
+  }
+
+  &.background {
+    background: rgba(133, 185, 234, 0.18);
   }
 }
 
