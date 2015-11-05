@@ -70,7 +70,7 @@ angular.module('clientApp')
             // Add build info to the repo info.
             var data = response.data.data[0];
             $scope.repos[key].build = {
-              enabled: data.enabled,
+              enabled: true,
               id: data.id
             };
 
@@ -78,7 +78,10 @@ angular.module('clientApp')
             $scope.repos[key]._inProgress = false;
           }, function(response) {
             if (response.data.title == 'no_config_file') {
-              $scope.repos[key].build['disable_reason'] = 'no_config_file';
+              $scope.repos[key].build = {
+                enabled: false,
+                disable_reason: 'no_config_file'
+              };
             }
           })
       }
