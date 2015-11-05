@@ -28,7 +28,7 @@
         <div class="soft-border">
           <a  ng-href="https://github.com/{{ build.label }}" target="_blank"> <i class="fa fa-external-link-square"></i> {{ build.label }}</a>
           <span class="divider"> &nbsp | &nbsp</span>
-          <a class="encrypt-keys-link" ui-sref="dashboard.encrypt({ buildId: parseInt(build.id) })"><i class="fa fa-file-code-o"></i> Encrypt keys</a>
+          <a class="encrypt-keys-link" ui-sref="dashboard.encrypt({ buildId: parseInt(build.id) })"><i class="fa fa-key"></i> Encrypt keys</a>
           <div class="interval-wrapper">
             <label for="interval">Build interval: </label>
             <select ng-change="updateInterval()" ng-options="id as label for (id, label) in intervals" class="form-control" id="interval" ng-model="build.interval"></select>

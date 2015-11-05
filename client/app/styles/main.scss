@@ -474,6 +474,11 @@ select {
 }
 
 .log-wrapper {
+  @include mobile() {
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+
   pre {
     @include border-radius(0);
     background: black;
