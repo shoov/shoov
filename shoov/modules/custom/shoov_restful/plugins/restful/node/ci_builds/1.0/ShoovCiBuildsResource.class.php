@@ -40,10 +40,6 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
       'property' => 'field_private_key',
     );
 
-    $public_fields['disable_reason'] = array(
-      'property' => 'field_disable_reason',
-    );
-
     return $public_fields;
   }
 }

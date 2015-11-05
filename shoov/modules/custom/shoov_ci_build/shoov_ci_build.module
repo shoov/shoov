@@ -131,6 +131,18 @@ function shoov_ci_build_node_presave($node) {
 
   $wrapper = entity_metadata_wrapper('node', $node);
 
+  $original_enabled = FALSE;
+  if (isset($node->original)) {
+    $original_wrapper = entity_metadata_wrapper('node', $node->original);
+    $original_enabled = $original_wrapper->field_ci_build_enabled->value();
+  }
+
+  if ($wrapper->field_ci_build_enabled->value() && !$original_enabled) {
+    if (!shoov_repository_config_file_exists($wrapper->og_repo->value(), $wrapper->field_git_branch->value())) {
+      throw new Exception('no_config_file');
+    }
+  }
+
   if (!($wrapper->field_status_token->value())) {
     $wrapper->field_status_token->set(drupal_random_key());
   }
@@ -190,19 +202,6 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
       message_delete_multiple($ids);
     }
 
-    return;
-  }
-
-  // Check repository has .shoov.yml file
-  if (!shoov_repository_yml_file_exists($wrapper->og_repo->value())) {
-    // .shoov.yml file doesm't exist in the repository. Disable the CI Build
-    // with the reason "No .shoov.yml file".
-
-    $node->_skip_create_ci_build_item = TRUE;
-    $node->field_ci_build_enabled[LANGUAGE_NONE][0]['value'] = 0;
-    $node->field_disable_reason[LANGUAGE_NONE][0]['value'] = 'no_config_file';
-    field_attach_update('node', $node);
-    // @todo: Send email?
     return;
   }
 

@@ -71,12 +71,15 @@ angular.module('clientApp')
             var data = response.data.data[0];
             $scope.repos[key].build = {
               enabled: data.enabled,
-              id: data.id,
-              disable_reason: data.disable_reason
+              id: data.id
             };
 
             $scope.repos[key].shoov_id = data.repository;
             $scope.repos[key]._inProgress = false;
+          }, function(response) {
+            if (response.data.title == 'no_config_file') {
+              $scope.repos[key].build['disable_reason'] = 'no_config_file';
+            }
           })
       }
       else {
@@ -86,7 +89,6 @@ angular.module('clientApp')
           .then(function(response) {
             // Update build info to the repo info.
             $scope.repos[key].build.enabled = false;
-            $scope.repos[key].build.disable_reason = 'none';
             $scope.repos[key]._inProgress = false;
           });
       }
