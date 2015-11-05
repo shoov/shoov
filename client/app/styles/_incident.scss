@@ -1,15 +1,11 @@
-.incident {
+#incident-page {
 
-  .actions {
-    text-align: right;
-
-    > .incident-info {
-      font-size: 14px;
-      margin-right: 5px;
-      display: inline-block;
-      padding: 6px 8px;
-      margin-bottom: 3px;
-    }
+  .incident-info {
+    font-size: 14px;
+    margin-right: 5px;
+    display: inline-block;
+    padding: 6px 8px;
+    margin-bottom: 3px;
   }
 
   .incident-builds {

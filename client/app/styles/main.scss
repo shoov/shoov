@@ -437,23 +437,23 @@ select {
       padding: 0;
     }
   }
+}
 
-  .info {
-    margin: 0 0 20px 0;
-    padding: 15px 30px 15px 15px;
-    border-left: 5px solid $brand-info-message-border;
-    background-color: $brand-info-message-bg;
-    color: $brand-info-message-color;
-    position: relative;
-    min-height: 90px;
+.info {
+  margin: 0 0 20px 0;
+  padding: 15px 30px 15px 15px;
+  border-left: 5px solid $brand-info-message-border;
+  background-color: $brand-info-message-bg;
+  color: $brand-info-message-color;
+  position: relative;
+  min-height: 90px;
 
-    .background {
-      position: absolute;
-      right: 10px;
-      bottom: 0;
-      font-size: 65px;
-      opacity: 0.4;
-    }
+  .background {
+    position: absolute;
+    right: 10px;
+    bottom: 0;
+    font-size: 65px;
+    opacity: 0.4;
   }
 }
 
@@ -486,3 +486,33 @@ textarea.form-control {
 #content {
   background: $light-gray;
 }
+
+/* Animation */
+.animate {
+  @include transition(0.7s ease-out all);
+
+  &.ng-move,
+  &.ng-enter,
+  &.ng-leave {
+    @include transition(all linear 0.7s);
+  }
+
+  &.ng-leave.ng-leave-active,
+  &.ng-move,
+  &.ng-enter {
+    opacity:0;
+    max-height:0;
+  }
+
+  &.ng-leave,
+  &.ng-move.ng-move-active,
+  &.ng-enter.ng-enter-active {
+    opacity:1;
+    max-height:40px;
+  }
+}
+
+.ng-enter-active {
+  background-color: $brand-highlight;
+}
+/* End animation */
