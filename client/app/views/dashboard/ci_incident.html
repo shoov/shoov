@@ -36,7 +36,7 @@
             <span class="label label-sm label-queue incident-info">Downtime: {{ downTime }}</span>
           </div>
           <div class="col-xs-12">
-            <ul class="info incident-builds">
+            <ul class="info separated incident-builds">
               <li>
                 <div class="build-type"><i class="fa fa-file-code-o"></i> 1st failing build:</div>
                 <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: incident.failing_build.id })">Build #{{ incident.failing_build.id }}</a>

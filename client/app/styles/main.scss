@@ -468,6 +468,28 @@ select {
     border-left: 1px solid $smoke-blue;
   }
 
+  &.separated {
+    padding: 0px 7px;
+
+    li {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 14px;
+      border-bottom: 1px solid $smoke-blue;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      i {
+        padding-right: 3px;
+        color: inherit;
+      }
+
+    }
+  }
+
+
   &.background {
     background: rgba(133, 185, 234, 0.18);
   }

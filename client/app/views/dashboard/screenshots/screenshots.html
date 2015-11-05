@@ -19,24 +19,32 @@
     </div>
   </div>
 </div>
+<div class="main-content">
+  <div class="wrapper">
+    <h2>Screenshot</h2>
+    <h5><i class="fa fa-github"></i> Repository data</h5>
+    <div class="soft-border">
+      <ul class="info separated">
+        <li>Repository: <a ng-href="https://github.com/{{ repoName }}">{{ repoName }}</a></li>
+        <li>Branch: <a ng-href="https://github.com/{{ repoName }}/tree/{{ gitCommit }}">{{ gitBranch }}</a></li>
+        <li>Commit: <a ng-href="https://github.com/{{ repoName }}/commit/{{ gitCommit }}">{{ gitCommit }}</a></li>
+      </ul>
+    </div>
+    <br/>
+    <h5><i class="fa fa-cog"></i> Screenshot settings</h5>
+    <div class="soft-border">
+    </div>
+    <br/>
+    <h5><i class="fa fa-picture-o"></i> Screenshot</h5>
+    <div class="soft-border">
+    </div>
+  </div>
+</div>
 <div class="row">
   <div class="col-sm-12 screenshots-list">
     <div class="portlet">
-      <div class="portlet-title">
-        <div class="caption font-blue-sharp">
-          <i class="fa fa-picture-o"></i>
-          <span class="caption-subject">Screenshot</span>
-        </div>
-      </div>
       <div class="portlet-body">
-        <ul class="info">
-          <li>Repository: <a ng-href="https://github.com/{{ repoName }}">{{ repoName }}</a></li>
-          <li>Branch: <a ng-href="https://github.com/{{ repoName }}/tree/{{ gitCommit }}">{{ gitBranch }}</a></li>
-          <li>Commit: <a ng-href="https://github.com/{{ repoName }}/commit/{{ gitCommit }}">{{ gitCommit }}</a></li>
-          <li class="background">
-            <i class="fa fa-github"></i>
-          </li>
-        </ul>
+
         <div class="row">
           <div class="col-sm-6 show-diff">
             Show diff <input bs-switch type="checkbox" ng-model="showDiff">
