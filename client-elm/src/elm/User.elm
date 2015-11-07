@@ -26,26 +26,29 @@ type Status =
   | Fetched
   | HttpError Http.Error
 
-type alias Model =
-  { name : User
-  , id : Id
-  , status : Status
-  , accessToken : AccessToken
+type alias BrowserStackForm =
+  { username : String
+  , key : String
+  }
 
-  -- Child components
+type alias Model =
+  { accessToken : AccessToken
+  , browserStackForm : BrowserStackForm
+  , id : Id
+  , name : User
   , repos : Maybe (List Repo.Model)
+  , status : Status
   }
 
 
 initialModel : Model
 initialModel =
-  { name = Anonymous
+  { accessToken = ""
+  , browserStackForm = BrowserStackForm "" ""
   , id = 0
-  , status = Init
-  , accessToken = ""
-
-  -- Child components
+  , name = Anonymous
   , repos = Nothing
+  , status = Init
   }
 
 init : (Model, Effects Action)
@@ -61,12 +64,15 @@ type Action
   = NoOp (Maybe ())
   | GetDataFromServer
   | UpdateDataFromServer (Result Http.Error (Id, String, Maybe (List Repo.Model)))
-  -- @todo: Remove, as we don't use it
   | SetAccessToken AccessToken
 
   -- Page
   | Activate
   | Deactivate
+  -- Form
+  | UpdateBrowserStackUsername String
+  | UpdateBrowserStackKey String
+  | SubmitBrowserStackForm
 
 type alias Context =
   { accessToken : AccessToken}
@@ -121,6 +127,30 @@ update context action model =
       (model, Effects.none)
 
     Deactivate ->
+      (model, Effects.none)
+
+
+    -- Form
+
+    UpdateBrowserStackUsername username ->
+      let
+        form = model.browserStackForm
+        form' = { form | username <- username }
+      in
+        ( {model | browserStackForm <- form' }
+        , Effects.none
+        )
+
+    UpdateBrowserStackKey key ->
+      let
+        form = model.browserStackForm
+        form' = { form | key <- key }
+      in
+        ( {model | browserStackForm <- form' }
+        , Effects.none
+        )
+
+    SubmitBrowserStackForm ->
       (model, Effects.none)
 
 
