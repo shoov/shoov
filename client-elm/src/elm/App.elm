@@ -6,6 +6,7 @@ import GithubAuth exposing (Model)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
+import Json.Encode as JE exposing (string, Value)
 import Login exposing (Model, initialModel, update)
 import Repo exposing (Model)
 import RouteHash exposing (HashUpdate)
@@ -35,7 +36,7 @@ type alias Model =
   -- If the user is anonymous, we want to know where to redirect them.
   , nextPage : Maybe Page
 
-  , repos : List Repo.Model
+  , repos : Maybe (List Repo.Model)
   , user : User.Model
   }
 
@@ -47,7 +48,7 @@ initialModel =
   , githubAuth = GithubAuth.initialModel
   , login = Login.initialModel
   , nextPage = Nothing
-  , repos = []
+  , repos = Nothing
   , user = User.initialModel
   }
 
@@ -81,9 +82,10 @@ type Action
   | Logout
   -- Action to be called after a Logout
   | NoOp (Maybe ())
+  | PostSetAccessToken (Result AccessToken ())
   | SetAccessToken AccessToken
   | SetActivePage Page
-  | UpdateRepos (List Repo.Model)
+  | UpdateRepos (Maybe (List Repo.Model))
 
 update : Action -> Model -> (Model, Effects Action)
 update action model =
@@ -223,9 +225,15 @@ update action model =
     NoOp _ ->
       ( model, Effects.none )
 
+    PostSetAccessToken result ->
+      ( model, Effects.none )
+
     SetAccessToken accessToken ->
       ( { model | accessToken <- accessToken}
-      , Task.succeed (ChildUserAction User.GetDataFromServer) |> Effects.task
+      , Effects.batch
+        [ sendInputToStorage accessToken
+        , Task.succeed (ChildUserAction User.GetDataFromServer) |> Effects.task
+        ]
       )
 
     SetActivePage page ->
@@ -301,14 +309,6 @@ update action model =
       ( { model | repos <- repos }
       , Effects.none
       )
-
--- Task to remove the access token from localStorage.
-removeStorageItem : Effects Action
-removeStorageItem =
-  Storage.removeItem "access_token"
-    |> Task.toMaybe
-    |> Task.map NoOp
-    |> Effects.task
 
 -- VIEW
 
@@ -406,6 +406,22 @@ myStyle : List (String, String)
 myStyle =
   [ ("font-size", "1.2em") ]
 
+-- EFFECTS
+
+sendInputToStorage : String -> Effects Action
+sendInputToStorage val =
+  Storage.setItem "access_token" (JE.string val)
+    |> Task.toResult
+    |> Task.map PostSetAccessToken
+    |> Effects.task
+
+-- Task to remove the access token from localStorage.
+removeStorageItem : Effects Action
+removeStorageItem =
+  Storage.removeItem "access_token"
+    |> Task.toMaybe
+    |> Task.map NoOp
+    |> Effects.task
 
 -- ROUTING
 

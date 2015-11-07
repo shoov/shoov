@@ -5,7 +5,6 @@ import Effects exposing (Effects, Never)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Http
-import Json.Encode as JE exposing (string, Value)
 import Json.Decode as JD exposing ((:=))
 import RouteHash exposing (HashUpdate)
 import Storage exposing (..)
@@ -73,9 +72,9 @@ update action model =
     Deactivate ->
       (model, Effects.none)
 
-    SetAccessToken token ->
-      ( { model | accessToken <- token }
-      , sendInputToStorage token
+    SetAccessToken accessToken ->
+      ( { model | accessToken <- accessToken }
+      , Effects.none
       )
 
     UpdateAccessTokenFromServer result ->
@@ -101,13 +100,6 @@ update action model =
           , Effects.none
           )
 
-sendInputToStorage : String -> Effects Action
-sendInputToStorage s =
-  Storage.setItem "access_token" (JE.string s)
-    |> Task.toResult
-    |> Task.map NoOp
-    |> Effects.task
-
 getInputFromStorage : Effects Action
 getInputFromStorage =
   Storage.getItem "access_token" JD.string
@@ -126,11 +118,19 @@ view address model =
       -- @todo: Add private repo option
       "https://github.com/login/oauth/authorize?client_id=" ++ Config.githubClientId ++ "&scope=user:email,read:org,public_repo"
 
+    spinner =
+      i [ class "fa fa-spinner fa-spin" ] []
+
     content =
-      span
-        []
-        [ a [ href url] [ text "Login with GitHub"]
-        ]
+      if model.hasAccessTokenInStorage
+        then
+          spinner
+
+        else
+          span
+            []
+            [ a [ href url] [ text "Login with GitHub"]
+            ]
   in
   div
     [ id "login-page" ]
