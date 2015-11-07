@@ -219,8 +219,8 @@ viewBrowserStackFrom address form' =
         , size 40
         ]
         [ text "username"]
-    -- Key field.
-    ,input
+    -- Key field
+    , input
         [ type' "text"
         , placeholder "Key"
         , value form'.key
