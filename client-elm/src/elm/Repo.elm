@@ -1,6 +1,4 @@
-module Company where
-
-import Debug
+module Repo where
 
 -- MODEL
 
@@ -10,7 +8,3 @@ type alias Model =
   { id : Id
   , label : String
   }
-
-initialModel : Model
-initialModel =
-  Model 0 ""
