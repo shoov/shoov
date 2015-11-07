@@ -431,7 +431,7 @@ delta2update previous current =
     Dashboard ->
       -- First, we ask the submodule for a HashUpdate. Then, we use
       -- `map` to prepend something to the URL.
-      RouteHash.map ((::) "dashboard") <|
+      RouteHash.map ((::) "") <|
         Dashboard.delta2update previous.dashboard current.dashboard
 
     GithubAuth ->
@@ -452,9 +452,6 @@ location2action : List String -> List Action
 location2action list =
   case list of
     "" :: rest ->
-      ( SetActivePage Dashboard ) :: []
-
-    "dashboard" :: rest ->
       ( SetActivePage Dashboard ) :: []
 
     ["auth", "github"] ->
