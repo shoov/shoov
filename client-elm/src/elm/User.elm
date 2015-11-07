@@ -217,9 +217,23 @@ viewBrowserStackFrom address form' =
         , value form'.username
         , on "input" targetValue (Signal.message address << UpdateBrowserStackUsername)
         , size 40
-        , required True
         ]
         [ text "username"]
+    -- Key field.
+    ,input
+        [ type' "text"
+        , placeholder "Key"
+        , value form'.key
+        , on "input" targetValue (Signal.message address << UpdateBrowserStackKey)
+        , size 40
+        ]
+        [ text "username"]
+     -- Submit button
+    , button
+        [ onClick address SubmitBrowserStackForm
+        , class "btn"
+        ]
+        [ text "Save" ]
     ]
 
 -- EFFECTS
