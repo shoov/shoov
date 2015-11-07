@@ -154,12 +154,21 @@ view address model =
         div [class "container"]
           [ div [] [ text "Welcome ", italicName ]
           , div [] [ text "Your repos are:"]
-          -- , ul  [] (List.map viewRepos model.repos)
+          , viewRepos model.repos
           ]
 
-viewRepos : Repo.Model -> Html
-viewRepos repo =
-  li [] [ text repo.label ]
+viewRepos : Maybe (List Repo.Model) -> Html
+viewRepos maybeRepos =
+  let
+    viewRepo repo =
+      li [] [ text repo.label ]
+  in
+    case maybeRepos of
+      Just repos ->
+        ul  [] (List.map viewRepo repos)
+
+      Nothing ->
+        div [] [ text "You have no repos, yet" ]
 
 -- EFFECTS
 
