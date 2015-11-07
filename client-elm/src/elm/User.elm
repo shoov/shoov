@@ -161,20 +161,19 @@ viewRepos : Maybe (List Repo.Model) -> Html
 viewRepos maybeRepos =
   let
     repoLink label =
-      a [href <| "https://github.com/" ++ label, target "_blank"] [ text label]
+      a [href <| "https://github.com/" ++ label, target "_blank"] [ text label ]
 
     viewRepo repo =
       li [] [ repoLink repo.label ]
   in
     case maybeRepos of
       Just repos ->
-        ul  [] (List.map viewRepo repos)
+        ul [] (List.map viewRepo repos)
 
       Nothing ->
         div [] [ text "You have no repos, yet" ]
 
 -- EFFECTS
-
 
 getJson : String -> AccessToken -> Effects Action
 getJson url accessToken =
