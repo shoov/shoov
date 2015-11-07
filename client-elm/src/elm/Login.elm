@@ -114,9 +114,11 @@ getInputFromStorage =
 view : Signal.Address Action -> Model -> Html
 view address model =
   let
+    repoScope =
+      if model.private then "repo" else "public_repo"
+
     url =
-      -- @todo: Add private repo option
-      "https://github.com/login/oauth/authorize?client_id=" ++ Config.githubClientId ++ "&scope=user:email,read:org,public_repo"
+      "https://github.com/login/oauth/authorize?client_id=" ++ Config.githubClientId ++ "&scope=user:email,read:org," ++ repoScope
 
     spinner =
       i [ class "fa fa-spinner fa-spin" ] []
