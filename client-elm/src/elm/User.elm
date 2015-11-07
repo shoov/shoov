@@ -160,8 +160,11 @@ view address model =
 viewRepos : Maybe (List Repo.Model) -> Html
 viewRepos maybeRepos =
   let
+    repoLink label =
+      a [href <| "https://github.com/" ++ label, target "_blank"] [ text label]
+
     viewRepo repo =
-      li [] [ text repo.label ]
+      li [] [ repoLink repo.label ]
   in
     case maybeRepos of
       Just repos ->
