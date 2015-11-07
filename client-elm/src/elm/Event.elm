@@ -1,15 +1,15 @@
 module Event where
 
 import Config exposing (backendUrl)
-import Company exposing (Model)
 import Dict exposing (Dict)
-import Effects exposing (Effects, Never)
+import Effects exposing (Effects)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (on, onClick, targetValue)
 import Http
 import Json.Decode as Json exposing ((:=))
 import Leaflet exposing (Model, initialModel, Marker, update)
+import Repo exposing (Model)
 import RouteHash exposing (HashUpdate)
 import String exposing (length)
 import Task  exposing (andThen, Task)
@@ -28,12 +28,6 @@ type Status =
   | Fetching (Maybe CompanyId)
   | Fetched (Maybe CompanyId) Time.Time
   | HttpError Http.Error
-
-isFetched : Status -> Bool
-isFetched status =
-  case status of
-    Fetched _ _ -> True
-    _ -> False
 
 type alias Marker =
   { lat: Float
@@ -111,7 +105,7 @@ type alias UpdateContext =
   { accessToken : String }
 
 type alias ViewContext =
-  { companies : List Company.Model }
+  { repos : List Repo.Model }
 
 update : UpdateContext -> Action -> Model -> (Model, Effects Action)
 update context action model =
@@ -488,7 +482,11 @@ viewEventInfo model =
     Nothing ->
       div [] []
 
-
+isFetched : Status -> Bool
+isFetched status =
+  case status of
+    Fetched _ _ -> True
+    _ -> False
 
 -- EFFECTS
 

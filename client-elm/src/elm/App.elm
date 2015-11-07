@@ -1,14 +1,13 @@
 module App where
 
-
-import Company exposing (..)
-import Effects exposing (Effects, Never)
-import Event exposing (..)
-import GithubAuth exposing (..)
+import Dashboard exposing (Model, initialModel, update)
+import Effects exposing (Effects)
+import GithubAuth exposing (Model)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Login exposing (Model, initialModel, update)
+import Repo exposing (Model)
 import RouteHash exposing (HashUpdate)
 import Storage exposing (removeItem)
 import Task exposing (..)
@@ -22,44 +21,45 @@ type alias AccessToken = String
 type alias CompanyId = Int
 
 type Page
-  = Event (Maybe CompanyId)
+  = Dashboard
   | GithubAuth
   | Login
   | User
 
 type alias Model =
   { accessToken : AccessToken
-  , user : User.Model
-  , companies : List Company.Model
-  , events : Event.Model
+  , activePage : Page
+  , dashboard : Dashboard.Model
   , githubAuth: GithubAuth.Model
   , login: Login.Model
-  , activePage : Page
   -- If the user is anonymous, we want to know where to redirect them.
   , nextPage : Maybe Page
+
+  , repos : List Repo.Model
+  , user : User.Model
   }
 
 initialModel : Model
 initialModel =
   { accessToken = ""
-  , user = User.initialModel
-  , companies = []
-  , events = Event.initialModel
+  , activePage = Login
+  , dashboard = Dashboard.initialModel
   , githubAuth = GithubAuth.initialModel
   , login = Login.initialModel
-  , activePage = Login
   , nextPage = Nothing
+  , repos = []
+  , user = User.initialModel
   }
 
 initialEffects : List (Effects Action)
 initialEffects =
   let
-    eventEffects = snd Event.init
+    dashboardEffects = snd Dashboard.init
     githubAuthEffects = snd GithubAuth.init
     loginEffects = snd Login.init
     userEffects = snd User.init
   in
-    [ Effects.map ChildEventAction eventEffects
+    [ Effects.map ChildDashboardAction dashboardEffects
     , Effects.map ChildGithubAuthAction githubAuthEffects
     , Effects.map ChildLoginAction loginEffects
     , Effects.map ChildUserAction userEffects
@@ -74,7 +74,7 @@ init =
 -- UPDATE
 
 type Action
-  = ChildEventAction Event.Action
+  = ChildDashboardAction Dashboard.Action
   | ChildGithubAuthAction GithubAuth.Action
   | ChildLoginAction Login.Action
   | ChildUserAction User.Action
@@ -83,21 +83,17 @@ type Action
   | NoOp (Maybe ())
   | SetAccessToken AccessToken
   | SetActivePage Page
-  | UpdateCompanies (List Company.Model)
+  | UpdateRepos (List Repo.Model)
 
 update : Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
-    ChildEventAction act ->
+    ChildDashboardAction act ->
       let
-        -- Pass the access token along to the child components.
-        context =
-          { accessToken = model.accessToken }
-
-        (childModel, childEffects) = Event.update context act model.events
+        (childModel, childEffects) = Dashboard.update act model.dashboard
       in
-        ( {model | events <- childModel }
-        , Effects.map ChildEventAction childEffects
+        ( {model | dashboard <- childModel }
+        , Effects.map ChildDashboardAction childEffects
         )
 
     ChildGithubAuthAction act ->
@@ -185,20 +181,20 @@ update action model =
               case result of
                 -- We reach out into the companies that is passed to the child
                 -- action.
-                Ok (id, name, companies) ->
+                Ok (id, name, repos) ->
                   let
                     nextPage =
                       case model.nextPage of
                         Just page ->
                           page
                         Nothing ->
-                          Event Nothing
+                          Dashboard
 
                   in
                     -- User data was successfully fetched, so we can redirect to
                     -- the next page, and update their companies.
                     ( { model' | nextPage <- Nothing }
-                    , (Task.succeed (UpdateCompanies companies) |> Effects.task)
+                    , (Task.succeed (UpdateRepos repos) |> Effects.task)
                       ::
                       (Task.succeed (SetActivePage nextPage) |> Effects.task)
                       ::
@@ -254,8 +250,8 @@ update action model =
 
         currentPageEffects =
           case model.activePage of
-            Event companyId ->
-              Task.succeed (ChildEventAction Event.Deactivate) |> Effects.task
+            Dashboard ->
+              Task.succeed (ChildDashboardAction Dashboard.Deactivate) |> Effects.task
 
             GithubAuth ->
               Task.succeed (ChildGithubAuthAction GithubAuth.Deactivate) |> Effects.task
@@ -270,8 +266,8 @@ update action model =
 
         newPageEffects =
           case page' of
-            Event companyId ->
-              Task.succeed (ChildEventAction <| Event.Activate Nothing) |> Effects.task
+            Dashboard ->
+              Task.succeed (ChildDashboardAction Dashboard.Activate) |> Effects.task
 
             GithubAuth ->
               Task.succeed (ChildGithubAuthAction GithubAuth.Activate) |> Effects.task
@@ -301,8 +297,8 @@ update action model =
               ]
             )
 
-    UpdateCompanies companies ->
-      ( { model | companies <- companies}
+    UpdateRepos repos ->
+      ( { model | repos <- repos }
       , Effects.none
       )
 
@@ -327,15 +323,13 @@ view address model =
 mainContent : Signal.Address Action -> Model -> Html
 mainContent address model =
   case model.activePage of
-    Event companyId ->
+    Dashboard ->
       let
         childAddress =
-          Signal.forwardTo address ChildEventAction
+          Signal.forwardTo address ChildDashboardAction
 
-        context =
-          { companies = model.companies}
       in
-        div [ style myStyle ] [ Event.view context childAddress model.events ]
+        div [ style myStyle ] [ Dashboard.view childAddress model.dashboard ]
 
     GithubAuth ->
       let
@@ -401,7 +395,7 @@ navbarLoggedIn address model =
           , div [ class "collapse navbar-collapse"]
               [ ul [class "nav navbar-nav"]
                 [ li [] [ a [ hrefVoid, onClick address (SetActivePage User) ] [ text "My account"] ]
-                , li [] [ a [ hrefVoid, onClick address (SetActivePage <| Event Nothing)] [ text "Events"] ]
+                , li [] [ a [ hrefVoid, onClick address (SetActivePage Dashboard)] [ text "Dashboard"] ]
                 , li [] [ a [ hrefVoid, onClick address Logout] [ text "Logout"] ]
                 ]
               ]
@@ -418,11 +412,11 @@ myStyle =
 delta2update : Model -> Model -> Maybe HashUpdate
 delta2update previous current =
   case current.activePage of
-    Event companyId ->
+    Dashboard ->
       -- First, we ask the submodule for a HashUpdate. Then, we use
       -- `map` to prepend something to the URL.
-      RouteHash.map ((::) "events") <|
-        Event.delta2update previous.events current.events
+      RouteHash.map ((::) "dashboard") <|
+        Dashboard.delta2update previous.dashboard current.dashboard
 
     GithubAuth ->
       RouteHash.map (\_ -> ["auth", "github"]) <|
@@ -442,10 +436,10 @@ location2action : List String -> List Action
 location2action list =
   case list of
     "" :: rest ->
-      ( SetActivePage <| Event Nothing ) :: []
+      ( SetActivePage Dashboard ) :: []
 
-    "events" :: rest ->
-      ( SetActivePage <| Event Nothing ) :: []
+    "dashboard" :: rest ->
+      ( SetActivePage Dashboard ) :: []
 
     ["auth", "github"] ->
       ( SetActivePage GithubAuth ) :: []
@@ -455,8 +449,6 @@ location2action list =
 
     "my-account" :: rest ->
       ( SetActivePage User ) :: []
-
-
 
     _ ->
       -- @todo: Add 404

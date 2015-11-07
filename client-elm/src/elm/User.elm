@@ -1,12 +1,12 @@
 module User where
 
-import Company exposing (..)
 import Config exposing (backendUrl)
 import Effects exposing (Effects, Never)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Http
 import Json.Decode as Json exposing ((:=))
+import Repo exposing (Model)
 import RouteHash exposing (HashUpdate)
 import String exposing (length)
 import Task
@@ -33,7 +33,7 @@ type alias Model =
   , accessToken : AccessToken
 
   -- Child components
-  , companies : List Company.Model
+  , repos : Maybe (List Repo.Model)
   }
 
 
@@ -45,7 +45,7 @@ initialModel =
   , accessToken = ""
 
   -- Child components
-  , companies = [Company.initialModel]
+  , repos = Nothing
   }
 
 init : (Model, Effects Action)
@@ -60,7 +60,7 @@ init =
 type Action
   = NoOp (Maybe ())
   | GetDataFromServer
-  | UpdateDataFromServer (Result Http.Error (Id, String, List Company.Model))
+  | UpdateDataFromServer (Result Http.Error (Id, String, Maybe (List Repo.Model)))
   -- @todo: Remove, as we don't use it
   | SetAccessToken AccessToken
 
@@ -96,15 +96,18 @@ update context action model =
           { model | status <- Fetched}
       in
         case result of
-          Ok (id, name, companies) ->
+          Ok (id, name, repos) ->
             ( {model'
                 | id <- id
                 , name <- LoggedIn name
-                , companies <- companies
+                , repos <- repos
               }
             , Effects.none
             )
           Err msg ->
+            let
+              d = Debug.log "UpdateDataFromServer" msg
+            in
             ( { model' | status <- HttpError msg }
             , Effects.none
             )
@@ -150,13 +153,13 @@ view address model =
       in
         div [class "container"]
           [ div [] [ text "Welcome ", italicName ]
-          , div [] [ text "Your companies are:"]
-          , ul  [] (List.map viewCompanies model.companies)
+          , div [] [ text "Your repos are:"]
+          -- , ul  [] (List.map viewRepos model.repos)
           ]
 
-viewCompanies : Company.Model -> Html
-viewCompanies company =
-  li [] [ text company.label ]
+viewRepos : Repo.Model -> Html
+viewRepos repo =
+  li [] [ text repo.label ]
 
 -- EFFECTS
 
@@ -172,7 +175,7 @@ getJson url accessToken =
       |> Effects.task
 
 
-decodeData : Json.Decoder (Id, String, List Company.Model)
+decodeData : Json.Decoder (Id, String, Maybe (List Repo.Model))
 decodeData =
   let
     -- Cast String to Int.
@@ -180,16 +183,23 @@ decodeData =
     number =
       Json.oneOf [ Json.int, Json.customDecoder Json.string String.toInt ]
 
-    company =
-      Json.object2 Company.Model
+    repo =
+      Json.object2 Repo.Model
         ("id" := number)
         ("label" := Json.string)
+
+    maybeRepos =
+      Json.oneOf
+        [ Json.null Nothing
+        , Json.map Just <| Json.list repo
+        ]
   in
   Json.at ["data", "0"]
     <| Json.object3 (,,)
       ("id" := number)
       ("label" := Json.string)
-      ("companies" := Json.list company)
+      -- Repository might be empty.
+      ("repository" := maybeRepos)
 
 -- ROUTER
 
