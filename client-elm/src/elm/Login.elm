@@ -118,11 +118,19 @@ view address model =
       -- @todo: Add private repo option
       "https://github.com/login/oauth/authorize?client_id=" ++ Config.githubClientId ++ "&scope=user:email,read:org,public_repo"
 
+    spinner =
+      i [ class "fa fa-spinner fa-spin" ] []
+
     content =
-      span
-        []
-        [ a [ href url] [ text "Login with GitHub"]
-        ]
+      if model.hasAccessTokenInStorage
+        then
+          spinner
+
+        else
+          span
+            []
+            [ a [ href url] [ text "Login with GitHub"]
+            ]
   in
   div
     [ id "login-page" ]
