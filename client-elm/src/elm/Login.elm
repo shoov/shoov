@@ -5,7 +5,6 @@ import Effects exposing (Effects, Never)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Http
-import Json.Encode as JE exposing (string, Value)
 import Json.Decode as JD exposing ((:=))
 import RouteHash exposing (HashUpdate)
 import Storage exposing (..)
@@ -73,9 +72,9 @@ update action model =
     Deactivate ->
       (model, Effects.none)
 
-    SetAccessToken token ->
-      ( { model | accessToken <- token }
-      , sendInputToStorage token
+    SetAccessToken accessToken ->
+      ( { model | accessToken <- accessToken }
+      , Effects.none
       )
 
     UpdateAccessTokenFromServer result ->
@@ -100,13 +99,6 @@ update action model =
           ( { model | hasAccessTokenInStorage <- False }
           , Effects.none
           )
-
-sendInputToStorage : String -> Effects Action
-sendInputToStorage s =
-  Storage.setItem "access_token" (JE.string s)
-    |> Task.toResult
-    |> Task.map NoOp
-    |> Effects.task
 
 getInputFromStorage : Effects Action
 getInputFromStorage =
