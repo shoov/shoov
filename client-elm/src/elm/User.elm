@@ -4,6 +4,7 @@ import Config exposing (backendUrl)
 import Effects exposing (Effects, Never)
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (on, onClick, onSubmit, targetValue)
 import Http
 import Json.Decode as Json exposing ((:=))
 import Repo exposing (Model)
@@ -134,10 +135,10 @@ update context action model =
 
     UpdateBrowserStackUsername username ->
       let
-        form = model.browserStackForm
-        form' = { form | username <- username }
+        form' = model.browserStackForm
+        form'' = { form' | username <- username }
       in
-        ( {model | browserStackForm <- form' }
+        ( {model | browserStackForm <- form'' }
         , Effects.none
         )
 
@@ -185,6 +186,7 @@ view address model =
           [ div [] [ text "Welcome ", italicName ]
           , div [] [ text "Your repos are:"]
           , viewRepos model.repos
+          , viewBrowserStackFrom address model.browserStackForm
           ]
 
 viewRepos : Maybe (List Repo.Model) -> Html
@@ -202,6 +204,23 @@ viewRepos maybeRepos =
 
       Nothing ->
         div [] [ text "You have no repos, yet" ]
+
+viewBrowserStackFrom : Signal.Address Action -> BrowserStackForm -> Html
+viewBrowserStackFrom address form' =
+  Html.form
+    [ onSubmit address SubmitBrowserStackForm
+    , action "javascript:void(0);"
+    ]
+    [ input
+        [ type' "text"
+        , placeholder "Name"
+        , value form'.username
+        , on "input" targetValue (Signal.message address << UpdateBrowserStackUsername)
+        , size 40
+        , required True
+        ]
+        [ text "username"]
+    ]
 
 -- EFFECTS
 
