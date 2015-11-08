@@ -344,28 +344,28 @@ mainContent address model =
           Signal.forwardTo address ChildDashboardAction
 
       in
-        div [ style myStyle ] [ Dashboard.view childAddress model.dashboard ]
+        div [ class "container" ] [ Dashboard.view childAddress model.dashboard ]
 
     GithubAuth ->
       let
         childAddress =
           Signal.forwardTo address ChildGithubAuthAction
       in
-        div [ style myStyle ] [ GithubAuth.view childAddress model.githubAuth ]
+        div [ class "container" ] [ GithubAuth.view childAddress model.githubAuth ]
 
     Login ->
       let
         childAddress =
           Signal.forwardTo address ChildLoginAction
       in
-        div [ style myStyle ] [ Login.view childAddress model.login ]
+        div [ class "container" ] [ Login.view childAddress model.login ]
 
     User ->
       let
         childAddress =
           Signal.forwardTo address ChildUserAction
       in
-        div [ style myStyle ] [ User.view childAddress model.user ]
+        div [ class "container" ] [ User.view childAddress model.user ]
 
 navbar : Signal.Address Action -> Model -> Html
 navbar address model =
@@ -417,9 +417,6 @@ navbarLoggedIn address model =
           ]
       ]
 
-myStyle : List (String, String)
-myStyle =
-  [ ("font-size", "1.2em") ]
 
 -- EFFECTS
 
