@@ -11,6 +11,7 @@ import Login exposing (Model, initialModel, update)
 import Repo exposing (Model)
 import RouteHash exposing (HashUpdate)
 import Storage exposing (removeItem)
+import String exposing (isEmpty)
 import Task exposing (..)
 import User exposing (..)
 
@@ -156,7 +157,7 @@ update action model =
               defaultEffects
 
       in
-        ( {model | login <- childModel }
+        ( { model | login <- childModel }
         , Effects.batch effects'
         )
 
@@ -179,6 +180,16 @@ update action model =
 
         (model'', effects') =
           case act of
+            User.SetAccessToken token ->
+              ( model'
+              , (Task.succeed (SetAccessToken token) |> Effects.task)
+                ::
+                defaultEffects
+              )
+
+            _ ->
+              (model', defaultEffects)
+
             User.UpdateDataFromServer result ->
               case result of
                 -- We reach out into the companies that is passed to the child
@@ -229,11 +240,22 @@ update action model =
       ( model, Effects.none )
 
     SetAccessToken accessToken ->
+      let
+        defaultEffects =
+          [sendInputToStorage accessToken]
+
+        effects' =
+          if (String.isEmpty accessToken)
+            then
+              defaultEffects
+            else
+              (Task.succeed (ChildUserAction User.GetDataFromServer) |> Effects.task)
+              ::
+              defaultEffects
+
+      in
       ( { model | accessToken <- accessToken}
-      , Effects.batch
-        [ sendInputToStorage accessToken
-        , Task.succeed (ChildUserAction User.GetDataFromServer) |> Effects.task
-        ]
+      , Effects.batch effects'
       )
 
     SetActivePage page ->

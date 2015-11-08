@@ -105,11 +105,9 @@ update context action model =
             , Effects.none
             )
           Err msg ->
-            let
-              d = Debug.log "UpdateDataFromServer" msg
-            in
             ( { model' | status <- HttpError msg }
-            , Effects.none
+            -- Token might be wrong, so lets remove any existing one
+            , Task.succeed (SetAccessToken "") |> Effects.task
             )
 
     SetAccessToken accessToken ->
@@ -141,21 +139,30 @@ isAccessTokenInStorage result =
 
 view : Signal.Address Action -> Model -> Html
 view address model =
-  case model.name of
-    Anonymous ->
-      div [] [ text "This is wrong - anon user cannot reach this!"]
+  let
+    errorMessage =
+      case model.status of
+        HttpError err ->
+          div [] [ text "There was some HTTP error" ]
+        _ ->
+          div [] []
+  in
+    case model.name of
+      Anonymous ->
+        div [] [ text "This is wrong - anon user cannot reach this!"]
 
-    LoggedIn name ->
-      let
-        italicName : Html
-        italicName =
-          em [] [text name]
-      in
-        div [class "container"]
-          [ div [] [ text "Welcome ", italicName ]
-          , div [] [ text "Your repos are:"]
-          , viewRepos model.repos
-          ]
+      LoggedIn name ->
+        let
+          italicName : Html
+          italicName =
+            em [] [text name]
+        in
+          div [class "container"]
+            [ errorMessage
+            , div [] [ text "Welcome ", italicName ]
+            , div [] [ text "Your repos are:"]
+            , viewRepos model.repos
+            ]
 
 viewRepos : Maybe (List Repo.Model) -> Html
 viewRepos maybeRepos =
@@ -168,7 +175,7 @@ viewRepos maybeRepos =
   in
     case maybeRepos of
       Just repos ->
-        ul  [] (List.map viewRepo repos)
+        ul [] (List.map viewRepo repos)
 
       Nothing ->
         div [] [ text "You have no repos, yet" ]
