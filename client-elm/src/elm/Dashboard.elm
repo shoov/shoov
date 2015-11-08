@@ -1,8 +1,8 @@
 module Dashboard where
 
 import Effects exposing (Effects)
-import Html exposing (a, div, span, text, Html)
-import Html.Attributes exposing (id)
+import Html exposing (a, div, li, i, span, text, ul, Html)
+import Html.Attributes exposing (id, class)
 import RouteHash exposing (HashUpdate)
 
 
@@ -42,7 +42,28 @@ update action model =
 
 view : Signal.Address Action -> Model -> Html
 view address model =
-  div [id "dashboard-page"] [ text "Dashboard" ]
+  div
+    [ id "homepage" ]
+    [ div
+        [ class "row"]
+        [ div
+            [ class "col-sm-12" ]
+            [ div
+                [ class "page-bar" ]
+                [ ul
+                    [ class "page-breadcrumb" ]
+                    [ li
+                        [ class "active"]
+                        [ i [ class "fa fa-desktop"] []
+                        , span [] [ text "Dashboard" ]
+                        ]
+                    ]
+
+                ]
+            ]
+        ]
+
+    ]
 
 -- ROUTER
 

@@ -1,0 +1,38 @@
+#incident-page {
+  
+  .labels {
+    margin-bottom: 15px;
+
+    .incident-info {
+      display: inline-block;
+      margin-right: 5px;
+      margin-bottom: 3px;
+      padding: 6px 8px;
+      border: 1px solid rgba(0, 0, 0, 0.11);
+      font-size: 14px;
+
+      @include mobile() {
+        display: block;
+        margin-bottom: 10px;
+        margin-right: 0px;
+        text-align: left;
+      }
+    }
+  }
+  
+  .incident-builds {
+
+    li {
+      color: inherit;
+
+      .build-type {
+        width: 123px;
+        display: inline-block;
+      }
+
+      a {
+        display: inline-block;
+      }
+    }
+  }
+}
