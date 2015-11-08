@@ -106,11 +106,7 @@ select {
   }
 
   h5 {
-    margin: 0px;
-    padding: 10px 15px;
-    border: 1px solid $smoke-blue;
-    color: $light-blue;
-    background: rgba(93, 128, 161, 0.14);
+   @include soft-box;
   }
 
   .soft-border {
@@ -468,6 +464,28 @@ select {
     border-left: 1px solid $smoke-blue;
   }
 
+  &.separated {
+    padding: 0px 7px;
+
+    li {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 14px;
+      border-bottom: 1px solid $smoke-blue;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      i {
+        padding-right: 3px;
+        color: inherit;
+      }
+
+    }
+  }
+
+
   &.background {
     background: rgba(133, 185, 234, 0.18);
   }
@@ -507,6 +525,16 @@ textarea.form-control {
 #content {
   background: $light-gray;
 }
+
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary {
+  background: $turquoise;
+}
+
+.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-default {
+  background: lighten($smoke-blue, 30%);
+  color: $light-blue;
+}
+
 
 /* Animation */
 .animate {
