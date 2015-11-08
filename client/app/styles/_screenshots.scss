@@ -1,40 +1,29 @@
-.screenshots-list {
+#screenshot-page {
 
-  .show-diff {
-    text-align: right;
-  }
-
-  .pr-wrapper {
-
-    .form-group {
-      margin: 0;
-
-      input {
-        width: 40%;
-        display: inline-block;
-        margin-right: 3px;
+  .info {
+    li {
+      > div {
+       @include desktop() {
+         display: inline-block;
+         width: 77px;
+       }
       }
     }
   }
 
-  .image-size {
-    margin-top: 30px;
+  label {
+    font-weight: normal;
+  }
 
-    label {
-      display: inline-block;
+  .repository-data {
+    @include desktop {
+      padding-top: 20px;
+      min-height: 155px;
     }
   }
 
-  .screenshot-header {
-    border-bottom: 1px solid $brand-main-color;
-    margin-top: 20px;
-    background-color: white;
-    padding: 20px;
-    width: 100%;
-
-    .download-wrapper {
-      margin-top: 10px;
-    }
+  .show-diff {
+    margin-bottom: 10px;
   }
 
   .screenshot-wrapper {
@@ -86,9 +75,11 @@
       border: 2px solid #222;
     }
   }
+
+  .pagination {
+    text-align: center;
+    width: 100%;
+  }
+
 }
 
-.pagination {
-  text-align: center;
-  width: 100%;
-}
