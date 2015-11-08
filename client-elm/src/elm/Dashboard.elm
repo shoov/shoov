@@ -94,7 +94,7 @@ view address model =
                 ("#", "heartbeat", "Live Monitor")
 
               VisualRegression ->
-                ("#", "history", "Live Monitor")
+                ("#", "history", "Visual Regression")
 
       in
         div
@@ -109,7 +109,7 @@ view address model =
                           [ class <| "fa fa-" ++ icon ]
                           []
                       ]
-                  , h5 [] [ text "Live Monitor" ]
+                  , h5 [] [ text label ]
                   ]
               ]
           ]
