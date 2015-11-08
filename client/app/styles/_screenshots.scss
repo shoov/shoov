@@ -57,6 +57,7 @@
 
     header {
       @include soft-box;
+      padding: 6px 7px;
       border-bottom: none;
       display: inline-block;
       @include border-radius(0px 3px 0px 0px);
