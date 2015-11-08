@@ -1,0 +1,71 @@
+#login-page {
+  margin-top: 5%;
+
+  .wrapper {
+    margin: 55px auto;
+    max-width: 380px;
+  }
+
+  .form-signin {
+    margin: auto 0px;
+    padding: 15px;
+    max-width: 380px;
+    color: white;
+    background: $dark-gray;
+    border: 1px solid rgba(0,0,0,0.1);
+
+    h2 {
+      margin-top: 0px;
+      margin-bottom: 20px;
+      text-transform: capitalize;
+    }
+
+    .btn,
+    .input-group-addon {
+      color: white;
+      border: none;
+    }
+
+    .input-group,
+    .input-group-addon,
+    .form-control,
+    .btn {
+      border-radius: 0px;
+    }
+
+    .btn {
+      transition: background 0.4s ease-in;
+      background: $blue;
+
+      &[disabled],
+      &[disabled]:hover {
+        background: $light-gray;
+      }
+
+      &:hover {
+        background: darken($blue, 15%);
+      }
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+
+      .input-group-addon {
+        min-width: 45px;
+        background: $light-gray;
+
+        .form-control {
+          border-radius: 0px;
+          position: relative;
+          font-size: 16px;
+          height: auto;
+          padding: 10px;
+
+          &:focus {
+            z-index: 2;
+          }
+        }
+      }
+    }
+  }
+}
