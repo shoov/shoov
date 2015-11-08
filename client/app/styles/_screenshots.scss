@@ -44,16 +44,32 @@
 
   .screenshot-wrapper {
 
-    .delete a,
-    .delete i{
-      color: $brand-error;
+    .delete {
+      a,
+      i{
+        color: $brand-error;
+      }
+
+      i {
+        font-size: 12px;;
+      }
+    }
+
+    header {
+      @include soft-box;
+      border-bottom: none;
+      display: inline-block;
+      @include border-radius(0px 3px 0px 0px);
+
+      button {
+        margin-right: 6px;
+      }
     }
 
     .image-wrapper {
-      margin-top: 20px;
       padding: 15px;
       border: 1px solid $smoke-blue;
-      @include border-radius(3px);
+      @include border-radius(0px 3px 3px 3px);
       background: white;
     }
   }

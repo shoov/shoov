@@ -106,11 +106,7 @@ select {
   }
 
   h5 {
-    margin: 0px;
-    padding: 10px 15px;
-    border: 1px solid $smoke-blue;
-    color: $light-blue;
-    background: rgba(93, 128, 161, 0.14);
+   @include soft-box;
   }
 
   .soft-border {

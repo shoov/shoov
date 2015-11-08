@@ -80,11 +80,13 @@
           <br/>
           <div class="row">
             <div class="col-xs-12">
-              <checkbox medium name="selectedScreenshots[]" ng-model="screenshot.selected"></checkbox>
-              <span class="name"> {{ screenshot.label }}</span>
+              <header>
+                <checkbox medium name="selectedScreenshots[]" ng-model="screenshot.selected"></checkbox>
+                <span class="name"> {{ screenshot.label }} | </span>
                <span class="delete">
-                <a href ng-click="delete(screenshot.id)">(<i class="glyphicon glyphicon-remove"> </i> Delete)</a>
+                <a href ng-click="delete(screenshot.id)"><i class="glyphicon glyphicon-remove"> </i> Delete</a>
                </span>
+              </header>
             </div>
             <div class="col-xs-12">
               <div class="image-wrapper" ng-style="{'height': (screenshot.maxHeight[imageStyle] + 80), 'width': (screenshot.maxWidth[imageStyle] + 40) }">
@@ -108,8 +110,7 @@
             rotate="false"
             boundary-links="true"
             items-per-page="itemsPerPage"
-            ng-show="true">
-            <!--ng-show="pager">-->
+            ng-show="pager">
           </pagination>
         </div>
       </div>

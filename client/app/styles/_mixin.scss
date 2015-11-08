@@ -73,3 +73,12 @@ $brand-progress: #a38f6a;
     border-color: lighten($color, 20%);
   }
 }
+
+/* Soft box styling */
+@mixin soft-box {
+  margin: 0px;
+  padding: 10px 15px;
+  border: 1px solid $smoke-blue;
+  color: $light-blue;
+  background: rgba(93, 128, 161, 0.14);
+}
