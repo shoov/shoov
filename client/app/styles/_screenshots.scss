@@ -50,10 +50,11 @@
     }
 
     .image-wrapper {
-      margin-top: 15px;
+      margin-top: 20px;
       padding: 15px;
       border: 1px solid $smoke-blue;
-      @include border-radius(3px)
+      @include border-radius(3px);
+      background: white;
     }
   }
 
