@@ -134,22 +134,19 @@ function shoov_screenshot_add_tag_to_vocabulary($term_name, $vocabulary_id) {
  *  List of uploaded files info.
  * @param $ui_build_id
  *  The UI Build node ID.
- * @param $uid
- *  The user ID.
  *
  * @return string
  *  Returns the hash code.
  */
-function shoov_screenshot_create_hash($files, $ui_build_id, $uid) {
-  $content = '';
-
+function shoov_screenshot_create_hash($files, $ui_build_id) {
+  $hash = array();
   foreach ($files as $file) {
     $image = file_load($file['id']);
-    $content .= $file['label'] . ':' . file_get_contents($image->uri) . ';';
+    $hash[] = $file['label'] . ':' . file_get_contents($image->uri) . ';';
   }
-  $content .= 'build_id:' . $ui_build_id . ';user_id:' . $uid . ';';
+  $hash[] = $ui_build_id;
 
-  $hash = drupal_hash_base64($content);
+  $hash = md5(join(';', $hash));
   return $hash;
 }
 
@@ -174,5 +171,5 @@ function shoov_screenshot_regression_exists($hash) {
     return FALSE;
   }
 
-  return $result['node'];
+  return reset(array_keys($result['node']));
 }

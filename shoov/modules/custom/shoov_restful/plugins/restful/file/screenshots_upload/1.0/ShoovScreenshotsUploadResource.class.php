@@ -36,10 +36,9 @@ class ShoovScreenshotsUploadResource extends RestfulFilesUpload {
 
     $build_node = $this->getBuildNode($repo_node);
 
-    $hash = shoov_screenshot_create_hash($files, $build_node->nid, $this->getAccount()->uid);
+    $hash = shoov_screenshot_create_hash($files, $build_node->nid);
 
-    if ($nids = shoov_screenshot_regression_exists($hash)) {
-      $nid = reset(array_keys($nids));
+    if ($nid = shoov_screenshot_regression_exists($hash)) {
       return node_load($nid);
     }
 
