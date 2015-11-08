@@ -36,6 +36,13 @@ class ShoovScreenshotsUploadResource extends RestfulFilesUpload {
 
     $build_node = $this->getBuildNode($repo_node);
 
+    $hash = shoov_screenshot_create_hash($files, $build_node->nid, $this->getAccount()->uid);
+
+    if ($nids = shoov_screenshot_regression_exists($hash)) {
+      $nid = reset(array_keys($nids));
+      return node_load($nid);
+    }
+
     $values = array(
       'type' => 'screenshot',
       'uid' => $this->getAccount()->uid,
@@ -58,6 +65,8 @@ class ShoovScreenshotsUploadResource extends RestfulFilesUpload {
     }
 
     $wrapper->field_baseline_name->set($request['baseline_name']);
+
+    $wrapper->field_screenshot_hash->set($hash);
 
     $vocabulary_id = shoov_repository_get_vocabulary_by_repo('screenshots_tags', $repo_node->nid);
 
