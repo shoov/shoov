@@ -13,6 +13,8 @@ var del = require("del");
 // BrowserSync isn"t a gulp package, and needs to be loaded manually
 var browserSync = require("browser-sync");
 
+var compass = require('gulp-compass');
+
 var elm  = require('gulp-elm');
 
 var fs = require('fs');
@@ -46,7 +48,12 @@ gulp.task("styles", function () {
   // Looks at the style.scss file for what to include and creates a style.css file
   return gulp.src("src/assets/scss/style.scss")
     .pipe(plumber())
-    .pipe($.sass())
+    .pipe(compass({
+      css: 'serve/assets/stylesheets',
+      sass: 'src/assets/scss',
+      image: 'src/assets/images',
+      import_path: './bower_components'
+    }))
     .on('error', function(err){
       browserSync.notify("SASS error");
 
@@ -59,10 +66,6 @@ gulp.task("styles", function () {
       // No need to continue processing.
       this.emit('end');
     })
-    // AutoPrefix your CSS so it works between browsers
-    .pipe($.autoprefixer("last 1 version", { cascade: true }))
-    // Directory your CSS file goes to
-    .pipe(gulp.dest("serve/assets/stylesheets/"))
     // Outputs the size of the CSS file
     .pipe($.size({title: "styles"}))
     // Injects the CSS changes to your browser since Jekyll doesn"t rebuild the CSS
