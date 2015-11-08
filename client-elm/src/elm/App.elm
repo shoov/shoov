@@ -118,8 +118,6 @@ update action model =
             GithubAuth.SetAccessToken token ->
               (Task.succeed (SetAccessToken token) |> Effects.task)
               ::
-              (Task.succeed (ChildUserAction User.GetDataFromServer) |> Effects.task)
-              ::
               defaultEffects
 
             _ ->
@@ -148,8 +146,6 @@ update action model =
             -- redirect the user from the login page.
             Login.SetAccessToken token ->
               (Task.succeed (SetAccessToken token) |> Effects.task)
-              ::
-              (Task.succeed (ChildUserAction User.GetDataFromServer) |> Effects.task)
               ::
               defaultEffects
 
@@ -187,14 +183,11 @@ update action model =
                 defaultEffects
               )
 
-            _ ->
-              (model', defaultEffects)
-
             User.UpdateDataFromServer result ->
               case result of
-                -- We reach out into the companies that is passed to the child
+                -- We reach out into the repos that is passed to the child
                 -- action.
-                Ok (id, name, repos) ->
+                Ok (_, _, repos) ->
                   let
                     nextPage =
                       case model.nextPage of
@@ -205,7 +198,7 @@ update action model =
 
                   in
                     -- User data was successfully fetched, so we can redirect to
-                    -- the next page, and update their companies.
+                    -- the next page, and update their repos.
                     ( { model' | nextPage <- Nothing }
                     , (Task.succeed (UpdateRepos repos) |> Effects.task)
                       ::

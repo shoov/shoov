@@ -94,6 +94,7 @@ update context action model =
       let
         model' =
           { model | status <- Fetched}
+
       in
         case result of
           Ok (id, name, repos) ->
