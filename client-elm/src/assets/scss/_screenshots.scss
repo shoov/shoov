@@ -1,0 +1,84 @@
+#screenshot-page {
+
+  .info {
+    li {
+      > div {
+       @include desktop() {
+         display: inline-block;
+         width: 77px;
+       }
+      }
+    }
+  }
+
+  label {
+    font-weight: normal;
+    color: $light-blue;
+  }
+
+  .repository-data {
+    @include desktop {
+      padding-top: 20px;
+      min-height: 155px;
+    }
+  }
+
+  .show-diff {
+    margin-bottom: 10px;
+  }
+
+  .screenshot-item-selector {
+
+    label {
+      display: inline-block;
+      margin-bottom: 0px;
+    }
+    .checkbox {
+      margin-top: 0px;
+    }
+  }
+
+  #image-style {
+    color: $turquoise;
+  }
+
+  .screenshot-wrapper {
+
+    .delete {
+      a,
+      i{
+        color: $brand-error;
+      }
+
+      i {
+        font-size: 12px;;
+      }
+    }
+
+    header {
+      @include soft-box;
+      padding: 6px 7px;
+      border-bottom: none;
+      display: inline-block;
+      @include border-radius(0px 3px 0px 0px);
+
+      button {
+        margin-right: 6px;
+      }
+    }
+
+    .image-wrapper {
+      padding: 15px;
+      border: 1px solid $smoke-blue;
+      @include border-radius(0px 3px 3px 3px);
+      background: white;
+    }
+  }
+
+  .pagination {
+    text-align: center;
+    width: 100%;
+  }
+
+}
+

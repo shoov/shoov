@@ -1,71 +1,81 @@
-#login-page {
-  margin-top: 5%;
+#dashboard-login,
+#dashboard-github-auth {
+  color: $light-gray;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  margin-top: 40px;
 
-  .wrapper {
-    margin: 55px auto;
-    max-width: 380px;
-  }
+  .container {
 
-  .form-signin {
-    margin: auto 0px;
-    padding: 15px;
-    max-width: 380px;
-    color: white;
-    background: $dark-gray;
-    border: 1px solid rgba(0,0,0,0.1);
+    .login-wrapper {
+      max-width: 500px;
+      margin: 20% auto 0px auto;
+      padding: 15px;
+      background: rgba(123, 135, 146, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      @include box-shadow(4px 4px 30px 0px #252729);
+      @include border-radius(4px);
 
-    h2 {
-      margin-top: 0px;
-      margin-bottom: 20px;
-      text-transform: capitalize;
+      @include desktop {
+        border-top: 1px solid rgba(255, 255, 255, 0.09);
+      }
     }
 
-    .btn,
-    .input-group-addon {
+    h1 {
+      margin-top: 5px;
+      margin-bottom: 25px;
+      color: $light-gray;
+      font-size: 30px;
+      font-weight: 400;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    }
+
+    a {
+      color: $turquoise;
+    }
+
+    .github-private {
+      margin-top: 20px;
+
+      button {
+        margin-right: 2px;
+      }
+    }
+
+    .btn-github {
       color: white;
-      border: none;
-    }
+      background: $turquoise;
+      padding-left: 0px;
+      @include transition(0.4s ease-in-out all);
 
-    .input-group,
-    .input-group-addon,
-    .form-control,
-    .btn {
-      border-radius: 0px;
-    }
-
-    .btn {
-      transition: background 0.4s ease-in;
-      background: $blue;
-
-      &[disabled],
-      &[disabled]:hover {
-        background: $light-gray;
+      @include mobile {
+        padding-left: 55px;
       }
 
       &:hover {
-        background: darken($blue, 15%);
+        background: $dark-turquoise;
       }
     }
+    
+    .shoov-logo {
+      color: rgba(255, 255, 255, 0.78);
+      padding: 8px;
+      @include border-radius(2px);
+      border: 1px solid rgba(255, 255, 255, 0.52);
+    }
 
-    .input-group {
-      margin-bottom: 15px;
+    button {
+      margin-top: -2px;
+      width: 17px;
+      height: 17px;
 
-      .input-group-addon {
-        min-width: 45px;
-        background: $light-gray;
-
-        .form-control {
-          border-radius: 0px;
-          position: relative;
-          font-size: 16px;
-          height: auto;
-          padding: 10px;
-
-          &:focus {
-            z-index: 2;
-          }
-        }
+      .glyphicon {
+        top: 0px;
+        left: -3px !important;
       }
     }
   }
+}
+
+#dashboard-github-auth {
+  color: $turquoise;
 }
