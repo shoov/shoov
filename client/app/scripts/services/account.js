@@ -100,12 +100,12 @@ angular.module('clientApp')
         return;
       }
 
-      repositories.forEach(function(repoId) {
-        if (!repoId) {
+      repositories.forEach(function(repo) {
+        if (!repo['id']) {
           // repoId is null.
           return;
         }
-        channelManager.addChannel(repoId);
+        channelManager.addChannel(repo['id']);
       });
     };
 
