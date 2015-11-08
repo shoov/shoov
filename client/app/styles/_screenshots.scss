@@ -13,6 +13,7 @@
 
   label {
     font-weight: normal;
+    color: $light-blue;
   }
 
   .repository-data {
@@ -26,6 +27,23 @@
     margin-bottom: 10px;
   }
 
+  .screenshot-item-selector {
+
+    label {
+      display: inline-block;
+      margin-bottom: 0px;
+    }
+    .checkbox {
+      margin-top: 0px;
+    }
+  }
+
+  .download-button {
+    @include desktop() {
+      float: right;
+    }
+  }
+
   .screenshot-wrapper {
     margin-bottom: 30px;
     background-color: white;
@@ -34,40 +52,6 @@
 
     .screenshot-item {
 
-      .name {
-        margin-bottom: 20px;
-        font-size: 60px;
-        font-weight: lighter;
-        line-height: 50px;
-        margin-top: -10px;
-
-        @media (max-width: 320px) {
-          font-size: 24px;
-          line-height: 18px;
-          margin-top: 0;
-
-        }
-
-        @media (min-width: 321px) and (max-width: 768px) {
-          font-size: 32px;
-        }
-
-        input {
-          vertical-align: middle;
-        }
-
-        .delete {
-          font-size: 18px;
-
-          :hover {
-            text-decoration: underline;
-          }
-
-          i {
-            vertical-align: text-top;
-          }
-        }
-      }
     }
 
     .diff-image {

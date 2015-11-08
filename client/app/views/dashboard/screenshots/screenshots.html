@@ -65,44 +65,41 @@
       <br/>
       <h5><i class="fa fa-picture-o"></i> Screenshot</h5>
       <div class="soft-border">
-        <div class="screenshot-header">
-          <div class="row">
-            <div class="col-sm-1">
-              <div class="screenshot-item-selector">
-                Select all
-                <checkbox large name="selectAll" ng-model="allSelected" ng-click="selectAll()"></checkbox>
-              </div>
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="screenshot-item-selector">
+              <label>Select all</label>
+              <checkbox medium class="checkbox" name="selectAll" ng-model="allSelected" ng-click="selectAll()"></checkbox>
             </div>
-            <div class="col-sm-11">
-              <div class="download-wrapper">
-                <button class="btn btn-primary" ng-disabled="!selection.length" ng-click="zip()">Download</button>
-              </div>
-            </div>
+          </div>
+          <div class="col-sm-9">
+            <button class="download-button btn btn-primary" ng-disabled="!selection.length" ng-click="zip()">Download</button>
           </div>
         </div>
         <div ng-repeat="screenshot in screenshots" class="screenshot-wrapper">
           <div class="row">
             <div class="col-xs-2 col-sm-1 checkbox-wrapper">
-              <checkbox large name="selectedScreenshots[]" ng-model="screenshot.selected"></checkbox>
+              <checkbox medium name="selectedScreenshots[]" ng-model="screenshot.selected"></checkbox>
             </div>
             <div class="col-xs-10 col-sm-11 screenshot-item">
               <div class="name">
                 {{ screenshot.label }}
-        <span class="delete">
-          <a href ng-click="delete(screenshot.id)">
-            (<i class="glyphicon glyphicon-remove"> </i> Delete)
-          </a>
-        </span>
+                <span class="delete">
+                  <a href ng-click="delete(screenshot.id)">
+                    (<i class="glyphicon glyphicon-remove"> </i> Delete)
+                  </a>
+                </span>
               </div>
             </div>
             <div class="col-xs-12">
               <div ng-style="{'height' : screenshot.maxHeight[imageStyle] }">
                 <img class="diff-image" ng-show="showDiff" ng-src="{{ imageStyle == 'self' ? (screenshot.diff.self + '?access_token=' + accessToken) : (screenshot.diff.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}" />
-                <before-after-image-slider ng-hide="showDiff"
-                                           baseline-img-src="{{ imageStyle == 'self' ? (screenshot.baseline.self + '?access_token=' + accessToken) : (screenshot.baseline.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}"
-                                           regression-img-src="{{ imageStyle == 'self' ? (screenshot.regression.self + '?access_token=' + accessToken) : (screenshot.regression.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}"
-                                           max-width="{{ screenshot.maxWidth[imageStyle] }}"
-                                           max-height="{{ screenshot.maxHeight[imageStyle] }}">
+                <before-after-image-slider
+                  ng-hide="showDiff"
+                  baseline-img-src="{{ imageStyle == 'self' ? (screenshot.baseline.self + '?access_token=' + accessToken) : (screenshot.baseline.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}"
+                  regression-img-src="{{ imageStyle == 'self' ? (screenshot.regression.self + '?access_token=' + accessToken) : (screenshot.regression.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}"
+                  max-width="{{ screenshot.maxWidth[imageStyle] }}"
+                  max-height="{{ screenshot.maxHeight[imageStyle] }}">
                 </before-after-image-slider>
               </div>
             </div>
@@ -124,5 +121,4 @@
     </div>
   </div>
   <div ui-view></div>
-
 </div>
