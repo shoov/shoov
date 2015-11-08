@@ -87,7 +87,7 @@
                </span>
             </div>
             <div class="col-xs-12">
-              <div class="image-wrapper" ng-style="{'height': (screenshot.maxHeight[imageStyle] + 60), 'width': (screenshot.maxWidth[imageStyle] + 40) }">
+              <div class="image-wrapper" ng-style="{'height': (screenshot.maxHeight[imageStyle] + 80), 'width': (screenshot.maxWidth[imageStyle] + 40) }">
                 <img class="diff-image" ng-show="showDiff" ng-src="{{ imageStyle == 'self' ? (screenshot.diff.self + '?access_token=' + accessToken) : (screenshot.diff.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}" />
                 <before-after-image-slider
                   ng-hide="showDiff"
