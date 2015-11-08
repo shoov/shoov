@@ -1,12 +1,14 @@
 module Dashboard where
 
 import Effects exposing (Effects)
-import Html exposing (a, div, h2, hr, li, i, span, text, ul, Html)
-import Html.Attributes exposing (id, class)
+import Html exposing (a, div, h2, h5, hr, li, i, span, text, ul, Html)
+import Html.Attributes exposing (id, class, href)
 import RouteHash exposing (HashUpdate)
 
 
 -- MODEL
+
+type Features = LiveMonitor | VisualRegression
 
 type alias Model =
   {}
@@ -75,11 +77,44 @@ view address model =
 
     dashboardLinks =
       div
-      [ id "dashboard-links"]
-      [ div
-          [ class "row text-center"]
-          []
-      ]
+        [ id "dashboard-links"]
+        [ div
+            [ class "row text-center"]
+            [ dashboardBlock LiveMonitor
+            , dashboardBlock VisualRegression
+            ]
+        ]
+
+    dashboardBlock : Features -> Html
+    dashboardBlock feature =
+      let
+        (url, icon, label) =
+           case feature of
+              LiveMonitor ->
+                ("#", "heartbeat", "Live Monitor")
+
+              VisualRegression ->
+                ("#", "history", "Live Monitor")
+
+      in
+        div
+          [ class "col-sm-6 link" ]
+          [ div
+              []
+              [ a
+                  [ href url ]
+                  [ div
+                      [ class "main-icon" ]
+                      [ i
+                          [ class <| "fa fa-" ++ icon ]
+                          []
+                      ]
+                  , h5 [] [ text "Live Monitor" ]
+                  ]
+              ]
+          ]
+
+
     -- <div class "main-content">
     --   <div class="wrapper">
     --     <h2>Dashboard</h2>
