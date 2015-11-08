@@ -114,36 +114,6 @@ view address model =
               ]
           ]
 
-
-    -- <div class "main-content">
-    --   <div class="wrapper">
-    --     <h2>Dashboard</h2>
-    --     <div id="dashboard-links">
-    --       <div class="row text-center">
-    --         <div class="col-sm-6 link">
-    --           <div>
-    --             <a ui-sref="dashboard.repos">
-    --               <div class="main-icon">
-    --                 <i class="fa fa-heartbeat"></i>
-    --               </div>
-    --               <h5>Live Monitor</h5>
-    --             </a>
-    --           </div>
-    --         </div>
-    --         <div class="col-sm-6 link">
-    --           <div>
-    --             <a ui-sref="dashboard.builds">
-    --               <div class="main-icon">
-    --                 <i class="fa fa-history"></i>
-    --               </div>
-    --               <h5>Visual Regression</h5>
-    --             </a>
-    --           </div>
-    --         </div>
-    --       </div>
-    --     </div>
-    --   </div>
-
   in
     div
       [ id "homepage" ]
