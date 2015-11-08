@@ -87,20 +87,22 @@
                </span>
             </div>
             <div class="col-xs-12">
-              <div ng-style="{'height' : screenshot.maxHeight[imageStyle] }">
-                <img class="diff-image" ng-show="showDiff" ng-src="{{ imageStyle == 'self' ? (screenshot.diff.self + '?access_token=' + accessToken) : (screenshot.diff.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}" />
-                <before-after-image-slider
-                  ng-hide="showDiff"
-                  baseline-img-src="{{ imageStyle == 'self' ? (screenshot.baseline.self + '?access_token=' + accessToken) : (screenshot.baseline.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}"
-                  regression-img-src="{{ imageStyle == 'self' ? (screenshot.regression.self + '?access_token=' + accessToken) : (screenshot.regression.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}"
-                  max-width="{{ screenshot.maxWidth[imageStyle] }}"
-                  max-height="{{ screenshot.maxHeight[imageStyle] }}">
-                </before-after-image-slider>
+              <div class="image-wrapper">
+                <div ng-style="{'height' : screenshot.maxHeight[imageStyle] }">
+                  <img class="diff-image" ng-show="showDiff" ng-src="{{ imageStyle == 'self' ? (screenshot.diff.self + '?access_token=' + accessToken) : (screenshot.diff.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}" />
+                  <before-after-image-slider
+                    ng-hide="showDiff"
+                    baseline-img-src="{{ imageStyle == 'self' ? (screenshot.baseline.self + '?access_token=' + accessToken) : (screenshot.baseline.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}"
+                    regression-img-src="{{ imageStyle == 'self' ? (screenshot.regression.self + '?access_token=' + accessToken) : (screenshot.regression.styles[imageStyle]['url'] + '&access_token=' + accessToken)}}"
+                    max-width="{{ screenshot.maxWidth[imageStyle] }}"
+                    max-height="{{ screenshot.maxHeight[imageStyle] }}">
+                  </before-after-image-slider>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-sm-12 pagination">
+        <div class="pagination">
           <pagination
             ng-model="currentPage"
             total-items="totalScreenshotsCount"
@@ -108,11 +110,12 @@
             rotate="false"
             boundary-links="true"
             items-per-page="itemsPerPage"
-            ng-show="pager">
-
+            ng-show="true">
+            <!--ng-show="pager">-->
           </pagination>
         </div>
       </div>
+
     </div>
   </div>
   <div ui-view></div>
