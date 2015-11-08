@@ -38,20 +38,15 @@
     }
   }
 
-  .download-button {
-    @include desktop() {
-      float: right;
-    }
+  #image-style {
+    color: $turquoise;
   }
 
   .screenshot-wrapper {
-    margin-bottom: 30px;
-    background-color: white;
-    padding: 20px 15px 60px;
-    width: 100%;
 
-    .screenshot-item {
-
+    .delete a,
+    .delete i{
+      color: $brand-error;
     }
 
     .diff-image {

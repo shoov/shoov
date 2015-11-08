@@ -66,30 +66,25 @@
       <h5><i class="fa fa-picture-o"></i> Screenshot</h5>
       <div class="soft-border">
         <div class="row">
-          <div class="col-sm-3">
+          <div class="col-sm-3 col-xs-5">
             <div class="screenshot-item-selector">
               <label>Select all</label>
               <checkbox medium class="checkbox" name="selectAll" ng-model="allSelected" ng-click="selectAll()"></checkbox>
             </div>
           </div>
-          <div class="col-sm-9">
-            <button class="download-button btn btn-primary" ng-disabled="!selection.length" ng-click="zip()">Download</button>
+          <div class="col-sm-9 col-xs-7">
+            <button class="btn btn-primary pull-right" ng-disabled="!selection.length" ng-click="zip()">Download</button>
           </div>
         </div>
         <div ng-repeat="screenshot in screenshots" class="screenshot-wrapper">
+          <br/>
           <div class="row">
-            <div class="col-xs-2 col-sm-1 checkbox-wrapper">
+            <div class="col-xs-12">
               <checkbox medium name="selectedScreenshots[]" ng-model="screenshot.selected"></checkbox>
-            </div>
-            <div class="col-xs-10 col-sm-11 screenshot-item">
-              <div class="name">
-                {{ screenshot.label }}
-                <span class="delete">
-                  <a href ng-click="delete(screenshot.id)">
-                    (<i class="glyphicon glyphicon-remove"> </i> Delete)
-                  </a>
-                </span>
-              </div>
+              <span class="name"> {{ screenshot.label }}</span>
+               <span class="delete">
+                <a href ng-click="delete(screenshot.id)">(<i class="glyphicon glyphicon-remove"> </i> Delete)</a>
+               </span>
             </div>
             <div class="col-xs-12">
               <div ng-style="{'height' : screenshot.maxHeight[imageStyle] }">

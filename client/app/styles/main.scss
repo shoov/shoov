@@ -530,6 +530,16 @@ textarea.form-control {
   background: $light-gray;
 }
 
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary {
+  background: $turquoise;
+}
+
+.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-default {
+  background: lighten($smoke-blue, 30%);
+  color: $light-blue;
+}
+
+
 /* Animation */
 .animate {
   @include transition(0.7s ease-out all);
