@@ -1,0 +1,84 @@
+//##  Colors
+$brand-main-color:            #777777;
+$brand-primary:         		 	#428bca;
+$brand-success:         		 	#45B6AF;
+$brand-success-hover:         #3E9790;
+$brand-info:            		 	#89C4F4;
+$brand-info-light:       		 	#C1D6EC;
+$brand-warning:         		 	#dfba49;
+$main-bg-color:          		 	#F1F3FA;
+$gray-bg-color:          		 	#AAAAAA;
+$state-danger-hover:          #A94442;
+$state-primary-hover:         #31708F;
+$page-title-color:        		#666666;
+$breadcrumb-color:            #999999;
+$footer-bg:                   #3B434C;
+$footer-color:                #A2ABB7;
+$brand-title-purple:          #8775a7;
+$brand-sky:                   #54AEFF;
+$brand-info-message-bg:       #EEF7FB;
+$brand-info-message-color:    #31708F;
+$brand-info-message-border:   #A6E1EC;
+$brand-highlight:         	 	#FFF9EA;
+
+$turquoise: #28A5A8;
+$light-turquoise: lighten($turquoise, 6%);
+$dark-turquoise: darken($turquoise, 4%);
+$gizra: #e27058;
+$gizra-dark: #e25d48;
+$gray-medium: #565656;
+$gray: #999999;
+$light-gray: #f5f5f5;
+$code-bg: #EDF5FD;
+$light-blue: #5d80a1;
+$smoke-blue: rgba(93, 128, 161, 0.37);
+$gray-blue: rgba(117, 149, 179, 0.37);
+$medium-blue: #194D7D;
+$dark-blue: #253340;
+$table-bg-hover: lighten($smoke-blue, 40%);
+$brand-primary: $turquoise;
+$brand-info:  $turquoise;
+$brand-error: rgb(210, 84, 84);
+$brand-done: #51c18a;
+$brand-progress: #a38f6a;
+
+/* Desktop */
+@mixin desktop {
+  @media (min-width: $screen-sm-min) {
+    @content;
+  }
+}
+
+/* Mobile */
+@mixin mobile {
+  @media (max-width: $screen-xs-max) {
+    @content;
+  }
+}
+
+/* Ci-build-item color changer */
+@mixin ci-build-item-status-color($color) {
+
+  h5,
+  i {
+    color: darken($color, 15%);
+  }
+
+  h5 {
+    border-color: lighten($color, 20%);
+    background: lighten($color, 33%);
+  }
+
+  .soft-border {
+    border-color: lighten($color, 20%);
+  }
+}
+
+/* Soft box styling */
+@mixin soft-box {
+  margin: 0px;
+  padding: 10px 15px;
+  border: 1px solid $smoke-blue;
+  color: $light-blue;
+  background: rgba(93, 128, 161, 0.14);
+}

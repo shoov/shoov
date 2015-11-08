@@ -1,0 +1,15 @@
+// Grid guuter width.
+$grid-gutter-width: 30px;
+
+$custom-desktop-width: (1140px + $grid-gutter-width);
+
+// For `$screen-sm-min` and up.
+$container-sm:  $custom-desktop-width ;
+
+// For `$screen-md-min` and up.
+$container-md:  $custom-desktop-width;
+
+// Path to bootstrap fonts.
+$icon-font-path: "../../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";

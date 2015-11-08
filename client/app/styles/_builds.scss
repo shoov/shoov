@@ -3,21 +3,30 @@
   .form-control {
     width: auto;
   }
+}
 
-  .builds {
-    margin-top: 20px;
+#ci-build-item-page {
+  .wrapper {
 
-    td {
+    &.ci-build-item-status-error {
+      @include ci-build-item-status-color($brand-error);
+    }
 
-      i {
-        display: inline-block;
-        padding: 5px 4px 6px 5px;
-        vertical-align: middle;
-        text-align: center;
-        background-color: $brand-success;
-        color: white;
-        margin-right: 4px;
-      }
+    &.ci-build-item-status-done {
+      @include ci-build-item-status-color($brand-done);
+    }
+
+    &.ci-build-item-status-in_progress {
+      @include ci-build-item-status-color($brand-progress);
+    }
+
+    &.ci-build-item-status-queue {
+      @include ci-build-item-status-color($brand-warning);
+    }
+
+    pre {
+      margin-bottom: 0px;
     }
   }
 }
+

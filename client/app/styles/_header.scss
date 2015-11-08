@@ -1,0 +1,103 @@
+#header {
+  background: $dark-blue;
+  color: $turquoise;
+
+    .container {
+      padding-bottom: 17px;
+
+      @include mobile {
+        text-align: center;
+        padding-bottom: 0px;
+      }
+
+      .shoov-logo {
+        display: inline-block;
+        height: 50px;
+        padding: 15px 15px;
+        font-size: 18px;
+        line-height: 20px;
+        color: #fff;
+        background: $turquoise;
+        text-decoration: none;
+        @include border-radius(0px 0px 5px 5px);
+        @include transition(0.4s ease-in-out all);
+
+        &:hover {
+          background: $dark-turquoise;
+        }
+
+        @include desktop {
+          float: left;
+        }
+
+        @include mobile {
+          margin-bottom: 25px;
+        }
+      }
+
+      button.navbar-toggle {
+        margin-right: 0;
+        margin-top: 0;
+        background: 0 0;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+
+        .icon-bar {
+          background: white;
+          @include border-radius(1px);
+        }
+      }
+    }
+
+  .navbar-collapse {
+
+    @include desktop {
+      padding-right: 0px;
+    }
+
+    .navbar-nav {
+
+      @include desktop {
+        height: 50px;
+        float: right;
+        margin-right: -15px;
+      }
+
+      @include mobile {
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
+
+      li {
+
+        @include desktop {
+          margin-top: 8px;
+        }
+
+        @include mobile {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+        }
+
+        &:hover a {
+          background: transparent;
+          color: $turquoise;
+        }
+
+        a {
+          color: $light-gray;
+          @include transition(0.4s ease-in-out all);
+
+          &:focus {
+            background-color: transparent;
+            outline: none;
+          }
+
+          &.active {
+            color: $turquoise;
+          }
+        }
+      }
+    }
+  }
+}

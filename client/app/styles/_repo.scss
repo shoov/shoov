@@ -1,19 +1,46 @@
-.interval-wrapper {
+#repository-page {
 
-  label {
-    display: inline-block;
+  a {
+    text-decoration: none;
+
+     i {
+       color: $turquoise;
+     }
   }
 
-  .form-control {
-    width: auto;
-    display: inline-block;
+  .watermark {
+    bottom: 19px;
+    right: 35px;
   }
 
-  i {
-    margin-left: 5px;
+  .interval-wrapper label,
+  .divider {
+    color: $light-blue;
+  }
 
-    &.fa-check {
-      color: $brand-success;
+  .interval-wrapper {
+    margin-top: 10px;
+
+    .form-control {
+      width: auto;
+      display: inline-block;
+
+      @include mobile() {
+        display: block;
+        width: 100%;
+      }
     }
+
+    i {
+      margin-left: 5px;
+
+      &.fa-check {
+        color: $brand-success;
+      }
+    }
+  }
+
+  .label {
+    padding: 4px;
   }
 }

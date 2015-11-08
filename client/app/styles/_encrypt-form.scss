@@ -1,30 +1,11 @@
-  .red {
-    color: red;
+#encrypt-page {
+  input,
+  textarea {
+    width: 100%;
   }
 
-  label {
-    display: block;
-    color: #5D5C5C;
+  textarea {
+    height: 150px;
   }
+}
 
-  .form-item {
-    margin-bottom: 20px;
-
-    input,
-    textarea {
-      width: 80%;
-    }
-  }
-
-  .result {
-    margin-bottom: 20px;
-
-    input,
-    textarea {
-      width: 100%;
-    }
-
-    textarea {
-      height: 150px;
-    }
-  }

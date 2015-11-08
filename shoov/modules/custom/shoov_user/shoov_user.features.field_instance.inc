@@ -78,6 +78,40 @@ function shoov_user_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'user-user-field_demo_request_url'
+  $field_instances['user-user-field_demo_request_url'] = array(
+    'bundle' => 'user',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 6,
+      ),
+    ),
+    'entity_type' => 'user',
+    'field_name' => 'field_demo_request_url',
+    'label' => 'Demo request url',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => 0,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 200,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 13,
+    ),
+  );
+
   // Exported field_instance: 'user-user-field_github_access_token'
   $field_instances['user-user-field_github_access_token'] = array(
     'bundle' => 'user',
@@ -184,6 +218,7 @@ function shoov_user_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('BrowserStack key');
   t('BrowserStack username');
+  t('Demo request url');
   t('Github access token');
   t('Sauce Labs key');
   t('Sauce Labs username');
