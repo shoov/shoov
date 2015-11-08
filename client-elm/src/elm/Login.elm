@@ -7,6 +7,7 @@ import Html.Attributes exposing (..)
 import Http
 import Json.Decode as JD exposing ((:=))
 import RouteHash exposing (HashUpdate)
+import String exposing (isEmpty)
 import Storage exposing (..)
 import Task
 
@@ -53,8 +54,7 @@ init =
 -- UPDATE
 
 type Action
-  = NoOp (Result AccessToken ())
-  | Activate
+  = Activate
   | Deactivate
   | SetAccessToken AccessToken
   | UpdateAccessTokenFromServer (Result Http.Error AccessToken)
@@ -63,9 +63,6 @@ type Action
 update : Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
-    NoOp result ->
-      (model, Effects.none)
-
     Activate ->
       (model, Effects.none)
 
@@ -91,9 +88,16 @@ update action model =
     UpdateAccessTokenFromStorage result ->
       case result of
         Ok token ->
-          ( model
-          , Task.succeed (SetAccessToken token) |> Effects.task
-          )
+          if String.isEmpty token
+            then
+              ( { model | hasAccessTokenInStorage <- False }
+              , Effects.none
+              )
+            else
+              ( model
+              , Task.succeed (SetAccessToken token) |> Effects.task
+              )
+
         Err err ->
           -- There was no access token in the storage, so show the login form
           ( { model | hasAccessTokenInStorage <- False }
@@ -108,18 +112,26 @@ getInputFromStorage =
     |> Effects.task
 
 
-
 -- VIEW
 
 view : Signal.Address Action -> Model -> Html
 view address model =
   let
+    repoScope =
+      if model.private then "repo" else "public_repo"
+
     url =
-      -- @todo: Add private repo option
-      "https://github.com/login/oauth/authorize?client_id=" ++ Config.githubClientId ++ "&scope=user:email,read:org,public_repo"
+      "https://github.com/login/oauth/authorize?client_id=" ++ Config.githubClientId ++ "&scope=user:email,read:org," ++ repoScope
 
     spinner =
       i [ class "fa fa-spinner fa-spin" ] []
+
+    errorMessage =
+      case model.status of
+        HttpError err ->
+          div [] [ text "There was some HTTP error" ]
+        _ ->
+          div [] []
 
     content =
       if model.hasAccessTokenInStorage
@@ -127,35 +139,20 @@ view address model =
           spinner
 
         else
-          span
+          div
             []
             [ a [ href url] [ text "Login with GitHub"]
             ]
   in
   div
     [ id "login-page" ]
-    [ div [ class "container"] [ content ]
+    [ div
+        [ class "container"]
+        [ errorMessage
+        , content
+        ]
     ]
 
--- EFFECTS
-
-getJson : String -> String -> Effects Action
-getJson url credentials =
-  Http.send Http.defaultSettings
-    { verb = "GET"
-    , headers = [("Authorization", "Basic " ++ credentials)]
-    , url = url
-    , body = Http.empty
-    }
-    |> Http.fromJson decodeAccessToken
-    |> Task.toResult
-    |> Task.map UpdateAccessTokenFromServer
-    |> Effects.task
-
-
-decodeAccessToken : JD.Decoder AccessToken
-decodeAccessToken =
-  JD.at ["access_token"] <| JD.string
 
 -- ROUTER
 

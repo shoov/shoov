@@ -11,6 +11,7 @@ import Login exposing (Model, initialModel, update)
 import Repo exposing (Model)
 import RouteHash exposing (HashUpdate)
 import Storage exposing (removeItem)
+import String exposing (isEmpty)
 import Task exposing (..)
 import User exposing (..)
 
@@ -117,8 +118,6 @@ update action model =
             GithubAuth.SetAccessToken token ->
               (Task.succeed (SetAccessToken token) |> Effects.task)
               ::
-              (Task.succeed (ChildUserAction User.GetDataFromServer) |> Effects.task)
-              ::
               defaultEffects
 
             _ ->
@@ -148,15 +147,13 @@ update action model =
             Login.SetAccessToken token ->
               (Task.succeed (SetAccessToken token) |> Effects.task)
               ::
-              (Task.succeed (ChildUserAction User.GetDataFromServer) |> Effects.task)
-              ::
               defaultEffects
 
             _ ->
               defaultEffects
 
       in
-        ( {model | login <- childModel }
+        ( { model | login <- childModel }
         , Effects.batch effects'
         )
 
@@ -179,11 +176,18 @@ update action model =
 
         (model'', effects') =
           case act of
+            User.SetAccessToken token ->
+              ( model'
+              , (Task.succeed (SetAccessToken token) |> Effects.task)
+                ::
+                defaultEffects
+              )
+
             User.UpdateDataFromServer result ->
               case result of
-                -- We reach out into the companies that is passed to the child
+                -- We reach out into the repos that is passed to the child
                 -- action.
-                Ok (id, name, repos) ->
+                Ok (_, _, repos) ->
                   let
                     nextPage =
                       case model.nextPage of
@@ -194,7 +198,7 @@ update action model =
 
                   in
                     -- User data was successfully fetched, so we can redirect to
-                    -- the next page, and update their companies.
+                    -- the next page, and update their repos.
                     ( { model' | nextPage <- Nothing }
                     , (Task.succeed (UpdateRepos repos) |> Effects.task)
                       ::
@@ -229,11 +233,22 @@ update action model =
       ( model, Effects.none )
 
     SetAccessToken accessToken ->
+      let
+        defaultEffects =
+          [sendInputToStorage accessToken]
+
+        effects' =
+          if (String.isEmpty accessToken)
+            then
+              defaultEffects
+            else
+              (Task.succeed (ChildUserAction User.GetDataFromServer) |> Effects.task)
+              ::
+              defaultEffects
+
+      in
       ( { model | accessToken <- accessToken}
-      , Effects.batch
-        [ sendInputToStorage accessToken
-        , Task.succeed (ChildUserAction User.GetDataFromServer) |> Effects.task
-        ]
+      , Effects.batch effects'
       )
 
     SetActivePage page ->
@@ -431,7 +446,7 @@ delta2update previous current =
     Dashboard ->
       -- First, we ask the submodule for a HashUpdate. Then, we use
       -- `map` to prepend something to the URL.
-      RouteHash.map ((::) "dashboard") <|
+      RouteHash.map ((::) "") <|
         Dashboard.delta2update previous.dashboard current.dashboard
 
     GithubAuth ->
@@ -452,9 +467,6 @@ location2action : List String -> List Action
 location2action list =
   case list of
     "" :: rest ->
-      ( SetActivePage Dashboard ) :: []
-
-    "dashboard" :: rest ->
       ( SetActivePage Dashboard ) :: []
 
     ["auth", "github"] ->
