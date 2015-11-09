@@ -16,11 +16,24 @@ include_once 'shoov_user.features.inc';
  * @todo: Check this is for current user.
  */
 function shoov_user_user_presave(&$edit, $account, $category) {
+  $wrapper = entity_metadata_wrapper('user', $account);
+
+  if (!$wrapper->field_demo_request_url->value() && $edit['field_demo_request_url'][LANGUAGE_NONE]) {
+    // User has added the request URL. Send email to admin.
+    $params = array('arguments' => array('@account' => $account->name));
+    $message = message_create('user_added_demo_url', $params);
+    $message->uid = 1;
+    $options = array(
+      'mail' => variable_get('site_mail', ini_get('sendmail_from')),
+    );
+    message_notify_send_message($message, $options);
+  }
+
   if (empty($edit['_github']['access_token'])) {
     // No github data.
     return;
   }
 
-  $wrapper = entity_metadata_wrapper('user', $account);
   $wrapper->field_github_access_token->set($edit['_github']['access_token']);
 }
+

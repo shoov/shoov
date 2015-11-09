@@ -1,54 +1,56 @@
-<div class="row">
-  <div class="col-md-12">
-    <div class="page-bar">
-      <ul class="page-breadcrumb">
-        <li>
-          <i class="fa fa-home"></i>
-          <a ui-sref="dashboard.homepage">Dashboard</a>
-          <i class="fa fa-angle-right"></i>
-        </li>
-        <li>
-          <a ui-sref="dashboard.repos">Live Monitor Repositories</a>
-          <i class="fa fa-angle-right"></i>
-        </li>
-        <li>
-          {{ build.label }}
-        </li>
-      </ul>
+<div id="repository-page">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="page-bar">
+        <ul class="page-breadcrumb">
+          <li>
+            <i class="fa fa-desktop"></i>
+            <a ui-sref="dashboard.homepage">Dashboard</a>
+            <i class="fa fa-angle-right"></i>
+          </li>
+          <li>
+            <a ui-sref="dashboard.repos">Live Monitor Repositories</a>
+            <i class="fa fa-angle-right"></i>
+          </li>
+          <li>
+            {{ build.label }}
+          </li>
+        </ul>
+        <hr class="no-margin"/>
+      </div>
     </div>
   </div>
-</div>
-<div class="portlet">
-  <div class="portlet-title">
-    <div class="caption font-red-sunglo">
-      <i class="fa fa-heartbeat"></i>
-      <span class="caption-subject">Live Monitor: <a ng-href="https://github.com/{{ build.label }}" target="_blank">{{ build.label }}</a></span>
+  <div class="wrapper">
+    <h2>Live Monitor Repository</h2>
+    <div class="row">
+      <div class="col-sm-12">
+        <h5><i class="fa fa-tasks"></i> Repository settings</h5>
+        <div class="soft-border">
+          <a  ng-href="https://github.com/{{ build.label }}" target="_blank"> <i class="fa fa-external-link-square"></i> {{ build.label }}</a>
+          <span class="divider"> &nbsp | &nbsp</span>
+          <a class="encrypt-keys-link" ui-sref="dashboard.encrypt({ buildId: parseInt(build.id) })"><i class="fa fa-key"></i> Encrypt keys</a>
+          <div class="interval-wrapper">
+            <label for="interval">Build interval: </label>
+            <select ng-change="updateInterval()" ng-options="id as label for (id, label) in intervals" class="form-control" id="interval" ng-model="build.interval"></select>
+            <i ng-class="{'fa-check': responseStatus}" class="fa"></i>
+          </div>
+        </div>
+        <div class="watermark">
+          <i class="fa fa-cog watermark"></i>
+        </div>
+      </div>
     </div>
-    <div class="actions">
-      <a ui-sref="dashboard.encrypt({ buildId: parseInt(build.id) })">Encrypt keys</a>
-    </div>
-  </div>
-  <div class="row portlet-body">
-    <div class="col-md-12 interval-wrapper">
-      <label for="interval">Build interval: </label>
-      <select ng-change="updateInterval()" ng-options="id as label for (id, label) in intervals" class="form-control" id="interval" ng-model="build.interval">
-      </select>
-      <i ng-class="{'fa-check': responseStatus}" class="fa"></i>
-    </div>
-    <div class="col-md-6">
-      <div class="portlet">
-        <div class="portlet-title">
-          <div class="caption">Build History</div>
-          <div class="actions" ng-show="ciBuildItemQueueOrInProgress">
+    <div class="row">
+      <br/>
+      <div class="col-sm-6">
+        <h5><i class="fa fa-calendar"></i> Build History</h5>
+        <div class="soft-border">
+          <div ng-show="ciBuildItemQueueOrInProgress">
             <span class="label label-sm label-{{ ciBuildItemQueueOrInProgress.status }}">{{ buildStatuses[ciBuildItemQueueOrInProgress.status] }}</span>
             <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: ciBuildItemQueueOrInProgress.id })">#{{ciBuildItemQueueOrInProgress.id}}</a> - {{ (ciBuildItemQueueOrInProgress.start_timestamp*1000) | date : 'MMM d, y h:mm a' }}
           </div>
-        </div>
-        <div class="portlet-body">
-          <div ng-hide="ciBuildItems.length">
-            Here you will see a log of every live monitor build.
-          </div>
-          <div class="table-scrollable" ng-show="ciBuildItems.length">
+          <div ng-hide="ciBuildItems.length"> Here you will see a log of every live monitor build.</div>
+          <div class="table-scrollable table-responsive" ng-show="ciBuildItems.length">
             <table class="table table-hover">
               <thead>
               <tr>
@@ -70,18 +72,12 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="col-md-6">
-      <div class="portlet">
-        <div class="portlet-title">
-          <div class="caption">Incidents</div>
-        </div>
-        <div class="portlet-body">
-          <div ng-hide="incidents.length">
-            Yay, no incidents!
-          </div>
-          <div class="table-scrollable" ng-show="incidents.length">
+      <div class="col-sm-6">
+        <br class="visible-xs"/>
+        <h5><i class="fa fa-exclamation-circle"></i> Incidents</h5>
+        <div class="soft-border">
+          <div ng-hide="incidents.length">Yay, no incidents!</div>
+          <div class="table-scrollable table-responsive" ng-show="incidents.length">
             <table class="table table-hover">
               <thead>
               <tr>
@@ -100,7 +96,6 @@
         </div>
       </div>
     </div>
+  <div ui-view></div>
   </div>
 </div>
-
-<div ui-view></div>
