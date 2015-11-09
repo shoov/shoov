@@ -30,7 +30,7 @@ class ShoovMeResource extends \RestfulEntityBaseUser {
       'resource' => array(
         'repository' => array(
           'name' => 'repositories',
-          'full_view' => FALSE,
+          'full_view' => TRUE,
         ),
       ),
     );
@@ -56,6 +56,10 @@ class ShoovMeResource extends \RestfulEntityBaseUser {
 
     $public_fields['sauce_access_key'] = array(
       'property' => 'field_saucelabs_key',
+    );
+
+    $public_fields['demo_request_url'] = array(
+      'property' => 'field_demo_request_url',
     );
 
     return $public_fields;

@@ -17,11 +17,20 @@ const SHOOV_CI_BUILD_CI_BUILD_STATUS_UNCONFIRMED_ERROR = 3;
  * Implements hook_menu().
  */
 function shoov_ci_build_menu() {
-  $items["ci_build/%message/trigger/%ctools_js"] = array(
+  $items['ci_build/%message/trigger/%ctools_js'] = array(
     'title' => 'Trigger the CI Build item',
     'page callback' => 'shoov_ci_build_trigger_ci_build_item',
     'page arguments' => array(1, 3),
     'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['ci_build/%node/%user/%/%ctools_js/%'] = array(
+    'title' => 'Subscribe/Unsubscribe user to/from the CI Build',
+    'page callback' => 'shoov_ci_build_subscribe_user',
+    'page arguments' => array(1, 2, 3),
+    'access callback' => 'shoov_ci_build_subscribe_user_access',
+    'access arguments' => array(1, 2, 5),
     'type' => MENU_CALLBACK,
   );
 
@@ -33,8 +42,10 @@ function shoov_ci_build_menu() {
  *
  * @param $message
  *  Message object.
+ * @param $ajax
+ *  Indicate if ajax should be used. Default to 'nojs'.
  */
-function  shoov_ci_build_trigger_ci_build_item($message, $ajax = 'nojs') {
+function shoov_ci_build_trigger_ci_build_item($message, $ajax = 'nojs') {
   $nodejs_server_url = shoov_ci_build_get_nodejs_server_url($message);
   $account = user_load($message->uid);
   $url = array(
@@ -45,10 +56,107 @@ function  shoov_ci_build_trigger_ci_build_item($message, $ajax = 'nojs') {
   );
   $url = implode('/', $url);
   drupal_http_request($url);
+
   if (!$ajax) {
     drupal_set_message(t('Message @mid has been sent to the server', array('@mid' => $message->mid)));
     drupal_goto('<front>');
   }
+
+  $commands = array();
+  $commands[] = ajax_command_replace('#trigger-' . $message->mid, t('Triggered'));
+
+  print ajax_render($commands);
+}
+
+/**
+ * Check permissions to un/subscribe account to the CI Build.
+ *
+ * @param $ci_build
+ *  The CI Build node object
+ * @param $account
+ *  The user object.
+ * @param $token
+ *  The access token
+ *
+ * @return bool
+ *  Returns TRUE if user has permissions to un/subscribe account to the CI Build.
+ */
+function shoov_ci_build_subscribe_user_access($ci_build, $account, $token) {
+  if (!$account->uid) {
+    // The user acted upon is anonymous.
+    return;
+  }
+
+  // Get the Repository ID.
+  $wrapper = entity_metadata_wrapper('node', $ci_build);
+  $gid = $wrapper->og_repo->getIdentifier();
+
+  if (!og_is_member('node', $gid, 'user', $account)) {
+    // Account is not a group member.
+    return;
+  }
+
+  if (!user_access('administer flags')) {
+    // User doesn't have permissions to un/subscribe account.
+    return;
+  }
+
+  if (md5($ci_build->nid . '+' . $account->uid) != $token) {
+    // Access token is invalid.
+    return;
+  }
+
+  return TRUE;
+}
+
+/**
+ * Un/subscribe user to the CI Build.
+ *
+ * @param $ci_build
+ *  The CI Build node.
+ * @param $account
+ *  The user object.
+ * @param $action
+ *  Action to do. Can be 'subscribe' or 'unsubscribe'
+ * @param $ajax
+ *  Indicate if ajax should be used. Default to 'nojs'.
+ */
+function shoov_ci_build_subscribe_user($ci_build, $account, $action, $ajax = 'nojs') {
+  // Get the flag.
+  $flag = flag_get_flag('subscribe_ci_builds');
+  $flag_action = $action == 'subscribe' ? 'flag' : 'unflag';
+  // Un/flag user due to the sent action.
+  $flag->flag($flag_action, $ci_build->nid, $account);
+
+  if (!$ajax) {
+    $params = array(
+      '@uid' => $account->uid,
+      '@build_id' => $ci_build->nid,
+    );
+    $action == 'subscribe' ?
+      drupal_set_message(t('User @uid has been subscribed to the CI Build @build_id', $params)) :
+      drupal_set_message(t('User @uid has been unsubscribed from the CI Build @build_id', $params));
+
+    drupal_goto('<front>');
+  }
+
+  $commands = array();
+  // Change the link to the opposite.
+  if ($action == 'subscribe') {
+    $commands[] = ajax_command_replace('#subscribe-' . $account->uid,
+      l(t('Unsubscribe'), 'ci_build/' . $ci_build->nid . '/' . $account->uid . '/unsubscribe/nojs/' . md5($ci_build->nid . '+' . $account->uid),
+        array('attributes' => array('class' => 'use-ajax', 'id' => 'unsubscribe-' . $account->uid))
+      )
+    );
+  }
+  else {
+    $commands[] = ajax_command_replace('#unsubscribe-' . $account->uid,
+      l(t('Subscribe'), 'ci_build/' . $ci_build->nid . '/' . $account->uid . '/subscribe/nojs/' . md5($ci_build->nid . '+' . $account->uid),
+        array('attributes' => array('class' => 'use-ajax', 'id' => 'subscribe-' . $account->uid))
+      )
+    );
+  }
+  print ajax_render($commands);
 }
 
 /**

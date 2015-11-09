@@ -14,7 +14,7 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
    */
   public static function controllersInfo() {
     return array(
-      '^.*$' => array(
+      '^(\d+,)*\d+$' => array(
         \RestfulInterface::GET => 'viewEntity',
       ),
     );
@@ -56,7 +56,7 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
         break;
     }
 
-    return theme('image', array('path' => drupal_get_path('module', 'shoov_ci_build') . '/images/status/' . $file . '.png'));
+    return url(drupal_get_path('module', 'shoov_ci_build') . '/images/status/' . $file . '.png', array('absolute' => TRUE));
   }
 
   /**
@@ -70,17 +70,21 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
     $params = array(
       '@id' => $entity_id,
     );
-
-    $request = $this->getRequest();
-
-    if (empty($request['status_token'])) {
-      throw new RestfulForbiddenException(format_string('Access denied. Check the status token was sent.'));
-    }
-
     $node = node_load($entity_id);
     if ($node->type != 'ci_build') {
       throw new RestfulUnprocessableEntityException(format_string('The entity ID @id is not a valid CI Build.', $params));
     }
+
+    $account = $this->getAccount();
+    if ($account->uid && node_access('view', $node)) {
+      return TRUE;
+    }
+
+    $request = $this->getRequest();
+    if (empty($request['status_token'])) {
+      throw new RestfulForbiddenException(format_string('Access denied. Check the status token was sent.'));
+    }
+
     $wrapper = entity_metadata_wrapper('node', $node);
     $status_token = $wrapper->field_status_token->value();
 

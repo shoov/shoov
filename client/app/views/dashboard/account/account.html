@@ -1,144 +1,135 @@
-<div class="row">
-  <div class="col-md-12">
-    <div class="page-bar">
-      <ul class="page-breadcrumb">
-        <li>
-          <i class="fa fa-home"></i>
-          <a ui-sref="dashboard.homepage">Dashboard</a>
-          <i class="fa fa-angle-right"></i>
-        </li>
-        <li>
-          My account
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-12">
-    <div class="portlet">
-      <div class="portlet-title">
-        <div class="caption font-green-sharp">
-          <i class="fa fa-user"></i>
-          <span class="caption-subject">My account</span>
-        </div>
-      </div>
-      <div class="portlet-body">
-        <div class="row account">
-          <div class="col-md-3">
-            <i class="fa fa-github-alt"></i>
-            Name:
-          </div>
-          <div class="col-md-9">
-            {{ account.label }}
-          </div>
-        </div>
-        <div class="row account">
-          <div class="col-md-3">
-            <i class="fa fa-envelope"></i>
-            Mail:
-          </div>
-          <div class="col-md-9">
-            {{ account.mail }}
-          </div>
-        </div>
-
-        <form class="browser-stack-form account" editable-form name="stackEditableForm" onaftersave="saveSeleniumProvidersData('browserstack')">
-          <div ng-click="stackEditableForm.$show()">
-            <div class="row">
-              <div class="col-md-3">
-                <i class="fa fa-database"></i>
-                BrowserStack Username:
-              </div>
-              <div class="col-md-9">
-                <span class="like-a" href="#" editable-text="account.browserstack_username">{{ account.browserstack_username || 'empty' }}</span>
-              </div>
-            </div>
-          </div>
-          <div ng-show="stackEditableForm.$visible">
-            <div class="row">
-              <div class="col-md-3">
-                <i class="fa fa-database"></i>
-                BrowserStack Key:
-              </div>
-              <div class="col-md-9">
-                <span href="#" editable-text="account.browserstack_key">{{ account.browserstack_key || 'empty' }}</span>
-              </div>
-            </div>
-          </div>
-          <div class="form-actions" ng-show="stackEditableForm.$visible">
-            <button type="submit" class="btn btn-primary" ng-disabled="stackEditableForm.$waiting">
-              Save
-            </button>
-            <button type="button" class="btn btn-default" ng-disabled="stackEditableForm.$waiting" ng-click="stackEditableForm.$cancel()">
-              Cancel
-            </button>
-          </div>
-        </form>
-
-
-        <form class="sauce-labs-form account" editable-form name="sauceEditableForm" onaftersave="saveSeleniumProvidersData('sauce')">
-          <div ng-click="sauceEditableForm.$show()">
-            <div class="row">
-              <div class="col-md-3">
-                <i class="fa fa-flask"></i>
-                Sauce Labs Username:
-              </div>
-              <div class="col-md-9">
-                <span class="like-a" href="#" editable-text="account.sauce_username">{{ account.sauce_username || 'empty' }}</span>
-              </div>
-            </div>
-          </div>
-          <div ng-show="sauceEditableForm.$visible">
-            <div class="row">
-              <div class="col-md-3">
-                <i class="fa fa-flask"></i>
-                Sauce Labs Key:
-              </div>
-              <div class="col-md-9">
-                <span href="#" editable-text="account.sauce_access_key">{{ account.sauce_access_key || 'empty' }}</span>
-              </div>
-            </div>
-          </div>
-          <div class="form-actions" ng-show="sauceEditableForm.$visible">
-            <button type="submit" class="btn btn-primary" ng-disabled="sauceEditableForm.$waiting">
-              Save
-            </button>
-            <button type="button" class="btn btn-default" ng-disabled="sauceEditableForm.$waiting" ng-click="sauceEditableForm.$cancel()">
-              Cancel
-            </button>
-          </div>
-        </form>
-
-        <div class="dashboard-stat dashboard-stat-light white-soft">
-          <div class="col-md-12 code-box">
-            Create or update your <code>~/.shoov.json</code> file by copy pasting the following code into your terminal:
-
-            <div class="config">
-              <input type="text" size="50" name="config" value='curl -o ~/.shoov.json {{backend}}/api/v1.0/config?access_token={{ accessToken }}'>
-            </div>
-
-            <div class="dev-tip">
-              <i class="fa fa-info-circle" popover-placement="right" popover-template="'userAccount.html'" popover-title="Dev Tip"></i>
-            </div>
-
-            See <a href="https://github.com/shoov/test-example" target="_blank">this</a> repo for an example.
-          </div>
-          <div class="visual background">
-            <i class="fa fa-code"></i>
-          </div>
-        </div>
+<div id="account-page">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="page-bar">
+        <ul class="page-breadcrumb">
+          <li>
+            <i class="fa fa-desktop"></i>
+            <a ui-sref="dashboard.homepage"> Dashboard</a>
+            <i class="fa fa-angle-right"></i>
+          </li>
+          <li>
+            Account
+          </li>
+        </ul>
+        <hr class="no-margin"/>
       </div>
     </div>
   </div>
-</div>
-
-<script type="text/ng-template" id="userAccount.html">
-  <p>
-    Since <code>~/.shoov.json</code> is a JS file we use RESTful to get the info, so infact the <code>curl</code> command calls a custom RESTful <a href="https://github.com/shoov/shoov/blob/master/shoov/modules/custom/shoov_restful/plugins/restful/user/config/1.0/ShoovConfigResource.class.php#L22" target="_blank">resource</a>
-  </p>
-  <div>
-    Next in out todo list is allowing you to add your BrowserStack/ SauceLabs
-    username and key, so it will be part of the config. We already have it in the backend.
+  <div class="main-content">
+    <div class="wrapper">
+      <h2>Account</h2>
+      <div class="account-details">
+        <h5><i class="fa fa-github-alt"></i> Github account</h5>
+        <div class="soft-border">
+          <div class="row box">
+            <div class="col-xs-3"><i class="fa fa-user"></i> Name</div>
+            <div class="col-xs-9">
+              <span>{{ account.label }}</span>
+            </div>
+          </div>
+          <div class="row box">
+            <div class="col-xs-3 "><i class="fa fa-envelope"></i> Mail</div>
+            <div class="col-xs-9">
+              <span>{{ account.mail }}</span>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <h5><i class="fa fa-database"></i> BrowserStack account</h5>
+        <div class="soft-border">
+          <form class="browser-stack-form account" editable-form name="stackEditableForm" onaftersave="saveSeleniumProvidersData('browserstack')">
+            <div ng-click="stackEditableForm.$show()">
+              <div class="row box">
+                <div class="col-xs-3" ng-class="{'no-border': stackEditableForm.$visible}">
+                  <i class="fa fa-user"></i>
+                  User name
+                </div>
+                <div class="col-xs-9">
+              <span editable-text="account.browserstack_username">
+                {{ account.browserstack_username || 'empty' }}
+                <i class="fa fa-pencil edit-icon"></i>
+              </span>
+                </div>
+              </div>
+            </div>
+            <div ng-show="stackEditableForm.$visible">
+              <div class="row">
+                <div class="col-xs-3">
+                  <i class="fa fa-key"></i>
+                  Key
+                </div>
+                <div class="col-xs-9">
+                  <span editable-text="account.browserstack_key">{{ account.browserstack_key || 'empty' }}</span>
+                </div>
+                <div class="col-xs-offset-3 col-xs-9">
+                  <div class="form-actions" ng-show="stackEditableForm.$visible">
+                    <button type="submit" class="btn btn-primary" ng-disabled="stackEditableForm.$waiting">
+                      Save
+                    </button>
+                    <button type="button" class="btn btn-default" ng-disabled="stackEditableForm.$waiting" ng-click="stackEditableForm.$cancel()">
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <br/>
+        <h5><i class="fa fa fa-flask"></i> Sauce Labs account</h5>
+        <div class="soft-border">
+          <form class="sauce-labs-form account" editable-form name="sauceEditableForm" onaftersave="saveSeleniumProvidersData('sauce')">
+            <div ng-click="sauceEditableForm.$show()">
+              <div class="row box">
+                <div class="col-xs-3" ng-class="{'no-border': sauceEditableForm.$visible}">
+                  <i class="fa fa-user"></i>
+                  User name
+                </div>
+                <div class="col-xs-9">
+              <span editable-text="account.sauce_username">
+                {{ account.sauce_username || 'empty' }}
+                <i class="fa fa-pencil edit-icon"></i>
+              </span>
+                </div>
+              </div>
+            </div>
+            <div ng-show="sauceEditableForm.$visible">
+              <div class="row">
+                <div class="col-xs-3">
+                  <i class="fa fa-key"></i>
+                  Key
+                </div>
+                <div class="col-xs-9">
+                  <span editable-text="account.sauce_access_key">{{ account.sauce_access_key || 'empty' }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-offset-3 col-xs-9">
+                <div class="form-actions" ng-show="sauceEditableForm.$visible">
+                  <button type="submit" class="btn btn-primary" ng-disabled="sauceEditableForm.$waiting">
+                    Save
+                  </button>
+                  <button type="button" class="btn btn-default" ng-disabled="sauceEditableForm.$waiting" ng-click="sauceEditableForm.$cancel()">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="wrapper">
+      <h2>Configuration</h2>
+      <div class="config-details">
+        <p>Create or update your <code>~/.shoov.json</code> file by copy pasting the following code into your terminal:</p>
+        <div class="info background">curl -o ~/.shoov.json {{backend}}/api/v1.0/config?access_token={{ accessToken }}</div>
+      </div>
+      <div class="watermark">
+        <i class="fa fa-cog watermark"></i>
+      </div>
+    </div>
   </div>
-</script>
+</div>

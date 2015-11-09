@@ -249,6 +249,9 @@ angular
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 
+    // Flag to show/hide the responsive breakpoint debug block.
+    $rootScope.debugResponsiveBreakpoints = false;
+
     // Get year for the footer.
     $rootScope.year = new Date().getFullYear();
 
