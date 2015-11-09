@@ -10,6 +10,6 @@ $container-sm:  $custom-desktop-width ;
 $container-md:  $custom-desktop-width;
 
 // Path to bootstrap fonts.
-$icon-font-path: "../../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+$icon-font-path: "../fonts/bootstrap/";
 
 @import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
