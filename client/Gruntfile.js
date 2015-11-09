@@ -356,17 +356,28 @@ module.exports = function (grunt) {
           src: ['fonts/*.*'],
           dest: '<%= yeoman.dist %>'
         }, {
-          // bootstrap fonts
-          expand: true,
-          dot: true,
-          cwd: 'bower_components/bootstrap-sass-official/assets/fonts/bootstrap',
-          src: ['*.*'],
-          dest: '<%= yeoman.dist %>/fonts'
-        }, {
           expand: true,
           cwd: '<%= yeoman.app %>',
           src: 'CNAME',
           dest: '<%= yeoman.dist %>'
+        }]
+      },
+      bootstrapFontsServer: {
+        files: [{
+        expand: true,
+        dot: true,
+        cwd: 'bower_components/bootstrap-sass-official/assets/fonts/bootstrap',
+        src: ['*.*'],
+        dest: '<%= yeoman.app %>/fonts/bootstrap/'
+        }]
+      },
+      bootstrapFontsBuild: {
+        files: [{
+        expand: true,
+        dot: true,
+        cwd: 'bower_components/bootstrap-sass-official/assets/fonts/bootstrap',
+        src: ['*.*'],
+        dest: '<%= yeoman.dist %>/fonts/bootstrap/'
         }]
       },
       styles: {
@@ -484,6 +495,7 @@ module.exports = function (grunt) {
       'wiredep',
       'concurrent:server',
       'autoprefixer',
+      'copy:bootstrapFontsServer',
       'connect:livereload',
       'watch'
     ]);
@@ -511,6 +523,7 @@ module.exports = function (grunt) {
     'autoprefixer',
     'concat',
     'ngAnnotate',
+    'copy:bootstrapFontsBuild',
     'copy:dist',
     'cdnify',
     'cssmin',
