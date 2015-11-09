@@ -1,8 +1,8 @@
 <?php
 /**
  * @file
- * Triggering the process of updating CI Build Items with the start and the
- * end timestamps.
+ * Contains drush script to update existing CI Build items with the start and
+ * end timestamp.
  */
 
 // Get tha last message id.

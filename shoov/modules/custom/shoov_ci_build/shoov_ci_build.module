@@ -343,18 +343,7 @@ function shoov_ci_build_message_update(Message $message) {
   // Trigger Pusher event when CI Build status changes.
   shoov_ci_build_trigger_event($message, 'ci_build_update');
 
-  $original_wrapper = entity_metadata_wrapper('message', $message->original);
-
   $status = $wrapper->field_ci_build_status->value();
-  $original_status = $original_wrapper->field_ci_build_status->value();
-  if ($status != $original_status && $status == 'in_progress') {
-    // CI Build started - save the start timestamp.
-    $wrapper->field_ci_build_start_timestamp->set(time());
-    // Update the field value on message saving.
-    field_attach_update('message', $message);
-    return;
-  }
-
 
   if (!in_array($status, array('error', 'done'))) {
     // Item still in progress or re-queued after being stuck.
@@ -369,15 +358,37 @@ function shoov_ci_build_message_update(Message $message) {
   $node = $wrapper->field_ci_build->value();
   $timestamp = shoov_ci_build_get_timestamp_for_next_ci_build_item($message);
 
-  if ($status != $original_status) {
-    // CI Build finished - save the end timestamp.
-    $wrapper->field_ci_build_end_timestamp->set(time());
-    // Update the field value on message saving.
-    field_attach_update('message', $message);
-  }
-
   shoov_ci_build_create_build_item($node, $timestamp);
   shoov_ci_build_process_ci_build_item($message);
+}
+
+/**
+ * Implements hook_message_presave().
+ */
+function shoov_ci_build_message_presave($message) {
+  if (empty($message->mid) || $message->type != 'ci_build') {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+
+  $original_wrapper = entity_metadata_wrapper('message', $message->original);
+
+  $status = $wrapper->field_ci_build_status->value();
+  $original_status = $original_wrapper->field_ci_build_status->value();
+
+  if ($status == $original_status || $status == 'queue') {
+    return;
+  }
+
+  if ($status == 'in_progress') {
+    // CI Build started - save the start timestamp.
+    $wrapper->field_ci_build_start_timestamp->set(time());
+    return;
+  }
+
+  // CI Build finished - save the end timestamp.
+  $wrapper->field_ci_build_end_timestamp->set(time());
 }
 
 /**
