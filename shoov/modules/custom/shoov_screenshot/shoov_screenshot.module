@@ -142,11 +142,12 @@ function shoov_screenshot_create_hash($files, $ui_build_id) {
   $hash = array();
   foreach ($files as $file) {
     $image = file_load($file['id']);
-    $hash[] = $file['label'] . ':' . file_get_contents($image->uri) . ';';
+    $hash[] = md5(file_get_contents($image->uri));
   }
+  
   $hash[] = $ui_build_id;
 
-  $hash = md5(join(';', $hash));
+  $hash = md5(join('', $hash));
   return $hash;
 }
 
@@ -156,7 +157,7 @@ function shoov_screenshot_create_hash($files, $ui_build_id) {
  * @param $hash
  *  The hash code.
  *
- * @return array|bool
+ * @return array
  *  Returns IDs of screenshots with same hashcode.
  */
 function shoov_screenshot_regression_exists($hash) {
