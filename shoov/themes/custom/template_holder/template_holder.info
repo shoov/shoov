@@ -1,5 +1,5 @@
 name = Template Holder
-description = This theme is not to be activated.
+description = The theme to hold the mimemail template.
 package = Shoov
 version = 1.0
 core = 7.x
