@@ -42,9 +42,10 @@
   }
 
   .btn-github {
+    display: block;
+    width: 100%;
     color: white;
     background: $turquoise;
-    padding-left: 0px;
     @include transition(0.4s ease-in-out all);
 
     @include mobile {

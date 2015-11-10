@@ -129,7 +129,7 @@ view address model =
     errorMessage =
       case model.status of
         HttpError err ->
-          div [ class "btn btn-block btn-lg btn-github text-center"] [ text "There was some HTTP error"]
+          div [] [ text "There was some HTTP error"]
         _ ->
           div [] []
 
@@ -140,20 +140,20 @@ view address model =
 
         else
           div []
-              [ a [ class "btn btn-block btn-lg btn-github text-center" , href url]
+              [ a [ class "btn-lg btn-github text-center" , href url]
               [ i [ class "fa fa-github"] [] , text "With GitHub account"] ]
   in
   div
     [ id "dashboard-login" ]
-    [ div [ class "login-wrapper"]
-          [ div [ class "row"]
-                [ h1 [ class "col-xs-6 pull-left"] [ text "Sign in"]
-                , div [ class "col-xs-6"] [ span [ class "shoov-logo pull-right"] [ text "Shoov"]]
-                ]
-          , div [ class "row"]
-                [ div [ class "col-xs-12"] [ content ]
-               ]
-          , errorMessage 
+    [ div
+        [ class "login-wrapper"]
+        [ div
+            [ class "clearfix"]
+            [ h1 [ class "pull-left"] [ text "Sign in"]
+            , span [ class "shoov-logo pull-right"] [ text "Shoov"]
+            ]
+        , content
+        , errorMessage 
     ]
   ]
 
