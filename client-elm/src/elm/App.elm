@@ -379,19 +379,22 @@ navbar address model =
 footer : Html
 footer =
 
-  div [class "main-footer"]
-    [ div [class "container"]
-      [ span []
-        [ text "With "
-        , i [ class "fa fa-heart" ] []
-        , text " from "
-        , a [ href "http://gizra.com", target "_blank", class "gizra-logo" ] [text "gizra"]
-        , span [ class "divider" ] [text "|"]
-        , text "Fork me on "
-        , a [href "https://github.com/Gizra/elm-hedley", target "_blank"] [text "Github"]
-        ]
-      ]
-  ]
+  div []
+    [ div [ id "footer-spacer"] []
+    , div [ id "footer"]
+          [ div
+              [ class "container company-details"]
+              [ 
+              span [] [ a [ href "http://www.gizra.com", class "gizra-logo", target"_blank"] [ text "gizra"] ]
+              , span [] [ i [ class "fa fa-phone" ] [] , text "Tel: +972-3-3731222 | Fax: +972-3-5617771"]
+              , span [] [
+                i [ class "fa fa-envelope-o"] []
+                , a [ href "mailto:info@gizra.com", class "email", target"_blank"] [ text "info@gizra.com"]
+                ]
+              , span [] [ i [ class "fa fa-copyright" ] [] , text "2015"]
+              ]
+          ]
+    ]
 
 -- Navbar for Auth user.
 navbarLoggedIn : Signal.Address Action -> Model -> Html

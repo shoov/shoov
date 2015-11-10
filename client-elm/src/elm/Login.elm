@@ -129,7 +129,7 @@ view address model =
     errorMessage =
       case model.status of
         HttpError err ->
-          div [] [ text "There was some HTTP error" ]
+          div [ class "btn btn-block btn-lg btn-github text-center"] [ text "There was some HTTP error"]
         _ ->
           div [] []
 
@@ -139,27 +139,23 @@ view address model =
           spinner
 
         else
-          div
-            []
-            [ a [ href url] [ text "Login with GitHub"]
-            ]
+          div []
+              [ a [ class "btn btn-block btn-lg btn-github text-center" , href url]
+              [ i [ class "fa fa-github"] [] , text "With GitHub account"] ]
   in
   div
     [ id "dashboard-login" ]
-    [ div
-        [ class "container"]
-        [ div [class "login-wrapper"] []
-        ]
+    [ div [ class "login-wrapper"]
+          [ div [ class "row"]
+                [ h1 [ class "col-xs-6 pull-left"] [ text "Sign in"]
+                , div [ class "col-xs-6"] [ span [ class "shoov-logo pull-right"] [ text "Shoov"]]
+                ]
+          , div [ class "row"]
+                [ div [ class "col-xs-12"] [ content ]
+               ]
+          , errorMessage 
+    ]
   ]
-
- --div
- --   [ id "dashboard-login" ]
- --   [ div
- --       [ class "container"]
- --       [ errorMessage
- --       , content
- --       ]
- --   ]
 
 
 -- ROUTER
