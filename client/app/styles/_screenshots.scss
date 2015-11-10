@@ -72,6 +72,10 @@
       border: 1px solid $smoke-blue;
       @include border-radius(0px 3px 3px 3px);
       background: white;
+
+      .diff-image {
+        padding-top: 31px;
+      }
     }
   }
 
