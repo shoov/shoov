@@ -145,13 +145,21 @@ view address model =
             ]
   in
   div
-    [ id "login-page" ]
+    [ id "dashboard-login" ]
     [ div
         [ class "container"]
-        [ errorMessage
-        , content
+        [ div [class "login-wrapper"] []
         ]
-    ]
+  ]
+
+ --div
+ --   [ id "dashboard-login" ]
+ --   [ div
+ --       [ class "container"]
+ --       [ errorMessage
+ --       , content
+ --       ]
+ --   ]
 
 
 -- ROUTER

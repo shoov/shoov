@@ -351,14 +351,14 @@ mainContent address model =
         childAddress =
           Signal.forwardTo address ChildGithubAuthAction
       in
-        div [ class "container" ] [ GithubAuth.view childAddress model.githubAuth ]
+        div [] [ GithubAuth.view childAddress model.githubAuth ]
 
     Login ->
       let
         childAddress =
           Signal.forwardTo address ChildLoginAction
       in
-        div [ class "container" ] [ Login.view childAddress model.login ]
+        div [] [ Login.view childAddress model.login ]
 
     User ->
       let
