@@ -380,12 +380,12 @@ footer : Html
 footer =
 
   div []
-    [ div [ id "footer-spacer"] []
+    [ div
+      [ id "footer-spacer"] []
     , div [ id "footer"]
           [ div
               [ class "container company-details"]
-              [ 
-              span [] [ a [ href "http://www.gizra.com", class "gizra-logo", target"_blank"] [ text "gizra"] ]
+              [ span [] [ a [ href "http://www.gizra.com", class "gizra-logo", target"_blank"] [ text "gizra"] ]
               , span [] [ i [ class "fa fa-phone" ] [] , text "Tel: +972-3-3731222 | Fax: +972-3-5617771"]
               , span [] [
                 i [ class "fa fa-envelope-o"] []
