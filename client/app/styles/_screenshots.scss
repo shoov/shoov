@@ -65,6 +65,12 @@
       button {
         margin-right: 6px;
       }
+
+      .name {
+        font-size: 15px;
+        font-weight: bold;
+        letter-spacing: 0.05em;
+      }
     }
 
     .image-wrapper {
@@ -74,7 +80,8 @@
       background: white;
 
       .diff-image {
-        padding-top: 31px;
+        border: 3px solid transparent;
+        margin-top: 30px;
       }
     }
   }
