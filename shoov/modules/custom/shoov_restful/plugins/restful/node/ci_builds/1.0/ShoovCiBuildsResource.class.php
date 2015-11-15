@@ -36,10 +36,31 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
       'property' => 'field_ci_build_interval',
     );
 
+    $public_fields['can_be_changed'] = array(
+      'property' => 'nid',
+      'process_callbacks' => array(
+        array($this, 'checkUpdatePermissions'),
+      ),
+    );
+
     $public_fields['private_key'] = array(
       'property' => 'field_private_key',
     );
 
     return $public_fields;
+  }
+
+  /**
+   * Process callback, Check user has permissions to edit node.
+   *
+   * @param array $value
+   *   The image array.
+   *
+   * @return bool
+   *   Returns TRUE if user can edit node.
+   */
+  protected function checkUpdatePermissions($value) {
+    $account = $this->getAccount();
+    return node_access('update', $value, $account);
   }
 }
