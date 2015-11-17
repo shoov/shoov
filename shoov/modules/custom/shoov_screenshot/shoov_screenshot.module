@@ -126,3 +126,51 @@ function shoov_screenshot_add_tag_to_vocabulary($term_name, $vocabulary_id) {
 
   return $tid;
 }
+
+/**
+ * Create a hash code from files content.
+ *
+ * @param $files
+ *  List of uploaded files info.
+ * @param $ui_build_id
+ *  The UI Build node ID.
+ *
+ * @return string
+ *  Returns the hash code.
+ */
+function shoov_screenshot_create_hash($files, $ui_build_id) {
+  $hash = array();
+  foreach ($files as $file) {
+    $image = file_load($file['id']);
+    $hash[] = md5(file_get_contents($image->uri));
+  }
+  
+  $hash[] = $ui_build_id;
+
+  $hash = md5(join('', $hash));
+  return $hash;
+}
+
+/**
+ * Get the screenshot ID with the same hash code if exists.
+ *
+ * @param $hash
+ *  The hash code.
+ *
+ * @return string
+ *  Returns ID of screenshots with same hashcode.
+ */
+function shoov_screenshot_regression_exists($hash) {
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'screenshot')
+    ->fieldCondition('field_screenshot_hash', 'value', $hash)
+    ->execute();
+
+  if (empty($result['node'])) {
+    return FALSE;
+  }
+
+  return key($result['node']);
+}

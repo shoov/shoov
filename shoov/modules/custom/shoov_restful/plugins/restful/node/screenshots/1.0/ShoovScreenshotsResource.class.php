@@ -65,6 +65,10 @@ class ShoovScreenshotsResource extends \ShoovEntityBaseNode {
       ),
     );
 
+    $public_fields['screenshot_hash'] = array(
+      'property' => 'field_screenshot_hash',
+    );
+
     return $public_fields;
   }
 }
