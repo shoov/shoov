@@ -157,8 +157,8 @@ function shoov_screenshot_create_hash($files, $ui_build_id) {
  * @param $hash
  *  The hash code.
  *
- * @return array
- *  Returns IDs of screenshots with same hashcode.
+ * @return string
+ *  Returns ID of screenshots with same hashcode.
  */
 function shoov_screenshot_regression_exists($hash) {
   $query = new EntityFieldQuery();
@@ -172,5 +172,5 @@ function shoov_screenshot_regression_exists($hash) {
     return FALSE;
   }
 
-  return reset(array_keys($result['node']));
+  return key($result['node']);
 }
