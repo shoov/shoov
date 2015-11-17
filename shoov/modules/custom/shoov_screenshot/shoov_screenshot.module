@@ -37,7 +37,7 @@ function shoov_screenshot_menu() {
 
 /**
  * Pipe public files to be served from Drupal.
- * 
+ *
  * @see file_donwload()
  */
 function shoov_screenshot_pipe_file_download() {
@@ -144,7 +144,7 @@ function shoov_screenshot_create_hash($files, $ui_build_id) {
     $image = file_load($file['id']);
     $hash[] = md5(file_get_contents($image->uri));
   }
-  
+
   $hash[] = $ui_build_id;
 
   $hash = md5(join('', $hash));
