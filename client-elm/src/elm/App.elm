@@ -14,6 +14,7 @@ import Storage exposing (removeItem)
 import String exposing (isEmpty)
 import Task exposing (..)
 import User exposing (..)
+import MainFooter exposing (html)
 
 import Debug
 
@@ -332,7 +333,7 @@ view address model =
   div []
     [ (navbar address model)
     , (mainContent address model)
-    , footer
+    , mainFooter
     ]
 
 mainContent : Signal.Address Action -> Model -> Html
@@ -358,7 +359,7 @@ mainContent address model =
         childAddress =
           Signal.forwardTo address ChildLoginAction
       in
-        div [ class "container" ] [ Login.view childAddress model.login ]
+        div [ class "" ] [ Login.view childAddress model.login ]
 
     User ->
       let
@@ -376,22 +377,8 @@ navbar address model =
     LoggedIn name ->
       navbarLoggedIn address model
 
-footer : Html
-footer =
-
-  div [class "main-footer"]
-    [ div [class "container"]
-      [ span []
-        [ text "With "
-        , i [ class "fa fa-heart" ] []
-        , text " from "
-        , a [ href "http://gizra.com", target "_blank", class "gizra-logo" ] [text "gizra"]
-        , span [ class "divider" ] [text "|"]
-        , text "Fork me on "
-        , a [href "https://github.com/Gizra/elm-hedley", target "_blank"] [text "Github"]
-        ]
-      ]
-  ]
+mainFooter : Html
+mainFooter = MainFooter.html
 
 -- Navbar for Auth user.
 navbarLoggedIn : Signal.Address Action -> Model -> Html
