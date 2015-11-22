@@ -31,6 +31,14 @@ body {
   font-family: 'Fira Sans', arial, sans-serif;
   background: $light-gray;
 
+  @include desktop {
+    padding-bottom: 70px;
+  }
+
+  @include mobile {
+    padding-bottom: 230px;
+  }
+
   &.login-page {
     background: $dark-blue;
   }
