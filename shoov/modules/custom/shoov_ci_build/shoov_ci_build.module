@@ -233,7 +233,7 @@ function shoov_ci_build_node_presave($node) {
 
   $wrapper = entity_metadata_wrapper('node', $node);
 
-  if ($node->is_new) {
+  if (empty($node->nid)) {
     // Check config file exists for the new CI Build.
     if (!shoov_repository_config_file_exists($wrapper->og_repo->value(), $wrapper->field_git_branch->value())) {
       throw new Exception(".shoov.yml if missing in the root of the repository.");
