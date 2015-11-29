@@ -189,8 +189,7 @@ function shoov_repository_config_file_exists($node, $branch = 'master') {
     return TRUE;
   }
 
-  global $user;
-  $account = user_load($user->uid);
+  $account = user_load($node->uid);
 
   // Get user's github access token.
   $user_wrapper = entity_metadata_wrapper('user', $account);
