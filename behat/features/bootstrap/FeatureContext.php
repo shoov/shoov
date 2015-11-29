@@ -5,6 +5,8 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Tester\Exception\PendingException;
+use Behat\Testwork\Hook\Scope\BeforeSuiteScope;
+use Behat\Testwork\Hook\Scope\AfterSuiteScope;
 
 class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
 
@@ -606,5 +608,25 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       throw new \Exception($error_message);
     }
   }
+
+  /**
+   * @BeforeSuite
+   *
+   * Set variable 'test_mode' to TRUE to prevent asserting .shoov.yml exists on
+   * the repository.
+   */
+  public static function setup(BeforeSuiteScope $event) {
+    variable_set('test_mode', TRUE);
+  }
+
+  /**
+   * @AfterSuite
+   *
+   * Set variable 'test_mode' to FALSE after tests finished.
+   */
+  public static function teardown(AfterSuiteScope $event) {
+    variable_set('test_mode', FALSE);
+  }
+
 }
 
