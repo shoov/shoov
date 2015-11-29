@@ -1,0 +1,46 @@
+#repository-page {
+
+  a {
+    text-decoration: none;
+
+     i {
+       color: $turquoise;
+     }
+  }
+
+  .watermark {
+    bottom: 19px;
+    right: 35px;
+  }
+
+  .interval-wrapper label,
+  .divider {
+    color: $light-blue;
+  }
+
+  .interval-wrapper {
+    margin-top: 10px;
+
+    .form-control {
+      width: auto;
+      display: inline-block;
+
+      @include mobile() {
+        display: block;
+        width: 100%;
+      }
+    }
+
+    i {
+      margin-left: 5px;
+
+      &.fa-check {
+        color: $brand-success;
+      }
+    }
+  }
+
+  .label {
+    padding: 4px;
+  }
+}

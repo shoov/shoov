@@ -1,99 +1,95 @@
-.screenshots-list {
+#screenshot-page {
 
-  .show-diff {
-    text-align: right;
-  }
-
-  .pr-wrapper {
-
-    .form-group {
-      margin: 0;
-
-      input {
-        width: 40%;
-        display: inline-block;
-        margin-right: 3px;
-        float: left;
+  .info {
+    li {
+      > div {
+       @include desktop() {
+         display: inline-block;
+         width: 77px;
+       }
       }
     }
   }
 
-  .image-size {
-    margin-top: 30px;
+  label {
+    font-weight: normal;
+    color: $light-blue;
+  }
+
+  .repository-data {
+    @include desktop {
+      padding-top: 20px;
+      min-height: 155px;
+    }
+  }
+
+  .show-diff {
+    margin-bottom: 10px;
+  }
+
+  .screenshot-item-selector {
 
     label {
       display: inline-block;
+      margin-bottom: 0px;
+    }
+    .checkbox {
+      margin-top: 0px;
     }
   }
 
-  .screenshot-header {
-    border-bottom: 1px solid $brand-main-color;
-    margin-top: 20px;
-    background-color: white;
-    padding: 20px;
-    float: left;
-    width: 100%;
-
-    .download-wrapper {
-      float: right;
-      margin-top: 10px;
-    }
+  #image-style {
+    color: $turquoise;
   }
 
   .screenshot-wrapper {
-    margin-bottom: 30px;
-    background-color: white;
-    padding: 20px 15px 60px;
-    float: left;
-    width: 100%;
 
-    .screenshot-item {
+    .delete {
+      a,
+      i{
+        color: $brand-error;
+      }
 
-      .name {
-        margin-bottom: 20px;
-        font-size: 60px;
-        font-weight: lighter;
-        line-height: 50px;
-        margin-top: -10px;
-
-        @media (max-width: 320px) {
-          font-size: 24px;
-          line-height: 18px;
-          margin-top: 0;
-
-        }
-
-        @media (min-width: 321px) and (max-width: 768px) {
-          font-size: 32px;
-        }
-
-        input {
-          vertical-align: middle;
-        }
-
-        .delete {
-          font-size: 18px;
-
-          :hover {
-            text-decoration: underline;
-          }
-
-          i {
-            vertical-align: text-top;
-          }
-        }
+      i {
+        font-size: 12px;;
       }
     }
 
-    .diff-image {
-      margin-top: 25px;
-      border: 2px solid #222;
+    header {
+      @include soft-box;
+      padding: 6px 7px;
+      border-bottom: none;
+      display: inline-block;
+      @include border-radius(0px 3px 0px 0px);
+
+      button {
+        margin-right: 6px;
+      }
+
+      .name {
+        font-size: 15px;
+        font-weight: bold;
+        letter-spacing: 0.05em;
+      }
+    }
+
+    .image-wrapper {
+      padding: 15px;
+      border: 1px solid $smoke-blue;
+      @include border-radius(0px 3px 3px 3px);
+      background: white;
+
+      .diff-image {
+        border: 3px solid transparent;
+        margin-top: 30px;
+      }
     }
   }
+
+  .pagination {
+    text-align: center;
+    width: 100%;
+  }
+
 }
 
-.pagination {
-  text-align: center;
-  float: left;
-  width: 100%;
-}

@@ -18,8 +18,8 @@ angular.module('clientApp')
       template:
         '<div class="before-after-slider" style="height: {{ maxHeight }}px; width: {{ maxWidth }}px">' +
           '<div class="labels">' +
-            '<div class="baseline text-muted">Baseline</div>' +
-            '<div class="regression text-muted">Regression</div>' +
+            '<div class="baseline label label-done">Baseline</div>' +
+            '<div class="regression label label-error">Regression</div>' +
           '</div>' +
           '<div class="regression-wrapper">' +
             '<img ng-src="{{ regressionImgSrc }}" alt="Regression" />' +
