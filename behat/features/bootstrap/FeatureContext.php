@@ -514,7 +514,8 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   /**
    * @BeforeSuite
    *
-   * Set variable 'test_mode' to TRUE to bypass some checks.
+   * Set variable 'test_mode' to TRUE to prevent asserting .shoov.yml exists on
+   * the repository.
    */
   public static function setup(BeforeSuiteScope $event) {
     variable_set('test_mode', TRUE);

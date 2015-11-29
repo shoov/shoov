@@ -236,7 +236,7 @@ function shoov_ci_build_node_presave($node) {
   if ($node->is_new) {
     // Check config file exists for the new CI Build.
     if (!shoov_repository_config_file_exists($wrapper->og_repo->value(), $wrapper->field_git_branch->value())) {
-      throw new Exception('no_config_file');
+      throw new Exception(".shoov.yml if missing in the root of the repository.");
     }
   }
   else {
@@ -245,7 +245,7 @@ function shoov_ci_build_node_presave($node) {
     if ($wrapper->field_ci_build_enabled->value() && !$original_enabled) {
       // Trying to enable the CI Build.
       if (!shoov_repository_config_file_exists($wrapper->og_repo->value(), $wrapper->field_git_branch->value())) {
-        throw new Exception('no_config_file');
+        throw new Exception('.shoov.yml if missing in the root of the repository.');
       }
     }
   }

@@ -172,14 +172,14 @@ function shoov_repository_check_repository_unique($github_id, $node) {
  * Check .shoov.yml file exists in repository.
  *
  * @param $node
- *  Repository node
+ *  Repository node.
  * @param $branch
  *  The Git branch name.
  *
  * @return bool
  *  TRUE if file exists.
  */
-function shoov_repository_config_file_exists($node, $branch) {
+function shoov_repository_config_file_exists($node, $branch = 'master') {
   if ($node->type != 'repository') {
     return FALSE;
   }
