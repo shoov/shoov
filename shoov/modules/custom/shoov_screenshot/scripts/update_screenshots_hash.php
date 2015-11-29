@@ -4,13 +4,14 @@
  * Contains drush script that update existing screenshots with hash and removes
  * duplicated items.
  */
-// Get tha last message id.
+// Get UI Build id to start with.
 $nid = drush_get_option('nid', 0);
 // Get the number of nodes to be processed.
 $batch = drush_get_option('batch', 10);
 // Get allowed memory limit.
 $memory_limit = drush_get_option('memory_limit', 500);
 $i = 0;
+
 $base_query = new EntityFieldQuery();
 $base_query
   ->entityCondition('entity_type', 'node')
@@ -22,8 +23,9 @@ if ($nid) {
 
 $query_count = clone $base_query;
 $count = $query_count->count()->execute();
+
 if (!$count) {
-  drush_log('No ui_builds were found.', 'error');
+  drush_log('No UI Build items were found.', 'error');
   return;
 }
 
@@ -31,12 +33,8 @@ while ($i < $count) {
   // Free up memory.
   drupal_static_reset();
   // Get UI Build items.
-  $query = clone $base_query;
-  if ($nid) {
-    $query
-      ->propertyCondition('nid', $nid, '>');
-  }
-  $result = $query
+  $builds_query = clone $base_query;
+  $result = $builds_query
     ->range(0, $batch)
     ->execute();
   if (empty($result['node'])) {
@@ -44,13 +42,12 @@ while ($i < $count) {
   }
   $ids = array_keys($result['node']);
 
-
   // Iterate though UI Build items.
   foreach ($ids as $build_id) {
 
     // Get screenshots of the UI Build.
-    $query_screenshots = new EntityFieldQuery();
-    $screenshots_result = $query_screenshots
+    $screenshots_query = new EntityFieldQuery();
+    $result = $query_screenshots
       ->entityCondition('entity_type', 'node')
       ->entityCondition('bundle', 'screenshot')
       ->propertyOrderBy('nid', 'ACS')
@@ -58,18 +55,18 @@ while ($i < $count) {
       ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT')
       ->execute();
 
-    if (empty($screenshots_result['node'])) {
+    if (empty($result['node'])) {
       drush_print(dt("No screenshots for UI build @build_id were found.", array('@build_id' => $build_id)));
       continue;
     }
 
     // List of unique hashes for the current UI Build.
     $hashes = array();
-    $screenshots = node_load_multiple(array_keys($screenshots_result['node']));
+    $screenshots = node_load_multiple(array_keys($result['node']));
     foreach ($screenshots as $screenshot) {
       $wrapper = entity_metadata_wrapper('node', $screenshot);
       if (!$wrapper->field_screenshot_hash->value()) {
-        // Create hash for the screenshot.
+        // Set hash for the screenshot.
         $files = array();
         $files[]['id'] = $wrapper->field_baseline_image->value()['fid'];
         $files[]['id'] = $wrapper->field_regression_image->value()['fid'];
@@ -81,12 +78,13 @@ while ($i < $count) {
       }
 
       if (in_array($wrapper->field_screenshot_hash->value(), $hashes)) {
-        // Identical screenshot already exists. Delete duplication.
+        // Identical screenshot already exists. Delete duplicate.
         drush_print(dt('Screenshot @id will be deleted as duplication.', array('@id' => $screenshot->nid)));
         node_delete($screenshot->nid);
       }
       else {
-        // Screenshot is unique for the UI Build. Add hash to list of unique hashes.
+        // Screenshot is unique for the current UI Build.
+        // Add hash to the list of unique hashes.
         $hashes[] = $wrapper->field_screenshot_hash->value();
       }
     }
