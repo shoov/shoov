@@ -334,6 +334,7 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
       return;
     }
 
+    $status = $this->getMachineName($status);
     $params = array('@title' => $ci_build_title);
 
     // Get the CI build.
@@ -464,6 +465,103 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
   }
 
   /**
+   * @Then The :field_name field value should be :field_value for the last build of CI build :ci_build_title
+   */
+  public function theFieldValueShouldBeForTheLastBuildOfCiBuild($field_name, $field_value, $ci_build_title) {
+
+    // Rebuild the machine name.
+    $field_name = $this->getMachineName($field_name, "field_");
+
+    if ($field_name == "field_ci_build_status") {
+      $field_value = $this->getMachineName($field_value);
+    }
+
+    $params = array(
+      '@title' => $ci_build_title,
+      '@field_name' => $field_name,
+      '@field_value' => $field_value,
+    );
+
+    // Get the CI build.
+    if (!$ci_build_node = $this->getNodeByTitleAndBundle($ci_build_title, 'ci_build')) {
+      throw new \Exception(format_string('Failed to get ID of CI build @title', $params));
+    }
+    // Find the last CI build item.
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'message')
+      ->fieldCondition('field_ci_build', 'target_id', $ci_build_node->nid)
+      ->propertyOrderBy('mid', 'ASC')
+      ->range(0, 1)
+      ->execute();
+
+    // Check CI build message's field value to be as expected.
+    $wrapper = entity_metadata_wrapper('message', key($result['message']));
+    if ($wrapper->{$field_name}->value() != $field_value) {
+      throw new \Exception(format_string('Node @title does not have a value of @field_value for field @field_name.', $params += array('@value' => $wrapper->{$field_name}->value())));
+    }
+  }
+
+  /**
+   * @When The CI build item for CI build :ci_title is set to status :status
+   */
+  public function theCiBuildItemForCiBuildIsSetToStatus($ci_title, $status)  {
+    $this->iSetStatusForCiBuildItemsTimes(1, $ci_title, $status);
+  }
+
+  /**
+   * @When I change CI build :ci_build_title status from :original_status to :new_status
+   */
+  public function iChangeCiBuildStatusFromTo($ci_build_title, $original_status, $new_status) {
+    $original_status = $this->getMachineName($original_status);
+    $new_status = $this->getMachineName($new_status);
+
+    $params = array(
+      '@title' => $ci_build_title,
+      '@original_status' => $original_status,
+    );
+
+    // Get the CI build.
+    if (!$ci_build_node = $this->getNodeByTitleAndBundle($ci_build_title, 'ci_build')) {
+      throw new \Exception(format_string('Failed to get ID of CI build @title', $params));
+    }
+    // Find the last CI build item.
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'message')
+      ->fieldCondition('field_ci_build', 'target_id', $ci_build_node->nid)
+      ->fieldCondition('field_ci_build_status', 'value', $original_status)
+      ->propertyOrderBy('mid', 'ASC')
+      ->range(0, 1)
+      ->execute();
+
+    if (empty($result['message'])) {
+      throw new \Exception(format_string('Failed to find message for CI build @title and status @original_status', $params));
+    }
+
+    $wrapper = entity_metadata_wrapper('message', key($result['message']));
+    $wrapper->field_ci_build_status->set($new_status);
+    $wrapper->save();
+  }
+
+  /**
+   * Helper function; gets a generic machine name of a from a human readable name.
+   *
+   * @param string $name
+   *    Human readable name.
+   *
+   * @param string $prefix
+   *    String to prefix the machine name (e.g. "field_").
+   *
+   * @return string
+   *    Generic machine name.
+   */
+  private function getMachineName($name, $prefix = "") {
+
+    return str_replace(" ", "_", $prefix . strtolower($name));
+  }
+ 
+  /**
    * @When I disable CI Build  :title
    */
   public function iDisableCiBuild($title) {
@@ -509,3 +607,4 @@ class FeatureContext extends DrupalContext implements SnippetAcceptingContext {
     }
   }
 }
+
