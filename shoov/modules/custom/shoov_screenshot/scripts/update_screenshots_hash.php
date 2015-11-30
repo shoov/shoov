@@ -32,6 +32,8 @@ if (!$count) {
 while ($i < $count) {
   // Free up memory.
   drupal_static_reset();
+  // Counter for removed screenshots.
+  $items_removed = 0;
   // Get UI Build items.
   $builds_query = clone $base_query;
   if ($nid) {
@@ -79,16 +81,23 @@ while ($i < $count) {
         $wrapper->field_screenshot_hash->set($hash);
         $wrapper->save();
       }
+      $hash_value = $wrapper->field_screenshot_hash->value();
 
-      if (in_array($wrapper->field_screenshot_hash->value(), $hashes)) {
+      if (array_key_exists($hash_value, $hashes)) {
         // Identical screenshot already exists. Delete duplicate.
-        drush_print(dt('Screenshot @id will be deleted as duplication.', array('@id' => $screenshot->nid)));
+        drush_print(dt('Screenshot @id will be deleted as duplication of the @dup_id screenshot node.',
+          array(
+            '@id' => $screenshot->nid,
+            '@dup_id' => $hashes[$hash_value]
+          )
+        ));
         node_delete($screenshot->nid);
+        $items_removed++;
       }
       else {
         // Screenshot is unique for the current UI Build.
-        // Add hash to the list of unique hashes.
-        $hashes[] = $wrapper->field_screenshot_hash->value();
+        // Add hash and screenshot ID to the list of unique hashes.
+        $hashes[$hash_value] = $screenshot->nid;
       }
     }
   }
@@ -102,6 +111,7 @@ while ($i < $count) {
     '@max' => $count,
   );
   drush_print(dt('Process builds from id @start to id @end. Batch state: @iterator/@max', $params));
+  drush_print(dt('Removed @count screenshot items.', array('@count' => $items_removed)));
   if (round(memory_get_usage()/1048576) >= $memory_limit) {
     $params = array(
       '@memory' => round(memory_get_usage()/1048576),
