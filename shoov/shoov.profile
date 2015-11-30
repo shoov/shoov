@@ -35,6 +35,11 @@ function shoov_install_tasks() {
     'display' => FALSE,
   );
 
+  $tasks['shoov_setup_enable_mimemail_template_theme'] = array(
+    'display_name' => st('Enable the mime mail template theme.'),
+    'display' => FALSE,
+  );
+
   // Run this as the last task!
   $tasks['shoov_setup_rebuild_permissions'] = array(
     'display_name' => st('Rebuild permissions'),
@@ -154,4 +159,12 @@ function shoov_setup_blocks() {
  */
 function shoov_setup_rebuild_permissions() {
   node_access_rebuild();
+}
+
+
+/**
+ * Task callback; Enable theme for the mime mail template.
+ */
+function shoov_setup_enable_mimemail_template_theme() {
+  theme_enable(array('template_holder'));
 }

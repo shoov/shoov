@@ -76,7 +76,7 @@ projects[message_subscribe][download][revision] = 4e1791d33d2daa5605de1d1a88b81a
 projects[message_ui][subdir] = "contrib"
 projects[message_ui][version] = "1.4"
 
-projects[mimemail][version] = 1.0-beta3
+projects[mimemail][version] = 1.0-beta4
 projects[mimemail][subdir] = "contrib"
 
 projects[module_filter][subdir] = "contrib"
