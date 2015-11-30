@@ -28,12 +28,12 @@ if (!$count) {
   drush_log('No UI Build items were found.', 'error');
   return;
 }
-
+$items_removed = 0;
 while ($i < $count) {
   // Free up memory.
   drupal_static_reset();
   // Counter for removed screenshots.
-  $items_removed = 0;
+
   // Get UI Build items.
   $builds_query = clone $base_query;
   if ($nid) {
@@ -111,13 +111,14 @@ while ($i < $count) {
     '@max' => $count,
   );
   drush_print(dt('Process builds from id @start to id @end. Batch state: @iterator/@max', $params));
-  drush_print(dt('Removed @count screenshot items.', array('@count' => $items_removed)));
   if (round(memory_get_usage()/1048576) >= $memory_limit) {
     $params = array(
       '@memory' => round(memory_get_usage()/1048576),
       '@max_memory' => memory_get_usage(TRUE)/1048576,
     );
-    drush_log(dt('Stopped before out of memory. Start process from the node ID @nid', array('@nid' => end($ids))), 'error');
+    drush_log(dt('Removed @count screenshot items. Stopped before out of memory. Start process from the node ID @nid',
+      array('@nid' => end($ids), '@count' => $items_removed)), 'error');
     return;
   }
 }
+drush_print(dt('Removed @count screenshot items.', array('@count' => $items_removed)));
