@@ -38,9 +38,7 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
 
     $public_fields['can_be_changed'] = array(
       'property' => 'nid',
-      'process_callbacks' => array(
-        array($this, 'checkUpdatePermissions'),
-      ),
+      'callback' => array($this, 'checkUpdatePermissions'),
     );
 
     $public_fields['private_key'] = array(
@@ -51,7 +49,7 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
   }
 
   /**
-   * Process callback, Check user has permissions to edit node.
+   * Callback. Check user has permissions to edit node.
    *
    * @param array $value
    *   The image array.
