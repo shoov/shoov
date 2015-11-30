@@ -329,6 +329,62 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'message-ci_build-field_requeue_count'
+  $field_instances['message-ci_build-field_requeue_count'] = array(
+    'bundle' => 'ci_build',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => ' ',
+        ),
+        'type' => 'number_integer',
+        'weight' => 6,
+      ),
+      'message_notify_email_body' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'message_notify_email_subject' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'message',
+    'field_name' => 'field_requeue_count',
+    'label' => 'Requeue Count',
+    'required' => 0,
+    'settings' => array(
+      'max' => '',
+      'min' => 0,
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 7,
+    ),
+  );
+
   // Exported field_instance: 'node-ci_build-field_ci_build_enabled'
   $field_instances['node-ci_build-field_ci_build_enabled'] = array(
     'bundle' => 'ci_build',
@@ -729,6 +785,7 @@ function shoov_ci_build_field_default_field_instances() {
   t('Private Key');
   t('Repository');
   t('Schedule');
+  t('Requeue Count');
   t('Start time');
   t('Status');
   t('Status token');

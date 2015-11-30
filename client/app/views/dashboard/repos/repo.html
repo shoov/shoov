@@ -45,10 +45,11 @@
       <div class="col-sm-6">
         <h5><i class="fa fa-calendar"></i> Build History</h5>
         <div class="soft-border">
-          <div ng-show="ciBuildItemQueueOrInProgress">
+          <div class="info" ng-show="ciBuildItemQueueOrInProgress">
             <span class="label label-sm label-{{ ciBuildItemQueueOrInProgress.status }}">{{ buildStatuses[ciBuildItemQueueOrInProgress.status] }}</span>
             <a ui-sref="dashboard.ciBuildItem({ ciBuildItemId: ciBuildItemQueueOrInProgress.id })">#{{ciBuildItemQueueOrInProgress.id}}</a> - {{ (ciBuildItemQueueOrInProgress.start_timestamp*1000) | date : 'MMM d, y h:mm a' }}
           </div>
+          <br/>
           <div ng-hide="ciBuildItems.length"> Here you will see a log of every live monitor build.</div>
           <div class="table-scrollable table-responsive" ng-show="ciBuildItems.length">
             <table class="table table-hover">

@@ -3,6 +3,7 @@ dist
 .tmp
 .sass-cache
 bower_components
+app/fonts/bootstrap
 config.json
 config-private.json
 app/scripts/config.js

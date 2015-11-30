@@ -233,6 +233,24 @@ function shoov_ci_build_node_presave($node) {
 
   $wrapper = entity_metadata_wrapper('node', $node);
 
+  if (empty($node->nid)) {
+    // Check config file exists for the new CI Build.
+    if (!shoov_repository_config_file_exists($wrapper->og_repo->value(), $wrapper->field_git_branch->value())) {
+      throw new Exception(".shoov.yml if missing in the root of the repository.");
+    }
+  }
+  else {
+    $original_wrapper = entity_metadata_wrapper('node', $node->original);
+    $original_enabled = $original_wrapper->field_ci_build_enabled->value();
+    if ($wrapper->field_ci_build_enabled->value() && !$original_enabled) {
+      // Trying to enable the CI Build.
+      if (!shoov_repository_config_file_exists($wrapper->og_repo->value(), $wrapper->field_git_branch->value())) {
+        throw new Exception('.shoov.yml if missing in the root of the repository.');
+      }
+    }
+  }
+
+
   if (!($wrapper->field_status_token->value())) {
     $wrapper->field_status_token->set(drupal_random_key());
   }
@@ -329,6 +347,13 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
   shoov_ci_build_trigger_event(message_load($message->mid), 'ci_build_new');
 
   return $message;
+}
+
+/**
+ * Implements hook_message_presave().
+ */
+function shoov_ci_build_message_presave(Message $message) {
+  _shoov_ci_build_check_requeue($message);
 }
 
 /**
@@ -679,4 +704,49 @@ function shoov_ci_build_get_items_count($node, $status = array()) {
     ->execute();
 
   return $count;
+}
+
+/**
+ * Helper function; Check whether a ci_build message was re-queued.
+ *
+ * @param Message $message
+ *   Message from hook_message_presave().
+ */
+function _shoov_ci_build_check_requeue(Message $message) {
+  if (empty($message->original) || $message->type !='ci_build') {
+    // Not updating a ci_build message.
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('message', $message);
+  $original_wrapper = entity_metadata_wrapper('message', $message->original);
+  if ($original_wrapper->field_ci_build_status->value() == "in_progress" && $wrapper->field_ci_build_status->value() == "queue") {
+    // The build status changed from "in_progress" to "queue".
+    // Increment requeue count.
+    $requeue_count = $wrapper->field_requeue_count->value() + 1;
+    $wrapper->field_requeue_count->set($requeue_count);
+
+    if ($requeue_count == 3) {
+      // Send notification to site admin.
+
+      $message_parameters = array('@ci_name' => $wrapper->field_ci_build->label());
+
+      $arguments = array(
+        '@repo' => empty($wrapper->field_ci_build->og_repo) ? "" : $wrapper->field_ci_build->og_repo->label(),
+        '@branch' => empty($wrapper->field_ci_build->field_git_branch) ? "" : $wrapper->field_ci_build->field_git_branch->label(),
+        '@notification' => t('@ci_name has been re-queued 3 times.', $message_parameters),
+        '@url' => url('node/' . $wrapper->field_ci_build->getIdentifier(), array('absolute' => TRUE)),
+      );
+
+      // Create notification message.
+      $notification_message = message_create("ci_incident_notification", array('arguments' => $arguments));
+      $notification_message->uid = 1;
+
+      $options = array(
+        'mail' => variable_get('site_mail', ini_get('sendmail_from')),
+      );
+      message_notify_send_message($notification_message, $options);
+    }
+  }
+
 }

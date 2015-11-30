@@ -70,6 +70,32 @@ function shoov_ci_incident_default_message_type() {
       ]
     }
   }');
+  $items['ci_incident_notification'] = entity_import('message_type', '{
+    "name" : "ci_incident_notification",
+    "description" : "CI Incident notification",
+    "argument_keys" : [],
+    "argument" : [],
+    "category" : "message_type",
+    "data" : {
+      "token options" : { "clear" : 0 },
+      "purge" : { "override" : 0, "enabled" : 0, "quota" : "", "days" : "" }
+    },
+    "language" : "",
+    "arguments" : null,
+    "message_text" : { "und" : [
+        {
+          "value" : "@notification",
+          "format" : "filtered_html",
+          "safe_value" : "\\u003Cp\\u003E@notification\\u003C\\/p\\u003E\\n"
+        },
+        {
+          "value" : "\\u003Ca href=\\u0022@url\\u0022\\u003E Visit the node.\\u003C\\/a\\u003E\\r\\n",
+          "format" : "filtered_html",
+          "safe_value" : "\\u003Cp\\u003E\\u003Ca href=\\u0022@url\\u0022\\u003E Visit the node.\\u003C\\/a\\u003E\\u003C\\/p\\u003E\\n"
+        }
+      ]
+    }
+  }');
   return $items;
 }
 
