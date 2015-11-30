@@ -34,6 +34,9 @@ while ($i < $count) {
   drupal_static_reset();
   // Get UI Build items.
   $builds_query = clone $base_query;
+  if ($nid) {
+    $builds_query->propertyCondition('nid', $nid, '>');
+  }
   $result = $builds_query
     ->range(0, $batch)
     ->execute();
@@ -47,7 +50,7 @@ while ($i < $count) {
 
     // Get screenshots of the UI Build.
     $screenshots_query = new EntityFieldQuery();
-    $result = $query_screenshots
+    $result = $screenshots_query
       ->entityCondition('entity_type', 'node')
       ->entityCondition('bundle', 'screenshot')
       ->propertyOrderBy('nid', 'ACS')
