@@ -86,6 +86,16 @@ class ShoovScreenshotsMigrate extends \ShoovMigrateNode {
     $wrapper = entity_metadata_wrapper('node', $ui_build_id);
     $wrapper->field_pr_screenshot_ids->set($entity->nid);
     $wrapper->save();
+
+    $wrapper = entity_metadata_wrapper('node', $entity);
+    $files = array();
+    $files[]['id'] = $wrapper->field_baseline_image->value()['fid'];
+    $files[]['id'] = $wrapper->field_regression_image->value()['fid'];
+    $files[]['id'] = $wrapper->field_diff_image->value()['fid'];
+
+    $hash = shoov_screenshot_create_hash($files, $ui_build_id);
+    $wrapper->field_screenshot_hash->set($hash);
+    $wrapper->save();
   }
 
   /**
