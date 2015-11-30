@@ -8,9 +8,13 @@
   .labels {
     height: 25px;
     position: relative;
-    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-    margin-left: 2px;
-    margin-right: -2px;
+
+    .baseline,
+    .regression{
+      padding: 4px;
+      font-size: 13px;
+      font-weight: normal;
+    }
 
     .baseline {
       float: left;
@@ -21,19 +25,26 @@
     }
   }
 
+  .baseline-wrapper,
+  .regression-wrapper {
+    margin-top: 5px;
+  }
+
   .baseline-wrapper {
     height: 100%;
-    border-left: 2px solid green;
-    border-top: 2px solid green;
-    border-bottom: 2px solid green;
-    border-right: 1px solid black;
+    border-left: 3px solid $brand-done;
+    border-top: 3px solid $brand-done;
+    border-bottom: 3px solid $brand-done;
+    border-right: 4px solid black;
     background-color: transparent;
     overflow: hidden;
+    cursor: default;
+    cursor: ew-resize;
   }
 
   .regression-wrapper {
     height: 100%;
-    border: 2px solid red;
+    border: 3px solid $brand-error;
     background-color: transparent;
     overflow: hidden;
   }

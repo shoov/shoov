@@ -1,0 +1,81 @@
+#dashboard-login,
+#dashboard-github-auth {
+  color: $light-gray;
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  margin-top: 40px;
+
+  .container {
+
+    .login-wrapper {
+      max-width: 500px;
+      margin: 20% auto 0px auto;
+      padding: 15px;
+      background: rgba(123, 135, 146, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      @include box-shadow(4px 4px 30px 0px #252729);
+      @include border-radius(4px);
+
+      @include desktop {
+        border-top: 1px solid rgba(255, 255, 255, 0.09);
+      }
+    }
+
+    h1 {
+      margin-top: 5px;
+      margin-bottom: 25px;
+      color: $light-gray;
+      font-size: 30px;
+      font-weight: 400;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    }
+
+    a {
+      color: $turquoise;
+    }
+
+    .github-private {
+      margin-top: 20px;
+
+      button {
+        margin-right: 2px;
+      }
+    }
+
+    .btn-github {
+      color: white;
+      background: $turquoise;
+      padding-left: 0px;
+      @include transition(0.4s ease-in-out all);
+
+      @include mobile {
+        padding-left: 55px;
+      }
+
+      &:hover {
+        background: $dark-turquoise;
+      }
+    }
+    
+    .shoov-logo {
+      color: rgba(255, 255, 255, 0.78);
+      padding: 8px;
+      @include border-radius(2px);
+      border: 1px solid rgba(255, 255, 255, 0.52);
+    }
+
+    button {
+      margin-top: -2px;
+      width: 17px;
+      height: 17px;
+
+      .glyphicon {
+        top: 0px;
+        left: -3px !important;
+      }
+    }
+  }
+}
+
+#dashboard-github-auth {
+  color: $turquoise;
+}

@@ -257,6 +257,10 @@ function import_demo_content {
   echo -e "${LBLUE}> Importing demo data${RESTORE}"
   cd $ROOT/www
 
+  # Set test mode while creating demo content to prevent asserting .shoov.yml
+  # exists on the repository
+  drush vset test_mode TRUE
+
   # Check if migrate module is available
   MIGRATE_UI=$(drush pm-list --pipe --type=module | grep "^migrate_ui$")
   MIGRATE_EXTRAS=$(drush pm-list --pipe --type=module | grep "^migrate_extras$")
@@ -273,7 +277,7 @@ function import_demo_content {
     echo -e  "${BGYELLOW}  modules in the drupal-org.make file                            ${RESTORE}"
     echo -e  "${BGYELLOW}                                                                 ${RESTORE}"
   fi
-
+  drush vset test_mode FALSE
   cd $ROOT
   echo
 }

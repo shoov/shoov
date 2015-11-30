@@ -226,7 +226,7 @@ function shoov_ci_build_field_default_field_instances() {
         ),
         'type' => 'entityreference_label',
         'weight' => 0,
-      ),
+        ),
       'message_notify_email_body' => array(
         'label' => 'above',
         'settings' => array(),
@@ -241,7 +241,7 @@ function shoov_ci_build_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'message',
-    'field_name' => 'field_ci_build',
+        'field_name' => 'field_ci_build',
     'label' => 'CI build',
     'required' => 0,
     'settings' => array(
@@ -257,6 +257,62 @@ function shoov_ci_build_field_default_field_instances() {
       ),
       'type' => 'entityreference_autocomplete',
       'weight' => 2,
+       ),
+  );
+
+  // Exported field_instance: 'message-ci_build-field_requeue_count'
+  $field_instances['message-ci_build-field_requeue_count'] = array(
+    'bundle' => 'ci_build',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => ' ',
+        ),
+        'type' => 'number_integer',
+        'weight' => 6,
+      ),
+      'message_notify_email_body' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'message_notify_email_subject' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'message',
+    'field_name' => 'field_requeue_count',
+    'label' => 'Requeue Count',
+    'required' => 0,
+    'settings' => array(
+      'max' => '',
+      'min' => 0,
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 7,
     ),
   );
 
@@ -658,6 +714,7 @@ function shoov_ci_build_field_default_field_instances() {
   t('Log');
   t('Private Key');
   t('Repository');
+  t('Requeue Count');
   t('Start time');
   t('Status');
   t('Status token');
