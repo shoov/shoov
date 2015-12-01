@@ -29,7 +29,7 @@ before_install:
 install:
   # Install drush
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - composer global require drush/drush:6.2.0
+  - composer global require drush/drush:7.*
   - phpenv rehash
 
 before_script:
@@ -46,10 +46,11 @@ before_script:
   - cd ..
 
   # start a web server on port 8080, run in the background; wait for initialization
-  - drush @site runserver 127.0.0.1:8080  > ~/php-server.log 2>&1 &
+  - drush @site runserver 8080  > ~/php-server.log 2>&1 &
   - until netstat -an 2>/dev/null | grep '8080.*LISTEN'; sleep 1; curl -I http://127.0.0.1:8080 ; do true; done
 
 script:
   # Run behat tests.
   - cd ./behat
   - ./bin/behat --tags=~@wip
+  - cat ~/php-server.log
