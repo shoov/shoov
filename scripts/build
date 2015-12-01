@@ -27,6 +27,7 @@ echo -e "Profile is about to be built"
 (
   cd $PROFILE_NAME
   echo -e "Right before DRUSH MAKE command"
+  $DRUSH
   $DRUSH make --no-core --contrib-destination drupal-org.make .
 
   echo -e "Profile is built successfully"
