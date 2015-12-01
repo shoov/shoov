@@ -49,7 +49,6 @@ before_script:
   - cd www
   - php -S 127.0.0.1:8080 > ~/php-server.log 2>&1 &
   - cd ..
-#  - drush @site runserver :8080 --debug > ~/php-server.log 2>&1 &
   - until netstat -an 2>/dev/null | grep '8080.*LISTEN'; sleep 1; curl -I http://127.0.0.1:8080 ; do true; done
 
 script:
