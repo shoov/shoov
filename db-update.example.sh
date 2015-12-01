@@ -14,7 +14,7 @@ echo "Unzip and import database"
 gunzip < $ZIPPATH | drush sql-cli
 
 # This can be used instead of the previous command if you have pv installed.
-# Thus you'll see tha status bar.
+# If use pv - you'll see the status bar.
 #pv $ZIPPATH | gunzip | drush sql-cli
 
 echo "Sanitize mails and github tokens"
