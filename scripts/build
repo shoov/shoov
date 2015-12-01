@@ -9,22 +9,26 @@ cd ${0%/*}/..
 ROOT=$(pwd)
 cd $ROOT
 
+echo "Build script is about to start"
+
 # Load the configuration file.
 source $ROOT/config.sh
 
 # Load the colors
 source $ROOT/scripts/helper-colors.sh
 
-
+echo -e "Config files are loaded"
 
 # Drush executable.
 [[ $DRUSH && ${DRUSH-x} ]] || DRUSH=drush
 
 # Build the profile itself.
+echo -e "Profile is about to be built"
 (
   cd $PROFILE_NAME
   $DRUSH make --no-core --contrib-destination drupal-org.make .
 
+  echo -e "Profile is built successfully"
   # Cleanup profile folder
   if [ -d ./1 ]; then
     echo -e "${LBLUE}> Cleaning up the profile folder (remove directory 1)${RESTORE}"
