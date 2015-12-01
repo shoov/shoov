@@ -29,7 +29,7 @@ before_install:
 install:
   # Install drush
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - composer global require drush/drush:6.*
+  - composer global require drush/drush:6.1.0
   - phpenv rehash
 
 before_script:
