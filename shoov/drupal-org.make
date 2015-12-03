@@ -92,10 +92,7 @@ projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.5"
 
 projects[restful][subdir] = "contrib"
-projects[restful][type] = module
-projects[restful][download][type] = git
-projects[restful][download][branch] = 7.x-1.x
-projects[restful][download][revision] = a12e801c25df411752748e56fbb94bae7a7968be
+projects[restful][version] = 1.6
 
 projects[search_api][subdir] = "contrib"
 projects[search_api][version] = "1.16"
