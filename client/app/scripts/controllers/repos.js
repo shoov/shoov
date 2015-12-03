@@ -77,7 +77,7 @@ angular.module('clientApp')
             $scope.repos[key].shoov_id = data.repository;
             $scope.repos[key]._inProgress = false;
           }, function(response) {
-            if (response.data.title == 'no_config_file') {
+            if (response.data.title == '.shoov.yml if missing in the root of the repository.') {
               $scope.repos[key].build = {
                 enabled: false,
                 disable_reason: 'no_config_file'

@@ -40,6 +40,7 @@
                 <span ng-hide="repo.build" class="name">{{ repo.label }}</span>
                 <span ng-show="repo.build" class="name">
                   <a ui-sref="dashboard.ciBuild({ buildId: parseInt(repo.build.id) })">{{ repo.label }}</a>
+                  <span class="repo-error" ng-show="!repo.build.enabled && repo.build.disable_reason == 'no_config_file'"> No .shoov.yml file </span>
                 </span>
               </li>
             </ul>
