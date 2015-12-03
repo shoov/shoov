@@ -24,7 +24,11 @@ function shoov_ci_build_drush_command() {
   );
 
   $items['check-nodejs-server-health'] = array(
-    'description' => 'Check nodejs servers are working.'
+    'description' => 'Check nodejs servers are working.',
+    'options' => array(
+      'email' => 'The email address to send message.',
+    ),
+
   );
 
   return $items;
@@ -321,7 +325,7 @@ function drush_shoov_ci_build_check_nodejs_server_health() {
     $message->uid = 1;
 
     $options = array(
-      'mail' => variable_get('site_mail', ini_get('sendmail_from')),
+      'mail' => drush_get_option('email', variable_get('site_mail', ini_get('sendmail_from'))),
     );
     drush_print(format_string('The @server is down. Url is @url', $arguments));
     message_notify_send_message($message, $options);
