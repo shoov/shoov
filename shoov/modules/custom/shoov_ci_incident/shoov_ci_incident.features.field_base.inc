@@ -17,7 +17,6 @@ function shoov_ci_incident_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ci_build_error',
-<<<<<<< HEAD
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -43,8 +42,6 @@ function shoov_ci_incident_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ci_build_system_disabled',
-=======
->>>>>>> origin/master
     'indexes' => array(
       'value' => array(
         0 => 'value',
