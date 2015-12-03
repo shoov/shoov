@@ -350,13 +350,6 @@ function shoov_ci_build_create_build_item($node, $timestamp = NULL) {
 }
 
 /**
- * Implements hook_message_presave().
- */
-function shoov_ci_build_message_presave(Message $message) {
-  _shoov_ci_build_check_requeue($message);
-}
-
-/**
  * Implements hook_message_update().
  *
  * @param \Message $message
@@ -391,6 +384,8 @@ function shoov_ci_build_message_update(Message $message) {
  * Implements hook_message_presave().
  */
 function shoov_ci_build_message_presave($message) {
+  _shoov_ci_build_check_requeue($message);
+
   if (empty($message->mid) || $message->type != 'ci_build') {
     return;
   }
