@@ -58,3 +58,4 @@ www
 # Local Configuration
 config.sh
 pantheon-install.sh
+db-update.sh
