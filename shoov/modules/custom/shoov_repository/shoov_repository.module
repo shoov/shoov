@@ -201,6 +201,9 @@ function shoov_repository_config_file_exists($node, $branch = 'master') {
     ),
   );
 
+  // When new node is created - branch can be not set yet and null is sent.
+  $branch = $branch ?: 'master';
+
   $url = 'repos/' . $node->title . '/contents/.shoov.yml?ref=' . $branch;
   $data = shoov_github_http_request($url, $options);
   if (isset($data['data']['message'])) {
