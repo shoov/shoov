@@ -61,4 +61,40 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
     $account = $this->getAccount();
     return node_access('update', $value, $account);
   }
+
+  /**
+   * {@inheritdoc}
+   *
+   * Catch '.shoov.yml is missing' exception and through
+   * restful exception instead.
+   */
+  public function createEntity() {
+    try {
+      parent::createEntity();
+    }
+    catch (Exception $e) {
+      if ($e->getMessage() == '.shoov.yml is missing in the root of the repository.') {
+        throw new \RestfulBadRequestException(".shoov.yml is missing in the root of the repository.");
+      }
+      throw $e;
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * Catch '.shoov.yml is missing' exception and through
+   * restful exception instead.
+   */
+  public function patchEntity($entity_id) {
+    try {
+      parent::patchEntity($entity_id);
+    }
+    catch (Exception $e) {
+      if ($e->getMessage() == '.shoov.yml is missing in the root of the repository.') {
+        throw new \RestfulBadRequestException(".shoov.yml is missing in the root of the repository.");
+      }
+      throw $e;
+    }
+  }
 }
