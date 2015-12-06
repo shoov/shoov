@@ -80,11 +80,23 @@ class ShoovScreenshotsMigrate extends \ShoovMigrateNode {
    *
    * Assign this screenshot with Ui Build that its have. Because they depend
    * from each other.
+   * Set the hash field value.
    */
   public function complete($entity, $row) {
     $ui_build_id = $entity->field_build[LANGUAGE_NONE][0]['target_id'];
     $wrapper = entity_metadata_wrapper('node', $ui_build_id);
     $wrapper->field_pr_screenshot_ids->set($entity->nid);
+    $wrapper->save();
+
+    // Create hash for the screenshot and set the field value.
+    $wrapper = entity_metadata_wrapper('node', $entity);
+    $files = array();
+    $files[]['id'] = $wrapper->field_baseline_image->value()['fid'];
+    $files[]['id'] = $wrapper->field_regression_image->value()['fid'];
+    $files[]['id'] = $wrapper->field_diff_image->value()['fid'];
+
+    $hash = shoov_screenshot_create_hash($files, $ui_build_id);
+    $wrapper->field_screenshot_hash->set($hash);
     $wrapper->save();
   }
 

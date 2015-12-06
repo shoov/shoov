@@ -1,38 +1,63 @@
-<div class="row">
-  <div class="col-md-12">
-    <div class="page-bar">
-      <ul class="page-breadcrumb">
-        <li>
-          <i class="fa fa-home"></i>
-          Dashboard
-        </li>
-      </ul>
+<div id="homepage">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="page-bar">
+        <ul class="page-breadcrumb">
+          <li class="active"><i class="fa fa-desktop"></i> Dashboard</li>
+        </ul>
+        <hr class="no-margin"/>
+      </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-6 live-monitor-wrapper">
-    <a class="dashboard-stat dashboard-stat-light red-soft" ui-sref="dashboard.repos">
-      <div class="visual">
-        <i class="fa fa-heartbeat"></i>
-      </div>
-      <div class="details">
-        <div class="desc">
-          Live Monitor
+  <div class="main-content">
+    <div class="wrapper">
+      <h2>Dashboard</h2>
+      <div id="dashboard-links">
+        <div class="row text-center">
+          <div class="col-sm-6 link">
+            <div>
+              <a ui-sref="dashboard.repos">
+                <div class="main-icon">
+                  <i class="fa fa-heartbeat"></i>
+                </div>
+                <h5>Live Monitor</h5>
+              </a>
+            </div>
+          </div>
+          <div class="col-sm-6 link">
+            <div>
+              <a ui-sref="dashboard.builds">
+                <div class="main-icon">
+                  <i class="fa fa-history"></i>
+                </div>
+                <h5>Visual Regression</h5>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
-    </a>
-  </div>
-  <div class="col-md-6 visual-regression-wrapper">
-    <a class="dashboard-stat dashboard-stat-light blue-soft" ui-sref="dashboard.builds">
-      <div class="visual">
-        <i class="fa fa-history"></i>
+    </div>
+    <!-- <div class="wrapper">
+      <h2>Need help on setting Shoov ?</h2>
+      <div id="demo-url-wrapper">
+        <form ng-submit="saveAccountDemoUrl(url.text);">
+          <label for="demo-url">Leave us your site URL, and we'll help you set it up.</label>
+          <input type="url" id="demo-url" placeholder="http://example-site.com" size="45" ng-model="url.text" required="true" ng-change="changeSubmitValue();">
+          <button type="submit" class="btn btn-primary" ng-disabled="submitValue == 'Saved';">{{submitValue}}</button>
+        </form>
       </div>
-      <div class="details">
-        <div class="desc">
-          Visual Regression
-        </div>
+      <div class="watermark">
+        <i class="fa fa-thumbs-o-up"></i>
       </div>
-    </a>
+    </div> -->
+    <div class="wrapper">
+      <h2>Shoov tutorials</h2>
+      Interested in learning more about Shoov ?
+      <br/>
+      Then checkout shoov <a href="http://www.shoov.io/tutorials/lesson1-install/" class="tutorial-link" target="_blank">tutorials</a>
+      <div class="watermark">
+        <i class="fa fa-graduation-cap"></i>
+      </div>
+    </div>
   </div>
 </div>

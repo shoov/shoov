@@ -167,3 +167,49 @@ function shoov_repository_check_repository_unique($github_id, $node) {
 
   throw new Exception(format_string('GitHub ID @githubid was duplicated.', array('@githubid' => $github_id)));
 }
+
+/**
+ * Check .shoov.yml file exists in repository.
+ *
+ * @param $node
+ *  Repository node.
+ * @param $branch
+ *  The Git branch name.
+ *
+ * @return bool
+ *  TRUE if file exists.
+ */
+function shoov_repository_config_file_exists($node, $branch = 'master') {
+  if ($node->type != 'repository') {
+    return FALSE;
+  }
+
+  if (variable_get('test_mode', FALSE)){
+    // This is the test mode. Don't check the repo.
+    return TRUE;
+  }
+
+  $account = user_load($node->uid);
+
+  // Get user's github access token.
+  $user_wrapper = entity_metadata_wrapper('user', $account);
+  $access_token = $user_wrapper->field_github_access_token->value();
+
+  $options = array(
+    'headers' => array(
+      'Authorization' => 'token ' . $access_token,
+    ),
+  );
+
+  // When new node is created - branch can be not set yet and null is sent.
+  $branch = $branch ?: 'master';
+
+  $url = 'repos/' . $node->title . '/contents/.shoov.yml?ref=' . $branch;
+  $data = shoov_github_http_request($url, $options);
+  if (isset($data['data']['message'])) {
+    // File doesn't exist for this branch.
+    return FALSE;
+  }
+
+  return TRUE;
+}

@@ -239,6 +239,46 @@ function shoov_screenshot_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-screenshot-field_screenshot_hash'
+  $field_instances['node-screenshot-field_screenshot_hash'] = array(
+    'bundle' => 'screenshot',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 14,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_screenshot_hash',
+    'label' => 'Screenshot hash',
+    'required' => 1,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 13,
+    ),
+  );
+
   // Exported field_instance: 'node-screenshot-og_repo'
   $field_instances['node-screenshot-og_repo'] = array(
     'bundle' => 'screenshot',
@@ -346,6 +386,7 @@ function shoov_screenshot_field_default_field_instances() {
   t('OG vocabulary');
   t('Regression Image');
   t('Repository');
+  t('Screenshot hash');
   t('UI Build');
 
   return $field_instances;
