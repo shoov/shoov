@@ -207,7 +207,7 @@ function shoov_repository_config_file_exists($node, $branch = 'master') {
   $url = 'repos/' . $node->title . '/contents/.shoov.yml?ref=' . $branch;
   // Try to get the .shoov.yml file.
   try {
-    // Do not decode the response, since repository can be rename, then request
+    // Do not decode the response, since repository can be renamed, then request
     // will be redirected and we want to get the final result.
     $data = shoov_github_http_request($url, $options, FALSE);
   }
