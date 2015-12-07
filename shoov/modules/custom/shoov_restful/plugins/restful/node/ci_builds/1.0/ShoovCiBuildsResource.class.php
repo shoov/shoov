@@ -51,7 +51,7 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
    */
   public function createEntity() {
     try {
-      parent::createEntity();
+      $entity = parent::createEntity();
     }
     catch (Exception $e) {
       if ($e->getMessage() == '.shoov.yml is missing in the root of the repository.') {
@@ -59,6 +59,7 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
       }
       throw $e;
     }
+    return $entity;
   }
 
   /**
@@ -69,7 +70,7 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
    */
   public function patchEntity($entity_id) {
     try {
-      parent::patchEntity($entity_id);
+      $entity = parent::patchEntity($entity_id);
     }
     catch (Exception $e) {
       if ($e->getMessage() == '.shoov.yml is missing in the root of the repository.') {
@@ -77,5 +78,6 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
       }
       throw $e;
     }
+    return $entity;
   }
 }
