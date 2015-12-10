@@ -168,6 +168,8 @@ function drush_shoov_ci_build_disable_ci_builds() {
     ->range(0, $range)
     ->execute();
   if (empty($result['node'])) {
+    drush_print('No CI Builds items left to check');
+    variable_set('shoov_ci_build_last_checked_for_config_file', 0);
     return;
   }
   $ids = array_keys($result['node']);
