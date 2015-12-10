@@ -26,7 +26,7 @@ function shoov_ci_build_drush_command() {
   $items['disable-ci-builds'] = array(
     'description' => 'disables CI Builds of repositories without .shoov.yml',
     'options' => array(
-      'nid' => 'The CI Build node id to start with',
+      'range' => 'The range of CI Builds to check.',
     ),
   );
 
@@ -152,7 +152,8 @@ function drush_shoov_ci_build_check_nodejs_server_health() {
  * Disable CI Builds of repositories that don't have .shoov.yml file in it.
  */
 function drush_shoov_ci_build_disable_ci_builds() {
-  $nid = drush_get_option('nid', 0);
+  $range = drush_get_option('range', 50);
+  $nid = variable_get('shoov_ci_build_last_checked_for_config_file', 0);
   $query = new EntityFieldQuery();
   $query
     ->entityCondition('entity_type', 'node')
@@ -164,6 +165,7 @@ function drush_shoov_ci_build_disable_ci_builds() {
     $query->propertyCondition('nid', $nid, '>');
   }
   $result = $query
+    ->range(0, $range)
     ->execute();
   if (empty($result['node'])) {
     return;
@@ -187,4 +189,10 @@ function drush_shoov_ci_build_disable_ci_builds() {
     );
     drush_print(dt('CI Build @build_id (@title) has been disabled.', $arguments));
   }
+  variable_set('shoov_ci_build_last_checked_for_config_file', end($ids));
+  $params = array(
+    '@start' => reset($ids),
+    '@end' => end($ids),
+  );
+  drush_print(dt('Process builds from id @start to id @end.', $params));
 }
