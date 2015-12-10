@@ -172,11 +172,11 @@ function drush_shoov_ci_build_disable_ci_builds() {
     variable_set('shoov_ci_build_last_checked_for_config_file', 0);
     return;
   }
-  $ids = array_keys($result['node']);
+  $nodes = node_load_multiple(array_keys($result['node']));
 
   // Iterate though CI Build items.
-  foreach ($ids as $ci_build_id) {
-    $node = node_load($ci_build_id);
+  foreach ($nodes as $node) {
+    $ci_build_id = $node->nid;
     $wrapper = entity_metadata_wrapper('node', $node);
 
     // Check config file exists for the new CI Build.
