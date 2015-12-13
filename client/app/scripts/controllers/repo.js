@@ -68,6 +68,12 @@ angular.module('clientApp')
     };
 
     var channel = channelManager.getChannel($scope.build.repository);
+
+    if (channel == undefined) {
+      // User is not assigned to this channel yet.
+      channel = channelManager.addChannel($scope.build.repository);
+    }
+
     channel.bind('ci_incident_new', function(data) {
       // Put new item in the beginning of the list.
       $scope.incidents.unshift(data[0]);
