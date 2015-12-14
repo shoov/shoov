@@ -233,7 +233,7 @@ angular
           if (response.status === 401) {
             Auth.authFailed();
           }
-          if (response.status === 403 || response.status === 404) {
+          if (response.status === 403) {
             $injector.get('$state').go('404');
           }
 
