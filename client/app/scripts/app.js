@@ -204,7 +204,6 @@ angular
         templateUrl: 'views/403.html'
       })
       .state('404', {
-        url: '/404',
         templateUrl: '404.html'
       });
 
@@ -212,7 +211,7 @@ angular
     $urlRouterProvider.otherwise('/');
 
     // Define interceptors.
-    $httpProvider.interceptors.push(function ($q, Auth, localStorageService, $location) {
+    $httpProvider.interceptors.push(function ($q, Auth, localStorageService, $injector) {
       return {
         'request': function (config) {
           if (!config.url.match(/login-token/)) {
@@ -231,11 +230,11 @@ angular
         },
 
         'responseError': function (response) {
-          if (response.status === 403 || response.status === 404) {
-            $location.url('/404');
-          }
           if (response.status === 401) {
             Auth.authFailed();
+          }
+          if (response.status === 403 || response.status === 404) {
+            $injector.get('$state').go('404');
           }
 
           return $q.reject(response);
