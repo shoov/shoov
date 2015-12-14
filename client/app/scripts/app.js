@@ -202,13 +202,16 @@ angular
       .state('403', {
         url: '/403',
         templateUrl: 'views/403.html'
+      })
+      .state('404', {
+        templateUrl: '404.html'
       });
 
     // For any unmatched url, redirect to '/'.
     $urlRouterProvider.otherwise('/');
 
     // Define interceptors.
-    $httpProvider.interceptors.push(function ($q, Auth, localStorageService) {
+    $httpProvider.interceptors.push(function ($q, Auth, localStorageService, $injector) {
       return {
         'request': function (config) {
           if (!config.url.match(/login-token/)) {
@@ -229,6 +232,9 @@ angular
         'responseError': function (response) {
           if (response.status === 401) {
             Auth.authFailed();
+          }
+          if (response.status === 403) {
+            $injector.get('$state').go('404');
           }
 
           return $q.reject(response);
