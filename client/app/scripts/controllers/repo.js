@@ -28,7 +28,8 @@ angular.module('clientApp')
       86400: '1 Day'
     };
 
-    $scope.buildBadgeLink = Config.backend + '/api/ci-build-status/' + $scope.build.id + '?status_token=' + $scope.build.status_token;
+    $scope.buildBadgeImageLink = Config.backend + '/api/ci-build-status/' + $scope.build.id + '?status_token=' + $scope.build.status_token;
+    $scope.buildBadgeLink = '![Badge](' + Config.backend + '/api/ci-build-status/' + $scope.build.id + '?status_token=' + $scope.build.status_token + ')';
 
     // Show the success icon when there's a response from the backend.
     $scope.responseStatus = false;
