@@ -23,4 +23,5 @@ drush sql-query "UPDATE field_data_field_github_access_token SET field_github_ac
 
 echo "Disable logs module"
 drush dis logs_http -y
+drush en views_ui -y
 
