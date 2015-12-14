@@ -25,6 +25,7 @@ features[field_instance][] = user-user-field_saucelabs_username
 features[message_type][] = user_added_demo_url
 features[page_manager_handlers][] = user_view__user
 features[views_view][] = user_content
+features[views_view][] = users
 features_exclude[dependencies][ctools] = ctools
 features_exclude[dependencies][message] = message
 features_exclude[dependencies][strongarm] = strongarm
