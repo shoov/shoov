@@ -8,7 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('RepoCtrl', function ($scope, $timeout, build, ciBuildItems, Builds, incidents, channelManager) {
+  .controller('RepoCtrl', function ($scope, $timeout, build, ciBuildItems, Builds, incidents, channelManager, Config) {
     $scope.build = build[0];
     $scope.ciBuildItems = [];
     $scope.incidents = incidents;
@@ -27,6 +27,8 @@ angular.module('clientApp')
       3600: '1 Hour',
       86400: '1 Day'
     };
+
+    $scope.buildBadgeLink = Config.backend + '/api/ci-build-status/' + $scope.build.id;
 
     // Show the success icon when there's a response from the backend.
     $scope.responseStatus = false;

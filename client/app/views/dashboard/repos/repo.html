@@ -29,11 +29,21 @@
           <a  ng-href="https://github.com/{{ build.label }}" target="_blank"> <i class="fa fa-external-link-square"></i> {{ build.label }}</a>
           <span class="divider"> &nbsp | &nbsp</span>
           <a class="encrypt-keys-link" ui-sref="dashboard.encrypt({ buildId: parseInt(build.id) })"><i class="fa fa-key"></i> Encrypt keys</a>
-          <div class="interval-wrapper">
-            <label for="interval">Build interval: </label>
-            <select ng-change="updateInterval()" ng-options="id as label for (id, label) in intervals" class="form-control" id="interval" ng-model="build.interval"></select>
-            <i ng-class="{'fa-check': responseStatus}" class="fa"></i>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="interval-wrapper">
+                <label for="interval">Build interval: </label>
+                <select ng-change="updateInterval()" ng-options="id as label for (id, label) in intervals" class="form-control" id="interval" ng-model="build.interval"></select>
+                <i ng-class="{'fa-check': responseStatus}" class="fa"></i>
+              </div>
+            </div>
+            <div class="col-sm-6 col-sm-pull-2 pull-right">
+              <img class="badge-image" src="{{ buildBadgeLink }}"> <label for="badge-link">Badge link:</label>
+              <div class="info background ng-binding" id="badge-link">{{buildBadgeLink}}</div>
+            </div>
           </div>
+
+
         </div>
         <div class="watermark">
           <i class="fa fa-cog watermark"></i>
