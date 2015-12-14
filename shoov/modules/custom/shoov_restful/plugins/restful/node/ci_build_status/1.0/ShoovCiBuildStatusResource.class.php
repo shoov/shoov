@@ -40,20 +40,26 @@ class ShoovCiBuildStatusResource extends \RestfulEntityBase {
    *  CI Build node wrapper.
    *
    * @return string
-   *  Returns formatted HTML.
+   *  Returns status badge file contents.
    */
   protected function statusHtml(\EntityMetadataWrapper $wrapper) {
-    $ci_build_status = $wrapper->field_ci_build_incident_status->value();
-    switch($ci_build_status) {
-      case 'unconfirmed_error':
-        $file = 'unconfirmed_error';
-        break;
-      case 'error':
-        $file = 'error';
-        break;
-      default:
-        $file = 'passing';
-        break;
+    $enabled = $wrapper->field_ci_build_enabled->value();
+    if (!$enabled) {
+      $file = 'disabled';
+    }
+    else {
+      $ci_build_status = $wrapper->field_ci_build_incident_status->value();
+      switch($ci_build_status) {
+        case 'unconfirmed_error':
+          $file = 'unconfirmed_error';
+          break;
+        case 'error':
+          $file = 'error';
+          break;
+        default:
+          $file = 'passing';
+          break;
+      }
     }
 
     $file_path = drupal_get_path('module', 'shoov_ci_build') . '/images/status/' . $file . '.png';

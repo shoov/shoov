@@ -205,8 +205,17 @@ function shoov_repository_config_file_exists($node, $branch = 'master') {
   $branch = $branch ?: 'master';
 
   $url = 'repos/' . $node->title . '/contents/.shoov.yml?ref=' . $branch;
-  $data = shoov_github_http_request($url, $options);
-  if (isset($data['data']['message'])) {
+  // Try to get the .shoov.yml file.
+  try {
+    // Do not decode the response, since repository can be renamed, then request
+    // will be redirected and we want to get the final result.
+    $data = shoov_github_http_request($url, $options, FALSE);
+  }
+  catch (Exception $e) {
+    return FALSE;
+  }
+
+  if (!isset($data->data)) {
     // File doesn't exist for this branch.
     return FALSE;
   }
