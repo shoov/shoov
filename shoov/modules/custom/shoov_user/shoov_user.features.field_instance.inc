@@ -10,7 +10,7 @@
 function shoov_user_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'user-user-field_browserstack_key'
+  // Exported field_instance: 'user-user-field_browserstack_key'.
   $field_instances['user-user-field_browserstack_key'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -44,7 +44,7 @@ function shoov_user_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_browserstack_username'
+  // Exported field_instance: 'user-user-field_browserstack_username'.
   $field_instances['user-user-field_browserstack_username'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -78,7 +78,7 @@ function shoov_user_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_demo_request_url'
+  // Exported field_instance: 'user-user-field_demo_request_url'.
   $field_instances['user-user-field_demo_request_url'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -112,7 +112,7 @@ function shoov_user_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_github_access_token'
+  // Exported field_instance: 'user-user-field_github_access_token'.
   $field_instances['user-user-field_github_access_token'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -146,7 +146,7 @@ function shoov_user_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_saucelabs_key'
+  // Exported field_instance: 'user-user-field_saucelabs_key'.
   $field_instances['user-user-field_saucelabs_key'] = array(
     'bundle' => 'user',
     'default_value' => NULL,
@@ -180,7 +180,7 @@ function shoov_user_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'user-user-field_saucelabs_username'
+  // Exported field_instance: 'user-user-field_saucelabs_username'.
   $field_instances['user-user-field_saucelabs_username'] = array(
     'bundle' => 'user',
     'default_value' => NULL,

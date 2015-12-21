@@ -53,6 +53,7 @@ dependencies[] = token
 dependencies[] = views
 dependencies[] = views_bulk_operations
 dependencies[] = views_content
+dependencies[] = views_data_export
 
 ; Shoov
 dependencies[] = shoov_ci_build
