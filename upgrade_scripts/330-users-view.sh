@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Execute: ./pantheon-site/upgrade_scripts/users-view.sh dev
+# Execute: ./pantheon-site/upgrade_scripts/330-users-view.sh dev
 
 if [ $# -eq 0 ]
   then
