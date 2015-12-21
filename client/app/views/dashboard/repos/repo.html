@@ -32,14 +32,18 @@
           <div class="row">
             <div class="col-sm-4">
               <div class="interval-wrapper">
-                <label for="interval">Build interval: </label>
+                <label for="interval">Build interval:</label>
                 <select ng-change="updateInterval()" ng-options="id as label for (id, label) in intervals" class="form-control" id="interval" ng-model="build.interval"></select>
                 <i ng-class="{'fa-check': responseStatus}" class="fa"></i>
               </div>
             </div>
             <div class="col-sm-7 col-sm-pull-1 pull-right">
-              <img class="badge-image" src="{{ buildBadgeImageLink }}"> <label for="badge-link">Badge link:</label>
-              <div class="info background ng-binding" id="badge-link">{{buildBadgeLink}}</div>
+              <label for="badge-markdown">Badge markdown:</label>
+              <div>
+                <input id="badge-markdown" type="text" ng-model="buildBadgeLink" size="40">
+                <img class="badge-image" src="{{ buildBadgeImageLink }}">
+              </div>
+
             </div>
           </div>
 
