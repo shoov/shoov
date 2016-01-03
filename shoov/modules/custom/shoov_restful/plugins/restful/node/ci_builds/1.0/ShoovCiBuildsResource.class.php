@@ -91,8 +91,8 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
     $repo_name = $wrapper->og_repo->label();
 
     if (og_is_member('node', $wrapper->og_repo->getIdentifier(), 'user', $account)) {
-      // User is member of the repository in shoov - he has access to build even
-      // if he doesn't have it in GitHub.
+      // User is member of the repository in shoov and has access to the CI
+      // build even if doesn't have it in GitHub.
      return TRUE;
     }
 
