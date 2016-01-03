@@ -25,6 +25,13 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
       'property' => 'field_js_lm_errors',
     );
 
+    $public_fields['image'] = array(
+      'property' => 'field_js_lm_image',
+      'process_callbacks' => array(
+        array($this, 'imageProcess'),
+      ),
+    );
+
     return $public_fields;
   }
 
@@ -50,8 +57,34 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
     // Add group reference
     $node_wrapper = entity_metadata_wrapper('node', $request['build']);
     $wrapper->js_lm->set($node_wrapper->js_lm->value(array('identifier' => TRUE)));
-
-
   }
 
+  /**
+   * Overrides \ShoovEntityBaseNode::checkPropertyAccess().
+   *
+   * Always allow to set properties.
+   */
+  protected function checkPropertyAccess($op, $public_field_name, EntityMetadataWrapper $property_wrapper, EntityMetadataWrapper $wrapper) {
+    return TRUE;
+  }
+
+  /**
+   * Overrides \ShoovEntityBaseNode::createEntity().
+   *
+   * Create file from Data URL before creating entity.
+   */
+  public function createEntity() {
+    $request = $this->getRequest();
+
+    list($meta, $content) = explode(',', $request['image']);
+    $content = base64_decode(str_replace(' ', '+', $content));
+
+    $file = file_save_data($content, 'public://incident.png');
+
+    $request['image'] = $file->fid;
+
+    $this->setRequest($request);
+
+    parent::createEntity();
+  }
 }
