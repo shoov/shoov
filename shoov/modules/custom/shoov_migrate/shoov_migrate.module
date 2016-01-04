@@ -16,6 +16,8 @@ function shoov_migrate_migrate_api() {
     'ShoovUiBuildsMigrate',
     'ShoovScreenshotsMigrate',
     'ShoovCiIncidentsMigrate',
+    'ShoovJsLmMigrate',
+    'ShoovJsLmBuildsMigrate',
     // Entities.
     'ShoovCiBuildMessagesMigrate',
     'ShoovCiIncidentErrorMessagesMigrate',
