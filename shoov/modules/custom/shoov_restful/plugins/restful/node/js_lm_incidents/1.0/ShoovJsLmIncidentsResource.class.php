@@ -76,13 +76,17 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
   public function createEntity() {
     $request = $this->getRequest();
 
+    // Get the  file contents from the Data URL.
     list($meta, $content) = explode(',', $request['image']);
+    // Replace spaces with "+" since javascript puts spaces in the encoded data.
     $content = base64_decode(str_replace(' ', '+', $content));
 
-    $file = file_save_data($content, 'public://incident.png');
+    // Save the image.
+    $filename = md5('JSLM-' . $request['build'] . '-incident-' . time());
+    $file = file_save_data($content, 'public://' . $filename . '.png');
 
+    // Replace the Data URL with the file ID in the request.
     $request['image'] = $file->fid;
-
     $this->setRequest($request);
 
     parent::createEntity();

@@ -32,7 +32,6 @@ function shoov_js_lm_proxy_script_access($node) {
   return $node->type == 'js_lm_build';
 }
 
-
 /**
  * Page callback; Proxy the JS script file.
  *
