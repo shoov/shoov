@@ -3,4 +3,4 @@ ci_incident1,"incident 1",msg_ci_build3,,repository1,ci_build1,1
 ci_incident2,"incident 2",msg_ci_build5,,repository2,ci_build2,1
 ci_incident3,"incident 3",msg_ci_build3,,repository3,ci_build3,1
 ci_incident4,"incident 4",msg_ci_build5,,repository4,ci_build4,0
-ci_incidentXSS,"XSS ATTACK NODE <script>alert('xss - compilation - title');</script>",msg_ci_build5,,repository4,ci_build4,0
+ci_incidentXSS,"XSS ATTACK NODE <script>alert('xss - compilation - title');</script>",msg_ci_buildXSS,,repositoryXSS,ci_buildXSS,0

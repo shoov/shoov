@@ -3,3 +3,4 @@ ui_build1,Update README.md (03d000),repository1,,03d000df4fa813c9d0c93e59a0ba3b6
 ui_build2,Fix error (356a19),repository2,chrome,356a192b7913b04c54574d18c28d46e6395428ab,bug-356,ui-tests/,https://github.com/DavidKohav/test-example/pull19,in_progress,shoov-master
 ui_build3,Change interface (7b5200),repository3,firefox,7b52009b64fd0a2a49e6d8a939753077792b0554,develop,ui-tests/,https://github.com/Gizra/Gizra/pull/121,done,shoov-master
 ui_build4,Declare abstract class (40bd00),repository4,phantomjs,40bd001563085fc35165329ea1ff5c5ecbdbbeef,master,ui-tests/,https://github.com/drupal/drupal/pulls/1,error,shoov-master
+ui_buildXSS,"XSS ATTACK NODE <script>alert('xss - compilation - title');</script>",repositoryXSS,phantomjs,40bd001563085fc35165329ea1ff5c5ecbdbbeef,master,ui-tests/,https://github.com/drupal/drupal/pulls/1,error,shoov-master
