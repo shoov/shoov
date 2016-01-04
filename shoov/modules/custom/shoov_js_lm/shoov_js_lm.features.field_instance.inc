@@ -10,7 +10,7 @@
 function shoov_js_lm_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-js_lm-body'
+  // Exported field_instance: 'node-js_lm-body'.
   $field_instances['node-js_lm-body'] = array(
     'bundle' => 'js_lm',
     'default_value' => NULL,
@@ -54,7 +54,7 @@ function shoov_js_lm_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-js_lm-group_group'
+  // Exported field_instance: 'node-js_lm-group_group'.
   $field_instances['node-js_lm-group_group'] = array(
     'bundle' => 'js_lm',
     'default_value' => array(
@@ -112,7 +112,47 @@ function shoov_js_lm_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-js_lm_build-field_js_lm_url'
+  // Exported field_instance: 'node-js_lm_build-field_js_lm_build_token'.
+  $field_instances['node-js_lm_build-field_js_lm_build_token'] = array(
+    'bundle' => 'js_lm_build',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 4,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_js_lm_build_token',
+    'label' => 'Build token',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 4,
+    ),
+  );
+
+  // Exported field_instance: 'node-js_lm_build-field_js_lm_url'.
   $field_instances['node-js_lm_build-field_js_lm_url'] = array(
     'bundle' => 'js_lm_build',
     'default_value' => NULL,
@@ -152,7 +192,7 @@ function shoov_js_lm_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-js_lm_build-js_lm'
+  // Exported field_instance: 'node-js_lm_build-js_lm'.
   $field_instances['node-js_lm_build-js_lm'] = array(
     'bundle' => 'js_lm_build',
     'default_value' => NULL,
@@ -213,7 +253,7 @@ function shoov_js_lm_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-js_lm_incident-body'
+  // Exported field_instance: 'node-js_lm_incident-body'.
   $field_instances['node-js_lm_incident-body'] = array(
     'bundle' => 'js_lm_incident',
     'default_value' => NULL,
@@ -257,7 +297,7 @@ function shoov_js_lm_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-js_lm_incident-field_js_lm_build'
+  // Exported field_instance: 'node-js_lm_incident-field_js_lm_build'.
   $field_instances['node-js_lm_incident-field_js_lm_build'] = array(
     'bundle' => 'js_lm_incident',
     'default_value' => NULL,
@@ -300,7 +340,7 @@ function shoov_js_lm_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-js_lm_incident-field_js_lm_errors'
+  // Exported field_instance: 'node-js_lm_incident-field_js_lm_errors'.
   $field_instances['node-js_lm_incident-field_js_lm_errors'] = array(
     'bundle' => 'js_lm_incident',
     'default_value' => NULL,
@@ -340,7 +380,7 @@ function shoov_js_lm_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-js_lm_incident-field_js_lm_image'
+  // Exported field_instance: 'node-js_lm_incident-field_js_lm_image'.
   $field_instances['node-js_lm_incident-field_js_lm_image'] = array(
     'bundle' => 'js_lm_incident',
     'deleted' => 0,
@@ -390,7 +430,7 @@ function shoov_js_lm_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-js_lm_incident-field_js_lm_url'
+  // Exported field_instance: 'node-js_lm_incident-field_js_lm_url'.
   $field_instances['node-js_lm_incident-field_js_lm_url'] = array(
     'bundle' => 'js_lm_incident',
     'default_value' => NULL,
@@ -430,7 +470,7 @@ function shoov_js_lm_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-js_lm_incident-field_user_id'
+  // Exported field_instance: 'node-js_lm_incident-field_user_id'.
   $field_instances['node-js_lm_incident-field_user_id'] = array(
     'bundle' => 'js_lm_incident',
     'default_value' => NULL,
@@ -470,7 +510,7 @@ function shoov_js_lm_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-js_lm_incident-js_lm'
+  // Exported field_instance: 'node-js_lm_incident-js_lm'.
   $field_instances['node-js_lm_incident-js_lm'] = array(
     'bundle' => 'js_lm_incident',
     'default_value' => NULL,
@@ -524,6 +564,7 @@ function shoov_js_lm_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
+  t('Build token');
   t('Determine if this is an OG group.');
   t('Errors');
   t('Group');

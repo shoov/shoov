@@ -36,14 +36,22 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
   }
 
   /**
+   * Determine if JS LM Build Token has been checked it matches the field value.
+   */
+  protected $token_valid = FALSE;
+
+  /**
    * Overrides \ShoovEntityBaseNode::checkEntityAccess().
-   *
-   * Always grant access to create.
-   *
-   * @todo: Reconsider.
    */
   protected function checkEntityAccess($op, $entity_type, $entity) {
-    return TRUE;
+    return $this->token_valid;
+  }
+
+  /**
+   * Overrides \ShoovEntityBaseNode::checkPropertyAccess().
+   */
+  protected function checkPropertyAccess($op, $public_field_name, EntityMetadataWrapper $property_wrapper, EntityMetadataWrapper $wrapper) {
+    return $this->token_valid;
   }
 
   public function entityPreSave(\EntityMetadataWrapper $wrapper) {
@@ -57,15 +65,6 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
     // Add group reference
     $node_wrapper = entity_metadata_wrapper('node', $request['build']);
     $wrapper->js_lm->set($node_wrapper->js_lm->value(array('identifier' => TRUE)));
-  }
-
-  /**
-   * Overrides \ShoovEntityBaseNode::checkPropertyAccess().
-   *
-   * Always allow to set properties.
-   */
-  protected function checkPropertyAccess($op, $public_field_name, EntityMetadataWrapper $property_wrapper, EntityMetadataWrapper $wrapper) {
-    return TRUE;
   }
 
   /**
@@ -87,6 +86,16 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
 
     // Replace the Data URL with the file ID in the request.
     $request['image'] = $file->fid;
+
+    // Check the build token and remove it from the request.
+    $token = $request['token'];
+    $build = node_load($request['build']);
+    $wrapper = entity_metadata_wrapper('node', $build);
+    $build_token = $wrapper->field_js_lm_build_token->value();
+    $this->token_valid = $token == $build_token;
+    unset($request['token']);
+
+    // Re-set the updated request to create entity.
     $this->setRequest($request);
 
     parent::createEntity();

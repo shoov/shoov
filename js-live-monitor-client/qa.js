@@ -10,6 +10,7 @@ main = function() {
 runTests = function() {
   var errors = [];
   var buildId = 2;
+  var buildToken = '45974c049b94a808ede67034c3ad2dec';
   loadJS('http://localhost/shoov/www/js_lm/' + buildId, function() {
     result = customTests();
     result.forEach(function(row) {
@@ -25,7 +26,8 @@ runTests = function() {
     var data = {
       build: buildId,
       // url: '/',
-      errors: errors.join("\r\n")
+      errors: errors.join("\r\n"),
+      token: buildToken
     };
 
     var serializeObject = function(obj) {

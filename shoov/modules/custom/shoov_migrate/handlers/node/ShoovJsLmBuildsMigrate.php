@@ -12,7 +12,8 @@ class ShoovJsLmBuildsMigrate extends \ShoovMigrateNode {
 
   public $fields = array(
     '_js_lm',
-    '_url'
+    '_url',
+    '_token'
   );
 
   public $dependencies = array(
@@ -25,6 +26,10 @@ class ShoovJsLmBuildsMigrate extends \ShoovMigrateNode {
     // Map URL.
     $this
       ->addFieldMapping('field_js_lm_url', '_url');
+
+    // Map token.
+    $this
+      ->addFieldMapping('field_js_lm_build_token', '_token');
 
     // Map Lm Build with JS LM.
     $this

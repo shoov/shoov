@@ -10,7 +10,7 @@
 function shoov_js_lm_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'body'
+  // Exported field_base: 'body'.
   $field_bases['body'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -31,7 +31,7 @@ function shoov_js_lm_field_default_field_bases() {
     'type' => 'text_with_summary',
   );
 
-  // Exported field_base: 'field_js_lm_build'
+  // Exported field_base: 'field_js_lm_build'.
   $field_bases['field_js_lm_build'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -66,7 +66,28 @@ function shoov_js_lm_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_js_lm_errors'
+  // Exported field_base: 'field_js_lm_build_token'.
+  $field_bases['field_js_lm_build_token'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_js_lm_build_token',
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'text',
+    'settings' => array(
+      'max_length' => 255,
+    ),
+    'translatable' => 0,
+    'type' => 'text',
+  );
+
+  // Exported field_base: 'field_js_lm_errors'.
   $field_bases['field_js_lm_errors'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -85,7 +106,7 @@ function shoov_js_lm_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_js_lm_image'
+  // Exported field_base: 'field_js_lm_image'.
   $field_bases['field_js_lm_image'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -107,7 +128,7 @@ function shoov_js_lm_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_js_lm_url'
+  // Exported field_base: 'field_js_lm_url'.
   $field_bases['field_js_lm_url'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -128,7 +149,7 @@ function shoov_js_lm_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_user_id'
+  // Exported field_base: 'field_user_id'.
   $field_bases['field_user_id'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -149,7 +170,7 @@ function shoov_js_lm_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'js_lm'
+  // Exported field_base: 'js_lm'.
   $field_bases['js_lm'] = array(
     'active' => 1,
     'cardinality' => 1,
