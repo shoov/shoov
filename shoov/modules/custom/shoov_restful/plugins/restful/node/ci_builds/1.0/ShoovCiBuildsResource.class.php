@@ -84,4 +84,43 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
     }
     return $entity;
   }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function checkEntityAccess($op, $entity_type, $entity) {
+    $account = $this->getAccount();
+
+    $wrapper = entity_metadata_wrapper('node', $entity);
+    $repo_name = $wrapper->og_repo->label();
+
+    // Check user is member of the repository in GitHub.
+    $user_wrapper = entity_metadata_wrapper('user', $account);
+    $user_name = $user_wrapper->label();
+    $access_token = $user_wrapper->field_github_access_token->value();
+
+    $options = array(
+      'method' => 'GET',
+      'headers' => array(
+        'Authorization' => 'token ' . $access_token,
+      ),
+    );
+    $url = 'repos/' . $repo_name . '/collaborators/' . $user_name;
+    $response = shoov_github_http_request($url, $options);
+
+    if ($response['meta']['status'] == 204) {
+      // User is a member of the repository. Subscribe them to the repository.
+      $params = array(
+        'entity_type' => 'user',
+        'entity' => $account,
+        'field_name' => 'og_user_node'
+      );
+
+      og_group('node', $wrapper->og_repo->getIdentifier(), $params);
+      return TRUE;
+    }
+
+    og_ungroup('node', $wrapper->og_repo->getIdentifier(), 'user', $account);
+    return FALSE;
+  }
 }
