@@ -15,14 +15,12 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
 
     $public_fields['build'] = array(
       'property' => 'field_js_lm_build',
-    );
-
-    $public_fields['user_id'] = array(
-      'property' => 'field_user_id',
+      'required' => TRUE,
     );
 
     $public_fields['errors'] = array(
       'property' => 'field_js_lm_errors',
+      'required' => TRUE,
     );
 
     $public_fields['image'] = array(
@@ -38,21 +36,30 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
   /**
    * Determine JS LM Build Token has been checked and validated.
    */
-  protected $tokenValid = FALSE;
+  protected $tokenValid = NULL;
 
   /**
    * Check token that has been sent is valid.
    */
   protected function checkToken() {
-    if ($this->tokenValid) {
+    if (isset($this->tokenValid)) {
       // Token already has been checked.
-      return TRUE;
+      return $this->tokenValid;
     }
 
     $request = $this->getRequest();
     // Check the build token.
+    if (empty($_GET['token'])) {
+      $this->tokenValid = FALSE;
+      return FALSE;
+    }
     $token = $_GET['token'];
-    $build = node_load($request['build']);
+
+    if (!$build = node_load($request['build'])) {
+      $this->tokenValid = FALSE;
+      return FALSE;
+    }
+
     $wrapper = entity_metadata_wrapper('node', $build);
     $build_token = $wrapper->field_js_lm_build_token->value();
     $this->tokenValid = $token == $build_token;
@@ -63,13 +70,6 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
    * Overrides \ShoovEntityBaseNode::checkEntityAccess().
    */
   protected function checkEntityAccess($op, $entity_type, $entity) {
-    return $this->checkToken();
-  }
-
-  /**
-   * Overrides \ShoovEntityBaseNode::checkPropertyAccess().
-   */
-  protected function checkPropertyAccess($op, $public_field_name, EntityMetadataWrapper $property_wrapper, EntityMetadataWrapper $wrapper) {
     return $this->checkToken();
   }
 
@@ -94,24 +94,27 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
   public function createEntity() {
     $request = $this->getRequest();
 
-    // Get the  file contents from the Data URL.
-    list($meta, $content) = explode(',', $request['image']);
-    // Replace spaces with "+" since javascript puts spaces in the encoded data.
-    $content = base64_decode(str_replace(' ', '+', $content));
-
-    // Save the image.
-    $filename = md5('JSLM-' . $request['build'] . '-incident-' . time());
-    $file = file_save_data($content, 'public://' . $filename . '.png');
-
-    // Replace the Data URL with the file ID in the request.
-    $request['image'] = $file->fid;
-    // Re-set the updated request to create entity.
-    $this->setRequest($request);
-
     $account = $this->getAccount();
+    $build = node_load($request['build']);
     if (!$account->uid) {
       // Set the user to JS-LM is user is anonymous.
-      $this->setAccount(user_load_by_name('JS-LM'));
+      $this->setAccount(user_load($build->uid));
+    }
+
+    if (isset($request['image'])) {
+      // Get the  file contents from the Data URL.
+      list($meta, $content) = explode(',', $request['image']);
+      // Replace spaces with "+" since javascript puts spaces in the encoded data.
+      $content = base64_decode(str_replace(' ', '+', $content));
+
+      // Save the image.
+      $filename = md5('JSLM-' . $request['build'] . '-incident-' . time());
+      $file = file_save_data($content, 'public://' . $filename . '.png');
+
+      // Replace the Data URL with the file ID in the request.
+      $request['image'] = $file->fid;
+      // Re-set the updated request to create entity.
+      $this->setRequest($request);
     }
 
     parent::createEntity();

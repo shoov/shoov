@@ -70,7 +70,6 @@ function shoov_setup_variables() {
 
     // Set access token expiration to future date.
     'restful_token_auth_expiration_period' => 'P10Y',
-    'og_node_access_strict' => 0,
   );
 
   foreach ($variables as $key => $value) {
