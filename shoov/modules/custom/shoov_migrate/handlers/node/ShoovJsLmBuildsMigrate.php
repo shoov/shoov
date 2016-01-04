@@ -13,11 +13,13 @@ class ShoovJsLmBuildsMigrate extends \ShoovMigrateNode {
   public $fields = array(
     '_js_lm',
     '_url',
-    '_token'
+    '_token',
+    '_user_id'
   );
 
   public $dependencies = array(
     'ShoovJsLmMigrate',
+    'ShoovUsersMigrate',
   );
 
   public function __construct() {
@@ -35,5 +37,10 @@ class ShoovJsLmBuildsMigrate extends \ShoovMigrateNode {
     $this
       ->addFieldMapping('js_lm', '_js_lm')
       ->sourceMigration('ShoovJsLmMigrate');
+
+    // Map user.
+    $this
+      ->addFieldMapping('uid', '_user_id')
+      ->sourceMigration('ShoovUsersMigrate');
   }
 }

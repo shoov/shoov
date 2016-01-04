@@ -36,22 +36,41 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
   }
 
   /**
-   * Determine if JS LM Build Token has been checked it matches the field value.
+   * Determine JS LM Build Token has been checked and validated.
    */
-  protected $token_valid = FALSE;
+  protected $tokenValid = FALSE;
+
+  /**
+   * Check token that has been sent is valid.
+   */
+  protected function checkToken() {
+    if ($this->tokenValid) {
+      // Token already has been checked.
+      return TRUE;
+    }
+
+    $request = $this->getRequest();
+    // Check the build token and remove it from the request.
+    $token = $_GET['token'];
+    $build = node_load($request['build']);
+    $wrapper = entity_metadata_wrapper('node', $build);
+    $build_token = $wrapper->field_js_lm_build_token->value();
+    $this->tokenValid = $token == $build_token;
+    return $this->tokenValid;
+  }
 
   /**
    * Overrides \ShoovEntityBaseNode::checkEntityAccess().
    */
   protected function checkEntityAccess($op, $entity_type, $entity) {
-    return $this->token_valid;
+    return $this->checkToken();
   }
 
   /**
    * Overrides \ShoovEntityBaseNode::checkPropertyAccess().
    */
   protected function checkPropertyAccess($op, $public_field_name, EntityMetadataWrapper $property_wrapper, EntityMetadataWrapper $wrapper) {
-    return $this->token_valid;
+    return $this->checkToken();
   }
 
   public function entityPreSave(\EntityMetadataWrapper $wrapper) {
@@ -86,17 +105,14 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
 
     // Replace the Data URL with the file ID in the request.
     $request['image'] = $file->fid;
-
-    // Check the build token and remove it from the request.
-    $token = $request['token'];
-    $build = node_load($request['build']);
-    $wrapper = entity_metadata_wrapper('node', $build);
-    $build_token = $wrapper->field_js_lm_build_token->value();
-    $this->token_valid = $token == $build_token;
-    unset($request['token']);
-
     // Re-set the updated request to create entity.
     $this->setRequest($request);
+
+    $account = $this->getAccount();
+    if (!$account->uid) {
+      // Set the user to JS-LM is user is anonymous.
+      $this->setAccount(user_load_by_name('JS-LM'));
+    }
 
     parent::createEntity();
   }

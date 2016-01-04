@@ -9,7 +9,7 @@ main = function() {
 
 runTests = function() {
   var errors = [];
-  var buildId = 2;
+  var buildId = 14;
   var buildToken = '45974c049b94a808ede67034c3ad2dec';
   loadJS('http://localhost/shoov/www/js_lm/' + buildId, function() {
     result = customTests();
@@ -26,8 +26,7 @@ runTests = function() {
     var data = {
       build: buildId,
       // url: '/',
-      errors: errors.join("\r\n"),
-      token: buildToken
+      errors: errors.join("\r\n")
     };
 
     var serializeObject = function(obj) {
@@ -53,7 +52,7 @@ runTests = function() {
         console.log(image.src);
 
 
-        request.open('POST', 'http://localhost/shoov/www/api/v1.0/js-lm-incidents', true);
+        request.open('POST', 'http://localhost/shoov/www/api/v1.0/js-lm-incidents?token=' + buildToken, true);
         request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 
         request.onload = function() {
