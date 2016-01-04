@@ -50,7 +50,7 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
     }
 
     $request = $this->getRequest();
-    // Check the build token and remove it from the request.
+    // Check the build token.
     $token = $_GET['token'];
     $build = node_load($request['build']);
     $wrapper = entity_metadata_wrapper('node', $build);
