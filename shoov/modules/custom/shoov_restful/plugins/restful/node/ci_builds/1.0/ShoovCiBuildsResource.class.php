@@ -105,7 +105,7 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
     $response = shoov_github_http_request($url, $options);
 
     if ($response['meta']['status'] == 204) {
-      // User is a member of the repository. Subscribe him to the repository.
+      // User is a member of the repository. Subscribe them to the repository.
       $params = array(
         'entity_type' => 'user',
         'entity' => $account,
