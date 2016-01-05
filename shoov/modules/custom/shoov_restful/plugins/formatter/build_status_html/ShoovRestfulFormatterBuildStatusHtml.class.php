@@ -12,7 +12,7 @@ class ShoovRestfulFormatterBuildStatusHtml extends \RestfulFormatterBase impleme
    *
    * @var string
    */
-  protected $contentType = 'text/html; charset=utf-8';
+  protected $contentType = 'image/png';
 
   /**
    * {@inheritdoc}

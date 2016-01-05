@@ -45,6 +45,10 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
       'property' => 'field_private_key',
     );
 
+    $public_fields['status_token'] = array(
+      'property' => 'field_status_token',
+    );
+
     return $public_fields;
   }
 
@@ -70,7 +74,7 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
    */
   public function createEntity() {
     try {
-      parent::createEntity();
+      $entity = parent::createEntity();
     }
     catch (Exception $e) {
       if ($e->getMessage() == '.shoov.yml is missing in the root of the repository.') {
@@ -78,6 +82,7 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
       }
       throw $e;
     }
+    return $entity;
   }
 
   /**
@@ -88,7 +93,7 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
    */
   public function patchEntity($entity_id) {
     try {
-      parent::patchEntity($entity_id);
+      $entity = parent::patchEntity($entity_id);
     }
     catch (Exception $e) {
       if ($e->getMessage() == '.shoov.yml is missing in the root of the repository.') {
@@ -96,5 +101,50 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
       }
       throw $e;
     }
+    return $entity;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function checkEntityAccess($op, $entity_type, $entity) {
+    $account = $this->getAccount();
+
+    $wrapper = entity_metadata_wrapper('node', $entity);
+    $repo_name = $wrapper->og_repo->label();
+
+    if (og_is_member('node', $wrapper->og_repo->getIdentifier(), 'user', $account)) {
+      // User is member of the repository in shoov and has access to the CI
+      // build even if doesn't have it in GitHub.
+      return TRUE;
+    }
+
+    // Check user is member of the repository in GitHub.
+    $user_wrapper = entity_metadata_wrapper('user', $account);
+    $user_name = $user_wrapper->label();
+    $access_token = $user_wrapper->field_github_access_token->value();
+
+    $options = array(
+      'method' => 'GET',
+      'headers' => array(
+        'Authorization' => 'token ' . $access_token,
+      ),
+    );
+    $url = 'repos/' . $repo_name . '/collaborators/' . $user_name;
+    $response = shoov_github_http_request($url, $options);
+
+    if ($response['meta']['status'] == 204) {
+      // User is a member of the repository. Subscribe them to the repository.
+      $params = array(
+        'entity_type' => 'user',
+        'entity' => $account,
+        'field_name' => 'og_user_node'
+      );
+
+      og_group('node', $wrapper->og_repo->getIdentifier(), $params);
+      return TRUE;
+    }
+
+    return FALSE;
   }
 }
