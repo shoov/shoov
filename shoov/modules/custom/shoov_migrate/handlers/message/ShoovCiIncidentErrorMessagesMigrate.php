@@ -21,8 +21,8 @@ class ShoovCiIncidentErrorMessagesMigrate extends ShoovMigrateMessage {
     'ShoovCiIncidentsMigrate',
   );
 
-  public function __construct() {
-    parent::__construct();
+  public function __construct($arguments = array()) {
+    parent::__construct($arguments);
     $this->description = t('Import CI Incidents Error messages from a CSV file.');
 
     // Map CI Incident.
