@@ -91,7 +91,7 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
   protected function checkEntityAccess($op, $entity_type, $entity) {
     $account = $this->getAccount();
 
-    if ($op == 'create' && $entity->is_new) {
+    if ($op == 'create' && !empty($entity->is_new)) {
       // New CI Build is to be created.
       $request = $this->getRequest();
       if (!isset($request['repository'])) {
@@ -102,6 +102,9 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
       // Get repository from the request.
       $repo_id = $request['repository'];
       $repo = node_load($repo_id);
+      if (!$repo) {
+        return FALSE;
+      }
       $repo_name = $repo->title;
     }
     else {
