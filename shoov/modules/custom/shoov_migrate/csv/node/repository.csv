@@ -3,4 +3,4 @@ repository1,shoov-tester/gizra-behat,32264518,user5
 repository2,DavidKohav/test-example,33866349,user2
 repository3,Gizra/Gizra,33566350,user3
 repository4,drupal/drupal,33875351,user4
-repositoryXSS,"XSS ATTACK NODE <script>alert('xss - compilation - title');</script>",33875352,user4
+repositoryXSS,"XSS ATTACK NODE <script>alert('xss - repository - title');</script>",33875352,user4
