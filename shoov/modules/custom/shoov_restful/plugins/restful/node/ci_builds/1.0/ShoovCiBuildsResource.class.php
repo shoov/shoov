@@ -30,6 +30,7 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
           'full_view' => FALSE,
         ),
       ),
+      'required' => TRUE,
     );
 
     $public_fields['interval'] = array(
@@ -94,11 +95,6 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
     if ($op == 'create' && !empty($entity->is_new)) {
       // New CI Build is to be created.
       $request = $this->getRequest();
-      if (!isset($request['repository'])) {
-        // Repository is not send.
-        return FALSE;
-      }
-
       // Get repository from the request.
       $repo_id = $request['repository'];
       $repo = node_load($repo_id);
