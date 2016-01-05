@@ -172,7 +172,8 @@ function drush_shoov_ci_build_disable_ci_builds() {
     variable_set('shoov_ci_build_last_checked_for_config_file', 0);
     return;
   }
-  $nodes = node_load_multiple(array_keys($result['node']));
+  $ids = array_keys($result['node']);
+  $nodes = node_load_multiple($ids);
 
   // Iterate though CI Build items.
   foreach ($nodes as $node) {
