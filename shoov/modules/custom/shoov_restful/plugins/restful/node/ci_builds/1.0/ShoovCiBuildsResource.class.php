@@ -30,6 +30,7 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
           'full_view' => FALSE,
         ),
       ),
+      'required' => TRUE,
     );
 
     $public_fields['interval'] = array(
@@ -91,10 +92,31 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
   protected function checkEntityAccess($op, $entity_type, $entity) {
     $account = $this->getAccount();
 
-    $wrapper = entity_metadata_wrapper('node', $entity);
-    $repo_name = $wrapper->og_repo->label();
+    if ($op == 'create' && !empty($entity->is_new)) {
+      // New CI Build is to be created.
+      $request = $this->getRequest();
+      // Get repository from the request.
+      $repo_id = $request['repository'];
+      $repo = node_load($repo_id);
+      if (!$repo) {
+        return FALSE;
+      }
+      $repo_name = $repo->title;
+    }
+    else {
+      // Already existing CI Build is to be enabled - get the repository from
+      // the entity.
+      $wrapper = entity_metadata_wrapper('node', $entity);
+      $repo_name = $wrapper->og_repo->label();
+      $repo_id = $wrapper->og_repo->getIdentifier();
+    }
 
-    if (og_is_member('node', $wrapper->og_repo->getIdentifier(), 'user', $account)) {
+    if (!$repo_name) {
+      // No repository.
+      return FALSE;
+    }
+
+    if (og_is_member('node', $repo_id, 'user', $account)) {
       // User is member of the repository in shoov and has access to the CI
       // build even if doesn't have it in GitHub.
       return TRUE;
@@ -122,7 +144,7 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
         'field_name' => 'og_user_node'
       );
 
-      og_group('node', $wrapper->og_repo->getIdentifier(), $params);
+      og_group('node', $repo_id, $params);
       return TRUE;
     }
 
