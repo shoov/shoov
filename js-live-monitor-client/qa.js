@@ -25,7 +25,7 @@ runTests = function() {
 
     var data = {
       build: buildId,
-      // url: '/',
+      url: '/',
       errors: errors.join("\r\n")
     };
 
