@@ -59,6 +59,7 @@ dependencies[] = views_data_export
 dependencies[] = shoov_ci_build
 dependencies[] = shoov_ci_incident
 dependencies[] = shoov_github
+dependencies[] = shoov_js_lm
 dependencies[] = shoov_pusher
 dependencies[] = shoov_screenshot
 dependencies[] = shoov_repository

@@ -16,6 +16,8 @@ files[] = handlers/node/ShoovCiBuildsMigrate.php
 files[] = handlers/node/ShoovUiBuildsMigrate.php
 files[] = handlers/node/ShoovScreenshotsMigrate.php
 files[] = handlers/node/ShoovCiIncidentsMigrate.php
+files[] = handlers/node/ShoovJsLmMigrate.php
+files[] = handlers/node/ShoovJsLmBuildsMigrate.php
 
 ; Users
 files[] = handlers/user/ShoovUsersMigrate.php
