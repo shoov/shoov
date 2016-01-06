@@ -10,7 +10,7 @@
 function shoov_user_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_browserstack_key'
+  // Exported field_base: 'field_browserstack_key'.
   $field_bases['field_browserstack_key'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -31,7 +31,7 @@ function shoov_user_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_browserstack_username'
+  // Exported field_base: 'field_browserstack_username'.
   $field_bases['field_browserstack_username'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -52,7 +52,7 @@ function shoov_user_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_demo_request_url'
+  // Exported field_base: 'field_demo_request_url'.
   $field_bases['field_demo_request_url'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -73,7 +73,7 @@ function shoov_user_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_github_access_token'
+  // Exported field_base: 'field_github_access_token'.
   $field_bases['field_github_access_token'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -94,7 +94,7 @@ function shoov_user_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_saucelabs_key'
+  // Exported field_base: 'field_saucelabs_key'.
   $field_bases['field_saucelabs_key'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -115,7 +115,7 @@ function shoov_user_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_saucelabs_username'
+  // Exported field_base: 'field_saucelabs_username'.
   $field_bases['field_saucelabs_username'] = array(
     'active' => 1,
     'cardinality' => 1,

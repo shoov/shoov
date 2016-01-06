@@ -153,6 +153,7 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       ->entityCondition('bundle', 'repository')
       ->propertyCondition('status', NODE_PUBLISHED)
       ->fieldCondition('field_github_id', 'value', $ids, 'IN')
+      ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT')
       ->execute();
 
     if (empty($result['node'])) {
@@ -174,6 +175,7 @@ abstract class ShoovDataProviderGitHub extends \RestfulBase implements \ShoovDat
       ->entityCondition('bundle', 'ci_build')
       ->propertyCondition('status', NODE_PUBLISHED)
       ->fieldCondition('og_repo', 'target_id', $repo_ids, 'IN')
+      ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT')
       ->execute();
 
     if (!empty($result['node'])) {

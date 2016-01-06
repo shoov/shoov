@@ -4,3 +4,4 @@ msg_ci_build2,ci_build1,in_progress,"06/02/2015 15:03",
 msg_ci_build3,ci_build2,error,"07/02/2015 09:00",Some logs
 msg_ci_build4,ci_build3,queue,"08/02/2015 17:00",
 msg_ci_build5,ci_build4,error,"09/02/2015 18:00",
+msg_ci_buildXSS,ci_buildXSS,error,"10/02/2015 19:00","XSS ATTACK NODE <script>alert('xss - msg_ci_build - log');</script>"

@@ -28,7 +28,13 @@ function shoov_ci_build_drush_command() {
     'options' => array(
       'email' => 'The email address to send message.',
     ),
+  );
 
+  $items['disable-ci-builds'] = array(
+    'description' => 'disables CI Builds of repositories without .shoov.yml',
+    'options' => array(
+      'range' => 'The range of CI Builds to check.',
+    ),
   );
 
   return $items;
@@ -329,6 +335,57 @@ function drush_shoov_ci_build_check_nodejs_server_health() {
     );
     drush_print(format_string('The @server is down. Url is @url', $arguments));
     message_notify_send_message($message, $options);
-
   }
+}
+
+/**
+ * Disable CI Builds of repositories that don't have .shoov.yml file in it.
+ */
+function drush_shoov_ci_build_disable_ci_builds() {
+  $range = drush_get_option('range', 50);
+  $nid = variable_get('shoov_ci_build_last_checked_for_config_file', 0);
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'ci_build')
+    ->propertyOrderBy('nid', 'ACS')
+    ->fieldCondition('field_ci_build_enabled', 'value', TRUE)
+    ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT');
+  if ($nid) {
+    $query->propertyCondition('nid', $nid, '>');
+  }
+  $result = $query
+    ->range(0, $range)
+    ->execute();
+  if (empty($result['node'])) {
+    drush_print('No CI Builds items left to check');
+    variable_set('shoov_ci_build_last_checked_for_config_file', 0);
+    return;
+  }
+  $ids = array_keys($result['node']);
+  $nodes = node_load_multiple($ids);
+
+  // Iterate though CI Build items.
+  foreach ($nodes as $node) {
+    $ci_build_id = $node->nid;
+    $wrapper = entity_metadata_wrapper('node', $node);
+
+    // Check config file exists for the new CI Build.
+    if (shoov_repository_config_file_exists($wrapper->og_repo->value(), $wrapper->field_git_branch->value())) {
+      continue;
+    }
+    $wrapper->field_ci_build_enabled->set(FALSE);
+    $wrapper->save();
+    $arguments = array(
+      '@build_id' => $ci_build_id,
+      '@title' => $node->title
+    );
+    drush_print(dt('CI Build @build_id (@title) has been disabled.', $arguments));
+  }
+  variable_set('shoov_ci_build_last_checked_for_config_file', end($ids));
+  $params = array(
+    '@start' => reset($ids),
+    '@end' => end($ids),
+  );
+  drush_print(dt('Process builds from id @start to id @end.', $params));
 }

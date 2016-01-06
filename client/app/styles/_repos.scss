@@ -59,6 +59,11 @@
          }
        }
      }
+
+     .repo-error {
+       color: $brand-error;
+       text-decoration: underline;
+     }
     }
 
    ul.pagination {
