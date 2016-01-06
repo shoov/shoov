@@ -7,8 +7,8 @@
 
 abstract class ShoovMigrate extends Migration {
 
-  public function __construct() {
-    parent::__construct();
+  public function __construct($arguments = array()) {
+    parent::__construct($arguments);
 
     $this->description = t('Import @type - @bundle from SQL table', array('@type' => $this->entityType, '@bundle' => $this->bundle));
 
