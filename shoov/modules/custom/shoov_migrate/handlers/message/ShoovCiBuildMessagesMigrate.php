@@ -23,8 +23,8 @@ class ShoovCiBuildMessagesMigrate extends ShoovMigrateMessage {
     'ShoovCiBuildsMigrate',
   );
 
-  public function __construct() {
-    parent::__construct();
+  public function __construct($arguments = array()) {
+    parent::__construct($arguments);
     $this->description = t('Import Ci Build messages from a CSV file.');
 
     // Map CI Build.

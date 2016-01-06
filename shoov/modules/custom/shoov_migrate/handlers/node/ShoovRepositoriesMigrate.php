@@ -20,8 +20,8 @@ class ShoovRepositoriesMigrate extends \ShoovMigrateNode {
     'ShoovUsersMigrate',
   );
 
-  public function __construct() {
-    parent::__construct();
+  public function __construct($arguments = array()) {
+    parent::__construct($arguments);
 
     // Make Repository as Group.
     $this
