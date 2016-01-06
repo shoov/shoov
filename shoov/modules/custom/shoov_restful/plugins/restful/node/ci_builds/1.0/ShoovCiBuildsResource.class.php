@@ -56,15 +56,16 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
   /**
    * Callback. Check user has permissions to edit node.
    *
-   * @param array $value
-   *   The image array.
+   * @param EntityMetadataWrapper $wrapper
+   *  CI Build node wrapper.
    *
    * @return bool
    *   Returns TRUE if user can edit node.
    */
-  protected function checkUpdatePermissions($value) {
+  protected function checkUpdatePermissions(\EntityMetadataWrapper $wrapper) {
     $account = $this->getAccount();
-    return node_access('update', $value, $account);
+    $node = node_load($wrapper->getIdentifier());
+    return node_access('update', $node, $account);
   }
 
   /**
