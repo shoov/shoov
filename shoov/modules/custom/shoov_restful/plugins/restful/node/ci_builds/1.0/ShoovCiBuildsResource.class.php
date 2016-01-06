@@ -64,8 +64,7 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
    */
   protected function checkUpdatePermissions(\EntityMetadataWrapper $wrapper) {
     $account = $this->getAccount();
-    $node = node_load($wrapper->getIdentifier());
-    return node_access('update', $node, $account);
+    return $wrapper->access('update', $account);
   }
 
   /**
