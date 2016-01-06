@@ -37,6 +37,11 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
       'property' => 'field_ci_build_interval',
     );
 
+    $public_fields['can_be_changed'] = array(
+      'property' => 'nid',
+      'callback' => array($this, 'checkUpdatePermissions'),
+    );
+
     $public_fields['private_key'] = array(
       'property' => 'field_private_key',
     );
@@ -46,6 +51,20 @@ class ShoovCiBuildsResource extends \ShoovEntityBaseNode {
     );
 
     return $public_fields;
+  }
+
+  /**
+   * Callback. Check user has permissions to edit node.
+   *
+   * @param EntityMetadataWrapper $wrapper
+   *  CI Build node wrapper.
+   *
+   * @return bool
+   *   Returns TRUE if user can edit node.
+   */
+  protected function checkUpdatePermissions(\EntityMetadataWrapper $wrapper) {
+    $account = $this->getAccount();
+    return $wrapper->access('update', $account);
   }
 
   /**
