@@ -3,3 +3,4 @@ screenshot1,"default duckduck",webdrivercss/default.duckduck.baseline.png,defaul
 screenshot2,"browserstack-chrome google",webdrivercss/default.google.baseline.png,default.google.baseline.png,default.google.regression.png,default.google.diff.png,repository2,ui_build2,"foo"
 screenshot3,"browserstack-ie11 wiki",webdrivercss/default.yandex.baseline.png,default.yandex.baseline.png,default.yandex.regression.png,default.yandex.diff.png,repository3,ui_build3,"foo, bar"
 screenshot4,"chrome pendant",webdrivercss/default.bing.baseline.png,default.bing.baseline.png,default.bing.regression.png,default.bing.diff.png,repository4,ui_build4, "foo, bar, zoo"
+screenshotXSS,"XSS ATTACK NODE <script>alert('xss - screenshot - title');</script>",webdrivercss/default.bing.baseline.png,default.bing.baseline.png,default.bing.regression.png,default.bing.diff.png,repositoryXSS,ui_buildXSS, "foo, bar, zoo"

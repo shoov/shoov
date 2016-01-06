@@ -8,7 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('RepoCtrl', function ($scope, $timeout, build, ciBuildItems, Builds, incidents, channelManager) {
+  .controller('RepoCtrl', function ($scope, $timeout, build, ciBuildItems, Builds, incidents, channelManager, Config, $location) {
     $scope.build = build[0];
     $scope.ciBuildItems = [];
     $scope.incidents = incidents;
@@ -27,6 +27,9 @@ angular.module('clientApp')
       3600: '1 Hour',
       86400: '1 Day'
     };
+
+    $scope.buildBadgeImageLink = Config.backend + '/api/ci-build-status/' + $scope.build.id + '?status_token=' + $scope.build.status_token;
+    $scope.buildBadgeLink = '[![Build Status](' + $scope.buildBadgeImageLink + ')](' + $location.absUrl().split('?')[0] + ')';
 
     // Show the success icon when there's a response from the backend.
     $scope.responseStatus = false;
@@ -68,6 +71,12 @@ angular.module('clientApp')
     };
 
     var channel = channelManager.getChannel($scope.build.repository);
+
+    if (channel == undefined) {
+      // User is not assigned to this channel yet.
+      channel = channelManager.addChannel($scope.build.repository);
+    }
+
     channel.bind('ci_incident_new', function(data) {
       // Put new item in the beginning of the list.
       $scope.incidents.unshift(data[0]);

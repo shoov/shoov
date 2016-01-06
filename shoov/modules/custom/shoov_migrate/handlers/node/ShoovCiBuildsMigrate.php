@@ -21,8 +21,8 @@ class ShoovCiBuildsMigrate extends \ShoovMigrateNode {
     'ShoovRepositoriesMigrate',
   );
 
-  public function __construct() {
-    parent::__construct();
+  public function __construct($arguments = array()) {
+    parent::__construct($arguments);
 
     // Map Git Branch.
     $this

@@ -21,8 +21,8 @@ class ShoovCiIncidentFixedMessagesMigrate extends ShoovMigrateMessage {
     'ShoovCiIncidentsMigrate',
   );
 
-  public function __construct() {
-    parent::__construct();
+  public function __construct($arguments = array()) {
+    parent::__construct($arguments);
     $this->description = t('Import CI Incidents Fixed messages from a CSV file.');
 
     // Map CI Incident.
