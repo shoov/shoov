@@ -54,3 +54,20 @@ function shoov_js_lm_proxy_script_delivery($page_callback_result) {
   echo $page_callback_result;
 }
 
+/**
+ * Implements hook_node_presave().
+ *
+ * Set JS LM Build token if it's not set yet.
+ */
+function shoov_js_lm_node_presave($node) {
+  if ($node->type != 'js_lm_build') {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  if ($wrapper->field_js_lm_build_token->value()) {
+    return;
+  }
+
+  $wrapper->field_js_lm_build_token->set(drupal_random_key());
+}
