@@ -9,10 +9,10 @@ projects[admin_views][subdir] = "contrib"
 projects[admin_views][version] = "1.5"
 
 projects[composer_manager][subdir] = "contrib"
-projects[composer_manager][version] = "1.7"
+projects[composer_manager][version] = "1.8"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.8"
+projects[ctools][version] = "1.9"
 
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.9"
@@ -62,7 +62,7 @@ projects[mailsystem][subdir] = "contrib"
 projects[mailsystem][version] = 2.34
 
 projects[message][subdir] = "contrib"
-projects[message][version] = "1.10"
+projects[message][version] = "1.11"
 
 projects[message_notify][subdir] = "contrib"
 projects[message_notify][version] = "2.5"

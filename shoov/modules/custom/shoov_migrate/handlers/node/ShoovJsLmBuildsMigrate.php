@@ -22,8 +22,8 @@ class ShoovJsLmBuildsMigrate extends \ShoovMigrateNode {
     'ShoovUsersMigrate',
   );
 
-  public function __construct() {
-    parent::__construct();
+  public function __construct($arguments = array()) {
+    parent::__construct($arguments);
 
     // Map URL.
     $this
