@@ -21,6 +21,7 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
           'full_view' => FALSE,
         ),
       ),
+      'required' => TRUE,
     );
 
     $public_fields['errors'] = array(
@@ -56,6 +57,12 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
       return $this->tokenValid;
     }
 
+    if ($op == 'view') {
+      // For getting the entity - use regular node_access check.
+      $account = $this->getAccount();
+      return node_access($op, $entity, $account);
+    }
+
     $request = $this->getRequest();
     // Check the build token.
     if (empty($_GET['token'])) {
@@ -64,18 +71,12 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
     }
     $token = $_GET['token'];
 
-    if (!isset($entity->is_new)) {
-      $entity_wrapper = entity_metadata_wrapper('node', $entity);
-      $wrapper = $entity_wrapper->field_js_lm_build;
+    if (!$build = node_load($request['build'])) {
+      $this->tokenValid = FALSE;
+      return FALSE;
     }
-    else {
-      if (!$build = node_load($request['build'])) {
-        $this->tokenValid = FALSE;
-        return FALSE;
-      }
 
-      $wrapper = entity_metadata_wrapper('node', $build);
-    }
+    $wrapper = entity_metadata_wrapper('node', $build);
 
     $build_token = $wrapper->field_js_lm_build_token->value();
     $this->tokenValid = $token == $build_token;
@@ -87,10 +88,6 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
    */
   protected function checkEntityAccess($op, $entity_type, $entity) {
     return $this->checkToken($op, $entity);
-  }
-
-  protected function checkPropertyAccess($op, $public_field_name, EntityMetadataWrapper $property_wrapper, EntityMetadataWrapper $wrapper) {
-    return $this->checkToken($op, $wrapper->value());
   }
 
   public function entityPreSave(\EntityMetadataWrapper $wrapper) {

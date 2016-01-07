@@ -25,12 +25,10 @@ angular.module('clientApp')
      *   The type of the ID. Allowed values:
      *   "js_lm_build" - to get incidents by Build ID
      *   "js_lm_incident" - to get certain incident (Default value)
-     * @param string token
-     *   The JSLM Build token.
      *
      * @returns {*}
      */
-    this.get = function(id, type, token) {
+    this.get = function(id, type) {
       type = type || 'js_lm_incident';
       var identifier = id + ':' + type;
 
@@ -38,7 +36,7 @@ angular.module('clientApp')
         return $q.when(cache[identifier].data);
       }
 
-      return getDataFromBackend(id, type, token);
+      return getDataFromBackend(id, type);
     };
 
     /**
@@ -50,12 +48,10 @@ angular.module('clientApp')
      *   The type of the ID. Allowed values:
      *   "js_lm_build" - to get incidents by Build ID
      *   "js_lm_incident" - to get certain incident (Default value)
-     * @param string token
-     *   The JSLM Build token.
      *
      * @returns {$q.promise}
      */
-    function getDataFromBackend(id, type, token) {
+    function getDataFromBackend(id, type) {
       var deferred = $q.defer();
       var url = Config.backend + '/api/js-lm-incidents';
 
@@ -70,8 +66,6 @@ angular.module('clientApp')
         // The ID is the JSLM build.
         params = {'filter[build]': id};
       }
-      // Add build token to the request.
-      url += '?token=' + token;
       // Sort desc.
       params.sort = '-id';
 

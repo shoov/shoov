@@ -31,7 +31,7 @@
             <ul class="incidents">
               <li ng-repeat="incident in incidents" class="incident-item">
                 <span class="name">
-                  <a ui-sref="dashboard.jslmIncident({ incidentId: incident.id, buildId: build.id})">{{ incident.label }}</a>
+                  <a ui-sref="dashboard.jslmIncident({ incidentId: incident.id })">{{ incident.label }}</a>
                 </span>
               </li>
             </ul>

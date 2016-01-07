@@ -8,4 +8,6 @@ $plugin = array(
   'bundle' => 'js_lm_incident',
   'description' => t('Export the "JS Live Monitor Incidents" content type.'),
   'class' => 'ShoovJsLmIncidentsResource',
+  'authentication_types' => TRUE,
+  'authentication_optional' => TRUE,
 );

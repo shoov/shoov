@@ -153,21 +153,18 @@ angular
           jslmBuild: function(Jslm, $stateParams) {
             return Jslm.get($stateParams.buildId);
           },
-          jslmIncidents: function(JslmIncidents, $stateParams, jslmBuild) {
-            return JslmIncidents.get($stateParams.buildId, 'js_lm_build', jslmBuild[0].token);
+          jslmIncidents: function(JslmIncidents, $stateParams) {
+            return JslmIncidents.get($stateParams.buildId, 'js_lm_build');
           }
         }
       })
       .state('dashboard.jslmIncident', {
-        url: '/jslm-incident/{buildId:int}/{incidentId:int}',
+        url: '/jslm-incident/{incidentId:int}',
         templateUrl: 'views/dashboard/jslm/jslmIncident.html',
         controller: 'JslmIncidentCtrl',
         resolve: {
-          jslmBuild: function(Jslm, $stateParams) {
-            return Jslm.get($stateParams.buildId);
-          },
-          jslmIncident: function(JslmIncidents, $stateParams, jslmBuild) {
-            return JslmIncidents.get($stateParams.incidentId, 'js_lm_incident', jslmBuild[0].token);
+          jslmIncident: function(JslmIncidents, $stateParams) {
+            return JslmIncidents.get($stateParams.incidentId, 'js_lm_incident');
           }
         }
       })
