@@ -135,6 +135,43 @@ angular
           }
         }
       })
+      .state('dashboard.jslm', {
+        url: '/jslm',
+        templateUrl: 'views/dashboard/jslm/jslm.html',
+        controller: 'JslmCtrl',
+        resolve: {
+          jslmBuilds: function(Jslm, $stateParams) {
+            return Jslm.get();
+          }
+        }
+      })
+      .state('dashboard.jslmBuild', {
+        url: '/jslm/{buildId:int}',
+        templateUrl: 'views/dashboard/jslm/jslmBuild.html',
+        controller: 'JslmBuildCtrl',
+        resolve: {
+          jslmBuild: function(Jslm, $stateParams) {
+            return Jslm.get($stateParams.buildId);
+          },
+          jslmIncidents: function(JslmIncidents, $stateParams, jslmBuild) {
+            return JslmIncidents.get($stateParams.buildId, 'js_lm_build', jslmBuild[0].token);
+          }
+        }
+      })
+      .state('dashboard.jslmIncident', {
+        url: '/jslm-incident/{buildId:int}/{incidentId:int}',
+        templateUrl: 'views/dashboard/jslm/jslmIncident.html',
+        controller: 'JslmIncidentCtrl',
+        params: {token: null},
+        resolve: {
+          jslmBuild: function(Jslm, $stateParams) {
+            return Jslm.get($stateParams.buildId);
+          },
+          jslmIncident: function(JslmIncidents, $stateParams, jslmBuild) {
+            return JslmIncidents.get($stateParams.incidentId, 'js_lm_incident', jslmBuild[0].token);
+          }
+        }
+      })
       .state('dashboard.encrypt', {
         url: '/repos/{buildId:int}/encrypt',
         templateUrl: 'views/dashboard/repos/encrypt.html',

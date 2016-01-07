@@ -15,7 +15,12 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
 
     $public_fields['build'] = array(
       'property' => 'field_js_lm_build',
-      'required' => TRUE,
+      'resource' => array(
+        'js_lm_build' => array(
+          'name' => 'js_lm_builds',
+          'full_view' => FALSE,
+        ),
+      ),
     );
 
     $public_fields['errors'] = array(
@@ -45,7 +50,7 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
   /**
    * Check token that has been sent is valid.
    */
-  protected function checkToken() {
+  protected function checkToken($op, $entity) {
     if (isset($this->tokenValid)) {
       // Token already has been checked.
       return $this->tokenValid;
@@ -59,12 +64,19 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
     }
     $token = $_GET['token'];
 
-    if (!$build = node_load($request['build'])) {
-      $this->tokenValid = FALSE;
-      return FALSE;
+    if (!isset($entity->is_new)) {
+      $entity_wrapper = entity_metadata_wrapper('node', $entity);
+      $wrapper = $entity_wrapper->field_js_lm_build;
+    }
+    else {
+      if (!$build = node_load($request['build'])) {
+        $this->tokenValid = FALSE;
+        return FALSE;
+      }
+
+      $wrapper = entity_metadata_wrapper('node', $build);
     }
 
-    $wrapper = entity_metadata_wrapper('node', $build);
     $build_token = $wrapper->field_js_lm_build_token->value();
     $this->tokenValid = $token == $build_token;
     return $this->tokenValid;
@@ -74,7 +86,11 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
    * Overrides \ShoovEntityBaseNode::checkEntityAccess().
    */
   protected function checkEntityAccess($op, $entity_type, $entity) {
-    return $this->checkToken();
+    return $this->checkToken($op, $entity);
+  }
+
+  protected function checkPropertyAccess($op, $public_field_name, EntityMetadataWrapper $property_wrapper, EntityMetadataWrapper $wrapper) {
+    return $this->checkToken($op, $wrapper->value());
   }
 
   public function entityPreSave(\EntityMetadataWrapper $wrapper) {

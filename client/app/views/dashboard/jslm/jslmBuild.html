@@ -1,0 +1,44 @@
+<div id="jslm-build-page">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="page-bar">
+        <ul class="page-breadcrumb">
+          <li>
+            <i class="fa fa-desktop"></i>
+            <a ui-sref="dashboard.homepage">Dashboard</a>
+            <i class="fa fa-angle-right"></i>
+          </li>
+          <li>
+            <a ui-sref="dashboard.jslm">JS Live Monitor</a>
+            <i class="fa fa-angle-right"></i>
+          </li>
+          <li>
+            JS LM Build "{{build.label}}"
+          </li>
+        </ul>
+        <hr class="no-margin"/>
+      </div>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="wrapper">
+      <h2>JS Live Monitor Build "{{build.label}}"</h2>
+      <div class="row">
+        <div class="col-sm-12">
+          <h5><i class="fa fa-server"></i> Incidents</h5>
+          <div class="soft-border">
+
+            <ul class="incidents">
+              <li ng-repeat="incident in incidents" class="incident-item">
+                <span class="name">
+                  <a ui-sref="dashboard.jslmIncident({ incidentId: incident.id, buildId: build.id})">{{ incident.label }}</a>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ui-view></div>
+</div>
