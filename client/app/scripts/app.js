@@ -162,7 +162,6 @@ angular
         url: '/jslm-incident/{buildId:int}/{incidentId:int}',
         templateUrl: 'views/dashboard/jslm/jslmIncident.html',
         controller: 'JslmIncidentCtrl',
-        params: {token: null},
         resolve: {
           jslmBuild: function(Jslm, $stateParams) {
             return Jslm.get($stateParams.buildId);
