@@ -49,7 +49,7 @@ function shoov_js_lm_proxy_script($node) {
 
 function shoov_js_lm_proxy_script_delivery($page_callback_result) {
   // We are returning JSON, so tell the browser.
-  drupal_add_http_header('Content-Type', 'application/json');
+  drupal_add_http_header('Content-Type', 'application/javascript');
 
   echo $page_callback_result;
 }
