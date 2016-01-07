@@ -12,11 +12,10 @@ runTests = function() {
   var buildId = 17;
   var buildToken = '45974c049b94a808ede67034c3ad2dec';
 
-  loadJS('http://localhost/shoov/www/js_lm/' + buildId, function () {
+  loadJS('http://localhost/shoov/www/js_lm/' + buildId, function() {
     result = customTests();
-    console.log(result);
 
-    result.forEach(function (row) {
+    result.forEach(function(row) {
       if (!!row.result()) {
         return;
       }
@@ -32,7 +31,7 @@ runTests = function() {
       errors: errors.join("\r\n")
     };
 
-    var serializeObject = function (obj) {
+    var serializeObject = function(obj) {
       var pairs = [];
       for (var prop in obj) {
         if (!obj.hasOwnProperty(prop)) {
@@ -45,27 +44,15 @@ runTests = function() {
 
 
     html2canvas(document.body, {
-      onrendered: function (canvas) {
+      onrendered: function(canvas) {
         data.image = canvas.toDataURL("image/png");
 
         var image = document.createElement('img');
         image.src = canvas.toDataURL("image/png");
         document.body.appendChild(image);
 
-        console.log(image.src);
-
-
         request.open('POST', 'http://localhost/shoov/www/api/v1.0/js-lm-incidents?token=' + buildToken + '&XDEBUG_SESSION_START=14229', true);
         request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-
-        request.onload = function () {
-          if (request.status === 200) {
-            console.log('ok');
-          }
-          else if (request.status !== 200) {
-            console.log('Request failed.  Returned status of ' + request.status);
-          }
-        };
 
         request.send(encodeURI(serializeObject(data)));
       }
@@ -75,15 +62,15 @@ runTests = function() {
 
 
 function loadJS(src, callback) {
-    var s = document.createElement('script');
-    s.src = src;
-    s.async = true;
-    s.onreadystatechange = s.onload = function() {
-        var state = s.readyState;
-        if (!callback.done && (!state || /loaded|complete/.test(state))) {
-            callback.done = true;
-            callback();
-        }
-    };
-    document.getElementsByTagName('head')[0].appendChild(s);
+  var s = document.createElement('script');
+  s.src = src;
+  s.async = true;
+  s.onreadystatechange = s.onload = function() {
+    var state = s.readyState;
+    if (!callback.done && (!state || /loaded|complete/.test(state))) {
+      callback.done = true;
+      callback();
+    }
+  };
+  document.getElementsByTagName('head')[0].appendChild(s);
 }
