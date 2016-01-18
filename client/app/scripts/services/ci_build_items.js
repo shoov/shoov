@@ -38,6 +38,22 @@ angular.module('clientApp')
       return getDataFromBackend(id, type);
     };
 
+    /**
+     * Update the CI Build item.
+     *
+     * @param id
+     *  Ci Build item ID.
+     * @param params
+     *  The params that needs to updated.
+     *
+     * @returns {HttpPromise}
+     *  The response from the backend.
+     */
+    this.update = function(id, params) {
+      var url = Config.backend + '/api/ci-build-items' + '/' + id;
+      return $http.patch(url, params);
+    };
+
 
     /**
      * Return builds array from the server.

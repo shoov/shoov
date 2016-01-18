@@ -8,7 +8,7 @@
  * Controller of the clientApp
  */
 angular.module('clientApp')
-  .controller('RepoCtrl', function ($scope, $timeout, build, ciBuildItems, Builds, incidents, channelManager, Config, $location) {
+  .controller('RepoCtrl', function ($scope, $timeout, build, ciBuildItems, Builds, CiBuildItems, incidents, channelManager, Config, $location) {
     $scope.build = build[0];
     $scope.ciBuildItems = [];
     $scope.incidents = incidents;
@@ -61,13 +61,33 @@ angular.module('clientApp')
       Builds
         .update($scope.build.id, 'ci_build', params)
         .then(function() {
-          $scope.responseStatus = true;
+          if ($scope.ciBuildItemQueueOrInProgress.status == "queue") {
+            var timestamp = parseInt(Date.now() / 1000) + parseInt($scope.build.interval);
 
-          // Hide the success icon after 3 seconds of receiving the response.
-          $timeout(function() {
-            $scope.responseStatus = false;
-          }, 3000);
+            CiBuildItems
+              .update($scope.ciBuildItemQueueOrInProgress.id, {'start_timestamp': timestamp})
+              .then(function() {
+                showSuccessMark();
+              });
+          }
+          else {
+            showSuccessMark();
+          }
+
         });
+    };
+
+    /**
+     * Show and then hide the success icon after 3 seconds of receiving the
+     * response.
+     */
+    var showSuccessMark = function() {
+      $scope.responseStatus = true;
+
+      // Hide the success icon after 3 seconds of receiving the response.
+      $timeout(function() {
+        $scope.responseStatus = false;
+      }, 3000);
     };
 
     var channel = channelManager.getChannel($scope.build.repository);
