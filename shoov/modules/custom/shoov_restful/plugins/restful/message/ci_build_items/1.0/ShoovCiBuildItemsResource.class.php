@@ -15,8 +15,16 @@ class ShoovCiBuildItemsResource extends \RestfulEntityBase {
 
     unset($public_fields['label']);
 
-    $public_fields['start_timestamp'] = array(
+    $public_fields['scheduled_timestamp'] = array(
       'property' => 'field_ci_build_timestamp',
+    );
+
+    $public_fields['start_timestamp'] = array(
+      'property' => 'field_ci_build_start_timestamp',
+    );
+
+    $public_fields['end_timestamp'] = array(
+      'property' => 'field_ci_build_end_timestamp',
     );
 
     $public_fields['status'] = array(
