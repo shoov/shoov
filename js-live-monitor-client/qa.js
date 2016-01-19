@@ -9,7 +9,7 @@ main = function() {
 
 runTests = function() {
   var errors = [];
-  var buildId = 14;
+  var buildId = 17;
   var buildToken = '45974c049b94a808ede67034c3ad2dec';
   loadJS('http://localhost/shoov/www/js_lm/' + buildId, function() {
     result = customTests();
@@ -22,10 +22,9 @@ runTests = function() {
     });
 
     var request = new XMLHttpRequest();
-
     var data = {
       build: buildId,
-      url: '/',
+      url: window.location.href,
       errors: errors.join("\r\n")
     };
 
