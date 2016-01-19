@@ -68,9 +68,7 @@ angular.module('clientApp')
 
             CiBuildItems
               .update($scope.ciBuildItemQueueOrInProgress.id, {'start_timestamp': timestamp})
-              .then(function() {
-                showSuccessMark();
-              });
+              .then(showSuccessMark);
           }
           else {
             // The latest Build item is already in progress.
