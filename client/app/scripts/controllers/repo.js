@@ -61,6 +61,8 @@ angular.module('clientApp')
       Builds
         .update($scope.build.id, 'ci_build', params)
         .then(function() {
+          // If the latest Build item has status 'queue' - update Build item's
+          // start time.
           if ($scope.ciBuildItemQueueOrInProgress.status == "queue") {
             var timestamp = parseInt(Date.now() / 1000) + parseInt($scope.build.interval);
 
@@ -71,6 +73,7 @@ angular.module('clientApp')
               });
           }
           else {
+            // The latest Build item is already in progress.
             showSuccessMark();
           }
 
