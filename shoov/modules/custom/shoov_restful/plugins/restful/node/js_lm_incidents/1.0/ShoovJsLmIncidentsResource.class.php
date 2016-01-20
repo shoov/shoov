@@ -45,6 +45,10 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
       'property' => 'field_js_lm_os',
     );
 
+    $public_fields['clientId'] = array(
+      'property' => 'field_user_id',
+    );
+
     $public_fields['image'] = array(
       'property' => 'field_js_lm_image',
       'process_callbacks' => array(

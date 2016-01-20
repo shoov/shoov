@@ -8,10 +8,10 @@ main = function() {
 }
 
 runTests = function() {
+  var config = configurations();
   var errors = [];
-  var buildId = 17;
-  var buildToken = '45974c049b94a808ede67034c3ad2dec';
-  loadJS('http://localhost/shoov/www/js_lm/' + buildId, function() {
+
+  loadJS('http://localhost/shoov/www/js_lm/' + config.buildId, function() {
     result = customTests();
 
     result.forEach(function(row) {
@@ -31,11 +31,12 @@ runTests = function() {
 
       var request = new XMLHttpRequest();
       var data = {
-        build: buildId,
+        build: config.buildId,
         url: window.location.href,
         ip: userip,
         browser: browser,
         os: navigator.platform,
+        clientId: config.clientId,
         errors: errors.join("\r\n")
       };
 
@@ -59,7 +60,7 @@ runTests = function() {
           image.src = canvas.toDataURL("image/png");
           document.body.appendChild(image);
 
-          request.open('POST', 'http://localhost/shoov/www/api/v1.0/js-lm-incidents?token=' + buildToken, true);
+          request.open('POST', 'http://localhost/shoov/www/api/v1.0/js-lm-incidents?token=' + config.buildToken, true);
           request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 
           request.send(encodeURI(serializeObject(data)));
