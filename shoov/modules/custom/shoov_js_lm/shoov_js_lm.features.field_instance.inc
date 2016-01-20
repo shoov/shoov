@@ -297,6 +297,46 @@ function shoov_js_lm_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-js_lm_incident-field_js_lm_browser'.
+  $field_instances['node-js_lm_incident-field_js_lm_browser'] = array(
+    'bundle' => 'js_lm_incident',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 8,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_js_lm_browser',
+    'label' => 'Browser',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 6,
+    ),
+  );
+
   // Exported field_instance: 'node-js_lm_incident-field_js_lm_build'.
   $field_instances['node-js_lm_incident-field_js_lm_build'] = array(
     'bundle' => 'js_lm_incident',
@@ -427,6 +467,86 @@ function shoov_js_lm_field_default_field_instances() {
       ),
       'type' => 'image_image',
       'weight' => 4,
+    ),
+  );
+
+  // Exported field_instance: 'node-js_lm_incident-field_js_lm_ip'.
+  $field_instances['node-js_lm_incident-field_js_lm_ip'] = array(
+    'bundle' => 'js_lm_incident',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 7,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_js_lm_ip',
+    'label' => 'IP',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 5,
+    ),
+  );
+
+  // Exported field_instance: 'node-js_lm_incident-field_js_lm_os'.
+  $field_instances['node-js_lm_incident-field_js_lm_os'] = array(
+    'bundle' => 'js_lm_incident',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 9,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_js_lm_os',
+    'label' => 'OS',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 7,
     ),
   );
 
@@ -564,13 +684,16 @@ function shoov_js_lm_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
+  t('Browser');
   t('Build token');
   t('Determine if this is an OG group.');
   t('Errors');
   t('Group');
+  t('IP');
   t('Image');
   t('JS Live Monitor');
   t('JS Live Monitor Build');
+  t('OS');
   t('URL');
   t('User ID');
 

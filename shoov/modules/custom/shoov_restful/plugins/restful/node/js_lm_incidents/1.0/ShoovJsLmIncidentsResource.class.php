@@ -15,6 +15,12 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
 
     $public_fields['build'] = array(
       'property' => 'field_js_lm_build',
+      'resource' => array(
+        'js_lm_build' => array(
+          'name' => 'js_lm_builds',
+          'full_view' => FALSE,
+        ),
+      ),
       'required' => TRUE,
     );
 
@@ -25,6 +31,18 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
 
     $public_fields['url'] = array(
       'property' => 'field_js_lm_url',
+    );
+
+    $public_fields['ip'] = array(
+      'property' => 'field_js_lm_ip',
+    );
+
+    $public_fields['browser'] = array(
+      'property' => 'field_js_lm_browser',
+    );
+
+    $public_fields['os'] = array(
+      'property' => 'field_js_lm_os',
     );
 
     $public_fields['image'] = array(
@@ -45,10 +63,16 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
   /**
    * Check token that has been sent is valid.
    */
-  protected function checkToken() {
+  protected function checkToken($op, $entity) {
     if (isset($this->tokenValid)) {
       // Token already has been checked.
       return $this->tokenValid;
+    }
+
+    if ($op == 'view') {
+      // For getting the entity - use regular node_access check.
+      $account = $this->getAccount();
+      return node_access($op, $entity, $account);
     }
 
     $request = $this->getRequest();
@@ -65,6 +89,7 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
     }
 
     $wrapper = entity_metadata_wrapper('node', $build);
+
     $build_token = $wrapper->field_js_lm_build_token->value();
     $this->tokenValid = $token == $build_token;
     return $this->tokenValid;
@@ -74,7 +99,7 @@ class ShoovJsLmIncidentsResource extends \ShoovEntityBaseNode {
    * Overrides \ShoovEntityBaseNode::checkEntityAccess().
    */
   protected function checkEntityAccess($op, $entity_type, $entity) {
-    return $this->checkToken();
+    return $this->checkToken($op, $entity);
   }
 
   public function entityPreSave(\EntityMetadataWrapper $wrapper) {
