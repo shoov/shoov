@@ -459,17 +459,28 @@ function shoov_ci_build_views_default_views() {
   $handler->display->display_options['fields']['mid']['id'] = 'mid';
   $handler->display->display_options['fields']['mid']['table'] = 'message';
   $handler->display->display_options['fields']['mid']['field'] = 'mid';
+  $handler->display->display_options['fields']['mid']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['mid']['alter']['path'] = '/message/[mid]';
   $handler->display->display_options['fields']['mid']['separator'] = '';
   /* Field: Message: User uid */
   $handler->display->display_options['fields']['user']['id'] = 'user';
   $handler->display->display_options['fields']['user']['table'] = 'message';
   $handler->display->display_options['fields']['user']['field'] = 'user';
+  $handler->display->display_options['fields']['user']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['user']['alter']['path'] = '/user/[user]';
   $handler->display->display_options['fields']['user']['separator'] = '';
   /* Sort criterion: Message: Requeue Count (field_requeue_count) */
   $handler->display->display_options['sorts']['field_requeue_count_value']['id'] = 'field_requeue_count_value';
   $handler->display->display_options['sorts']['field_requeue_count_value']['table'] = 'field_data_field_requeue_count';
   $handler->display->display_options['sorts']['field_requeue_count_value']['field'] = 'field_requeue_count_value';
   $handler->display->display_options['sorts']['field_requeue_count_value']['order'] = 'DESC';
+  /* Filter criterion: Message: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'message';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'ci_build' => 'ci_build',
+  );
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');

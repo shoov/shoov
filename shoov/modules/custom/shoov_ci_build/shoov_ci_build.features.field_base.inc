@@ -10,7 +10,7 @@
 function shoov_ci_build_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_ci_build'
+  // Exported field_base: 'field_ci_build'.
   $field_bases['field_ci_build'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -45,7 +45,7 @@ function shoov_ci_build_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_ci_build_enabled'
+  // Exported field_base: 'field_ci_build_enabled'.
   $field_bases['field_ci_build_enabled'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -70,7 +70,7 @@ function shoov_ci_build_field_default_field_bases() {
     'type' => 'list_boolean',
   );
 
-  // Exported field_base: 'field_ci_build_failed_count'
+  // Exported field_base: 'field_ci_build_failed_count'.
   $field_bases['field_ci_build_failed_count'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -85,7 +85,7 @@ function shoov_ci_build_field_default_field_bases() {
     'type' => 'number_integer',
   );
 
-  // Exported field_base: 'field_ci_build_incident_status'
+  // Exported field_base: 'field_ci_build_incident_status'.
   $field_bases['field_ci_build_incident_status'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -110,7 +110,7 @@ function shoov_ci_build_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_ci_build_interval'
+  // Exported field_base: 'field_ci_build_interval'.
   $field_bases['field_ci_build_interval'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -137,7 +137,7 @@ function shoov_ci_build_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_ci_build_log'
+  // Exported field_base: 'field_ci_build_log'.
   $field_bases['field_ci_build_log'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -156,7 +156,7 @@ function shoov_ci_build_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_ci_build_status'
+  // Exported field_base: 'field_ci_build_status'.
   $field_bases['field_ci_build_status'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -183,7 +183,7 @@ function shoov_ci_build_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_ci_build_timestamp'
+  // Exported field_base: 'field_ci_build_timestamp'.
   $field_bases['field_ci_build_timestamp'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -212,7 +212,7 @@ function shoov_ci_build_field_default_field_bases() {
     'type' => 'datestamp',
   );
 
-  // Exported field_base: 'field_failing_build'
+  // Exported field_base: 'field_failing_build'.
   $field_bases['field_failing_build'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -247,7 +247,7 @@ function shoov_ci_build_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_private_key'
+  // Exported field_base: 'field_private_key'.
   $field_bases['field_private_key'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -268,7 +268,7 @@ function shoov_ci_build_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_requeue_count'
+  // Exported field_base: 'field_requeue_count'.
   $field_bases['field_requeue_count'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -282,8 +282,8 @@ function shoov_ci_build_field_default_field_bases() {
     'translatable' => 0,
     'type' => 'number_integer',
   );
-  
-  // Exported field_base: 'field_status_token'
+
+  // Exported field_base: 'field_status_token'.
   $field_bases['field_status_token'] = array(
     'active' => 1,
     'cardinality' => 1,
