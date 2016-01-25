@@ -713,7 +713,7 @@ function _shoov_ci_build_check_requeue(Message $message) {
       $notification_message->uid = 1;
 
       $options = array(
-        'mail' => variable_get('site_mail', ini_get('sendmail_from')),
+        'mail' => variable_get('requeue_mail', ini_get('sendmail_from')),
       );
       message_notify_send_message($notification_message, $options);
     }
