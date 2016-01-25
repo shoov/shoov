@@ -69,5 +69,6 @@ features[variable][] = node_options_ci_build
 features[variable][] = node_preview_ci_build
 features[variable][] = node_submitted_ci_build
 features[views_view][] = ci_items
+features[views_view][] = re_queued_items
 features_exclude[variable][field_bundle_settings_message__server_is_down] = field_bundle_settings_message__server_is_down
 files[] = handlers/shoov_ci_build_send_to_server_link.inc
