@@ -371,5 +371,128 @@ function shoov_ci_build_views_default_views() {
   $handler->display->display_options['inherit_panels_path'] = '1';
   $export['ci_items'] = $view;
 
+  $view = new view();
+  $view->name = 're_queued_items';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'message';
+  $view->human_name = 'Re-queued items';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Re-queued items';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['perm'] = 'administer site configuration';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '50';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'title_1' => 'title_1',
+    'title' => 'title',
+    'field_requeue_count' => 'field_requeue_count',
+  );
+  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['info'] = array(
+    'title_1' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'title' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_requeue_count' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'desc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  /* Relationship: Entity Reference: Referenced Entity */
+  $handler->display->display_options['relationships']['field_ci_build_target_id']['id'] = 'field_ci_build_target_id';
+  $handler->display->display_options['relationships']['field_ci_build_target_id']['table'] = 'field_data_field_ci_build';
+  $handler->display->display_options['relationships']['field_ci_build_target_id']['field'] = 'field_ci_build_target_id';
+  /* Relationship: Entity Reference: Referenced Entity */
+  $handler->display->display_options['relationships']['og_repo_target_id']['id'] = 'og_repo_target_id';
+  $handler->display->display_options['relationships']['og_repo_target_id']['table'] = 'og_membership';
+  $handler->display->display_options['relationships']['og_repo_target_id']['field'] = 'og_repo_target_id';
+  $handler->display->display_options['relationships']['og_repo_target_id']['relationship'] = 'field_ci_build_target_id';
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
+  $handler->display->display_options['fields']['title_1']['table'] = 'node';
+  $handler->display->display_options['fields']['title_1']['field'] = 'title';
+  $handler->display->display_options['fields']['title_1']['relationship'] = 'og_repo_target_id';
+  $handler->display->display_options['fields']['title_1']['label'] = 'Repository';
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['relationship'] = 'field_ci_build_target_id';
+  $handler->display->display_options['fields']['title']['label'] = 'CI Build';
+  /* Field: Message: Requeue Count */
+  $handler->display->display_options['fields']['field_requeue_count']['id'] = 'field_requeue_count';
+  $handler->display->display_options['fields']['field_requeue_count']['table'] = 'field_data_field_requeue_count';
+  $handler->display->display_options['fields']['field_requeue_count']['field'] = 'field_requeue_count';
+  $handler->display->display_options['fields']['field_requeue_count']['empty'] = '0';
+  $handler->display->display_options['fields']['field_requeue_count']['settings'] = array(
+    'thousand_separator' => '',
+    'prefix_suffix' => 1,
+  );
+  /* Field: Message: Message ID */
+  $handler->display->display_options['fields']['mid']['id'] = 'mid';
+  $handler->display->display_options['fields']['mid']['table'] = 'message';
+  $handler->display->display_options['fields']['mid']['field'] = 'mid';
+  $handler->display->display_options['fields']['mid']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['mid']['alter']['path'] = '/message/[mid]';
+  $handler->display->display_options['fields']['mid']['separator'] = '';
+  /* Field: Message: User uid */
+  $handler->display->display_options['fields']['user']['id'] = 'user';
+  $handler->display->display_options['fields']['user']['table'] = 'message';
+  $handler->display->display_options['fields']['user']['field'] = 'user';
+  $handler->display->display_options['fields']['user']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['user']['alter']['path'] = '/user/[user]';
+  $handler->display->display_options['fields']['user']['separator'] = '';
+  /* Sort criterion: Message: Requeue Count (field_requeue_count) */
+  $handler->display->display_options['sorts']['field_requeue_count_value']['id'] = 'field_requeue_count_value';
+  $handler->display->display_options['sorts']['field_requeue_count_value']['table'] = 'field_data_field_requeue_count';
+  $handler->display->display_options['sorts']['field_requeue_count_value']['field'] = 'field_requeue_count_value';
+  $handler->display->display_options['sorts']['field_requeue_count_value']['order'] = 'DESC';
+  /* Filter criterion: Message: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'message';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'ci_build' => 'ci_build',
+  );
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['path'] = 'admin/content/re-queued-items';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Re-queues Items';
+  $handler->display->display_options['menu']['description'] = 'List of messages with the re-queue count';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['name'] = 'management';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
+  $export['re_queued_items'] = $view;
+
   return $export;
 }

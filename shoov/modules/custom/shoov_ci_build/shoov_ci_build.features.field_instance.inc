@@ -10,7 +10,7 @@
 function shoov_ci_build_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'message-ci_build-field_ci_build'
+  // Exported field_instance: 'message-ci_build-field_ci_build'.
   $field_instances['message-ci_build-field_ci_build'] = array(
     'bundle' => 'ci_build',
     'default_value' => NULL,
@@ -59,7 +59,7 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-ci_build-field_ci_build_log'
+  // Exported field_instance: 'message-ci_build-field_ci_build_log'.
   $field_instances['message-ci_build-field_ci_build_log'] = array(
     'bundle' => 'ci_build',
     'default_value' => NULL,
@@ -105,7 +105,7 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-ci_build-field_ci_build_status'
+  // Exported field_instance: 'message-ci_build-field_ci_build_status'.
   $field_instances['message-ci_build-field_ci_build_status'] = array(
     'bundle' => 'ci_build',
     'default_value' => array(
@@ -152,7 +152,7 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-ci_build-field_ci_build_timestamp'
+  // Exported field_instance: 'message-ci_build-field_ci_build_timestamp'.
   $field_instances['message-ci_build-field_ci_build_timestamp'] = array(
     'bundle' => 'ci_build',
     'deleted' => 0,
@@ -167,6 +167,7 @@ function shoov_ci_build_field_default_field_instances() {
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
+          'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
         'weight' => 4,
@@ -211,7 +212,7 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-ci_build-field_requeue_count'
+  // Exported field_instance: 'message-ci_build-field_requeue_count'.
   $field_instances['message-ci_build-field_requeue_count'] = array(
     'bundle' => 'ci_build',
     'default_value' => array(
@@ -267,7 +268,7 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ci_build-field_ci_build_enabled'
+  // Exported field_instance: 'node-ci_build-field_ci_build_enabled'.
   $field_instances['node-ci_build-field_ci_build_enabled'] = array(
     'bundle' => 'ci_build',
     'default_value' => array(
@@ -310,7 +311,7 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ci_build-field_ci_build_failed_count'
+  // Exported field_instance: 'node-ci_build-field_ci_build_failed_count'.
   $field_instances['node-ci_build-field_ci_build_failed_count'] = array(
     'bundle' => 'ci_build',
     'default_value' => array(
@@ -360,7 +361,7 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ci_build-field_ci_build_incident_status'
+  // Exported field_instance: 'node-ci_build-field_ci_build_incident_status'.
   $field_instances['node-ci_build-field_ci_build_incident_status'] = array(
     'bundle' => 'ci_build',
     'default_value' => NULL,
@@ -397,7 +398,7 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ci_build-field_ci_build_interval'
+  // Exported field_instance: 'node-ci_build-field_ci_build_interval'.
   $field_instances['node-ci_build-field_ci_build_interval'] = array(
     'bundle' => 'ci_build',
     'default_value' => array(
@@ -438,7 +439,7 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ci_build-field_git_branch'
+  // Exported field_instance: 'node-ci_build-field_git_branch'.
   $field_instances['node-ci_build-field_git_branch'] = array(
     'bundle' => 'ci_build',
     'default_value' => array(
@@ -482,7 +483,7 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ci_build-field_git_commit'
+  // Exported field_instance: 'node-ci_build-field_git_commit'.
   $field_instances['node-ci_build-field_git_commit'] = array(
     'bundle' => 'ci_build',
     'default_value' => NULL,
@@ -522,7 +523,7 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ci_build-field_private_key'
+  // Exported field_instance: 'node-ci_build-field_private_key'.
   $field_instances['node-ci_build-field_private_key'] = array(
     'bundle' => 'ci_build',
     'default_value' => NULL,
@@ -561,7 +562,7 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ci_build-field_status_token'
+  // Exported field_instance: 'node-ci_build-field_status_token'.
   $field_instances['node-ci_build-field_status_token'] = array(
     'bundle' => 'ci_build',
     'default_value' => NULL,
@@ -601,7 +602,7 @@ function shoov_ci_build_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ci_build-og_repo'
+  // Exported field_instance: 'node-ci_build-og_repo'.
   $field_instances['node-ci_build-og_repo'] = array(
     'bundle' => 'ci_build',
     'default_value' => NULL,
