@@ -481,6 +481,27 @@ function shoov_ci_build_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'ci_build' => 'ci_build',
   );
+  /* Filter criterion: Message: Requeue Count (field_requeue_count) */
+  $handler->display->display_options['filters']['field_requeue_count_value']['id'] = 'field_requeue_count_value';
+  $handler->display->display_options['filters']['field_requeue_count_value']['table'] = 'field_data_field_requeue_count';
+  $handler->display->display_options['filters']['field_requeue_count_value']['field'] = 'field_requeue_count_value';
+  $handler->display->display_options['filters']['field_requeue_count_value']['operator'] = '>';
+  $handler->display->display_options['filters']['field_requeue_count_value']['value']['value'] = '0';
+  /* Filter criterion: Message: Status (field_ci_build_status) */
+  $handler->display->display_options['filters']['field_ci_build_status_value']['id'] = 'field_ci_build_status_value';
+  $handler->display->display_options['filters']['field_ci_build_status_value']['table'] = 'field_data_field_ci_build_status';
+  $handler->display->display_options['filters']['field_ci_build_status_value']['field'] = 'field_ci_build_status_value';
+  $handler->display->display_options['filters']['field_ci_build_status_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_ci_build_status_value']['expose']['operator_id'] = 'field_ci_build_status_value_op';
+  $handler->display->display_options['filters']['field_ci_build_status_value']['expose']['label'] = 'CI Build Item Status';
+  $handler->display->display_options['filters']['field_ci_build_status_value']['expose']['operator'] = 'field_ci_build_status_value_op';
+  $handler->display->display_options['filters']['field_ci_build_status_value']['expose']['identifier'] = 'field_ci_build_status_value';
+  $handler->display->display_options['filters']['field_ci_build_status_value']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['field_ci_build_status_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+  );
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
