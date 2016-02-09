@@ -493,9 +493,10 @@ function shoov_ci_build_views_default_views() {
   $handler->display->display_options['filters']['field_ci_build_status_value']['field'] = 'field_ci_build_status_value';
   $handler->display->display_options['filters']['field_ci_build_status_value']['exposed'] = TRUE;
   $handler->display->display_options['filters']['field_ci_build_status_value']['expose']['operator_id'] = 'field_ci_build_status_value_op';
-  $handler->display->display_options['filters']['field_ci_build_status_value']['expose']['label'] = 'Status (field_ci_build_status)';
+  $handler->display->display_options['filters']['field_ci_build_status_value']['expose']['label'] = 'CI Build Item Status';
   $handler->display->display_options['filters']['field_ci_build_status_value']['expose']['operator'] = 'field_ci_build_status_value_op';
   $handler->display->display_options['filters']['field_ci_build_status_value']['expose']['identifier'] = 'field_ci_build_status_value';
+  $handler->display->display_options['filters']['field_ci_build_status_value']['expose']['multiple'] = TRUE;
   $handler->display->display_options['filters']['field_ci_build_status_value']['expose']['remember_roles'] = array(
     2 => '2',
     1 => 0,
