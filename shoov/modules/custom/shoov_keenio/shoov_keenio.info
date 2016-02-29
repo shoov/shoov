@@ -1,0 +1,4 @@
+name = Keen IO
+core = 7.x
+package = Shoov
+dependencies[] = composer_manager
