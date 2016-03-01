@@ -1,0 +1,68 @@
+<div id="jslm-incident-page">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="page-bar">
+        <ul class="page-breadcrumb">
+          <li>
+            <i class="fa fa-desktop"></i>
+            <a ui-sref="dashboard.homepage">Dashboard</a>
+            <i class="fa fa-angle-right"></i>
+          </li>
+          <li>
+            <a ui-sref="dashboard.jslm">JS Live Monitor</a>
+            <i class="fa fa-angle-right"></i>
+          </li>
+          <li>
+            <a ui-sref="dashboard.jslmBuild({ buildId: build.id })">JS LM Build "{{build.label}}"</a>
+            <i class="fa fa-angle-right"></i>
+          </li>
+          <li>
+            JS LM Incident "{{incident.label}}"
+          </li>
+        </ul>
+        <hr class="no-margin"/>
+      </div>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="wrapper">
+      <h2>JS Live Monitor Incident "{{incident.label}}"</h2>
+      <div class="row">
+        <div class="col-sm-12">
+          <h5><i class="fa fa-github"></i> Incident data</h5>
+          <div class="soft-border incident-data">
+            <ul class="info separated">
+              <li>
+                <div>Label: </div>
+                <span>{{ incident.label }}</span>
+              </li>
+              <li>
+                <div>Build: </div>
+                <a ui-sref="dashboard.jslmBuild({ buildId: build.id })">{{ build.label }}</a>
+              </li>
+              <li>
+                <div>URL: </div>
+                <span>{{ incident.url }}</span>
+              </li>
+              <li>
+                <div>Errors: </div>
+                <span>{{ incident.errors }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <br/>
+      <h5 ng-show="incident.image"><i class="fa fa-picture-o"></i> Screenshot</h5>
+      <div ng-show="incident.image" class="soft-border">
+          <br/>
+          <div class="row">
+            <div class="col-xs-12">
+              <img class="img-responsive" ng-src="{{ incident.image.self }}" />
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div ui-view></div>
+</div>

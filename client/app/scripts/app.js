@@ -135,6 +135,39 @@ angular
           }
         }
       })
+      .state('dashboard.jslm', {
+        url: '/jslm',
+        templateUrl: 'views/dashboard/jslm/jslm.html',
+        controller: 'JslmCtrl',
+        resolve: {
+          jslmBuilds: function(Jslm, $stateParams) {
+            return Jslm.get();
+          }
+        }
+      })
+      .state('dashboard.jslmBuild', {
+        url: '/jslm/{buildId:int}',
+        templateUrl: 'views/dashboard/jslm/jslmBuild.html',
+        controller: 'JslmBuildCtrl',
+        resolve: {
+          jslmBuild: function(Jslm, $stateParams) {
+            return Jslm.get($stateParams.buildId);
+          },
+          jslmIncidents: function(JslmIncidents, $stateParams) {
+            return JslmIncidents.get($stateParams.buildId, 'js_lm_build');
+          }
+        }
+      })
+      .state('dashboard.jslmIncident', {
+        url: '/jslm-incident/{incidentId:int}',
+        templateUrl: 'views/dashboard/jslm/jslmIncident.html',
+        controller: 'JslmIncidentCtrl',
+        resolve: {
+          jslmIncident: function(JslmIncidents, $stateParams) {
+            return JslmIncidents.get($stateParams.incidentId, 'js_lm_incident');
+          }
+        }
+      })
       .state('dashboard.encrypt', {
         url: '/repos/{buildId:int}/encrypt',
         templateUrl: 'views/dashboard/repos/encrypt.html',
