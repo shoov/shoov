@@ -121,6 +121,11 @@ projects[views_bulk_operations][version] = "3.3"
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.0-beta9"
 
+projects[slack][subdir] = "contrib"
+projects[slack][version] = "1.6"
+projects[slack][patch][] = "https://www.drupal.org/files/issues/slack-remove-install-hook-1054616-2.patch"
+projects[slack][patch][] = "https://www.drupal.org/files/issues/slack-user-config-2845955-6.patch"
+
 ; Development
 projects[devel][subdir] = "development"
 projects[devel][version] = "1.5"
