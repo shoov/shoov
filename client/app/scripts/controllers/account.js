@@ -19,6 +19,9 @@ angular.module('clientApp')
       $scope.account.browserstack_key = val.browserstack_key;
       $scope.account.sauce_username = val.sauce_username;
       $scope.account.sauce_access_key = val.sauce_access_key;
+      $scope.account.slack_webhook_url= val.slack_webhook_url;
+      $scope.account.slack_channel = val.slack_channel;
+      $scope.account.slack_username = val.slack_username;
     });
 
     /**
