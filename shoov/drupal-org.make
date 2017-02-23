@@ -125,6 +125,7 @@ projects[slack][subdir] = "contrib"
 projects[slack][version] = "1.6"
 projects[slack][patch][] = "https://www.drupal.org/files/issues/slack-remove-install-hook-1054616-2.patch"
 projects[slack][patch][] = "https://www.drupal.org/files/issues/slack-user-config-2845955-6.patch"
+projects[slack][patch][] = "https://www.drupal.org/files/issues/slack-message-notify-plugin-2845248-3.patch"
 
 ; Development
 projects[devel][subdir] = "development"
