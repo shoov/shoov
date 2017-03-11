@@ -16,7 +16,7 @@ class ShoovConfigResource extends \RestfulEntityBaseUser {
     ),
   );
 
-  protected $slack_config = $this->getSlackConfig();
+  protected $slack_config;
 
   /**
    * Overrides \RestfulEntityBaseUser::publicFieldsInfo().
@@ -75,31 +75,46 @@ class ShoovConfigResource extends \RestfulEntityBaseUser {
     return parent::viewEntity($account->uid);
   }
 
-  protected function getAccessToken() {
-    $account = $this->getAccount();
-    return shoov_restful_get_user_token($account);
-  }
-
+  /**
+   * Get Slack config array.
+   */
   protected function getSlackConfig() {
     $account = $this->getAccount();
     return shoov_restful_get_slack_config($account);
   }
 
+  protected function getAccessToken() {
+    $account = $this->getAccount();
+    return shoov_restful_get_user_token($account);
+  }
+
   private function getSlackWebHookUrl() {
-    if ($this->slack_config) {
+    if (empty($this->slack_config)) {
+      $this->slack_config = $this->getSlackConfig();
+    }
+    if (!empty($this->slack_config)) {
       return $this->slack_config['webhook_url'];
     }
+    return FALSE;
   }
 
   private function getSlackChannel() {
-    if ($this->slack_config) {
+    if (empty($this->slack_config)) {
+      $this->slack_config = $this->getSlackConfig();
+    }
+    if (!empty($this->slack_config)) {
       return $this->slack_config['channel'];
     }
+    return FALSE;
   }
 
   private function getSlackUsername() {
-    if ($this->slack_config) {
+    if (empty($this->slack_config)) {
+      $this->slack_config = $this->getSlackConfig();
+    }
+    if (!empty($this->slack_config)) {
       return $this->slack_config['username'];
     }
+    return FALSE;
   }
 }
