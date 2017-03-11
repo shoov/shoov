@@ -51,3 +51,19 @@ function shoov_restful_get_user_token($account = NULL)  {
 
   return $entity->token;
 }
+
+/**
+ * Get Slack config.
+ *
+ * @param stdClass $account
+ *   (optional) The user object. If empty the current user will be used.
+ * @return array
+ *   The user's slack config.
+ */
+function shoov_restful_get_slack_config($account = NULL)  {
+  return array(
+    'webhook_url' => slack_get_webhook_url(),
+    'channel' => slack_get_channel(),
+    'username' => slack_get_username()
+  );
+}

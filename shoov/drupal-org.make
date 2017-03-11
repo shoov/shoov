@@ -121,6 +121,14 @@ projects[views_bulk_operations][version] = "3.3"
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.0-beta9"
 
+projects[slack][subdir] = "contrib"
+projects[slack][type] = module
+projects[slack][download][type] = git
+projects[slack][download][branch] = 7.x-1.x
+projects[slack][download][revision] = 14ffcf537813c80cba74915798aa176f55cfa7f2
+projects[slack][patch][] = "https://www.drupal.org/files/issues/slack-slack-suer-config-2845955-6.patch"
+projects[slack][patch][] = "https://www.drupal.org/files/issues/slack-message-notify-plugin-2845248-3.patch"
+
 ; Development
 projects[devel][subdir] = "development"
 projects[devel][version] = "1.5"

@@ -119,6 +119,59 @@
             </div>
           </form>
         </div>
+        <h5><i class="fa fa fa-flask"></i> Slack account</h5>
+        <div class="soft-border">
+          <form class="slack-form account" editable-form name="slackEditableForm" onaftersave="saveSeleniumProvidersData('sauce')">
+            <div ng-show="slackEditableForm.$show">
+              <div class="row">
+                <div class="col-xs-3">
+                  <i class="fa fa-channel"></i>
+                  Webhook URL
+                </div>
+                <div class="col-xs-9">
+                  <span editable-text="account.slack_webhook_url">{{ account.slack_webhook_url || 'empty' }}</span>
+                </div>
+              </div>
+            </div>
+            <div ng-show="slackEditableForm.$visible">
+              <div class="row">
+                <div class="col-xs-3">
+                  <i class="fa fa-channel"></i>
+                  Channel
+                </div>
+                <div class="col-xs-9">
+                  <span editable-text="account.slack_channel">{{ account.slack_channel || 'empty' }}</span>
+                </div>
+              </div>
+            </div>
+            <div ng-click="slackEditableForm.$visible()">
+              <div class="row box">
+                <div class="col-xs-3" ng-class="{'no-border': slackEditableForm.$visible}">
+                  <i class="fa fa-user"></i>
+                  Username
+                </div>
+                <div class="col-xs-9">
+              <span editable-text="account.sauce_username">
+                {{ account.slack_username || 'empty' }}
+                <i class="fa fa-pencil edit-icon"></i>
+              </span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-offset-3 col-xs-9">
+                <div class="form-actions" ng-show="slackEditableForm.$visible">
+                  <button type="submit" class="btn btn-primary" ng-disabled="slackEditableForm.$waiting">
+                    Save
+                  </button>
+                  <button type="button" class="btn btn-default" ng-disabled="slackEditableForm.$waiting" ng-click="slackEditableForm.$cancel()">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
     <div class="wrapper">
